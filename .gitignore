@@ -1,0 +1,189 @@
+# Fichiers de compilation C
+*.o
+*.out
+*.exe
+*.elf
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.lib
+
+# Fichiers de debug
+*.dSYM/
+*.su
+*.idb
+*.pdb
+core
+core.*
+vgcore.*
+
+# Fichiers préprocesseur et assembleur
+*.i
+*.s
+*.ii
+*.S
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+Testing/
+build/
+_build/
+out/
+cmake-build-*/
+
+# GNU Make
+*.d
+.deps/
+.libs/
+Makefile.in
+Makefile
+
+# Éditeurs et IDE
+## VS Code
+.vscode/
+*.code-workspace
+
+## IntelliJ / CLion
+.idea/
+*.iml
+cmake-build-*/
+
+## Vim
+*.swp
+*.swo
+*.swn
+*~
+.*.sw?
+
+## Emacs
+*~
+\#*\#
+.\#*
+
+## Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+## macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+## Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+## Linux
+.directory
+
+# Valgrind
+*.memcheck
+*.valgrind
+vgcore.*
+*.supp
+
+# Sanitizers
+*.asan
+*.ubsan
+*.tsan
+*.lsan
+*.msan
+
+# Coverage
+*.gcda
+*.gcno
+*.gcov
+*.lcov
+coverage/
+coverage.info
+lcov.info
+htmlcov/
+
+# Profiling
+gmon.out
+*.prof
+*.perf
+*.data
+perf.data*
+*.callgrind
+callgrind.out.*
+*.cachegrind
+cachegrind.out.*
+
+# Doxygen
+docs/html/
+docs/latex/
+docs/man/
+Doxyfile.bak
+
+# Tests
+test_results/
+*.test
+test_*.log
+
+# Packages
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.deb
+*.rpm
+*.pkg
+
+# DevContainers
+.devcontainer/.env
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Logs
+*.log
+logs/
+
+# Temporaires
+tmp/
+temp/
+.tmp/
+
+# Binaires générés (adaptez selon votre projet)
+# Décommentez et ajoutez vos binaires spécifiques ici
+# /mon_programme
+# /bin/
+# /output/
+
+# Node modules (si utilisation de Node pour outils)
+node_modules/
+
+# Python (si scripts Python auxiliaires)
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.env
+
+# Secrets et configuration locale
+.env.local
+secrets.json
+*.key
+*.pem
+*.crt
+*.cert
+
+# Archives d'artefacts
+artifacts/
+dist/
+
+# Fichiers spécifiques au projet (à adapter)
+# ...

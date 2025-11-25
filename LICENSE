@@ -1,0 +1,209 @@
+Creative Commons Attribution 4.0 International License (CC BY 4.0)
+
+Copyright (c) 2025 Nicolas DEOUX
+
+Cette œuvre est mise à disposition selon les termes de la Licence Creative Commons 
+Attribution 4.0 International.
+
+Pour voir une copie de cette licence, visitez :
+http://creativecommons.org/licenses/by/4.0/
+
+ou envoyez un courrier à :
+Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+================================================================================
+
+RÉSUMÉ DE LA LICENCE (non juridiquement contraignant)
+
+Vous êtes autorisé à :
+
+✅ PARTAGER — copier, distribuer et communiquer le matériel par tous moyens et 
+   sous tous formats
+
+✅ ADAPTER — remixer, transformer et créer à partir du matériel pour toute 
+   utilisation, y compris commerciale
+
+L'Offrant ne peut retirer les autorisations concédées par la licence tant que 
+vous appliquez les termes de cette licence.
+
+Selon les conditions suivantes :
+
+📝 ATTRIBUTION — Vous devez créditer l'Œuvre, intégrer un lien vers la licence 
+   et indiquer si des modifications ont été effectuées à l'Œuvre. Vous devez 
+   indiquer ces informations par tous les moyens raisonnables, sans toutefois 
+   suggérer que l'Offrant vous soutient ou soutient la façon dont vous avez 
+   utilisé son Œuvre.
+
+❌ PAS DE RESTRICTIONS COMPLÉMENTAIRES — Vous n'êtes pas autorisé à appliquer 
+   des conditions légales ou des mesures techniques qui restreindraient 
+   légalement autrui à utiliser l'Œuvre dans les conditions décrites par la 
+   licence.
+
+================================================================================
+
+ATTRIBUTION SUGGÉRÉE
+
+Lorsque vous utilisez, modifiez ou partagez ce contenu, veuillez inclure :
+
+"Formation Maîtriser C sur Ubuntu par Nicolas DEOUX
+ Source : https://github.com/NDXDeveloper/formation-c-ubuntu
+ Licence : CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)"
+
+================================================================================
+
+TEXTE COMPLET DE LA LICENCE
+
+Creative Commons Attribution 4.0 International Public License
+
+En exerçant les Droits accordés par la licence (définis ci-dessous), Vous 
+acceptez d'être lié par les termes et conditions de la présente licence 
+Creative Commons Attribution 4.0 International Public License (la « Licence 
+publique »). Dans la mesure où la présente Licence publique peut être 
+interprétée comme un contrat, Vous bénéficiez des Droits accordés par la 
+licence en contrepartie de Votre acceptation des présents termes et conditions, 
+et le Donneur de licence Vous accorde ces droits en contrepartie des avantages 
+que lui procure le fait de mettre à disposition l'Œuvre sous licence sous les 
+présents termes et conditions.
+
+Article 1 – Définitions.
+
+a. Œuvre dérivée signifie œuvre protégée par les Droits d'auteur et droits 
+   connexes, dérivée de ou fondée sur l'Œuvre sous licence et dans laquelle 
+   l'Œuvre sous licence est traduite, retouchée, arrangée, transformée, ou 
+   modifiée de telle façon que l'autorisation du Donneur de licence est 
+   nécessaire, conformément aux dispositions des Droits d'auteur et droits 
+   connexes.
+
+b. Licence d'adaptateur signifie licence par laquelle Vous accordez Vos Droits 
+   d'auteur et droits connexes sur Vos contributions à une Œuvre dérivée, 
+   conformément aux termes et conditions de la présente Licence publique.
+
+c. Droits d'auteur et droits connexes signifie droits d'auteur et/ou droits 
+   connexes incluant, notamment, la représentation, la radio et télédiffusion, 
+   l'enregistrement sonore et le Droit sui generis des producteurs de bases de 
+   données, quelle que soit la classification ou qualification juridique de ces 
+   droits.
+
+d. Mesures techniques efficaces signifie mesures techniques qui, en l'absence 
+   d'autorisation expresse, ne peuvent être contournées dans le cadre de lois 
+   conformes aux dispositions de l'article 11 du Traité de l'OMPI sur le droit 
+   d'auteur adopté le 20 Décembre 1996 et/ou d'accords internationaux de même 
+   objet.
+
+e. Exceptions et limitations signifie utilisation loyale et équitable (fair use 
+   et fair dealing) et/ou toute autre exception ou limitation applicable à Votre 
+   utilisation de l'Œuvre sous licence.
+
+f. Œuvre sous licence signifie œuvre littéraire ou artistique, base de données 
+   ou toute autre œuvre pour laquelle le Donneur de licence a recours à la 
+   présente Licence publique.
+
+g. Droits accordés par la licence signifie droits qui Vous sont accordés selon 
+   les termes et conditions d'utilisation définis par la présente Licence 
+   publique, limités aux Droits d'auteur et droits connexes applicables à Votre 
+   utilisation de l'Œuvre sous licence et que le Donneur de licence a le droit 
+   d'accorder.
+
+h. Donneur de licence signifie un individu ou une entité octroyant la présente 
+   Licence publique et les droits accordés par elle.
+
+i. Partager signifie mettre une œuvre à la disposition du public par tout moyen 
+   ou procédé qui requiert l'autorisation découlant des Droits accordés par la 
+   licence, tels que les droits de reproduction, de représentation au public, 
+   de distribution, de diffusion, de communication ou d'importation, et inclut 
+   également la mise à disposition du public de manière que chacun puisse y 
+   avoir accès à l'endroit et au moment qu'il choisit individuellement.
+
+j. Droit sui generis des producteurs de bases de données signifie droits distincts 
+   du droit d'auteur résultant de la Directive 96/9/CE du Parlement européen et 
+   du Conseil, du 11 mars 1996 sur la protection juridique des bases de données, 
+   ainsi que tout autre droit de nature équivalente dans le monde.
+
+k. Vous (preneur de licence) se rapporte à tout individu ou entité exerçant les 
+   Droits accordés par la licence.
+
+Article 2 – Champ d'application de la présente Licence publique.
+
+a. Octroi de licence.
+   1. Sous réserve du respect des termes et conditions d'utilisation de la 
+      présente Licence publique, le Donneur de licence Vous autorise à exercer 
+      pour le monde entier, à titre gratuit, non sous-licenciable, non exclusif, 
+      irrévocable les Droits accordés par la licence afin de :
+      A. reproduire et Partager l'Œuvre sous licence, en tout ou partie ; et
+      B. produire, reproduire et Partager l'Œuvre dérivée.
+   
+   2. Exceptions et limitations. Afin de lever toute ambiguïté, lorsque les 
+      Exceptions et limitations s'appliquent à Votre utilisation, la présente 
+      Licence publique ne s'applique pas et Vous n'avez pas à Vous conformer 
+      à ses termes et conditions.
+   
+   3. Durée. La durée de la présente Licence publique est définie à l'Article 6(a).
+   
+   4. Médias et formats; modifications techniques autorisées. Le Donneur de 
+      licence Vous autorise à exercer les Droits accordés par la licence sur 
+      tous les médias et formats connus ou encore inconnus à ce jour, et à 
+      apporter toutes les modifications techniques que ceux-ci requièrent.
+
+b. Limitations et autres droits.
+   1. Droits moraux. Aucune disposition de la présente Licence publique ne peut 
+      être interprétée comme diminuant, limitant, restreignant ou imposant des 
+      conditions à l'exercice du droit moral et des droits de même nature.
+
+Article 3 – Conditions d'utilisation de la présente Licence publique.
+
+L'exercice des Droits accordés par la licence est expressément soumis aux 
+conditions suivantes.
+
+a. Attribution.
+   1. Si Vous partagez l'Œuvre sous licence (y compris sous une forme modifiée), 
+      Vous devez :
+      A. conserver les informations suivantes lorsqu'elles sont fournies par le 
+         Donneur de licence avec l'Œuvre sous licence :
+         i. identification du(des) auteur(s) de l'Œuvre sous licence et de toute 
+            personne à qui revient l'attribution de l'Œuvre sous licence, dans 
+            la mesure du raisonnable et conformément au support utilisé ;
+         ii. l'indication d'un droit d'auteur ;
+         iii. une notice faisant référence à la présente Licence publique ;
+         iv. une notice faisant référence aux limitations de garantie ;
+         v. un URI ou un hyperlien vers l'Œuvre sous licence dans la mesure du 
+            raisonnable et conformément au support utilisé ;
+      
+      B. Indiquer si Vous avez modifié l'Œuvre sous licence et conserver 
+         l'indication de toute modification antérieure ; et
+      
+      C. Indiquer que l'Œuvre sous licence est mise à disposition en vertu de 
+         la présente Licence publique, et inclure le texte de ou l'URI ou 
+         l'hyperlien vers la présente Licence publique.
+   
+   2. Vous pouvez satisfaire aux conditions de l'Article 3(a)(1) dans toute la 
+      mesure du raisonnable, en fonction du support, des moyens et du contexte 
+      dans lesquels Vous Partagez l'Œuvre sous licence.
+
+Article 6 – Durée et résiliation.
+
+a. La présente Licence publique s'applique pendant toute la durée de validité 
+   des Droits d'auteur et droits connexes concédés aux termes des présentes. 
+   Cependant, si Vous manquez à Vos obligations prévues par la présente Licence 
+   publique, Vos droits accordés par la présente Licence publique seront 
+   automatiquement révoqués.
+
+Article 7 – Autres termes et conditions.
+
+a. Sauf accord exprès du Donneur de licence, ce dernier n'est en aucune façon 
+   lié par les termes et conditions supplémentaires ou différents que Vous 
+   communiquez.
+
+Article 8 – Interprétation.
+
+a. Afin de lever toute ambiguïté, la présente Licence publique ne doit en aucun 
+   cas être interprétée comme ayant pour effet de réduire, limiter, restreindre 
+   ou imposer des conditions à l'utilisation de l'Œuvre sous licence lorsqu'une 
+   telle utilisation est libre de toute autorisation en vertu de la loi.
+
+================================================================================
+
+Pour consulter le texte juridique complet en anglais (version officielle) :
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+Pour consulter la version française (traduction non officielle) :
+https://creativecommons.org/licenses/by/4.0/legalcode.fr
