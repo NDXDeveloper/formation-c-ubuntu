@@ -6,7 +6,7 @@
 
 Le standard **C23** (ISO/IEC 9899:2024, publié en octobre 2024) est la plus récente révolution du langage C. Après C11 (2011) et C17 (2018, qui était principalement une correction de bugs), C23 apporte de **nombreuses améliorations** pour moderniser le langage tout en préservant sa philosophie.
 
-Cette section présente les nouveautés de C23 qui concernent les **types de données** et la **représentation mémoire**, en complément de ce que nous avons vu dans ce module.
+Cette section présente les nouveautés de C23 qui concernent les **types de données** et la **représentation mémoire**, en complément de ce que nous avons vu dans ce chapitre.
 
 **Important** : C23 est très récent et le support par les compilateurs est encore **en cours de déploiement**. Nous indiquerons l'état du support pour chaque fonctionnalité.
 
@@ -617,9 +617,9 @@ gcc -std=c23 -Wall -Wextra demo_c23.c -o demo_c23
 
 ## Ce que nous verrons ensuite
 
-Après avoir terminé le **Module 4 : Types de données et Représentation mémoire**, vous passerez au :
+Après avoir terminé le **Chapitre 4 : Types de données et Représentation mémoire**, vous passerez au :
 
-**Module 5 : Opérateurs et Structures de contrôle**
+**Chapitre 5 : Opérateurs et Structures de contrôle**
 
 Où nous apprendrons à :
 - Manipuler les données avec des opérateurs (arithmétiques, logiques, bit-à-bit)

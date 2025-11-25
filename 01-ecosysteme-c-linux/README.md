@@ -1,21 +1,21 @@
 🔝 Retour au [Sommaire](/SOMMAIRE.md)
 
-# Module 1 : L'Écosystème C sous Linux
+# 1. L'Écosystème C sous Linux
 
 ## Bienvenue dans le monde du C !
 
-Vous vous apprêtez à débuter un voyage passionnant dans l'univers de la programmation système. Ce premier module est votre porte d'entrée vers la maîtrise du langage C sur Ubuntu Linux.
+Vous vous apprêtez à débuter un voyage passionnant dans l'univers de la programmation système. Ce premier chapitre est votre porte d'entrée vers la maîtrise du langage C sur Ubuntu Linux.
 
-Avant de plonger dans le code, il est essentiel de comprendre **d'où vient le C**, **pourquoi il reste pertinent en 2025**, et **comment il s'intègre dans l'écosystème Linux moderne**. C'est exactement ce que ce module vous apportera.
+Avant de plonger dans le code, il est essentiel de comprendre **d'où vient le C**, **pourquoi il reste pertinent en 2025**, et **comment il s'intègre dans l'écosystème Linux moderne**. C'est exactement ce que ce chapitre vous apportera.
 
 > 💡 **Pourquoi commencer par l'histoire et le contexte ?**
 > Comprendre les origines et la philosophie d'un langage vous aide à mieux appréhender ses choix de conception, ses forces et ses limites. Le C n'est pas un langage créé dans le vide : il est le fruit d'une nécessité historique et d'une vision particulière de la programmation.
 
 ---
 
-## 📚 Structure du Module 1
+## 📚 Structure du chapitre 1
 
-Ce module est divisé en plusieurs sections qui vous guideront progressivement :
+Ce chapitre est divisé en plusieurs sections qui vous guideront progressivement :
 
 ### 1. Introduction et Histoire
 - Pourquoi le C en 2025 ?
@@ -35,7 +35,7 @@ Ce module est divisé en plusieurs sections qui vous guideront progressivement :
 - Inspection des fichiers intermédiaires
 - Votre premier "Hello World" démystifié
 
-**Objectif du module** : À la fin de ce module, vous comprendrez le contexte du C, vous aurez un environnement de développement fonctionnel, et vous saurez comment votre code C se transforme en programme exécutable.
+**Objectif du chapitre** : À la fin de ce chapitre, vous comprendrez le contexte du C, vous aurez un environnement de développement fonctionnel, et vous saurez comment votre code C se transforme en programme exécutable.
 
 ---
 
@@ -195,7 +195,7 @@ Après avoir complété cette section "Introduction et Histoire", vous aurez :
 Vous serez alors prêt à :
 - **Configurer votre environnement** Ubuntu (Section 2)
 - **Comprendre la compilation** et écrire votre premier programme (Section 3)
-- **Démarrer l'apprentissage** de la syntaxe C (Module 2)
+- **Démarrer l'apprentissage** de la syntaxe C (chapitre 2)
 
 ---
 
@@ -232,7 +232,7 @@ Contrairement aux frameworks web qui changent tous les ans :
 
 ## 🚀 Prêt(e) à commencer ?
 
-Vous avez maintenant une vue d'ensemble de ce qui vous attend dans ce module. Il est temps de plonger dans le vif du sujet !
+Vous avez maintenant une vue d'ensemble de ce qui vous attend dans ce chapitre. Il est temps de plonger dans le vif du sujet !
 
 La première section détaillée va répondre à une question essentielle : **Pourquoi apprendre le C en 2025 ?**
 
@@ -242,11 +242,7 @@ Vous allez découvrir que loin d'être un langage obsolète, le C reste au cœur
 
 ## 📑 Navigation
 
-**Vous êtes ici** : Module 1 → Section 1 (Introduction et Histoire)
-
-**Prochaine étape** : [1.1 Pourquoi le C en 2025 ?](1.1-pourquoi-le-c-en-2025.md)
-
-**Sections disponibles dans cette partie** :
+**Sections disponibles dans ce chapitre** :
 - 1.1 Pourquoi le C en 2025 ?
 - 1.2 La relation symbiotique entre C et UNIX/Linux
 - 1.3 Normes du langage : ANSI C, C99, C11, C17, C23

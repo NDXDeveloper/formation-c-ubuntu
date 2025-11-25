@@ -2,13 +2,13 @@
 
 # 4. Types de données et Représentation mémoire
 
-## Introduction au Module
+## Introduction
 
-Bienvenue dans le **Module 4**, l'un des chapitres les plus fondamentaux de votre apprentissage du C ! Si les modules précédents vous ont familiarisé avec l'écosystème Linux et la chaîne de compilation, ce module va vous plonger au cœur du langage : **comment le C représente et manipule les données en mémoire**.
+Bienvenue dans le **chapitre 4**, l'un des chapitres les plus fondamentaux de votre apprentissage du C ! Si les chapitres précédents vous ont familiarisé avec l'écosystème Linux et la chaîne de compilation, ce chapitre va vous plonger au cœur du langage : **comment le C représente et manipule les données en mémoire**.
 
 Le C est souvent qualifié de langage de **"bas niveau"**, non pas parce qu'il serait inférieur, mais parce qu'il vous donne un **contrôle direct** sur la mémoire et les ressources matérielles. Cette caractéristique, qui fait la force du C, nécessite une compréhension approfondie de la façon dont les données sont stockées et représentées.
 
-## Pourquoi ce module est crucial ?
+## Pourquoi ce chapitre est crucial ?
 
 ### 1. Le C ne cache rien
 
@@ -59,9 +59,9 @@ Le code C peut tourner sur :
 
 Chaque architecture peut représenter les données différemment. Par exemple, l'ordre des octets en mémoire (endianness) varie selon le processeur. Comprendre ces différences est crucial pour écrire du **code portable**.
 
-## Vue d'ensemble du module
+## Vue d'ensemble du chapitre
 
-Ce module est structuré en **6 sections** progressives :
+Ce chapitre est structuré en **6 sections** progressives :
 
 ### Section 4.1 : Types primitifs et leur taille
 *Les briques de base du C*
@@ -129,9 +129,9 @@ Vous explorerez :
 
 **Pourquoi c'est important** : Rester à jour avec les évolutions du langage vous rend plus efficace.
 
-## Ce que vous saurez faire après ce module
+## Ce que vous saurez faire après ce chapitre
 
-À la fin de ce module, vous serez capable de :
+À la fin de ce chapitre, vous serez capable de :
 
 ✅ **Choisir le type approprié** pour chaque situation
 - Besoin d'un entier ? → `int`
@@ -178,7 +178,7 @@ uint16_t port = htons(8080);  // Host to Network Short
 
 ### Ce que vous avez déjà vu
 
-**Modules 1-3** : L'environnement
+**Chapitres 1-3** : L'environnement
 - Comment compiler un programme C
 - La chaîne de compilation (préprocesseur, compilateur, linkeur)
 - Les outils de base (GCC, Make)
@@ -187,19 +187,19 @@ uint16_t port = htons(8080);  // Host to Network Short
 
 ### Ce qui vient après
 
-**Module 5** : Opérateurs et structures de contrôle
+**Chapitre 5** : Opérateurs et structures de contrôle
 - Manipuler les données avec `+`, `-`, `*`, `/`, `%`
 - Opérations bit-à-bit : `&`, `|`, `^`, `~`, `<<`, `>>`
 - Conditions et boucles
 
-**Module 6** : La gestion de la mémoire
+**Chapitre 6** : La gestion de la mémoire
 - Les pointeurs (qui reposent sur les types !)
 - L'allocation dynamique
 - Les tableaux et chaînes
 
 **→ Impossible de comprendre les pointeurs sans maîtriser les types !**
 
-## Conseils pour réussir ce module
+## Conseils pour réussir ce chapitre
 
 ### 1. Expérimentez constamment
 
@@ -267,7 +267,7 @@ printf("Taille : %zu octets\n", sizeof(x));
 
 ### 5. Lisez les sections dans l'ordre
 
-Ce module est **progressif**. Chaque section s'appuie sur la précédente :
+Ce chapitre est **progressif**. Chaque section s'appuie sur la précédente :
 1. Types primitifs → base
 2. Signed/Unsigned → nuances
 3. Constantes → utilisation pratique
@@ -284,9 +284,9 @@ Certains concepts (endianness, conversions implicites) peuvent sembler complexes
 - Pratiquez avec des exemples simples
 - Les choses deviendront claires avec la pratique
 
-## Prérequis pour ce module
+## Prérequis pour ce chapitre
 
-Pour tirer le meilleur parti de ce module, vous devriez :
+Pour tirer le meilleur parti de ce chapitre, vous devriez :
 
 ✅ Savoir compiler un programme C basique (`gcc fichier.c`)
 
@@ -296,11 +296,11 @@ Pour tirer le meilleur parti de ce module, vous devriez :
 
 ✅ Être familier avec `printf()` pour afficher des valeurs
 
-Si vous avez suivi les **Modules 1-3**, vous êtes prêt !
+Si vous avez suivi les **Chapitres 1-3**, vous êtes prêt !
 
 ## Ressources complémentaires
 
-### Pendant le module
+### Pendant le chapitre
 
 - **Man pages** : `man printf` pour les spécificateurs de format
 - **Référence C** : https://en.cppreference.com/w/c
@@ -321,7 +321,7 @@ Le C vous demande de **penser comme la machine**. Contrairement aux langages de 
 
 Cette transparence peut sembler intimidante au début, mais c'est précisément ce qui rend le C si **puissant** et **performant**.
 
-Après ce module, vous ne verrez plus jamais un `int` comme "juste un nombre". Vous comprendrez :
+Après ce chapitre, vous ne verrez plus jamais un `int` comme "juste un nombre". Vous comprendrez :
 - Qu'il occupe **4 octets** (généralement)
 - Qu'il peut stocker de **-2 147 483 648** à **2 147 483 647**
 - Que le dépasser provoque un **débordement**

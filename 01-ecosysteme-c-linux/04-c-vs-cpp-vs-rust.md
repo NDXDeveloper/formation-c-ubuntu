@@ -942,8 +942,8 @@ Projet moderne complexe:
 
 Maintenant que vous comprenez pourquoi apprendre le C et comment il se positionne face à ses "concurrents", nous allons :
 
-- **Module 2** : Plonger dans la configuration de votre environnement Ubuntu
-- **Module 3** : Commencer à coder en C !
+- **Chapitre 2** : Plonger dans la configuration de votre environnement Ubuntu
+- **Chapitre 3** : Commencer à coder en C !
 - Apprendre les fondamentaux : variables, pointeurs, mémoire
 - Construire des projets concrets
 
