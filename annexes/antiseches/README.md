@@ -113,11 +113,11 @@ Vous êtes maintenant prêt à explorer les antisèches détaillées. Chaque sec
 
 ---
 
-- B.1 [Options GCC](annexes/antiseches/01-options-gcc.md)
-- B.2 [Commandes GDB](annexes/antiseches/02-commandes-gdb.md)
-- B.3 [Appels système Linux](annexes/antiseches/03-appels-systeme-linux.md)
-- B.4 [POSIX threads API](annexes/antiseches/04-posix-threads-api.md)
-- B.5 [CMake commandes principales](annexes/antiseches/05-cmake-commandes.md)
-- B.6 [Flags de sanitizers et Valgrind](annexes/antiseches/06-flags-sanitizers-valgrind.md)
+- B.1 [Options GCC](/annexes/antiseches/01-options-gcc.md)
+- B.2 [Commandes GDB](/annexes/antiseches/02-commandes-gdb.md)
+- B.3 [Appels système Linux](/annexes/antiseches/03-appels-systeme-linux.md)
+- B.4 [POSIX threads API](/annexes/antiseches/04-posix-threads-api.md)
+- B.5 [CMake commandes principales](/annexes/antiseches/05-cmake-commandes.md)
+- B.6 [Flags de sanitizers et Valgrind](/annexes/antiseches/06-flags-sanitizers-valgrind.md)
 
 ⏭️ [Options GCC](/annexes/antiseches/01-options-gcc.md)
