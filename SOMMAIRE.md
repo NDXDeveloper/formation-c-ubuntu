@@ -3,7 +3,7 @@
 
 ---
 
-## **Module 1 : L'Écosystème C sous Linux** *(Niveau Débutant)*
+## **[Module 1 : L'Écosystème C sous Linux](/module-01-l-ecosysteme-c-sous-linux.md)** *(Niveau Débutant)*
 
 ### 1. [Introduction et Histoire](01-ecosysteme-c-linux/README.md)
 - 1.1 [Pourquoi le C en 2025 ?](01-ecosysteme-c-linux/01-pourquoi-le-c-en-2025.md)
@@ -36,7 +36,7 @@
 
 ---
 
-## **Module 2 : Fondamentaux du Langage** *(Niveau Débutant)*
+## **[Module 2 : Fondamentaux du Langage](/module-02-fondamentaux-du-langage.md)** *(Niveau Débutant)*
 
 ### 4. [Types de données et Représentation mémoire](04-types-et-memoire/README.md)
 - 4.1 [Types primitifs et leur taille](04-types-et-memoire/01-types-primitifs.md)
@@ -69,7 +69,7 @@
 
 ---
 
-## **Module 3 : La Gestion de la Mémoire** *(Niveau Intermédiaire)*
+## **[Module 3 : La Gestion de la Mémoire](/module-03-la-gestion-de-la-memoire.md)** *(Niveau Intermédiaire)*
 
 ### 7. [Les Pointeurs : Démystification](07-pointeurs/README.md)
 - 7.1 [Concept d'adresse mémoire](07-pointeurs/01-adresse-memoire.md)
@@ -100,7 +100,7 @@
 
 ---
 
-## **Module 4 : Structures de Données et Modularité** *(Niveau Intermédiaire)*
+## **[Module 4 : Structures de Données et Modularité](/module-04-structures-de-donnees-et-modularite.md)** *(Niveau Intermédiaire)*
 
 ### 10. [Types définis par l'utilisateur](10-types-utilisateur/README.md)
 - 10.1 [struct : Création d'objets complexes](10-types-utilisateur/01-structures.md)
@@ -130,7 +130,7 @@
 
 ---
 
-## **Module 5 : Outillage DevOps et Automatisation** *(Niveau Avancé)*
+## **[Module 5 : Outillage DevOps et Automatisation](/module-05-outillage-devops-et-automatisation.md)** *(Niveau Avancé)*
 
 ### 13. [Build Systems : De Make à CMake](13-build-systems/README.md) ⭐
 - **13.1 [CMake : Le standard moderne](13-build-systems/01-cmake.md)** 🔥
@@ -204,7 +204,7 @@
 
 ---
 
-## **Module 6 : Programmation Système Linux** *(Niveau Expert)*
+## **[Module 6 : Programmation Système Linux](/module-06-programmation-systeme-linux.md)** *(Niveau Expert)*
 
 ### 16. [Gestion des Fichiers et Entrées/Sorties](16-fichiers-et-io/README.md)
 - 16.1 [Descripteurs de fichiers](16-fichiers-et-io/01-descripteurs-fichiers.md)
@@ -296,7 +296,7 @@
 
 ---
 
-## **Module 7 : Techniques Avancées et Optimisation** *(Niveau Expert)*
+## **[Module 7 : Techniques Avancées et Optimisation](/module-07-techniques-avancees-et-optimisation.md)** *(Niveau Expert)*
 
 ### 22. [Pointeurs avancés](22-pointeurs-avances/README.md)
 - 22.1 [Pointeurs de fonctions (Callbacks)](22-pointeurs-avances/01-pointeurs-fonctions.md)
@@ -364,7 +364,7 @@
 
 ---
 
-## **Module 8 : C dans un Pipeline CI/CD** *(Bonus DevOps)* ⭐
+## **[Module 8 : C dans un Pipeline CI/CD](/module-08-c-dans-un-pipeline-ci-cd.md)** *(Bonus DevOps)* ⭐
 
 ### 29. [Tests et Qualité](29-tests-et-qualite/README.md)
 - 29.1 [Philosophie du testing en C](29-tests-et-qualite/01-philosophie-testing.md)
@@ -420,7 +420,7 @@
 
 ---
 
-## **Module 9 : Projets de Synthèse et Études de Cas** *(Optionnel)*
+## **[Module 9 : Projets de Synthèse et Études de Cas](/module-09-projets-de-synthese-et-etudes-de-cas.md)** *(Optionnel)*
 
 ### 33. [Analyse de code open-source](33-analyse-code-opensource/README.md)
 - 33.1 [Méthodologie de lecture de code](33-analyse-code-opensource/01-methodologie-lecture.md)
@@ -509,4 +509,4 @@
 
 ---
 
-**🚀 Cette formation vous transforme en ingénieur système Linux moderne, capable de coder en C avec les standards de qualité 2025, d'automatiser via CI/CD, et de maîtriser les technologies émergentes comme eBPF.**
+
