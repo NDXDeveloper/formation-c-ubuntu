@@ -12,13 +12,13 @@
 
 ## 📖 Table des matières
 
-- [À propos](#-à-propos)
+- [À propos](#-%C3%A0-propos)
 - [Contenu](#-contenu-de-la-formation)
-- [Installation](#-démarrage-rapide)
+- [Installation](#-d%C3%A9marrage-rapide)
 - [Utilisation](#-comment-utiliser-cette-formation)
-- [Parcours recommandés](#-parcours-recommandés)
+- [Parcours recommandés](#%EF%B8%8F-parcours-recommand%C3%A9s)
 - [Licence](#-licence)
-- [Contact](#-contact)
+- [Contact](#%E2%80%8D-contact)
 
 ---
 
@@ -40,7 +40,7 @@ Cette formation propose une approche complète du langage C dans l'écosystème 
 
 ## 📚 Contenu de la formation
 
-> 📑 **Consultez le [SOMMAIRE.md](SOMMAIRE.md) complet pour la table des matières détaillée**
+> 📑 **Consultez le [SOMMAIRE.md](/SOMMAIRE.md) complet pour la table des matières détaillée**
 
 ### Les 9 Modules
 
@@ -164,22 +164,22 @@ formation-c-ubuntu/
 ## 🎯 Comment utiliser cette formation
 
 ### 🌱 Débutant complet
-👉 Commencez par le [Module 1](01-ecosysteme-c-linux/) et suivez l'ordre séquentiel
-👉 Prévoyez 18-25 semaines à temps partiel
+- 👉 Commencez par le [Module 1](/module-01-l-ecosysteme-c-sous-linux.md) et suivez l'ordre séquentiel
+- 👉 Prévoyez 18-25 semaines à temps partiel
 
 ### 🔧 Développeur Backend → DevOps
-👉 Parcourez les modules 1-3, puis concentrez-vous sur les modules 5 (Outillage), 8 (CI/CD), et la section eBPF du module 6
-👉 Durée estimée : 8-12 semaines
+- 👉 Parcourez les modules 1-3, puis concentrez-vous sur les modules 5 (Outillage), 8 (CI/CD), et la section eBPF du module 6
+- 👉 Durée estimée : 8-12 semaines
 
 ### ⚙️ SysAdmin → Ingénieur Système
-👉 Priorité absolue au module 6 (Programmation système Linux)
-👉 Complétez avec les modules 3, 5, et 7
-👉 Durée estimée : 12-16 semaines
+- 👉 Priorité absolue au module 6 (Programmation système Linux)
+- 👉 Complétez avec les modules 3, 5, et 7
+- 👉 Durée estimée : 12-16 semaines
 
 ### 🎮 Embedded → Linux Embarqué
-👉 Modules 1-4 complets, puis module 7 (optimisation)
-👉 Ajoutez le module 8 pour la cross-compilation
-👉 Durée estimée : 10-14 semaines
+- 👉 Modules 1-4 complets, puis module 7 (optimisation)
+- 👉 Ajoutez le module 8 pour la cross-compilation
+- 👉 Durée estimée : 10-14 semaines
 
 **💡 Conseil :** Créez un répertoire de pratique et testez chaque exemple de code !
 
@@ -187,7 +187,7 @@ formation-c-ubuntu/
 
 ## 🗓️ Parcours recommandés
 
-> 📘 **Consultez les [Parcours Détaillés](parcours-recommandes/) pour des recommandations personnalisées**
+> 📘 **Consultez les [Parcours Détaillés](/parcours-recommandes/README.md) pour des recommandations personnalisées**
 
 | Parcours | Modules prioritaires | Durée | Public cible |
 |----------|---------------------|-------|--------------|
@@ -231,16 +231,16 @@ formation-c-ubuntu/
 
 Après cette formation, vous serez capable de :
 
-✅ **Écrire du C moderne** avec les standards C11/C17/C23
-✅ **Configurer un environnement de développement professionnel** (IDE, DevContainers, CI/CD)
-✅ **Déboguer efficacement** avec sanitizers, Valgrind, et GDB
-✅ **Créer des builds multiplateformes** avec CMake
-✅ **Développer des outils système** (CLI, agents de monitoring)
-✅ **Programmer des applications réseau** (serveurs TCP, HTTP)
-✅ **Maîtriser le multithreading** (threads POSIX, synchronisation, atomics)
-✅ **Utiliser eBPF** pour l'observabilité et le tracing
-✅ **Mettre en place un pipeline CI/CD complet** pour vos projets C
-✅ **Optimiser les performances** (profiling, cache awareness, SIMD)
+- ✅ **Écrire du C moderne** avec les standards C11/C17/C23
+- ✅ **Configurer un environnement de développement professionnel** (IDE, DevContainers, CI/CD)
+- ✅ **Déboguer efficacement** avec sanitizers, Valgrind, et GDB
+- ✅ **Créer des builds multiplateformes** avec CMake
+- ✅ **Développer des outils système** (CLI, agents de monitoring)
+- ✅ **Programmer des applications réseau** (serveurs TCP, HTTP)
+- ✅ **Maîtriser le multithreading** (threads POSIX, synchronisation, atomics)
+- ✅ **Utiliser eBPF** pour l'observabilité et le tracing
+- ✅ **Mettre en place un pipeline CI/CD complet** pour vos projets C
+- ✅ **Optimiser les performances** (profiling, cache awareness, SIMD)
 
 ---
 
