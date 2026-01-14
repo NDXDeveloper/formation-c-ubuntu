@@ -598,6 +598,10 @@ if (*fin == '\0') {
 
 ## Exemple complet et pédagogique
 
+⚠️ Rappel: n'oubliez pas d'indiquer au compilateur d'utiliser la bibliothèque math:
+
+`gcc -std=c17 -Wall -Wextra conversion_types.c -o conversion_types -lm`
+
 ```c
 #include <stdio.h>
 #include <limits.h>
