@@ -205,7 +205,7 @@ int main(void) {
     unsigned char* ptr = (unsigned char*)&nombre;
 
     printf("Octets en mémoire : ");
-    for (int i = 0; i < sizeof(int); i++) {
+    for (unsigned int i = 0; i < sizeof(int); i++) {
         printf("0x%02X ", ptr[i]);
     }
     printf("\n");
