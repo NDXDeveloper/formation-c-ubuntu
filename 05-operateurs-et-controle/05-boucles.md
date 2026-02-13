@@ -52,7 +52,7 @@ while (condition) {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int compteur = 1;
 
     // Affiche les nombres de 1 à 5
@@ -78,7 +78,7 @@ Si la condition reste toujours vraie, la boucle ne s'arrêtera jamais !
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int compteur = 1;
 
     // ❌ ERREUR : Boucle infinie (compteur n'est jamais incrémenté)
@@ -99,7 +99,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int age;
 
     printf("Entrez votre âge (entre 0 et 120) : ");
@@ -121,7 +121,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int n = 10;
     int somme = 0;
     int i = 1;
@@ -141,7 +141,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int puissance = 1;
     int limite = 1000;
 
@@ -198,7 +198,7 @@ do {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int compteur = 1;
 
     do {
@@ -216,7 +216,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int a = 10;
 
     // Boucle while : Ne s'exécute jamais (condition fausse dès le début)
@@ -239,9 +239,9 @@ int main() {
 
 **Résultat :**
 ```
-Boucle while :
-Boucle do-while :
-Cette ligne s'affiche une fois
+Boucle while :  
+Boucle do-while :  
+Cette ligne s'affiche une fois  
 ```
 
 ### Cas d'usage typique : Menu interactif
@@ -249,7 +249,7 @@ Cette ligne s'affiche une fois
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int choix;
 
     do {
@@ -313,8 +313,8 @@ for (int i = 0; i < 5; i++) {
 }
 
 // Équivalent en while
-int i = 0;           // Initialisation
-while (i < 5) {      // Condition
+int i = 0;           // Initialisation  
+while (i < 5) {      // Condition  
     printf("%d ", i);
     i++;             // Incrémentation
 }
@@ -325,7 +325,7 @@ while (i < 5) {      // Condition
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     // Afficher les nombres de 0 à 4
     for (int i = 0; i < 5; i++) {
         printf("%d ", i);
@@ -347,7 +347,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     printf("Nombres pairs de 0 à 10 :\n");
     for (int i = 0; i <= 10; i += 2) {
         printf("%d ", i);
@@ -362,7 +362,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     printf("Compte à rebours :\n");
     for (int i = 10; i >= 0; i--) {
         printf("%d ", i);
@@ -377,7 +377,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     // Initialiser et manipuler plusieurs variables
     for (int i = 0, j = 10; i < j; i++, j--) {
         printf("i=%d, j=%d\n", i, j);
@@ -391,7 +391,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int compteur = 0;
 
     // Boucle for sans condition (équivalent à while(1))
@@ -415,7 +415,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int n = 5;
     unsigned long long factorielle = 1;
 
@@ -433,7 +433,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int nombres[] = {10, 20, 30, 40, 50};
     int taille = sizeof(nombres) / sizeof(nombres[0]);
 
@@ -450,7 +450,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int nombre = 7;
 
     printf("Table de multiplication de %d :\n", nombre);
@@ -507,7 +507,7 @@ break;
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     // Chercher le premier nombre négatif
     int nombres[] = {5, 10, 15, -3, 20, 25};
     int taille = sizeof(nombres) / sizeof(nombres[0]);
@@ -527,7 +527,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int secret = 42;
     int tentative;
     int max_essais = 3;
@@ -569,7 +569,7 @@ continue;
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     printf("Nombres impairs de 1 à 10 :\n");
 
     for (int i = 1; i <= 10; i++) {
@@ -594,7 +594,7 @@ Nombres impairs de 1 à 10 :
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int notes[] = {15, -1, 18, -1, 12, 16, -1, 14};
     int taille = sizeof(notes) / sizeof(notes[0]);
     int somme = 0;
@@ -644,7 +644,7 @@ label:
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int trouve = 0;
 
     // Chercher un élément dans une matrice
@@ -687,7 +687,7 @@ bool chercher_element(int matrice[10][10][10]) {
     return false;
 }
 
-int main() {
+int main(void) {
     int matrice[10][10][10] = {0};
 
     if (chercher_element(matrice)) {
@@ -703,7 +703,7 @@ int main() {
 #include <stdio.h>
 #include <stdlib.h>
 
-int fonction_complexe() {
+int fonction_complexe(void) {
     int *buffer1 = NULL;
     int *buffer2 = NULL;
     int *buffer3 = NULL;
@@ -735,7 +735,7 @@ cleanup:
     return resultat;
 }
 
-int main() {
+int main(void) {
     if (fonction_complexe() == 0) {
         printf("Succès\n");
     } else {
@@ -770,7 +770,7 @@ for (int i = 0; i < n; i++) {        // Boucle extérieure
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     printf("Table de multiplication de 1 à 5 :\n\n");
     printf("    ");
 
@@ -812,7 +812,7 @@ Table de multiplication de 1 à 5 :
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int matrice[3][4] = {
         {1, 2, 3, 4},
         {5, 6, 7, 8},
@@ -840,7 +840,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int hauteur = 5;
 
     for (int i = 1; i <= hauteur; i++) {
@@ -867,7 +867,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int largeur = 7;
     int hauteur = 4;
 
@@ -886,7 +886,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int hauteur = 5;
 
     for (int i = 1; i <= hauteur; i++) {
@@ -923,7 +923,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     for (int i = 0; i < 3; i++) {
         printf("Boucle externe : i = %d\n", i);
 
@@ -946,7 +946,7 @@ int main() {
 #include <stdio.h>
 #include <stdbool.h>
 
-int main() {
+int main(void) {
     bool trouve = false;
 
     for (int i = 0; i < 5 && !trouve; i++) {
@@ -972,18 +972,28 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
-    int tableau[100];
-    int n = 100;
+int calculer_limite(int n) {
+    // Simulation d'un calcul coûteux
+    return n * n;
+}
 
-    // ❌ NON OPTIMISÉ : strlen calculé à chaque itération
-    // for (int i = 0; i < strlen(chaine); i++) { ... }
+int main(void) {
+    int n = 10;
 
-    // ✅ OPTIMISÉ : Calcul fait une seule fois
-    for (int i = 0; i < n; i++) {
-        tableau[i] = i * 2;
+    // ❌ NON OPTIMISÉ : calculer_limite() appelé à chaque itération
+    for (int i = 0; i < calculer_limite(n); i++) {
+        printf("%d ", i);
     }
 
+    printf("\n");
+
+    // ✅ OPTIMISÉ : Résultat calculé une seule fois
+    int limite = calculer_limite(n);
+    for (int i = 0; i < limite; i++) {
+        printf("%d ", i);
+    }
+
+    printf("\n");
     return 0;
 }
 ```
@@ -992,26 +1002,25 @@ int main() {
 
 ```c
 #include <stdio.h>
+#include <string.h>
 
-// ❌ NON OPTIMISÉ
-void traiter_v1(int *tableau, int taille) {
-    for (int i = 0; i < taille; i++) {
-        tableau[i] = tableau[i] * 2 + 10;
+// ❌ NON OPTIMISÉ : strlen() est recalculé à chaque itération
+void traiter_v1(const char *chaine) {
+    for (int i = 0; i < (int)strlen(chaine); i++) {
+        printf("%c", chaine[i]);
     }
 }
 
-// ✅ OPTIMISÉ : Multiplication puis addition séparées (peut aider le compilateur)
-void traiter_v2(int *tableau, int taille) {
-    for (int i = 0; i < taille; i++) {
-        tableau[i] *= 2;
-    }
-    for (int i = 0; i < taille; i++) {
-        tableau[i] += 10;
+// ✅ OPTIMISÉ : Le calcul invariant est sorti de la boucle
+void traiter_v2(const char *chaine) {
+    int longueur = (int)strlen(chaine);
+    for (int i = 0; i < longueur; i++) {
+        printf("%c", chaine[i]);
     }
 }
 ```
 
-**⚠️ Note :** Les compilateurs modernes optimisent déjà très bien. Ne faites des micro-optimisations que si le profiling montre un vrai problème.
+**⚠️ Note :** Les compilateurs modernes optimisent déjà très bien. Ne faites des micro-optimisations que si le profiling montre un vrai problème. En particulier, ne séparez pas une boucle unique en plusieurs boucles : cela nuit à la localité de cache (plusieurs passes sur les mêmes données).
 
 ### 3. Dérouler les boucles (loop unrolling) - Avancé
 
@@ -1054,7 +1063,7 @@ void copier_v2(int *dest, int *src, int taille) {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     // ❌ DANGEREUX : Modification de i dans le corps
     for (int i = 0; i < 10; i++) {
         printf("%d ", i);
@@ -1075,7 +1084,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int tableau[5] = {10, 20, 30, 40, 50};
 
     // ❌ ERREUR : Accès hors limites (i <= 5 au lieu de i < 5)
@@ -1097,7 +1106,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int i = 0;
 
     // ❌ BOUCLE INFINIE : Oubli de i++
@@ -1123,8 +1132,8 @@ int main() {
 
 ```c
 // ❌ MALADROIT : while pour un nombre connu d'itérations
-int i = 0;
-while (i < 10) {
+int i = 0;  
+while (i < 10) {  
     printf("%d ", i);
     i++;
 }
@@ -1140,7 +1149,7 @@ for (int i = 0; i < 10; i++) {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     // ❌ i n'est plus accessible après la boucle (C99+)
     for (int i = 0; i < 5; i++) {
         printf("%d ", i);
@@ -1222,7 +1231,7 @@ for (int i = 0; i < n; i++) {
 
 #define TAILLE_MAX 100
 
-int main() {
+int main(void) {
     int tableau[TAILLE_MAX];
 
     // ✅ BON : Utiliser la constante
@@ -1239,7 +1248,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int matrice[10][10];
 
     // Initialiser seulement la diagonale principale à 1
@@ -1276,7 +1285,7 @@ int rechercher(int *tableau, int taille, int valeur) {
     return -1;  // Retourner -1 si non trouvé
 }
 
-int main() {
+int main(void) {
     int nombres[] = {10, 25, 30, 47, 52, 61, 78, 89};
     int taille = sizeof(nombres) / sizeof(nombres[0]);
     int cherche = 47;
@@ -1320,7 +1329,7 @@ void afficher_tableau(int *tableau, int taille) {
     printf("\n");
 }
 
-int main() {
+int main(void) {
     int nombres[] = {64, 34, 25, 12, 22, 11, 90};
     int taille = sizeof(nombres) / sizeof(nombres[0]);
 
@@ -1357,7 +1366,7 @@ bool est_premier(int n) {
     return true;
 }
 
-int main() {
+int main(void) {
     int limite = 50;
 
     printf("Nombres premiers jusqu'à %d :\n", limite);
@@ -1380,7 +1389,7 @@ int main() {
 #include <stdlib.h>
 #include <time.h>
 
-int main() {
+int main(void) {
     // Initialiser le générateur de nombres aléatoires
     srand(time(NULL));
 
@@ -1443,7 +1452,7 @@ void afficher_calendrier(int jours_dans_mois, int jour_debut) {
     printf("\n");
 }
 
-int main() {
+int main(void) {
     printf("Février 2024 (année bissextile)\n\n");
     afficher_calendrier(29, 3);  // Février commence un jeudi (index 3)
 

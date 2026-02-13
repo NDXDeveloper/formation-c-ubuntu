@@ -331,8 +331,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Avant : nombres[0] = 1
-Après : nombres[0] = 999
+Avant : nombres[0] = 1  
+Après : nombres[0] = 999  
 ```
 
 **Explication** :
@@ -411,8 +411,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Avant : 0
-Après : 1
+Avant : 0  
+Après : 1  
 ```
 
 **Explication** :
@@ -803,16 +803,16 @@ int main(void) {
 
 **Sortie :**
 ```
-Le carré de 5 est 25
-nombre vaut toujours 5
+Le carré de 5 est 25  
+nombre vaut toujours 5  
 
-Avant tripler : 7
-Après tripler : 21
+Avant tripler : 7  
+Après tripler : 21  
 
 Distance Manhattan : 7
 
-Point p1 avant : (0, 0)
-Point p1 après : (10, 20)
+Point p1 avant : (0, 0)  
+Point p1 après : (10, 20)  
 ```
 
 ---

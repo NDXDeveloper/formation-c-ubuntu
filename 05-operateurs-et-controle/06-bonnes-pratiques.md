@@ -21,16 +21,16 @@ Dans cette section, nous allons explorer les conventions de formatage les plus c
 **❌ Exemple de code mal formaté :**
 ```c
 #include <stdio.h>
-int main(){int x=10;int y=20;int z=x+y;
-if(z>25){printf("Grand\n");}else{printf("Petit\n");}
-for(int i=0;i<5;i++){printf("%d ",i);}return 0;}
+int main(){int x=10;int y=20;int z=x+y;  
+if(z>25){printf("Grand\n");}else{printf("Petit\n");}  
+for(int i=0;i<5;i++){printf("%d ",i);}return 0;}  
 ```
 
 **✅ Même code bien formaté :**
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int x = 10;
     int y = 20;
     int z = x + y;
@@ -64,7 +64,7 @@ L'**indentation** consiste à décaler le code vers la droite pour montrer la st
 ```c
 #include <stdio.h>
 
-int main() {                           // Niveau 0
+int main(void) {                       // Niveau 0
     int x = 10;                        // Niveau 1
 
     if (x > 5) {                       // Niveau 1
@@ -106,9 +106,9 @@ La plupart des éditeurs modernes peuvent être configurés pour insérer des es
 
 **Vim (.vimrc) :**
 ```vim
-set expandtab
-set tabstop=4
-set shiftwidth=4
+set expandtab  
+set tabstop=4  
+set shiftwidth=4  
 ```
 
 ---
@@ -122,7 +122,7 @@ Il existe plusieurs styles de placement des accolades. Les deux plus courants en
 **1. Style K&R (Kernighan & Ritchie) - Le plus courant en C**
 
 ```c
-int main() {
+int main(void) {
     if (condition) {
         // Code
     } else {
@@ -143,7 +143,7 @@ int main() {
 **2. Style Allman - Populaire dans certains projets**
 
 ```c
-int main()
+int main(void)
 {
     if (condition)
     {
@@ -194,50 +194,50 @@ Mettez des espaces autour des opérateurs pour améliorer la lisibilité :
 
 ```c
 // ❌ COMPACT : Difficile à lire
-int result=a+b*c-d/e;
-if(x>5&&y<10||z==0){
+int result=a+b*c-d/e;  
+if(x>5&&y<10||z==0){  
 
 // ✅ LISIBLE : Espaces autour des opérateurs
-int result = a + b * c - d / e;
-if (x > 5 && y < 10 || z == 0) {
+int result = a + b * c - d / e;  
+if (x > 5 && y < 10 || z == 0) {  
 ```
 
 ### Espaces après les virgules
 
 ```c
 // ❌ COMPACT
-fonction(arg1,arg2,arg3);
-int tableau[]={1,2,3,4,5};
+fonction(arg1,arg2,arg3);  
+int tableau[]={1,2,3,4,5};  
 
 // ✅ LISIBLE
-fonction(arg1, arg2, arg3);
-int tableau[] = {1, 2, 3, 4, 5};
+fonction(arg1, arg2, arg3);  
+int tableau[] = {1, 2, 3, 4, 5};  
 ```
 
 ### Pas d'espace après les noms de fonction
 
 ```c
 // ❌ INCORRECT
-printf ("Hello");
-strlen (chaine);
+printf ("Hello");  
+strlen (chaine);  
 
 // ✅ CORRECT
-printf("Hello");
-strlen(chaine);
+printf("Hello");  
+strlen(chaine);  
 ```
 
 ### Espaces dans les structures de contrôle
 
 ```c
 // ❌ INCONSISTANT
-if(condition){
-while (autre_condition){
-for(int i=0;i<10;i++){
+if(condition){  
+while (autre_condition){  
+for(int i=0;i<10;i++){  
 
 // ✅ CONSISTANT
-if (condition) {
-while (autre_condition) {
-for (int i = 0; i < 10; i++) {
+if (condition) {  
+while (autre_condition) {  
+for (int i = 0; i < 10; i++) {  
 ```
 
 **Règle :** Un espace après `if`, `while`, `for`, `switch`, mais pas après les noms de fonctions.
@@ -253,7 +253,7 @@ Utilisez des lignes vides pour séparer les sections logiques de votre code :
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     // Déclarations de variables
     int x = 10;
     int y = 20;
@@ -277,7 +277,7 @@ int main() {
 // ❌ TROP D'ESPACES
 
 
-int main() {
+int main(void) {
 
 
     int x = 10;
@@ -294,7 +294,7 @@ int main() {
 
 // ✅ ÉQUILIBRÉ
 
-int main() {
+int main(void) {
     int x = 10;
 
     printf("%d\n", x);
@@ -351,9 +351,9 @@ if (condition_tres_longue_numero_1 &&
     condition_tres_longue_numero_3) {
 
 // ✅ ALTERNATIVE AVEC EXTRACTION
-bool condition1 = condition_tres_longue_numero_1;
-bool condition2 = condition_tres_longue_numero_2;
-bool condition3 = condition_tres_longue_numero_3;
+bool condition1 = condition_tres_longue_numero_1;  
+bool condition2 = condition_tres_longue_numero_2;  
+bool condition3 = condition_tres_longue_numero_3;  
 
 if (condition1 && condition2 && condition3) {
 ```
@@ -368,27 +368,27 @@ if (condition1 && condition2 && condition3) {
 
 ```c
 // ✅ BON
-int nombre_utilisateurs;
-float temperature_moyenne;
-char nom_fichier[100];
+int nombre_utilisateurs;  
+float temperature_moyenne;  
+char nom_fichier[100];  
 
 // ❌ À ÉVITER (camelCase, plus courant en Java/JavaScript)
-int nombreUtilisateurs;
-float temperatureMoyenne;
+int nombreUtilisateurs;  
+float temperatureMoyenne;  
 ```
 
 **Noms descriptifs :**
 
 ```c
 // ❌ PEU CLAIR
-int x;
-int n;
-float t;
+int x;  
+int n;  
+float t;  
 
 // ✅ CLAIR
-int nombre_etudiants;
-int compteur_erreurs;
-float temperature_celsius;
+int nombre_etudiants;  
+int compteur_erreurs;  
+float temperature_celsius;  
 ```
 
 **Éviter les noms d'une seule lettre (sauf pour les compteurs de boucle) :**
@@ -428,14 +428,14 @@ const int TAILLE_TABLEAU = 100;
 
 ```c
 // ✅ BON
-int calculer_moyenne(int *tableau, int taille);
-void afficher_menu();
-bool est_valide(int valeur);
-char* obtenir_nom_utilisateur();
+int calculer_moyenne(int *tableau, int taille);  
+void afficher_menu(void);  
+bool est_valide(int valeur);  
+char *obtenir_nom_utilisateur(void);  
 
 // ❌ PEU CLAIR
-int calc(int *t, int n);
-void menu();
+int calc(int *t, int n);  
+void menu();  
 ```
 
 ### Types personnalisés (structures, enums)
@@ -601,8 +601,8 @@ typedef struct {
 static int compteur_global = 0;
 
 /* 7. Prototypes de fonctions statiques (locales au fichier) */
-static void fonction_helper(void);
-static int calcul_interne(int a, int b);
+static void fonction_helper(void);  
+static int calcul_interne(int a, int b);  
 
 /* 8. Définitions des fonctions */
 
@@ -652,9 +652,9 @@ typedef struct {
 } coordonnee_t;
 
 /* 5. Prototypes de fonctions publiques */
-int additionner(int a, int b);
-float calculer_moyenne(int *tableau, int taille);
-bool valider_entree(int valeur);
+int additionner(int a, int b);  
+float calculer_moyenne(int *tableau, int taille);  
+bool valider_entree(int valeur);  
 
 /* 6. Fin de la garde d'inclusion */
 #endif /* CALCULATRICE_H */
@@ -670,11 +670,11 @@ bool valider_entree(int valeur);
 ```c
 #include <stdio.h>
 #include <stdbool.h>
-bool valider(int age,char*nom){if(age<0||age>120)return false;
-if(nom==NULL)return false;int i=0;while(nom[i]!='\0'){i++;}
-if(i==0||i>50)return false;return true;}
-int main(){int a=25;char n[]="Jean";if(valider(a,n))printf("OK\n");
-else printf("Erreur\n");return 0;}
+bool valider(int age,char*nom){if(age<0||age>120)return false;  
+if(nom==NULL)return false;int i=0;while(nom[i]!='\0'){i++;}  
+if(i==0||i>50)return false;return true;}  
+int main(){int a=25;char n[]="Jean";if(valider(a,n))printf("OK\n");  
+else printf("Erreur\n");return 0;}  
 ```
 
 **✅ Après (bien formaté) :**
@@ -694,7 +694,7 @@ else printf("Erreur\n");return 0;}
  * @param nom Nom de la personne
  * @return true si valide, false sinon
  */
-bool valider_personne(int age, char *nom) {
+bool valider_personne(int age, const char *nom) {
     // Vérifier l'âge
     if (age < AGE_MIN || age > AGE_MAX) {
         return false;
@@ -790,8 +790,8 @@ int fonction(int param)
 ### 2. Style GNU
 
 ```c
-int
-fonction (int param)
+int  
+fonction (int param)  
 {
   int local = 0;  // 2 espaces
 
@@ -847,16 +847,16 @@ Créez un fichier `.editorconfig` à la racine de votre projet pour assurer la c
 ```ini
 # Configuration pour tous les fichiers
 [*]
-charset = utf-8
-end_of_line = lf
-insert_final_newline = true
-trim_trailing_whitespace = true
+charset = utf-8  
+end_of_line = lf  
+insert_final_newline = true  
+trim_trailing_whitespace = true  
 
 # Fichiers C
 [*.{c,h}]
-indent_style = space
-indent_size = 4
-max_line_length = 100
+indent_style = space  
+indent_size = 4  
+max_line_length = 100  
 ```
 
 ### Exemple de configuration VS Code
@@ -1011,8 +1011,8 @@ Créez un hook pre-commit pour vérifier le formatage avant chaque commit :
 # .git/hooks/pre-commit
 
 # Vérifier le formatage avec clang-format
-for file in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(c|h)$')
-do
+for file in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(c|h)$')  
+do  
     clang-format --dry-run --Werror "$file"
     if [ $? -ne 0 ]; then
         echo "Erreur de formatage dans $file"

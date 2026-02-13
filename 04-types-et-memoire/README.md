@@ -42,8 +42,8 @@ Les erreurs de types sont parmi les plus difficiles à détecter :
 **Exemple concret** :
 
 ```c
-int compteur = 2147483647;  // INT_MAX
-compteur = compteur + 1;     // Que se passe-t-il ?
+int compteur = 2147483647;  // INT_MAX  
+compteur = compteur + 1;     // Que se passe-t-il ?  
 // Résultat : -2147483648 (débordement !)
 ```
 
@@ -142,9 +142,9 @@ Vous explorerez :
 ✅ **Éviter les bugs de débordement**
 ```c
 // Vous saurez pourquoi ceci est dangereux
-unsigned int a = 5;
-unsigned int b = 10;
-unsigned int diff = a - b;  // Pas -5, mais 4294967291 !
+unsigned int a = 5;  
+unsigned int b = 10;  
+unsigned int diff = a - b;  // Pas -5, mais 4294967291 !  
 ```
 
 ✅ **Écrire du code portable**
@@ -158,14 +158,14 @@ int32_t valeur = 123;  // Toujours 4 octets, garanti
 
 ✅ **Manipuler les données binaires**
 ```c
-unsigned char flags = 0b1010'1010;  // C23
-unsigned int masque = 0xFF00;       // Hexadécimal
+unsigned char flags = 0b1010'1010;  // C23  
+unsigned int masque = 0xFF00;       // Hexadécimal  
 ```
 
 ✅ **Convertir entre types en toute connaissance**
 ```c
-double moyenne = (double)somme / nombre;  // Division flottante
-int tronque = (int)3.14;  // Vous savez que ça donne 3
+double moyenne = (double)somme / nombre;  // Division flottante  
+int tronque = (int)3.14;  // Vous savez que ça donne 3  
 ```
 
 ✅ **Gérer l'endianness pour les réseaux**
@@ -192,10 +192,14 @@ uint16_t port = htons(8080);  // Host to Network Short
 - Opérations bit-à-bit : `&`, `|`, `^`, `~`, `<<`, `>>`
 - Conditions et boucles
 
-**Chapitre 6** : La gestion de la mémoire
+**Chapitre 6** : Les fonctions
+- Déclaration, définition, prototypes
+- Passage par valeur et pile d'appels
+
+**Chapitres 7-9** (Module 3) : La gestion de la mémoire
 - Les pointeurs (qui reposent sur les types !)
-- L'allocation dynamique
 - Les tableaux et chaînes
+- L'allocation dynamique
 
 **→ Impossible de comprendre les pointeurs sans maîtriser les types !**
 
@@ -207,6 +211,7 @@ uint16_t port = htons(8080);  // Host to Network Short
 
 ```c
 #include <stdio.h>
+#include <limits.h>
 
 int main(void) {
     printf("Taille d'un int : %zu octets\n", sizeof(int));
@@ -235,8 +240,8 @@ gcc -Wall -Wextra test.c
 
 Le compilateur détecte de nombreuses erreurs de types :
 ```c
-int a = -1;
-unsigned int b = 1;
+int a = -1;  
+unsigned int b = 1;  
 
 if (a < b) {  // WARNING : comparison between signed and unsigned
     // ...
@@ -249,20 +254,20 @@ Explorez les débordements, les conversions, les limites :
 ```c
 #include <limits.h>
 
-printf("CHAR_MIN : %d\n", CHAR_MIN);
-printf("CHAR_MAX : %d\n", CHAR_MAX);
-printf("INT_MIN : %d\n", INT_MIN);
-printf("INT_MAX : %d\n", INT_MAX);
+printf("CHAR_MIN : %d\n", CHAR_MIN);  
+printf("CHAR_MAX : %d\n", CHAR_MAX);  
+printf("INT_MIN : %d\n", INT_MIN);  
+printf("INT_MAX : %d\n", INT_MAX);  
 ```
 
 ### 4. Visualisez en mémoire
 
 Utilisez `sizeof` et affichez les adresses :
 ```c
-int x = 42;
-printf("Valeur : %d\n", x);
-printf("Adresse : %p\n", (void*)&x);
-printf("Taille : %zu octets\n", sizeof(x));
+int x = 42;  
+printf("Valeur : %d\n", x);  
+printf("Adresse : %p\n", (void*)&x);  
+printf("Taille : %zu octets\n", sizeof(x));  
 ```
 
 ### 5. Lisez les sections dans l'ordre

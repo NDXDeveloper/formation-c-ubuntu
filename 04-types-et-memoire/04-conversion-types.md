@@ -22,30 +22,30 @@ Cette section vous apprendra :
 Le compilateur convertit automatiquement certains types sans que vous ayez à le demander :
 
 ```c
-int entier = 10;
-double reel = entier;  // int → double (conversion implicite)
+int entier = 10;  
+double reel = entier;  // int → double (conversion implicite)  
 
 printf("%f\n", reel);  // Affiche : 10.000000
 ```
 
-**Avantage** : Pratique et transparent
-**Inconvénient** : Peut masquer des erreurs ou des pertes de données
+**Avantage** : Pratique et transparent  
+**Inconvénient** : Peut masquer des erreurs ou des pertes de données  
 
 ### Conversion explicite (cast)
 
 Vous forcez manuellement une conversion en utilisant la syntaxe du **cast** :
 
 ```c
-double pi = 3.14159;
-int pi_entier = (int)pi;  // Conversion explicite : double → int
+double pi = 3.14159;  
+int pi_entier = (int)pi;  // Conversion explicite : double → int  
 
 printf("%d\n", pi_entier);  // Affiche : 3 (partie décimale perdue)
 ```
 
 **Syntaxe** : `(type_cible) expression`
 
-**Avantage** : Clarté d'intention, contrôle explicite
-**Inconvénient** : Plus verbeux
+**Avantage** : Clarté d'intention, contrôle explicite  
+**Inconvénient** : Plus verbeux  
 
 ## Hiérarchie des types
 
@@ -90,16 +90,16 @@ Les types plus petits que `int` sont **automatiquement promus** à `int` (ou `un
 Tout `char`, `short`, `signed` ou `unsigned` devient `int` dans les opérations.
 
 ```c
-char a = 10;
-char b = 20;
-char resultat = a + b;  // a et b sont d'abord promus en int, puis le résultat converti en char
+char a = 10;  
+char b = 20;  
+char resultat = a + b;  // a et b sont d'abord promus en int, puis le résultat converti en char  
 ```
 
 ### Exemple détaillé
 
 ```c
-unsigned char x = 200;  // Type : unsigned char
-unsigned char y = 100;  // Type : unsigned char
+unsigned char x = 200;  // Type : unsigned char  
+unsigned char y = 100;  // Type : unsigned char  
 
 // Dans l'opération suivante :
 // 1. x est promu en int (200)
@@ -130,9 +130,9 @@ Lorsque deux types différents sont utilisés dans une opération, le compilateu
 **Entier + Flottant** :
 
 ```c
-int a = 5;
-float b = 2.5f;
-float resultat = a + b;  // a est converti en float : 5.0f + 2.5f = 7.5f
+int a = 5;  
+float b = 2.5f;  
+float resultat = a + b;  // a est converti en float : 5.0f + 2.5f = 7.5f  
 
 printf("%f\n", resultat);  // Affiche : 7.500000
 ```
@@ -140,8 +140,8 @@ printf("%f\n", resultat);  // Affiche : 7.500000
 **Signed + Unsigned** :
 
 ```c
-int a = -1;
-unsigned int b = 1;
+int a = -1;  
+unsigned int b = 1;  
 
 // a est converti en unsigned int
 // -1 devient 4294967295 (UINT_MAX)
@@ -161,8 +161,8 @@ if (a < b) {
 Passer d'un type plus petit à un type plus grand est **sûr** :
 
 ```c
-char petit = 100;
-int grand = petit;  // Conversion sûre : char → int
+char petit = 100;  
+int grand = petit;  // Conversion sûre : char → int  
 
 printf("%d\n", grand);  // Affiche : 100
 ```
@@ -170,8 +170,8 @@ printf("%d\n", grand);  // Affiche : 100
 Pour les types signés, le **bit de signe est étendu** :
 
 ```c
-char negatif = -50;  // 0b11001110 (représentation 8 bits)
-int etendu = negatif;  // 0b11111111111111111111111111001110 (32 bits)
+char negatif = -50;  // 0b11001110 (représentation 8 bits)  
+int etendu = negatif;  // 0b11111111111111111111111111001110 (32 bits)  
 
 printf("%d\n", etendu);  // Affiche : -50
 ```
@@ -181,8 +181,8 @@ printf("%d\n", etendu);  // Affiche : -50
 Passer d'un type plus grand à un type plus petit peut **perdre des données** :
 
 ```c
-int grand = 300;
-char petit = grand;  // Conversion avec perte : int → char
+int grand = 300;  
+char petit = grand;  // Conversion avec perte : int → char  
 
 printf("%d\n", petit);  // Affiche : 44 (300 % 256 = 44)
 ```
@@ -200,8 +200,8 @@ Tronqué à 8 bits (char): 00101100 = 44
 **Signed → Unsigned** :
 
 ```c
-int negatif = -1;
-unsigned int non_signe = negatif;  // Bit pattern préservé
+int negatif = -1;  
+unsigned int non_signe = negatif;  // Bit pattern préservé  
 
 printf("%u\n", non_signe);  // Affiche : 4294967295 (UINT_MAX)
 ```
@@ -211,8 +211,8 @@ La représentation binaire est conservée, mais l'interprétation change.
 **Unsigned → Signed** :
 
 ```c
-unsigned int grand = 4000000000U;  // > INT_MAX (2147483647)
-int signe = grand;  // Comportement défini par l'implémentation
+unsigned int grand = 4000000000U;  // > INT_MAX (2147483647)  
+int signe = grand;  // Comportement défini par l'implémentation  
 
 printf("%d\n", signe);  // Peut afficher un nombre négatif
 ```
@@ -224,17 +224,17 @@ printf("%d\n", signe);  // Peut afficher un nombre négatif
 Convertir un entier en flottant est généralement sûr, mais peut perdre en **précision** pour les très grands entiers :
 
 ```c
-int entier = 123456789;
-float reel = entier;
+int entier = 123456789;  
+float reel = entier;  
 
-printf("Entier : %d\n", entier);
-printf("Float : %.0f\n", reel);
+printf("Entier : %d\n", entier);  
+printf("Float : %.0f\n", reel);  
 ```
 
 **Résultat possible** :
 ```
-Entier : 123456789
-Float : 123456792  // Perte de précision !
+Entier : 123456789  
+Float : 123456792  // Perte de précision !  
 ```
 
 **Explication** : Un `float` a environ 7 chiffres de précision. Pour 9 chiffres, certains sont arrondis.
@@ -256,14 +256,14 @@ Float : 123456792  // Perte de précision !
 ### Exemple de précision
 
 ```c
-int exact = 16777216;     // 2^24 : dernière valeur exacte en float
-int inexact = 16777217;   // 2^24 + 1
+int exact = 16777216;     // 2^24 : dernière valeur exacte en float  
+int inexact = 16777217;   // 2^24 + 1  
 
-float f1 = exact;
-float f2 = inexact;
+float f1 = exact;  
+float f2 = inexact;  
 
-printf("Exact : %.0f\n", f1);      // 16777216
-printf("Inexact : %.0f\n", f2);    // 16777216 (arrondi !)
+printf("Exact : %.0f\n", f1);      // 16777216  
+printf("Inexact : %.0f\n", f2);    // 16777216 (arrondi !)  
 ```
 
 ## Conversion de flottant vers entier
@@ -271,8 +271,8 @@ printf("Inexact : %.0f\n", f2);    // 16777216 (arrondi !)
 Convertir un flottant en entier **tronque** la partie décimale (pas d'arrondi) :
 
 ```c
-double pi = 3.14159;
-int pi_tronque = pi;  // Conversion implicite
+double pi = 3.14159;  
+int pi_tronque = pi;  // Conversion implicite  
 
 printf("%d\n", pi_tronque);  // Affiche : 3
 ```
@@ -282,11 +282,11 @@ printf("%d\n", pi_tronque);  // Affiche : 3
 ```c
 double x = 7.9;
 
-int tronque = (int)x;              // Troncature : 7
-int arrondi = (int)(x + 0.5);      // Arrondi manuel : 8
+int tronque = (int)x;              // Troncature : 7  
+int arrondi = (int)(x + 0.5);      // Arrondi manuel : 8  
 
-printf("Tronqué : %d\n", tronque);
-printf("Arrondi : %d\n", arrondi);
+printf("Tronqué : %d\n", tronque);  
+printf("Arrondi : %d\n", arrondi);  
 ```
 
 Pour un arrondi correct (y compris pour les négatifs), utilisez `round()` de `<math.h>` :
@@ -294,11 +294,11 @@ Pour un arrondi correct (y compris pour les négatifs), utilisez `round()` de `<
 ```c
 #include <math.h>
 
-double valeur = 7.9;
-int arrondi = (int)round(valeur);  // 8
+double valeur = 7.9;  
+int arrondi = (int)round(valeur);  // 8  
 
-double negatif = -7.9;
-int arrondi_neg = (int)round(negatif);  // -8
+double negatif = -7.9;  
+int arrondi_neg = (int)round(negatif);  // -8  
 ```
 
 ### Débordement
@@ -306,8 +306,8 @@ int arrondi_neg = (int)round(negatif);  // -8
 Si le flottant est trop grand pour le type entier cible, le comportement est **indéfini** :
 
 ```c
-double enorme = 1e100;
-int resultat = (int)enorme;  // Comportement indéfini !
+double enorme = 1e100;  
+int resultat = (int)enorme;  // Comportement indéfini !  
 ```
 
 **Solution** : Vérifiez les limites avant la conversion.
@@ -338,8 +338,8 @@ if (valeur > INT_MAX || valeur < INT_MIN) {
 1. **Forcer une division flottante** :
 
 ```c
-int a = 5;
-int b = 2;
+int a = 5;  
+int b = 2;  
 
 // Division entière
 int resultat1 = a / b;           // 2
@@ -347,29 +347,31 @@ int resultat1 = a / b;           // 2
 // Division flottante (avec cast)
 double resultat2 = (double)a / b;  // 2.5
 
-printf("Entière : %d\n", resultat1);
-printf("Flottante : %f\n", resultat2);
+printf("Entière : %d\n", resultat1);  
+printf("Flottante : %f\n", resultat2);  
 ```
 
 2. **Clarifier une conversion intentionnelle** :
 
 ```c
-unsigned int x = 100;
-int y = (int)x;  // Cast explicite pour montrer l'intention
+unsigned int x = 100;  
+int y = (int)x;  // Cast explicite pour montrer l'intention  
 ```
 
 3. **Conversion de pointeurs** (avancé, nous verrons ça plus tard) :
 
 ```c
-void* ptr_generique = malloc(100);
-int* ptr_entier = (int*)ptr_generique;  // Cast nécessaire
+void* ptr_generique = malloc(100);  
+int* ptr_entier = (int*)ptr_generique;  // Cast optionnel en C (nécessaire en C++)  
 ```
+
+> **Note** : En C, `void*` est implicitement convertible vers tout type pointeur. Le cast n'est donc pas nécessaire, mais peut améliorer la lisibilité. En C++, le cast est obligatoire.
 
 4. **Éviter les avertissements du compilateur** :
 
 ```c
-long long grand = 5000000000LL;
-int petit = (int)grand;  // Le cast montre que vous savez ce que vous faites
+long long grand = 5000000000LL;  
+int petit = (int)grand;  // Le cast montre que vous savez ce que vous faites  
 ```
 
 ### Attention aux cast inutiles
@@ -389,8 +391,8 @@ double y = (double)3.14;  // 3.14 est déjà un double
 ### Exemple 1 : Calcul de moyenne
 
 ```c
-int somme = 85;
-int nombre = 3;
+int somme = 85;  
+int nombre = 3;  
 
 // ERREUR : division entière
 double moyenne1 = somme / nombre;  // 28.0 (et non 28.333...)
@@ -398,15 +400,15 @@ double moyenne1 = somme / nombre;  // 28.0 (et non 28.333...)
 // CORRECT : cast pour division flottante
 double moyenne2 = (double)somme / nombre;  // 28.333333
 
-printf("Moyenne incorrecte : %f\n", moyenne1);
-printf("Moyenne correcte : %f\n", moyenne2);
+printf("Moyenne incorrecte : %f\n", moyenne1);  
+printf("Moyenne correcte : %f\n", moyenne2);  
 ```
 
 ### Exemple 2 : Pourcentage
 
 ```c
-int reussis = 42;
-int total = 50;
+int reussis = 42;  
+int total = 50;  
 
 // Division flottante pour le pourcentage
 double pourcentage = (double)reussis / total * 100.0;
@@ -433,8 +435,8 @@ if (valeur_flottante > INT_MAX || valeur_flottante < INT_MIN) {
 ### Exemple 4 : Éviter le mélange signed/unsigned
 
 ```c
-int compte = -5;
-unsigned int taille = 10;
+int compte = -5;  
+unsigned int taille = 10;  
 
 // DANGER : conversion implicite de compte en unsigned
 if (compte < taille) {
@@ -454,8 +456,8 @@ if (compte < (int)taille) {
 ### 1. Division entière inattendue
 
 ```c
-int a = 5, b = 2;
-double resultat = a / b;  // Attention : division entière PUIS conversion !
+int a = 5, b = 2;  
+double resultat = a / b;  // Attention : division entière PUIS conversion !  
 
 printf("%f\n", resultat);  // Affiche : 2.000000 (pas 2.5)
 ```
@@ -472,8 +474,8 @@ double resultat = (double)a / (double)b;  // 2.500000
 ### 2. Débordement silencieux
 
 ```c
-int grand = 2147483647;  // INT_MAX
-int resultat = grand + 1;  // Débordement !
+int grand = 2147483647;  // INT_MAX  
+int resultat = grand + 1;  // Débordement !  
 
 printf("%d\n", resultat);  // Affiche : -2147483648 (comportement indéfini)
 ```
@@ -487,18 +489,18 @@ long long resultat = (long long)grand + 1;  // Correct
 ### 3. Perte de précision non détectée
 
 ```c
-long long tres_grand = 9000000000000000000LL;
-float petit = tres_grand;  // Perte de précision massive
+long long tres_grand = 9000000000000000000LL;  
+float petit = tres_grand;  // Perte de précision massive  
 
-printf("Original : %lld\n", tres_grand);
-printf("Converti : %.0f\n", petit);  // Différent !
+printf("Original : %lld\n", tres_grand);  
+printf("Converti : %.0f\n", petit);  // Différent !  
 ```
 
 ### 4. Confusion avec les pointeurs
 
 ```c
-int x = 65;
-char c = x;  // Conversion int → char (OK)
+int x = 65;  
+char c = x;  // Conversion int → char (OK)  
 
 // vs
 
@@ -512,7 +514,7 @@ char* ptr2 = (char*)ptr;  // Cast explicite nécessaire (dangereux)
 | Conversion | Sûreté | Remarques |
 |------------|--------|-----------|
 | `char` → `int` | ✅ Sûr | Extension de signe |
-| `int` → `char` | ⚠️ Risqué | Tronquation si > 127 ou < -128 |
+| `int` → `char` | ⚠️ Risqué | Troncature si > 127 ou < -128 |
 | `int` → `float` | ⚠️ Risqué | Perte de précision si > 16 777 216 |
 | `int` → `double` | ✅ Sûr | Aucune perte |
 | `float` → `int` | ⚠️ Risqué | Troncature + débordement possible |
@@ -529,14 +531,14 @@ Les types à largeur fixe rendent les conversions plus prévisibles :
 ```c
 #include <stdint.h>
 
-int32_t petit = 100;
-int64_t grand = petit;  // Extension sûre : 32 bits → 64 bits
+int32_t petit = 100;  
+int64_t grand = petit;  // Extension sûre : 32 bits → 64 bits  
 
-uint32_t non_signe = 4000000000U;
-int32_t signe = (int32_t)non_signe;  // Cast explicite (débordement)
+uint32_t non_signe = 4000000000U;  
+int32_t signe = (int32_t)non_signe;  // Cast explicite (débordement)  
 
-printf("Non signé : %u\n", non_signe);
-printf("Signé : %d\n", signe);  // Nombre négatif
+printf("Non signé : %u\n", non_signe);  
+printf("Signé : %d\n", signe);  // Nombre négatif  
 ```
 
 ## Fonctions de conversion (`<stdlib.h>`)
@@ -546,15 +548,15 @@ Pour convertir des chaînes en nombres :
 ```c
 #include <stdlib.h>
 
-char* chaine1 = "12345";
-char* chaine2 = "3.14159";
+const char* chaine1 = "12345";  
+const char* chaine2 = "3.14159";  
 
-int entier = atoi(chaine1);           // String → int
-long long grand = atoll(chaine1);     // String → long long
-double reel = atof(chaine2);          // String → double
+int entier = atoi(chaine1);           // String → int  
+long long grand = atoll(chaine1);     // String → long long  
+double reel = atof(chaine2);          // String → double  
 
-printf("Entier : %d\n", entier);
-printf("Réel : %f\n", reel);
+printf("Entier : %d\n", entier);  
+printf("Réel : %f\n", reel);  
 ```
 
 **Fonctions plus robustes** (recommandées) :
@@ -562,8 +564,8 @@ printf("Réel : %f\n", reel);
 ```c
 #include <stdlib.h>
 
-char* chaine = "42";
-char* fin;
+const char* chaine = "42";  
+char* fin;  
 
 long valeur = strtol(chaine, &fin, 10);  // Base 10
 

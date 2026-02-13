@@ -55,8 +55,8 @@ Décomposition en octets :
 **Ordre de stockage** : LSB en premier, MSB en dernier
 
 ```
-Adresse mémoire :    0x1000   0x1001   0x1002   0x1003
-Contenu :              78       56       34       12
+Adresse mémoire :    0x1000   0x1001   0x1002   0x1003  
+Contenu :              78       56       34       12  
                       ↑                            ↑
                      LSB                          MSB
 ```
@@ -68,8 +68,8 @@ Contenu :              78       56       34       12
 **Ordre de stockage** : MSB en premier, LSB en dernier
 
 ```
-Adresse mémoire :    0x1000   0x1001   0x1002   0x1003
-Contenu :              12       34       56       78
+Adresse mémoire :    0x1000   0x1001   0x1002   0x1003  
+Contenu :              12       34       56       78  
                       ↑                            ↑
                      MSB                          LSB
 ```
@@ -144,8 +144,8 @@ Certains processeurs peuvent fonctionner dans les deux modes :
 ### Les types de 1 octet ne sont pas affectés
 
 ```c
-char c = 'A';
-unsigned char octet = 0xFF;
+char c = 'A';  
+unsigned char octet = 0xFF;  
 ```
 
 Un seul octet = pas de problème d'ordre !
@@ -153,9 +153,9 @@ Un seul octet = pas de problème d'ordre !
 ### Les types multi-octets sont affectés
 
 ```c
-int nombre = 0x12345678;  // 4 octets
-short valeur = 0x1234;    // 2 octets
-long long grand = 0x123456789ABCDEF0LL;  // 8 octets
+int nombre = 0x12345678;  // 4 octets  
+short valeur = 0x1234;    // 2 octets  
+long long grand = 0x123456789ABCDEF0LL;  // 8 octets  
 ```
 
 **En mémoire, l'ordre des octets dépend de votre architecture.**
@@ -191,8 +191,8 @@ int main(void) {
 
 **Sur un système x86** (Little-Endian) :
 ```
-Premier octet en mémoire : 0x78
-Système Little-Endian
+Premier octet en mémoire : 0x78  
+Système Little-Endian  
 ```
 
 ### Méthode 2 : Pointeur
@@ -205,7 +205,7 @@ int main(void) {
     unsigned char* ptr = (unsigned char*)&nombre;
 
     printf("Octets en mémoire : ");
-    for (int i = 0; i < sizeof(int); i++) {
+    for (size_t i = 0; i < sizeof(int); i++) {
         printf("0x%02X ", ptr[i]);
     }
     printf("\n");
@@ -222,8 +222,8 @@ int main(void) {
 
 **Sur x86** :
 ```
-Octets en mémoire : 0x78 0x56 0x34 0x12
-Little-Endian
+Octets en mémoire : 0x78 0x56 0x34 0x12  
+Little-Endian  
 ```
 
 ### Méthode 3 : Macro prédéfinie
@@ -254,16 +254,16 @@ int main(void) {
 
 ```c
 // Écriture sur système Little-Endian (x86)
-int valeur = 0x12345678;
-FILE* fichier = fopen("data.bin", "wb");
-fwrite(&valeur, sizeof(int), 1, fichier);  // Écrit : 78 56 34 12
-fclose(fichier);
+int valeur = 0x12345678;  
+FILE* fichier = fopen("data.bin", "wb");  
+fwrite(&valeur, sizeof(int), 1, fichier);  // Écrit : 78 56 34 12  
+fclose(fichier);  
 
 // Lecture sur système Big-Endian
-FILE* fichier2 = fopen("data.bin", "rb");
-int lu;
-fread(&lu, sizeof(int), 1, fichier2);  // Lit : 0x78563412 (INCORRECT !)
-fclose(fichier2);
+FILE* fichier2 = fopen("data.bin", "rb");  
+int lu;  
+fread(&lu, sizeof(int), 1, fichier2);  // Lit : 0x78563412 (INCORRECT !)  
+fclose(fichier2);  
 
 printf("Valeur lue : 0x%X\n", lu);  // Affiche : 0x78563412 au lieu de 0x12345678
 ```
@@ -285,8 +285,8 @@ unsigned short port = 8080;  // En mémoire : 0x1F90 → 90 1F
 ### Problème 3 : Cast de pointeurs
 
 ```c
-int nombre = 0x12345678;
-short* ptr_short = (short*)&nombre;
+int nombre = 0x12345678;  
+short* ptr_short = (short*)&nombre;  
 
 printf("Premier short : 0x%X\n", *ptr_short);
 // Little-Endian : 0x5678
@@ -306,12 +306,12 @@ La bibliothèque standard POSIX fournit des fonctions de conversion :
 // Ou : #include <winsock2.h>  // Windows
 
 // Host to Network (little → big si nécessaire)
-uint16_t htons(uint16_t hostshort);   // Host TO Network Short
-uint32_t htonl(uint32_t hostlong);    // Host TO Network Long
+uint16_t htons(uint16_t hostshort);   // Host TO Network Short  
+uint32_t htonl(uint32_t hostlong);    // Host TO Network Long  
 
 // Network to Host (big → little si nécessaire)
-uint16_t ntohs(uint16_t netshort);    // Network TO Host Short
-uint32_t ntohl(uint32_t netlong);     // Network TO Host Long
+uint16_t ntohs(uint16_t netshort);    // Network TO Host Short  
+uint32_t ntohl(uint32_t netlong);     // Network TO Host Long  
 ```
 
 **Exemple réseau** :
@@ -400,7 +400,7 @@ Si `<arpa/inet.h>` n'est pas disponible :
                    (((x) & 0x0000FF00) << 8)  | \
                    (((x) & 0x000000FF) << 24))
 
-// Conversion conditionelle
+// Conversion conditionnelle
 #if IS_LITTLE_ENDIAN
     #define HOST_TO_BE16(x) SWAP16(x)
     #define HOST_TO_BE32(x) SWAP32(x)
@@ -417,8 +417,8 @@ Si `<arpa/inet.h>` n'est pas disponible :
 **Utilisation** :
 
 ```c
-uint32_t valeur = 0x12345678;
-uint32_t valeur_be = HOST_TO_BE32(valeur);  // Converti en big-endian si nécessaire
+uint32_t valeur = 0x12345678;  
+uint32_t valeur_be = HOST_TO_BE32(valeur);  // Converti en big-endian si nécessaire  
 
 // Écriture dans un fichier au format big-endian
 fwrite(&valeur_be, sizeof(uint32_t), 1, fichier);
@@ -452,10 +452,10 @@ struct Paquet p = {0x1234, 0x5678, 0x9ABCDEF0};
 struct Paquet p_hote = {0x1234, 0x5678, 0x9ABCDEF0};
 
 // Conversion pour envoi réseau
-struct Paquet p_reseau;
-p_reseau.type = htons(p_hote.type);
-p_reseau.longueur = htons(p_hote.longueur);
-p_reseau.donnees = htonl(p_hote.donnees);
+struct Paquet p_reseau;  
+p_reseau.type = htons(p_hote.type);  
+p_reseau.longueur = htons(p_hote.longueur);  
+p_reseau.donnees = htonl(p_hote.donnees);  
 
 // Envoi sur le réseau
 send(socket, &p_reseau, sizeof(p_reseau), 0);
@@ -477,10 +477,10 @@ struct TCP_Header {
 };
 
 // Préparation pour envoi
-struct TCP_Header entete;
-entete.port_source = htons(12345);
-entete.port_destination = htons(80);
-entete.numero_sequence = htonl(1000000);
+struct TCP_Header entete;  
+entete.port_source = htons(12345);  
+entete.port_destination = htons(80);  
+entete.numero_sequence = htonl(1000000);  
 ```
 
 ### Format de fichier (BMP, WAV, etc.)
@@ -503,8 +503,8 @@ struct BMP_Header {
 fread(&header, sizeof(struct BMP_Header), 1, fichier);
 
 // Sur un système big-endian : conversion nécessaire
-fread(&header, sizeof(struct BMP_Header), 1, fichier);
-header.taille_fichier = SWAP32(header.taille_fichier);
+fread(&header, sizeof(struct BMP_Header), 1, fichier);  
+header.taille_fichier = SWAP32(header.taille_fichier);  
 ```
 
 ## Bonnes pratiques pour la portabilité
@@ -548,12 +548,12 @@ struct ConfigFile {
 
 ```c
 // ❌ DÉPENDANT DE L'ENDIANNESS
-int nombre = 0x12345678;
-char premier_octet = *((char*)&nombre);  // 0x78 ou 0x12 ?
+int nombre = 0x12345678;  
+char premier_octet = *((char*)&nombre);  // 0x78 ou 0x12 ?  
 
 // ✅ PORTABLE
-unsigned char octets[4];
-memcpy(octets, &nombre, 4);
+unsigned char octets[4];  
+memcpy(octets, &nombre, 4);  
 // Ensuite traitez octet par octet selon l'endianness voulue
 ```
 

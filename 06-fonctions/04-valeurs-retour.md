@@ -109,12 +109,12 @@ _Bool retourne_booleen(void) {  // Ou bool avec <stdbool.h>
 Une fonction peut retourner un pointeur (adresse mémoire) :
 
 ```c
-int* retourne_pointeur(void) {
+int *retourne_pointeur(void) {
     static int valeur = 100;  // static : persiste après la fonction
     return &valeur;
 }
 
-char* retourne_chaine(void) {
+char *retourne_chaine(void) {
     return "Hello";  // Pointeur vers une chaîne littérale (en mémoire statique)
 }
 ```
@@ -122,7 +122,7 @@ char* retourne_chaine(void) {
 **⚠️ DANGER** : Ne jamais retourner un pointeur vers une variable locale non-static :
 
 ```c
-int* fonction_dangereuse(void) {
+int *fonction_dangereuse(void) {
     int x = 42;
     return &x;  // ❌ x est détruit en sortie, pointeur invalide !
 }
@@ -336,7 +336,8 @@ int main(void) {
 #include <errno.h>
 #include <string.h>  // Pour strerror()
 
-extern int errno;  // Variable globale (déjà déclarée dans errno.h)
+// errno est disponible après #include <errno.h>
+// En C moderne, errno est une macro (thread-safe), pas une simple variable globale
 ```
 
 ---
@@ -369,9 +370,9 @@ int main(void) {
 
 **Sortie possible :**
 ```
-Erreur lors de l'ouverture
-Code errno : 2
-Message : No such file or directory
+Erreur lors de l'ouverture  
+Code errno : 2  
+Message : No such file or directory  
 ```
 
 ---
@@ -521,8 +522,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Valeur convertie : 12345
-Caractères non convertis : abc
+Valeur convertie : 12345  
+Caractères non convertis : abc  
 ```
 
 `endptr` pointe vers le premier caractère non converti, permettant de détecter une conversion partielle.
@@ -550,8 +551,8 @@ if (operation() != 0) {
 }
 ```
 
-**Avantage** : Simple, direct
-**Inconvénient** : Un seul code d'erreur
+**Avantage** : Simple, direct  
+**Inconvénient** : Un seul code d'erreur  
 
 ---
 
@@ -585,8 +586,8 @@ ErrorCode ouvrir_base_donnees(const char *chemin) {
 }
 
 // Utilisation
-ErrorCode code = ouvrir_base_donnees("data.db");
-if (code != SUCCESS) {
+ErrorCode code = ouvrir_base_donnees("data.db");  
+if (code != SUCCESS) {  
     switch (code) {
         case ERR_INVALID_PARAM:
             printf("Paramètre invalide\n");
@@ -599,8 +600,8 @@ if (code != SUCCESS) {
 }
 ```
 
-**Avantage** : Codes d'erreur clairs et typés
-**Inconvénient** : Verbeux
+**Avantage** : Codes d'erreur clairs et typés  
+**Inconvénient** : Verbeux  
 
 ---
 
@@ -610,22 +611,22 @@ Certaines fonctions retournent une **valeur spéciale** pour indiquer l'échec :
 
 ```c
 // malloc retourne NULL en cas d'échec
-int *tableau = malloc(100 * sizeof(int));
-if (tableau == NULL) {
+int *tableau = malloc(100 * sizeof(int));  
+if (tableau == NULL) {  
     printf("Erreur : allocation mémoire échouée\n");
     return -1;
 }
 
 // fopen retourne NULL en cas d'échec
-FILE *f = fopen("fichier.txt", "r");
-if (f == NULL) {
+FILE *f = fopen("fichier.txt", "r");  
+if (f == NULL) {  
     printf("Erreur : impossible d'ouvrir le fichier\n");
     return -1;
 }
 
 // getchar retourne EOF en cas d'erreur ou fin de fichier
-int c = getchar();
-if (c == EOF) {
+int c = getchar();  
+if (c == EOF) {  
     if (feof(stdin)) {
         printf("Fin de fichier\n");
     } else if (ferror(stdin)) {
@@ -672,8 +673,8 @@ cleanup:
 }
 ```
 
-**Avantage** : Code de nettoyage centralisé, évite la duplication
-**Inconvénient** : Utilisation de `goto` (considéré comme mauvaise pratique par certains)
+**Avantage** : Code de nettoyage centralisé, évite la duplication  
+**Inconvénient** : Utilisation de `goto` (considéré comme mauvaise pratique par certains)  
 
 ---
 
@@ -702,8 +703,8 @@ int main(void) {
 
 **Sortie (crash) :**
 ```
-Assertion failed: (n >= 0), function factorielle, file test.c, line 4.
-Abort trap: 6
+Assertion failed: (n >= 0), function factorielle, file test.c, line 4.  
+Abort trap: 6  
 ```
 
 ---
@@ -754,9 +755,9 @@ Les fonctions POSIX (Linux/Unix) suivent des conventions strictes :
 ### Fonctions retournant int
 
 ```c
-int open(const char *pathname, int flags);
-int close(int fd);
-int read(int fd, void *buf, size_t count);
+int open(const char *pathname, int flags);  
+int close(int fd);  
+int read(int fd, void *buf, size_t count);  
 ```
 
 **Convention** :
@@ -769,8 +770,8 @@ int read(int fd, void *buf, size_t count);
 ### Fonctions retournant des pointeurs
 
 ```c
-void *malloc(size_t size);
-FILE *fopen(const char *path, const char *mode);
+void *malloc(size_t size);  
+FILE *fopen(const char *path, const char *mode);  
 ```
 
 **Convention** :
@@ -896,18 +897,18 @@ int main(void) {
 
 ```c
 // ❌ Mauvais : ignore la valeur de retour
-malloc(1024);
-fopen("fichier.txt", "r");
+malloc(1024);  
+fopen("fichier.txt", "r");  
 
 // ✅ Bon : vérifie et gère l'erreur
-int *tab = malloc(1024);
-if (tab == NULL) {
+int *tab = malloc(1024);  
+if (tab == NULL) {  
     printf("Erreur d'allocation\n");
     return -1;
 }
 
-FILE *f = fopen("fichier.txt", "r");
-if (f == NULL) {
+FILE *f = fopen("fichier.txt", "r");  
+if (f == NULL) {  
     perror("fopen");
     return -1;
 }
@@ -936,8 +937,8 @@ int ouvrir_db(const char *chemin);
 
 ```c
 // ❌ Mauvais : valeurs magiques
-if (resultat == -1) { /* ... */ }
-if (resultat == -2) { /* ... */ }
+if (resultat == -1) { /* ... */ }  
+if (resultat == -2) { /* ... */ }  
 
 // ✅ Bon : constantes explicites
 #define ERR_NOT_FOUND -1
@@ -1024,8 +1025,8 @@ int fonction(void) {
 malloc(1024);  // Et si l'allocation échoue ?
 
 // ✅ Correct
-void *ptr = malloc(1024);
-if (ptr == NULL) {
+void *ptr = malloc(1024);  
+if (ptr == NULL) {  
     fprintf(stderr, "Erreur d'allocation\n");
     exit(EXIT_FAILURE);
 }
@@ -1062,12 +1063,12 @@ int diviser(int a, int b, int *quotient) {
 
 ```c
 // ❌ Mauvais : assert pour une erreur d'exécution
-FILE *f = fopen("config.txt", "r");
-assert(f != NULL);  // Crash en production si le fichier manque !
+FILE *f = fopen("config.txt", "r");  
+assert(f != NULL);  // Crash en production si le fichier manque !  
 
 // ✅ Bon : gestion d'erreur
-FILE *f = fopen("config.txt", "r");
-if (f == NULL) {
+FILE *f = fopen("config.txt", "r");  
+if (f == NULL) {  
     perror("fopen");
     return -1;
 }

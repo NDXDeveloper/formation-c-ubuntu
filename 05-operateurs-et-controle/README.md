@@ -62,7 +62,7 @@ Une **structure de contrôle** est une instruction qui permet de modifier le **f
 ```c
 #include <stdio.h>
 
-int main()
+int main(void)
 {
     printf("Ligne 1\n");
     printf("Ligne 2\n");
@@ -81,7 +81,7 @@ Toutes les instructions sont exécutées, dans l'ordre, une seule fois.
 ```c
 #include <stdio.h>
 
-int main()
+int main(void)
 {
     int age = 25;
 
@@ -104,7 +104,7 @@ int main()
 ```c
 #include <stdio.h>
 
-int main()
+int main(void)
 {
     for (int i = 1; i <= 3; i++) {
         printf("Répétition numéro %d\n", i);
@@ -126,7 +126,7 @@ Sans structures de contrôle, impossible de créer des programmes qui :
 - S'adaptent aux différentes situations
 - Prennent des décisions intelligentes
 
-**Exemple :** Un calculatrice qui change de comportement selon l'opération choisie.
+**Exemple :** Une calculatrice qui change de comportement selon l'opération choisie.
 
 ### 2. Résoudre des problèmes réels
 
@@ -139,12 +139,12 @@ La plupart des problèmes nécessitent :
 
 ```c
 // Sans boucle : impossible si on a 100 notes
-int note1 = 15, note2 = 18, note3 = 12;
-float moyenne = (note1 + note2 + note3) / 3.0;
+int note1 = 15, note2 = 18, note3 = 12;  
+float moyenne = (note1 + note2 + note3) / 3.0;  
 
 // Avec boucle : possible pour n'importe quel nombre de notes
-float somme = 0;
-for (int i = 0; i < nb_notes; i++) {
+float somme = 0;  
+for (int i = 0; i < nb_notes; i++) {  
     somme += notes[i];
 }
 float moyenne = somme / nb_notes;
@@ -269,7 +269,7 @@ Formatage (5.6-5.7) ← Rend tout plus lisible
 ```c
 #include <stdio.h>
 
-int main()
+int main(void)
 {
     float a, b;
     char operation;
@@ -299,7 +299,7 @@ int main()
 #include <stdio.h>
 #include <stdbool.h>
 
-int main()
+int main(void)
 {
     int n;
     bool est_premier = true;
@@ -335,7 +335,7 @@ int main()
 #include <stdlib.h>
 #include <time.h>
 
-int main()
+int main(void)
 {
     srand(time(NULL));
     int nombre_secret = rand() % 100 + 1;
@@ -367,11 +367,11 @@ int main()
 ```c
 #include <stdio.h>
 
-#define READ    0b001  // Permission de lecture
-#define WRITE   0b010  // Permission d'écriture
-#define EXECUTE 0b100  // Permission d'exécution
+#define READ    (1 << 0)  // 0x01 — Permission de lecture
+#define WRITE   (1 << 1)  // 0x02 — Permission d'écriture
+#define EXECUTE (1 << 2)  // 0x04 — Permission d'exécution
 
-int main()
+int main(void)
 {
     int permissions = READ | WRITE;  // Lecture et écriture
 
@@ -497,8 +497,8 @@ if (x == 5) {  // Compare x avec 5
 
 ```c
 // ❌ Résultat inattendu
-int a = 5, b = 2;
-float resultat = a / b;  // resultat = 2.0 (pas 2.5 !)
+int a = 5, b = 2;  
+float resultat = a / b;  // resultat = 2.0 (pas 2.5 !)  
 
 // ✅ CORRECT
 float resultat = (float)a / b;  // resultat = 2.5
@@ -508,15 +508,15 @@ float resultat = (float)a / b;  // resultat = 2.5
 
 ```c
 // ❌ Boucle infinie
-int i = 0;
-while (i < 10) {
+int i = 0;  
+while (i < 10) {  
     printf("%d\n", i);
     // Oubli d'incrémenter i !
 }
 
 // ✅ CORRECT
-int i = 0;
-while (i < 10) {
+int i = 0;  
+while (i < 10) {  
     printf("%d\n", i);
     i++;  // Incrémentation
 }
@@ -545,7 +545,7 @@ Tout au long de ce chapitre, vous utiliserez GCC :
 
 ```bash
 # Compiler un programme
-gcc -Wall -Wextra -std=c11 mon_programme.c -o mon_programme
+gcc -Wall -Wextra -std=c17 mon_programme.c -o mon_programme
 
 # Exécuter
 ./mon_programme

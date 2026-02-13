@@ -99,12 +99,12 @@ char *argv[]  // Tableau de pointeurs vers char
 **Structure de argv :**
 
 ```
-argv[0]  →  Nom du programme (ou chemin)
-argv[1]  →  Premier argument
-argv[2]  →  Deuxième argument
+argv[0]  →  Nom du programme (ou chemin)  
+argv[1]  →  Premier argument  
+argv[2]  →  Deuxième argument  
 ...
-argv[argc-1]  →  Dernier argument
-argv[argc]    →  NULL (sentinel)
+argv[argc-1]  →  Dernier argument  
+argv[argc]    →  NULL (sentinel)  
 ```
 
 **Exemple :**
@@ -127,10 +127,10 @@ int main(int argc, char *argv[]) {
 
 ```bash
 $ ./programme bonjour le monde
-Nom du programme : ./programme
-Argument 1 : bonjour
-Argument 2 : le
-Argument 3 : monde
+Nom du programme : ./programme  
+Argument 1 : bonjour  
+Argument 2 : le  
+Argument 3 : monde  
 ```
 
 ---
@@ -190,10 +190,10 @@ int main(int argc, char *argv[]) {
 ```bash
 $ ./programme arg1 arg2 "argument avec espaces"
 === Liste des arguments ===
-argv[0] = ./programme
-argv[1] = arg1
-argv[2] = arg2
-argv[3] = argument avec espaces
+argv[0] = ./programme  
+argv[1] = arg1  
+argv[2] = arg2  
+argv[3] = argument avec espaces  
 ```
 
 **Note** : Les guillemets permettent de passer un argument contenant des espaces.
@@ -366,6 +366,7 @@ Les arguments sont **toujours des chaînes de caractères**. Pour les utiliser c
 ### Conversion en entier : atoi()
 
 ```c
+#include <stdio.h>
 #include <stdlib.h>
 
 int main(int argc, char *argv[]) {
@@ -429,8 +430,8 @@ $ ./programme 123
 Nombre converti : 123
 
 $ ./programme 456abc
-Attention : caractères non convertis : 'abc'
-Nombre converti : 456
+Attention : caractères non convertis : 'abc'  
+Nombre converti : 456  
 
 $ ./programme abc
 Erreur : aucun chiffre trouvé dans 'abc'
@@ -469,8 +470,8 @@ int main(int argc, char *argv[]) {
 
 ```bash
 $ ./programme 3.14
-Nombre : 3.14
-Carré : 9.86
+Nombre : 3.14  
+Carré : 9.86  
 ```
 
 ---
@@ -524,8 +525,8 @@ int main(int argc, char *argv[]) {
 
 ```bash
 $ ./programme -v -d
-Mode verbose : activé
-Mode debug : activé
+Mode verbose : activé  
+Mode debug : activé  
 [VERBOSE] Démarrage du programme...
 [DEBUG] argc=3
 ```
@@ -575,12 +576,12 @@ int main(int argc, char *argv[]) {
 
 ```bash
 $ ./programme -o resultat.txt -n 5
-Fichier de sortie : resultat.txt
-Nombre d'itérations : 5
+Fichier de sortie : resultat.txt  
+Nombre d'itérations : 5  
 
 $ ./programme -n 20
-Fichier de sortie : (non spécifié)
-Nombre d'itérations : 20
+Fichier de sortie : (non spécifié)  
+Nombre d'itérations : 20  
 ```
 
 ---
@@ -641,10 +642,10 @@ int main(int argc, char *argv[]) {
 
 ```bash
 $ ./programme -v -o output.txt -n 15 fichier1 fichier2
-Verbose : oui
-Fichier : output.txt
-Count : 15
-Arguments restants : fichier1 fichier2
+Verbose : oui  
+Fichier : output.txt  
+Count : 15  
+Arguments restants : fichier1 fichier2  
 ```
 
 ---
@@ -684,11 +685,11 @@ $ ./programme "argument avec espaces" "" troisieme
 ```
 
 ```
-argc = 4
-argv[0] = "./programme"
-argv[1] = "argument avec espaces"
-argv[2] = ""
-argv[3] = "troisieme"
+argc = 4  
+argv[0] = "./programme"  
+argv[1] = "argument avec espaces"  
+argv[2] = ""  
+argv[3] = "troisieme"  
 ```
 
 ---
@@ -863,9 +864,9 @@ if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
 int nombre = atoi(argv[1]);  // Pas de vérification d'erreur
 
 // ✅ Bon
-char *endptr;
-long nombre = strtol(argv[1], &endptr, 10);
-if (*endptr != '\0') {
+char *endptr;  
+long nombre = strtol(argv[1], &endptr, 10);  
+if (*endptr != '\0') {  
     printf("Erreur : '%s' n'est pas un nombre valide\n", argv[1]);
     return EXIT_FAILURE;
 }
@@ -876,8 +877,8 @@ if (*endptr != '\0') {
 ### 4. Utiliser des constantes pour les codes de retour
 
 ```c
-return EXIT_SUCCESS;  // Plutôt que : return 0;
-return EXIT_FAILURE;  // Plutôt que : return 1;
+return EXIT_SUCCESS;  // Plutôt que : return 0;  
+return EXIT_FAILURE;  // Plutôt que : return 1;  
 ```
 
 ---
@@ -889,8 +890,8 @@ return EXIT_FAILURE;  // Plutôt que : return 1;
 printf("Erreur\n");
 
 // ✅ Bon
-printf("Erreur : nombre d'arguments invalide\n");
-printf("Usage : %s <fichier>\n", argv[0]);
+printf("Erreur : nombre d'arguments invalide\n");  
+printf("Usage : %s <fichier>\n", argv[0]);  
 ```
 
 ---
@@ -924,17 +925,17 @@ int main(int argc, char *argv[]) {
 ```c
 // ⚠️ À éviter : modifier les chaînes pointées par argv
 int main(int argc, char *argv[]) {
-    argv[1][0] = 'X';  // Comportement indéfini sur certains systèmes
+    argv[1][0] = 'X';  // Techniquement autorisé, mais déconseillé
     return 0;
 }
 ```
 
-Les chaînes dans `argv` peuvent être en **mémoire read-only**. Copiez-les si vous devez les modifier :
+La norme C garantit que les chaînes de `argv` sont **modifiables**, mais les modifier directement est une mauvaise pratique (cela peut perturber l'affichage du processus dans `ps`, `/proc`, etc.). Copiez-les si vous devez les modifier :
 
 ```c
-char buffer[256];
-strncpy(buffer, argv[1], sizeof(buffer) - 1);
-buffer[sizeof(buffer) - 1] = '\0';
+char buffer[256];  
+strncpy(buffer, argv[1], sizeof(buffer) - 1);  
+buffer[sizeof(buffer) - 1] = '\0';  
 // Maintenant, modifier buffer est sûr
 ```
 

@@ -109,7 +109,7 @@ En C, le compilateur lit votre code de haut en bas. Si vous appelez une fonction
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int resultat = additionner(5, 3);  // ❌ ERREUR : additionner n'est pas connu
     printf("Résultat : %d\n", resultat);
     return 0;
@@ -127,7 +127,7 @@ int additionner(int a, int b) {
 
 int additionner(int a, int b);  // ✅ Prototype : le compilateur sait que cette fonction existe
 
-int main() {
+int main(void) {
     int resultat = additionner(5, 3);  // ✅ OK maintenant
     printf("Résultat : %d\n", resultat);
     return 0;
@@ -150,9 +150,9 @@ Dans les vrais projets, votre code est divisé en plusieurs fichiers. Les protot
 #define OPERATIONS_H
 
 // Prototypes des fonctions
-int additionner(int a, int b);
-int soustraire(int a, int b);
-int multiplier(int a, int b);
+int additionner(int a, int b);  
+int soustraire(int a, int b);  
+int multiplier(int a, int b);  
 
 #endif
 ```
@@ -180,7 +180,7 @@ int multiplier(int a, int b) {
 #include <stdio.h>
 #include "operations.h"  // On inclut le fichier d'en-tête avec les prototypes
 
-int main() {
+int main(void) {
     int x = 10, y = 5;
 
     printf("%d + %d = %d\n", x, y, additionner(x, y));
@@ -201,9 +201,9 @@ Dans un prototype, les noms des paramètres sont **optionnels** :
 
 ```c
 // Trois prototypes équivalents
-int calculer(int a, int b);     // ✅ Recommandé (lisible)
-int calculer(int, int);          // ✅ Valide mais moins lisible
-int calculer(int x, int y);      // ✅ Les noms peuvent différer de la définition
+int calculer(int a, int b);     // ✅ Recommandé (lisible)  
+int calculer(int, int);          // ✅ Valide mais moins lisible  
+int calculer(int x, int y);      // ✅ Les noms peuvent différer de la définition  
 ```
 
 **Bonne pratique :** Utilisez toujours des noms de paramètres explicites dans vos prototypes pour la documentation et la lisibilité.
@@ -215,8 +215,8 @@ int calculer(int x, int y);      // ✅ Les noms peuvent différer de la défini
 Si une fonction ne prend **aucun paramètre** :
 
 ```c
-void afficher_bienvenue(void);  // ✅ Correct
-void afficher_bienvenue();       // ⚠️ Ancienne syntaxe (à éviter en C moderne)
+void afficher_bienvenue(void);  // ✅ Correct  
+void afficher_bienvenue();       // ⚠️ Ancienne syntaxe (à éviter en C moderne)  
 ```
 
 **Différence importante :**
@@ -234,9 +234,9 @@ void afficher_message(const char *message);  // Retourne void (rien)
 ### Prototypes avec plusieurs paramètres
 
 ```c
-double calculer_moyenne(int tableau[], int taille);
-void echanger(int *a, int *b);
-char* concatener(const char *str1, const char *str2, char *resultat);
+double calculer_moyenne(int tableau[], int taille);  
+void echanger(int *a, int *b);  
+char *concatener(const char *str1, const char *str2, char *resultat);  
 ```
 
 ---
@@ -249,10 +249,10 @@ char* concatener(const char *str1, const char *str2, char *resultat);
 #include <stdio.h>
 
 // Prototypes
-int carre(int n);
-void afficher_carre(int n);
+int carre(int n);  
+void afficher_carre(int n);  
 
-int main() {
+int main(void) {
     int nombre = 7;
     afficher_carre(nombre);
     return 0;
@@ -283,11 +283,11 @@ Le carré de 7 est 49
 #include <stdbool.h>
 
 // Prototypes
-int maximum(int a, int b);
-bool est_pair(int n);
-void afficher_separateur(void);
+int maximum(int a, int b);  
+bool est_pair(int n);  
+void afficher_separateur(void);  
 
-int main() {
+int main(void) {
     int x = 15, y = 23;
 
     printf("Maximum entre %d et %d : %d\n", x, y, maximum(x, y));
@@ -328,7 +328,7 @@ void afficher_separateur(void) {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     afficher(42);  // ❌ ERREUR : fonction non déclarée
     return 0;
 }
@@ -344,7 +344,7 @@ void afficher(int n) {
 
 void afficher(int n);  // ✅ Ajout du prototype
 
-int main() {
+int main(void) {
     afficher(42);  // ✅ OK
     return 0;
 }
@@ -376,7 +376,7 @@ void additionner(int a, int b) {
 ```c
 int multiplier(int a, int b)  // ❌ ERREUR : manque le ;
 
-int main() {
+int main(void) {
     // ...
 }
 ```
@@ -406,12 +406,12 @@ int diviser(int a, int b);
 #include <stdio.h>
 
 // Tous les prototypes en haut
-int fonction1(int x);
-void fonction2(void);
-double fonction3(double a, double b);
+int fonction1(int x);  
+void fonction2(void);  
+double fonction3(double a, double b);  
 
 // La fonction main
-int main() {
+int main(void) {
     // Code principal
     return 0;
 }
@@ -444,8 +444,8 @@ double fonction3(double a, double b) {
 #ifndef OPERATIONS_H
 #define OPERATIONS_H
 
-int additionner(int a, int b);
-int soustraire(int a, int b);
+int additionner(int a, int b);  
+int soustraire(int a, int b);  
 
 #endif
 
@@ -534,9 +534,9 @@ int main(int argc, char *argv[]) {
 #include <stdio.h>
 
 // ========== PROTOTYPES ==========
-int puissance(int base, int exposant);
-void afficher_resultat(int base, int exposant, int resultat);
-void afficher_titre(void);
+int puissance(int base, int exposant);  
+void afficher_resultat(int base, int exposant, int resultat);  
+void afficher_titre(void);  
 
 // ========== MAIN ==========
 int main(void) {

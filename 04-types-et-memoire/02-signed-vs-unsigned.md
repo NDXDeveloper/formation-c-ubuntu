@@ -15,9 +15,9 @@ Un type **signé** peut représenter des nombres **positifs et négatifs**.
 Par défaut, tous les types entiers en C sont signés :
 
 ```c
-int temperature = -15;      // OK : int est signé par défaut
-short altitude = -200;      // OK : short est signé par défaut
-char lettre = 'A';          // char peut être signé ou non selon le compilateur
+int temperature = -15;      // OK : int est signé par défaut  
+short altitude = -200;      // OK : short est signé par défaut  
+char lettre = 'A';          // char peut être signé ou non selon le compilateur  
 ```
 
 Le bit de poids fort (le bit le plus à gauche) sert de **bit de signe** :
@@ -50,9 +50,9 @@ Un type **non signé** ne peut représenter que des nombres **positifs ou nuls**
 On utilise le mot-clé `unsigned` devant le type :
 
 ```c
-unsigned int population = 67000000;
-unsigned short port = 8080;
-unsigned char octet = 255;
+unsigned int population = 67000000;  
+unsigned short port = 8080;  
+unsigned char octet = 255;  
 ```
 
 Tous les bits servent à représenter la magnitude du nombre (pas de bit de signe).
@@ -88,19 +88,19 @@ Il existe plusieurs façons d'écrire les types non signés :
 
 ```c
 // Forme complète (recommandée pour la lisibilité)
-unsigned int compteur = 1000;
-unsigned short port = 443;
-unsigned long long id = 123456789012345ULL;
+unsigned int compteur = 1000;  
+unsigned short port = 443;  
+unsigned long long id = 123456789012345ULL;  
 
 // Forme raccourcie (équivalente)
 unsigned compteur2 = 1000;  // "int" est implicite
 
 // Avec les types à largeur fixe (C99+)
 #include <stdint.h>
-uint8_t  octet = 200;        // unsigned 8 bits
-uint16_t port2 = 8080;       // unsigned 16 bits
-uint32_t timestamp = 1704067200U;  // unsigned 32 bits
-uint64_t grande_valeur = 18446744073709551615ULL;  // unsigned 64 bits
+uint8_t  octet = 200;        // unsigned 8 bits  
+uint16_t port2 = 8080;       // unsigned 16 bits  
+uint32_t timestamp = 1704067200U;  // unsigned 32 bits  
+uint64_t grande_valeur = 18446744073709551615ULL;  // unsigned 64 bits  
 ```
 
 **Suffixes de littéraux** :
@@ -164,9 +164,9 @@ uint64_t grande_valeur = 18446744073709551615ULL;  // unsigned 64 bits
 ### 1. L'underflow (débordement par le bas)
 
 ```c
-unsigned int x = 5;
-unsigned int y = 10;
-unsigned int diff = x - y;
+unsigned int x = 5;  
+unsigned int y = 10;  
+unsigned int diff = x - y;  
 
 printf("Résultat : %u\n", diff);  // Affiche : 4294967291 (pas -5 !)
 ```
@@ -178,8 +178,8 @@ printf("Résultat : %u\n", diff);  // Affiche : 4294967291 (pas -5 !)
 ### 2. Comparaisons avec des signés
 
 ```c
-int a = -1;
-unsigned int b = 1;
+int a = -1;  
+unsigned int b = 1;  
 
 if (a < b) {
     printf("a est plus petit\n");
@@ -281,8 +281,8 @@ char c = 200;  // Peut être -56 (signé) ou 200 (non signé) selon le compilate
 
 **Recommandation** : Soyez explicite si cela importe :
 ```c
-signed char temperature = -10;     // Garanti signé
-unsigned char pixel = 200;         // Garanti non signé
+signed char temperature = -10;     // Garanti signé  
+unsigned char pixel = 200;         // Garanti non signé  
 ```
 
 **Cas d'usage** :
@@ -297,14 +297,14 @@ Les types `<stdint.h>` éliminent l'ambiguïté :
 ```c
 #include <stdint.h>
 
-int8_t   temperature = -10;      // Signé 8 bits : -128 à 127
-uint8_t  pixel = 255;            // Non signé 8 bits : 0 à 255
+int8_t   temperature = -10;      // Signé 8 bits : -128 à 127  
+uint8_t  pixel = 255;            // Non signé 8 bits : 0 à 255  
 
-int32_t  balance = -50000;       // Signé 32 bits
-uint32_t timestamp = 1704067200U; // Non signé 32 bits
+int32_t  balance = -50000;       // Signé 32 bits  
+uint32_t timestamp = 1704067200U; // Non signé 32 bits  
 
-int64_t  grand_negatif = -9000000000000000000LL;
-uint64_t grand_positif = 18000000000000000000ULL;
+int64_t  grand_negatif = -9000000000000000000LL;  
+uint64_t grand_positif = 18000000000000000000ULL;  
 ```
 
 **Avantages** :
@@ -317,6 +317,7 @@ uint64_t grand_positif = 18000000000000000000ULL;
 ```c
 #include <stdio.h>
 #include <stdint.h>
+#include <limits.h>
 
 int main(void) {
     // Types classiques
@@ -355,20 +356,20 @@ int main(void) {
 **Sortie** :
 ```
 === Types classiques ===
-Négatif (int) : -100
-Positif (unsigned int) : 100
+Négatif (int) : -100  
+Positif (unsigned int) : 100  
 
 === Underflow ===
 5 - 10 en unsigned : 4294967291
 (devrait être -5, mais unsigned boucle)
 
 === Types à largeur fixe ===
-int32_t : -2000000000
-uint32_t : 4000000000
+int32_t : -2000000000  
+uint32_t : 4000000000  
 
 === Limites ===
-INT_MAX : 2147483647
-UINT_MAX : 4294967295
+INT_MAX : 2147483647  
+UINT_MAX : 4294967295  
 ```
 
 ## Macros de limites (`<limits.h>`)

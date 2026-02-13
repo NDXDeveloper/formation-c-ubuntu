@@ -19,8 +19,8 @@ Le C propose plusieurs types de base, appelés **types primitifs**. Voici les pr
 Le type `int` représente un nombre entier signé (positif ou négatif).
 
 ```c
-int age = 25;
-int temperature = -10;
+int age = 25;  
+int temperature = -10;  
 ```
 
 **Taille typique** : 4 octets (32 bits) sur la plupart des systèmes modernes (Linux, Windows 64 bits)
@@ -32,8 +32,8 @@ int temperature = -10;
 Le type `char` stocke un caractère unique ou un petit nombre entier.
 
 ```c
-char lettre = 'A';
-char chiffre = '7';
+char lettre = 'A';  
+char chiffre = '7';  
 ```
 
 **Taille** : 1 octet (8 bits) — c'est le plus petit type en C
@@ -47,8 +47,8 @@ char chiffre = '7';
 Le type `float` représente un nombre décimal en simple précision.
 
 ```c
-float prix = 19.99;
-float pi = 3.14159;
+float prix = 19.99;  
+float pi = 3.14159;  
 ```
 
 **Taille** : 4 octets (32 bits)
@@ -62,8 +62,8 @@ float pi = 3.14159;
 Le type `double` offre une précision accrue pour les calculs décimaux.
 
 ```c
-double distance = 384400.5;  // Distance Terre-Lune en km
-double constante = 2.718281828459045;
+double distance = 384400.5;  // Distance Terre-Lune en km  
+double constante = 2.718281828459045;  
 ```
 
 **Taille** : 8 octets (64 bits)
@@ -92,9 +92,9 @@ Le C offre plusieurs modificateurs pour ajuster la taille et la plage des entier
 Exemples :
 
 ```c
-short compteur = 100;
-int population = 67000000;
-long long distance_etoile = 9460730472580800LL;  // 1 année-lumière en mètres
+short compteur = 100;  
+int population = 67000000;  
+long long distance_etoile = 9460730472580800LL;  // 1 année-lumière en mètres  
 ```
 
 > **Note** : Le suffixe `LL` indique un littéral `long long`.
@@ -131,11 +131,11 @@ int main(void) {
 
 **Résultat typique sur Ubuntu 64 bits** :
 ```
-Taille de char : 1 octets
-Taille de int : 4 octets
-Taille de float : 4 octets
-Taille de double : 8 octets
-Taille de long long : 8 octets
+Taille de char : 1 octets  
+Taille de int : 4 octets  
+Taille de float : 4 octets  
+Taille de double : 8 octets  
+Taille de long long : 8 octets  
 ```
 
 > **Important** : Le spécificateur de format `%zu` est prévu pour afficher des valeurs de type `size_t` (le type de retour de `sizeof`).
@@ -176,13 +176,13 @@ Depuis C99, le header `<stdint.h>` fournit des types garantissant une taille pr�
 ```c
 #include <stdint.h>
 
-int8_t  petit = -100;        // Exactement 8 bits (1 octet)
-int16_t moyen = 30000;       // Exactement 16 bits (2 octets)
-int32_t grand = 2000000000;  // Exactement 32 bits (4 octets)
-int64_t enorme = 9000000000000000000LL;  // Exactement 64 bits (8 octets)
+int8_t  petit = -100;        // Exactement 8 bits (1 octet)  
+int16_t moyen = 30000;       // Exactement 16 bits (2 octets)  
+int32_t grand = 2000000000;  // Exactement 32 bits (4 octets)  
+int64_t enorme = 9000000000000000000LL;  // Exactement 64 bits (8 octets)  
 
-uint8_t  octet = 255;        // Non signé 8 bits
-uint32_t compteur = 4000000000U;  // Non signé 32 bits
+uint8_t  octet = 255;        // Non signé 8 bits  
+uint32_t compteur = 4000000000U;  // Non signé 32 bits  
 ```
 
 **Avantages** :
@@ -217,8 +217,8 @@ int main(void) {
     printf("Age : %d ans\n", age);
     printf("Taille : %.2f m\n", taille);
     printf("Salaire : %.2f €\n", salaire);
-    printf("Timestamp : %u\n", timestamp);
-    printf("Population : %lld personnes\n", population_mondiale);
+    printf("Timestamp : %u\n", (unsigned)timestamp);
+    printf("Population : %lld personnes\n", (long long)population_mondiale);
 
     return 0;
 }
@@ -226,12 +226,12 @@ int main(void) {
 
 **Sortie** :
 ```
-Initiale : J
-Age : 30 ans
-Taille : 1.75 m
-Salaire : 45000.50 €
-Timestamp : 1704067200
-Population : 8000000000 personnes
+Initiale : J  
+Age : 30 ans  
+Taille : 1.75 m  
+Salaire : 45000.50 €  
+Timestamp : 1704067200  
+Population : 8000000000 personnes  
 ```
 
 ## Spécificateurs de format `printf` essentiels

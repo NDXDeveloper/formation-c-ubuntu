@@ -13,9 +13,9 @@ Les opérateurs arithmétiques en C permettent d'effectuer des calculs mathémat
 L'opérateur d'addition additionne deux valeurs.
 
 ```c
-int a = 10;
-int b = 5;
-int somme = a + b;  // somme vaut 15
+int a = 10;  
+int b = 5;  
+int somme = a + b;  // somme vaut 15  
 ```
 
 ### 2. Soustraction (`-`)
@@ -23,9 +23,9 @@ int somme = a + b;  // somme vaut 15
 L'opérateur de soustraction soustrait la valeur de droite de celle de gauche.
 
 ```c
-int a = 10;
-int b = 5;
-int difference = a - b;  // difference vaut 5
+int a = 10;  
+int b = 5;  
+int difference = a - b;  // difference vaut 5  
 ```
 
 ### 3. Multiplication (`*`)
@@ -33,9 +33,9 @@ int difference = a - b;  // difference vaut 5
 L'opérateur de multiplication multiplie deux valeurs.
 
 ```c
-int a = 10;
-int b = 5;
-int produit = a * b;  // produit vaut 50
+int a = 10;  
+int b = 5;  
+int produit = a * b;  // produit vaut 50  
 ```
 
 ### 4. Division (`/`)
@@ -43,9 +43,9 @@ int produit = a * b;  // produit vaut 50
 L'opérateur de division divise la valeur de gauche par celle de droite.
 
 ```c
-int a = 10;
-int b = 5;
-int quotient = a / b;  // quotient vaut 2
+int a = 10;  
+int b = 5;  
+int quotient = a / b;  // quotient vaut 2  
 ```
 
 **⚠️ Attention importante avec la division :**
@@ -53,22 +53,22 @@ int quotient = a / b;  // quotient vaut 2
 Lorsque vous divisez deux entiers (`int`), le résultat est **toujours un entier**. La partie décimale est **tronquée** (supprimée), pas arrondie.
 
 ```c
-int a = 7;
-int b = 2;
-int resultat = a / b;  // resultat vaut 3, PAS 3.5
+int a = 7;  
+int b = 2;  
+int resultat = a / b;  // resultat vaut 3, PAS 3.5  
 ```
 
 Pour obtenir un résultat décimal, au moins une des valeurs doit être un nombre à virgule flottante (`float` ou `double`) :
 
 ```c
-float a = 7.0;
-int b = 2;
-float resultat = a / b;  // resultat vaut 3.5
+float a = 7.0;  
+int b = 2;  
+float resultat = a / b;  // resultat vaut 3.5  
 
 // Ou avec un cast :
-int x = 7;
-int y = 2;
-float resultat2 = (float)x / y;  // resultat2 vaut 3.5
+int x = 7;  
+int y = 2;  
+float resultat2 = (float)x / y;  // resultat2 vaut 3.5  
 ```
 
 ### 5. Modulo (`%`)
@@ -76,9 +76,9 @@ float resultat2 = (float)x / y;  // resultat2 vaut 3.5
 L'opérateur modulo retourne le **reste** de la division entière.
 
 ```c
-int a = 10;
-int b = 3;
-int reste = a % b;  // reste vaut 1 (car 10 = 3*3 + 1)
+int a = 10;  
+int b = 3;  
+int reste = a % b;  // reste vaut 1 (car 10 = 3*3 + 1)  
 ```
 
 **Utilisation courante du modulo :**
@@ -112,16 +112,16 @@ int resultat = (2 + 3) * 4;  // resultat vaut 20
 **Attention danger ⚠️** : La division par zéro est une **erreur fatale** en C.
 
 ```c
-int a = 10;
-int b = 0;
-int resultat = a / b;  // ❌ Erreur d'exécution : programme crash !
+int a = 10;  
+int b = 0;  
+int resultat = a / b;  // ❌ Erreur d'exécution : programme crash !  
 ```
 
 Votre programme plantera avec une erreur du type "Floating point exception" (même pour les entiers). **Vérifiez toujours** que le diviseur n'est pas zéro avant de diviser :
 
 ```c
-int a = 10;
-int b = 0;
+int a = 10;  
+int b = 0;  
 
 if (b != 0) {
     int resultat = a / b;
@@ -136,9 +136,9 @@ if (b != 0) {
 Lorsque vous mélangez différents types numériques dans une opération, C effectue une **conversion automatique** vers le type le plus "large" :
 
 ```c
-int a = 5;
-float b = 2.0;
-float resultat = a + b;  // a est converti en float, resultat vaut 7.0
+int a = 5;  
+float b = 2.0;  
+float resultat = a + b;  // a est converti en float, resultat vaut 7.0  
 ```
 
 **Hiérarchie de conversion (du plus petit au plus grand) :**
@@ -148,9 +148,9 @@ float resultat = a + b;  // a est converti en float, resultat vaut 7.0
 4. `double`
 
 ```c
-int x = 5;
-double y = 2.5;
-double resultat = x * y;  // x est converti en double, resultat vaut 12.5
+int x = 5;  
+double y = 2.5;  
+double resultat = x * y;  // x est converti en double, resultat vaut 12.5  
 ```
 
 ## L'opérateur unaire moins (`-`)
@@ -158,11 +158,11 @@ double resultat = x * y;  // x est converti en double, resultat vaut 12.5
 Le signe moins peut aussi être utilisé pour inverser le signe d'une valeur :
 
 ```c
-int a = 10;
-int b = -a;  // b vaut -10
+int a = 10;  
+int b = -a;  // b vaut -10  
 
-int c = -5;
-int d = -c;  // d vaut 5
+int c = -5;  
+int d = -c;  // d vaut 5  
 ```
 
 ## Exemples pratiques complets
@@ -172,7 +172,7 @@ int d = -c;  // d vaut 5
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int note1 = 15;
     int note2 = 12;
     int note3 = 18;
@@ -190,7 +190,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     float celsius = 25.0;
     float fahrenheit = (celsius * 9.0 / 5.0) + 32.0;
 
@@ -206,7 +206,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int nombre = 42;
 
     if (nombre % 2 == 0) {
@@ -224,7 +224,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int dividende = 17;
     int diviseur = 5;
 
@@ -243,9 +243,9 @@ int main() {
 ### Piège 1 : Division entière non désirée
 
 ```c
-int a = 5;
-int b = 2;
-float resultat = a / b;  // ❌ resultat vaut 2.0, pas 2.5 !
+int a = 5;  
+int b = 2;  
+float resultat = a / b;  // ❌ resultat vaut 2.0, pas 2.5 !  
 // La division entière est faite AVANT l'affectation au float
 
 // ✅ Solution :
@@ -255,9 +255,9 @@ float resultat = (float)a / b;  // Maintenant resultat vaut 2.5
 ### Piège 2 : Débordement (overflow)
 
 ```c
-int a = 2000000000;  // Proche de la limite d'un int (environ 2.1 milliards)
-int b = 2;
-int resultat = a * b;  // ❌ Débordement ! Résultat imprévisible
+int a = 2000000000;  // Proche de la limite d'un int (environ 2.1 milliards)  
+int b = 2;  
+int resultat = a * b;  // ❌ Débordement ! Résultat imprévisible  
 
 // ✅ Solution : utiliser un type plus grand
 long long resultat = (long long)a * b;  // Pas de débordement
@@ -266,9 +266,9 @@ long long resultat = (long long)a * b;  // Pas de débordement
 ### Piège 3 : Précision des flottants
 
 ```c
-float a = 0.1;
-float b = 0.2;
-float somme = a + b;  // somme peut ne pas être exactement 0.3
+float a = 0.1;  
+float b = 0.2;  
+float somme = a + b;  // somme peut ne pas être exactement 0.3  
 // À cause de la représentation binaire des nombres flottants
 
 // Pour comparer des flottants, utilisez une marge d'erreur :

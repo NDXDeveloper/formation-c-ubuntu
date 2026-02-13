@@ -144,9 +144,9 @@ Chaque fonction a une **responsabilité unique** :
 
 ```c
 // Chaque fonction fait UNE chose
-double calculer_moyenne(int *tableau, int taille);
-void afficher_resultat(double moyenne);
-int lire_donnees_fichier(const char *fichier, int *tableau);
+double calculer_moyenne(int *tableau, int taille);  
+void afficher_resultat(double moyenne);  
+int lire_donnees_fichier(const char *fichier, int *tableau);  
 ```
 
 **Principe de responsabilité unique** : Une fonction = Une tâche
@@ -240,8 +240,8 @@ printf("Bonjour monde\n");
 ### scanf() : Lire des données
 
 ```c
-int age;
-scanf("%d", &age);
+int age;  
+scanf("%d", &age);  
 ```
 
 - **Nom** : `scanf`
@@ -499,40 +499,41 @@ Le C fournit une **bibliothèque standard** riche en fonctions prêtes à l'empl
 ### Entrées/Sorties (<stdio.h>)
 
 ```c
-printf()   // Affichage formaté
-scanf()    // Lecture formatée
-fopen()    // Ouvrir un fichier
-fclose()   // Fermer un fichier
-fgets()    // Lire une ligne
+printf()   // Affichage formaté  
+scanf()    // Lecture formatée  
+fopen()    // Ouvrir un fichier  
+fclose()   // Fermer un fichier  
+fgets()    // Lire une ligne  
 ```
 
 ### Chaînes de caractères (<string.h>)
 
 ```c
-strlen()   // Longueur d'une chaîne
-strcpy()   // Copier une chaîne
-strcmp()   // Comparer deux chaînes
-strcat()   // Concaténer des chaînes
+strlen()   // Longueur d'une chaîne  
+strcpy()   // Copier une chaîne  
+strcmp()   // Comparer deux chaînes  
+strcat()   // Concaténer des chaînes  
 ```
 
 ### Mathématiques (<math.h>)
 
 ```c
-sqrt()     // Racine carrée
-pow()      // Puissance
-sin()      // Sinus
-cos()      // Cosinus
-abs()      // Valeur absolue
+sqrt()     // Racine carrée  
+pow()      // Puissance  
+sin()      // Sinus  
+cos()      // Cosinus  
+fabs()     // Valeur absolue (flottants)  
 ```
 
 ### Utilitaires (<stdlib.h>)
 
 ```c
-malloc()   // Allocation mémoire dynamique
-free()     // Libération mémoire
-atoi()     // Convertir chaîne → entier
-rand()     // Nombre aléatoire
-exit()     // Quitter le programme
+malloc()   // Allocation mémoire dynamique  
+free()     // Libération mémoire  
+atoi()     // Convertir chaîne → entier  
+rand()     // Nombre aléatoire  
+abs()      // Valeur absolue (entiers)  
+exit()     // Quitter le programme  
 ```
 
 **Ces fonctions sont disponibles sans que vous ayez besoin de les écrire vous-même !**
@@ -570,9 +571,9 @@ int main(void) {
 #include <stdio.h>
 
 // Prototypes
-int calculer_somme(int a, int b, int c);
-double calculer_moyenne(int somme, int nombre);
-void afficher_resultats(int somme, double moyenne);
+int calculer_somme(int a, int b, int c);  
+double calculer_moyenne(int somme, int nombre);  
+void afficher_resultats(int somme, double moyenne);  
 
 int main(void) {
     int a = 5, b = 10, c = 15;
@@ -654,10 +655,10 @@ void tout_faire(void) {
 }
 
 // ✅ Bon : chaque fonction a un rôle clair
-void lire_donnees(void);
-void calculer(void);
-void afficher_resultats(void);
-void sauvegarder_resultats(void);
+void lire_donnees(void);  
+void calculer(void);  
+void afficher_resultats(void);  
+void sauvegarder_resultats(void);  
 ```
 
 ---
@@ -666,12 +667,12 @@ void sauvegarder_resultats(void);
 
 ```c
 // ❌ Mauvais : noms vagues
-int f(int x);
-void proc(void);
+int f(int x);  
+void proc(void);  
 
 // ✅ Bon : noms descriptifs
-int calculer_factorielle(int n);
-void initialiser_systeme(void);
+int calculer_factorielle(int n);  
+void initialiser_systeme(void);  
 ```
 
 ---
@@ -697,8 +698,8 @@ int additionner(int a, int b) {
 }
 
 // ⚠️ Attention : effet de bord (modifie une variable globale)
-int compteur = 0;
-void incrementer_global(void) {
+int compteur = 0;  
+void incrementer_global(void) {  
     compteur++;  // Effet de bord
 }
 ```
@@ -711,8 +712,8 @@ En C, les conventions les plus courantes sont :
 
 ```c
 // snake_case (recommandé en C)
-int calculer_moyenne(int a, int b);
-void afficher_resultat(double valeur);
+int calculer_moyenne(int a, int b);  
+void afficher_resultat(double valeur);  
 
 // Éviter : camelCase (plus courant en Java/C++)
 int calculerMoyenne(int a, int b);

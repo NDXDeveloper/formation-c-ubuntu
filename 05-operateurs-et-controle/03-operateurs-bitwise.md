@@ -34,12 +34,12 @@ Les nombres que nous utilisons au quotidien sont en **base 10** (décimale). En 
 **Exemple : Le nombre 13 en binaire**
 
 ```
-Décimal : 13
-Binaire : 00001101
+Décimal : 13  
+Binaire : 00001101  
 
-Position des bits :  7  6  5  4  3  2  1  0
-Valeur de position: 128 64 32 16 8  4  2  1
-Bit :                0  0  0  0  1  1  0  1
+Position des bits :  7  6  5  4  3  2  1  0  
+Valeur de position: 128 64 32 16 8  4  2  1  
+Bit :                0  0  0  0  1  1  0  1  
                                  ↓  ↓     ↓
                                  8 +4  +  1 = 13
 ```
@@ -109,7 +109,7 @@ L'opérateur `&` compare deux nombres **bit par bit**. Le résultat a un bit à 
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned int a = 13;  // 00001101
     unsigned int b = 10;  // 00001010
     unsigned int resultat = a & b;
@@ -127,7 +127,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned int flags = 13;  // 00001101
     unsigned int masque = 4;  // 00000100 (vérifie le bit position 2)
 
@@ -146,7 +146,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned int couleur_rgb = 0xFF3A7C;  // Couleur au format RGB (24 bits)
 
     // Extraire la composante rouge (bits 16-23)
@@ -193,7 +193,7 @@ L'opérateur `|` compare deux nombres bit par bit. Le résultat a un bit à `1` 
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned int a = 13;  // 00001101
     unsigned int b = 10;  // 00001010
     unsigned int resultat = a | b;
@@ -216,7 +216,7 @@ int main() {
 #define ECRITURE  0x02  // 00000010
 #define EXECUTION 0x04  // 00000100
 
-int main() {
+int main(void) {
     unsigned int permissions = 0;  // Aucune permission au départ
 
     // Activer la lecture et l'exécution
@@ -252,7 +252,7 @@ int main() {
 #define SOULIGNE    0x04  // 00000100
 #define BARRE       0x08  // 00001000
 
-int main() {
+int main(void) {
     unsigned int style = GRAS | SOULIGNE;  // Style gras et souligné
 
     printf("Style actif: %u\n", style);  // 5 (00000101)
@@ -290,7 +290,7 @@ L'opérateur `^` (XOR) compare deux nombres bit par bit. Le résultat a un bit �
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned int a = 13;  // 00001101
     unsigned int b = 10;  // 00001010
     unsigned int resultat = a ^ b;
@@ -308,7 +308,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned int flags = 5;  // 00000101
     unsigned int masque = 4; // 00000100 (bit position 2)
 
@@ -331,7 +331,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int a = 10;
     int b = 20;
 
@@ -353,7 +353,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     char message = 'A';
     char cle = 0x5A;  // Clé de chiffrement
 
@@ -399,7 +399,7 @@ L'opérateur `~` (complément à un) inverse **tous les bits** d'un nombre : les
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned char a = 13;  // 00001101 (sur 8 bits)
     unsigned char resultat = ~a;
 
@@ -420,7 +420,7 @@ int main() {
 
 #define BIT_2 0x04  // 00000100
 
-int main() {
+int main(void) {
     unsigned int flags = 0xFF;  // 11111111 (tous les bits à 1)
 
     // Désactiver uniquement le bit 2
@@ -437,7 +437,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned char valeur = 0x0F;  // 00001111
     unsigned char complement = ~valeur;
 
@@ -481,7 +481,7 @@ valeur << nombre_de_positions
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned int a = 13;
 
     printf("%u << 1 = %u\n", a, a << 1);  // 26 (13 × 2)
@@ -499,7 +499,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int nombre = 5;
 
     // Multiplier par 2
@@ -520,7 +520,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     // Créer un masque avec le bit n à 1
     unsigned int bit_0 = 1 << 0;  // 00000001 (valeur 1)
     unsigned int bit_3 = 1 << 3;  // 00001000 (valeur 8)
@@ -545,7 +545,7 @@ int main() {
 #define FLAG_C  (1 << 2)  // 00000100
 #define FLAG_D  (1 << 3)  // 00001000
 
-int main() {
+int main(void) {
     unsigned int options = FLAG_A | FLAG_C;  // Activer A et C
 
     if (options & FLAG_A) {
@@ -592,7 +592,7 @@ valeur >> nombre_de_positions
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned int a = 13;
 
     printf("%u >> 1 = %u\n", a, a >> 1);  // 6 (13 ÷ 2)
@@ -612,7 +612,7 @@ Pour les nombres **signés**, le comportement de `>>` dépend de l'implémentati
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int negatif = -8;  // Nombre négatif
 
     // Sur la plupart des systèmes, le décalage arithmétique préserve le signe
@@ -635,7 +635,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned int nombre = 100;
 
     // Diviser par 2
@@ -656,7 +656,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned int valeur = 0x12345678;  // Nombre hexadécimal
 
     // Extraire l'octet de poids fort (bits 24-31)
@@ -692,7 +692,7 @@ Le C permet de combiner les opérateurs bit-à-bit avec l'affectation :
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     unsigned int flags = 5;  // 00000101
 
     // Activer le bit 1
@@ -726,7 +726,7 @@ int main() {
 #define STATUS_ERROR      (1 << 2)  // Bit 2 : 00000100
 #define STATUS_CONNECTED  (1 << 3)  // Bit 3 : 00001000
 
-int main() {
+int main(void) {
     unsigned int status = 0;
 
     // Définir plusieurs flags
@@ -785,7 +785,7 @@ unsigned char extraire_bleu(unsigned int couleur) {
     return couleur & 0xFF;
 }
 
-int main() {
+int main(void) {
     // Créer une couleur violette (rouge=128, vert=0, bleu=255)
     unsigned int violet = creer_rgb(128, 0, 255);
 
@@ -827,7 +827,7 @@ int est_puissance_de_deux(unsigned int n) {
     return (n != 0) && ((n & (n - 1)) == 0);
 }
 
-int main() {
+int main(void) {
     unsigned int nombres[] = {1, 2, 3, 4, 5, 8, 15, 16, 32, 100};
     int taille = sizeof(nombres) / sizeof(nombres[0]);
 
@@ -873,7 +873,7 @@ int compter_bits_a_un_optimise(unsigned int n) {
     return compteur;
 }
 
-int main() {
+int main(void) {
     unsigned int nombre = 13;  // 00001101 (3 bits à 1)
 
     printf("Nombre : %u (binaire : ", nombre);
@@ -909,7 +909,7 @@ Il est crucial de ne pas confondre les opérateurs logiques (`&&`, `||`, `!`) av
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int a = 5;   // 00000101
     int b = 3;   // 00000011
 
@@ -961,7 +961,7 @@ void afficher_binaire(unsigned int n, int nb_bits) {
     printf("\n");
 }
 
-int main() {
+int main(void) {
     unsigned int a = 13;
     unsigned int b = 10;
 
@@ -989,12 +989,12 @@ int main() {
 
 **Résultat :**
 ```
-a = 13 : 0000 1101
-b = 10 : 0000 1010
+a = 13 : 0000 1101  
+b = 10 : 0000 1010  
 
-a & b = 8 : 0000 1000
-a | b = 15 : 0000 1111
-a ^ b = 7 : 0000 0111
+a & b = 8 : 0000 1000  
+a | b = 15 : 0000 1111  
+a ^ b = 7 : 0000 0111  
 ~a = 242 : 1111 0010
 ```
 
@@ -1047,36 +1047,36 @@ if (flags & FLAG_A) {
 
 ```c
 // ⚠️ ATTENTION : Comportement imprévisible
-int negatif = -1;
-int resultat = negatif >> 1;  // Comportement dépendant de l'implémentation
+int negatif = -1;  
+int resultat = negatif >> 1;  // Comportement dépendant de l'implémentation  
 
 // ✅ CORRECT : Utiliser unsigned
-unsigned int positif = 10;
-unsigned int resultat = positif >> 1;  // Comportement garanti
+unsigned int positif = 10;  
+unsigned int resultat = positif >> 1;  // Comportement garanti  
 ```
 
 ### 4. Décalage au-delà de la taille du type
 
 ```c
-// ❌ COMPORTEMENT INDÉFINI
-unsigned char c = 1;
-unsigned char resultat = c << 10;  // Décalage de 10 positions sur 8 bits !
+// ⚠️ TROMPEUR : c est promu en int avant le décalage
+unsigned char c = 1;  
+unsigned char resultat = c << 10;  // Résultat tronqué à 8 bits → 0  
 
-// ✅ CORRECT : Respecter la taille du type
-unsigned int i = 1;
-unsigned int resultat = i << 10;  // OK sur un int (au moins 16 bits)
+// ✅ CORRECT : Utiliser le bon type dès le départ
+unsigned int i = 1;  
+unsigned int resultat = i << 10;  // 1024 — résultat préservé  
 ```
 
 ### 5. Utiliser `~` sur des types signés
 
 ```c
 // ⚠️ ATTENTION : Peut donner des résultats inattendus
-int a = 5;
-int complement = ~a;  // -6 (complément à deux)
+int a = 5;  
+int complement = ~a;  // -6 (complément à deux)  
 
 // ✅ CORRECT : Utiliser unsigned pour les opérations bit-à-bit
-unsigned int a = 5;
-unsigned int complement = ~a;  // Résultat prévisible
+unsigned int a = 5;  
+unsigned int complement = ~a;  // Résultat prévisible  
 ```
 
 ---
@@ -1087,8 +1087,8 @@ unsigned int complement = ~a;  // Résultat prévisible
 
 ```c
 // ✅ RECOMMANDÉ
-unsigned int flags = 0;
-unsigned char byte = 0xFF;
+unsigned int flags = 0;  
+unsigned char byte = 0xFF;  
 ```
 
 ### 2. Définir des constantes pour les masques

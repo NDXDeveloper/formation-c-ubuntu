@@ -31,7 +31,7 @@ if (condition) {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int age = 20;
 
     if (age >= 18) {
@@ -47,7 +47,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int valeur = 5;
 
     // Ces trois conditions sont équivalentes
@@ -89,7 +89,7 @@ if (condition) {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int temperature = 22;
 
     if (temperature > 25) {
@@ -125,7 +125,7 @@ if (condition1) {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int note = 15;
 
     if (note >= 16) {
@@ -144,7 +144,7 @@ int main() {
 }
 ```
 
-**⚠️ Important :** Dès qu'une condition est vraie, le bloc correspondant est exécuté et les autres conditions ne sont **pas testées**. C'est ce qu'on appelle l'évaluation en court-circuit.
+**⚠️ Important :** Dès qu'une condition est vraie, le bloc correspondant est exécuté et les autres conditions ne sont **pas testées**. Les branches suivantes sont simplement ignorées.
 
 ---
 
@@ -174,7 +174,7 @@ switch (expression) {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     char choix = 'B';
 
     switch (choix) {
@@ -203,7 +203,7 @@ Sans `break`, l'exécution continue dans les `case` suivants (comportement appel
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int jour = 3;
 
     // Sans break - Fall-through intentionnel
@@ -243,11 +243,11 @@ condition ? valeur_si_vrai : valeur_si_faux
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int age = 20;
 
     // Forme traditionnelle
-    char *statut1;
+    const char *statut1;
     if (age >= 18) {
         statut1 = "majeur";
     } else {
@@ -255,7 +255,7 @@ int main() {
     }
 
     // Forme avec opérateur ternaire (plus concise)
-    char *statut2 = (age >= 18) ? "majeur" : "mineur";
+    const char *statut2 = (age >= 18) ? "majeur" : "mineur";
 
     printf("Vous êtes %s\n", statut2);
 
@@ -300,7 +300,7 @@ int operation_couteuse() {
     return 1;
 }
 
-int main() {
+int main(void) {
     int valeur_simple = 0;
 
     // ✅ OPTIMISÉ : La condition simple est testée en premier
@@ -333,7 +333,7 @@ int main() {
 #include <stdio.h>
 #include <string.h>
 
-int main() {
+int main(void) {
     char *texte = NULL;
 
     // ✅ BON : Vérifier NULL avant d'utiliser strlen
@@ -361,7 +361,7 @@ int main() {
 #include <stdio.h>
 #include <stdbool.h>
 
-int main() {
+int main(void) {
     bool est_actif = true;
     int compteur = 5;
 
@@ -423,7 +423,7 @@ int obtenir_jours_dans_mois_switch(int mois) {
     }
 }
 
-int main() {
+int main(void) {
     printf("Février a %d jours\n", obtenir_jours_dans_mois_switch(2));
     return 0;
 }
@@ -458,7 +458,7 @@ int obtenir_jours_dans_mois_table(int mois) {
     return jours_par_mois[mois];
 }
 
-int main() {
+int main(void) {
     printf("Février a %d jours\n", obtenir_jours_dans_mois_table(2));
     printf("Juillet a %d jours\n", obtenir_jours_dans_mois_table(7));
 
@@ -499,7 +499,7 @@ int max_sans_branchement(int a, int b) {
     return a - (sign * diff);
 }
 
-int main() {
+int main(void) {
     printf("Max(10, 20) = %d\n", max_avec_if(10, 20));
     printf("Max(10, 20) = %d\n", max_sans_branchement(10, 20));
 
@@ -522,7 +522,7 @@ GCC offre des macros pour indiquer au compilateur quelles branches sont probable
 #define likely(x)   __builtin_expect(!!(x), 1)
 #define unlikely(x) __builtin_expect(!!(x), 0)
 
-int main() {
+int main(void) {
     int erreur = 0;  // Les erreurs sont rares
 
     // Indiquer que la condition est peu probable
@@ -560,8 +560,9 @@ Regroupez les conditions similaires pour améliorer la lisibilité et potentiell
 
 ```c
 #include <stdio.h>
+#include <stdbool.h>
 
-int main() {
+int main(void) {
     int age = 25;
     bool est_etudiant = false;
     bool a_reduction = true;
@@ -602,7 +603,7 @@ int main() {
 #include <stdio.h>
 #include <stdbool.h>
 
-int main() {
+int main(void) {
     int x = 10;
     int y = 20;
     int z = 30;
@@ -631,7 +632,7 @@ int main() {
 #include <stdbool.h>
 
 // ❌ MAUVAIS : Nombres magiques
-int main() {
+int main(void) {
     int age = 17;
 
     if (age < 18) {
@@ -649,7 +650,7 @@ int main() {
 #define AGE_MAJORITE 18
 #define AGE_RETRAITE 65
 
-int main() {
+int main(void) {
     int age = 17;
 
     if (age < AGE_MAJORITE) {
@@ -717,7 +718,7 @@ int traiter_donnees_v2(int *data, int taille) {
     return 1;
 }
 
-int main() {
+int main(void) {
     int donnees[] = {1, 2, 3, 4, 5};
     traiter_donnees_v2(donnees, 5);
 
@@ -733,7 +734,7 @@ Les doubles négations rendent le code difficile à lire.
 #include <stdio.h>
 #include <stdbool.h>
 
-int main() {
+int main(void) {
     bool n_est_pas_vide = true;
 
     // ❌ CONFUS : Double négation
@@ -766,7 +767,7 @@ Pour éviter l'erreur d'affectation accidentelle.
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int x = 10;
 
     // ❌ ERREUR POSSIBLE : Affectation au lieu de comparaison
@@ -801,7 +802,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int x = 10;
 
     // ❌ DANGEREUX : Sans accolades, seule la première instruction est conditionnelle
@@ -826,7 +827,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int x = 10;
 
     // ❌ ERREUR : Affectation au lieu de comparaison
@@ -848,7 +849,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int x = 10;
 
     // ❌ ERREUR : Point-virgule après le if
@@ -872,7 +873,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int x = 10;
 
     // ❌ ERREUR LOGIQUE : Condition toujours fausse
@@ -899,7 +900,7 @@ int main() {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int jour = 2;
 
     // ❌ ERREUR : Oubli du break (sauf si intentionnel)
@@ -994,8 +995,8 @@ switch (choix_menu) {
 
 **Utiliser l'opérateur ternaire pour :**
 ```c
-char *statut = (connecte) ? "en ligne" : "hors ligne";
-int max = (a > b) ? a : b;
+const char *statut = (connecte) ? "en ligne" : "hors ligne";  
+int max = (a > b) ? a : b;  
 ```
 
 ---
@@ -1034,7 +1035,7 @@ bool date_valide(int jour, int mois, int annee) {
     return true;
 }
 
-int main() {
+int main(void) {
     printf("29/02/2024 : %s\n", date_valide(29, 2, 2024) ? "Valide" : "Invalide");
     printf("29/02/2023 : %s\n", date_valide(29, 2, 2023) ? "Valide" : "Invalide");
     printf("31/04/2024 : %s\n", date_valide(31, 4, 2024) ? "Valide" : "Invalide");
@@ -1071,7 +1072,7 @@ double calculer(double a, double b, char operateur) {
     }
 }
 
-int main() {
+int main(void) {
     printf("10 + 5 = %.2f\n", calculer(10, 5, '+'));
     printf("10 - 5 = %.2f\n", calculer(10, 5, '-'));
     printf("10 * 5 = %.2f\n", calculer(10, 5, '*'));
@@ -1116,7 +1117,7 @@ void afficher_permissions(unsigned int permissions) {
     printf("\n");
 }
 
-int main() {
+int main(void) {
     unsigned int permissions_utilisateur = PERM_LECTURE | PERM_ECRITURE;
     unsigned int permissions_admin = PERM_LECTURE | PERM_ECRITURE | PERM_EXECUTION | PERM_ADMIN;
 
@@ -1178,7 +1179,7 @@ bool traiter_choix(int choix) {
     return true;  // Continue la boucle
 }
 
-int main() {
+int main(void) {
     int choix;
     bool continuer = true;
 

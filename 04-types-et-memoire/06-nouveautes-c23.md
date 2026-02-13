@@ -32,13 +32,16 @@ Cette section présente les nouveautés de C23 qui concernent les **types de don
 
 ```bash
 # GCC
-gcc --version
-gcc -std=c23 test.c  # Essayez de compiler avec -std=c23
+gcc --version  
+gcc -std=c23 test.c  # GCC 14+ : -std=c23  
+gcc -std=c2x test.c  # GCC 13 : utilise -std=c2x (nom provisoire)  
 
 # Clang
-clang --version
-clang -std=c23 test.c
+clang --version  
+clang -std=c23 test.c  
 ```
+
+> **Note** : Sur Ubuntu 24.04, GCC 13 est installé par défaut. Il supporte `-std=c2x` mais pas encore `-std=c23`. Pour un support complet de C23, installez GCC 14+.
 
 **Recommandation pour 2025** : Utilisez **C11** ou **C17** en production, et expérimentez avec **C23** pour l'avenir.
 
@@ -98,30 +101,28 @@ if (ptr == nullptr) {
 }
 ```
 
-**Différence avec `NULL`** :
-- `nullptr` a un **type spécifique** : `nullptr_t`
-- Plus sûr dans les surcharges de fonctions (comme en C++)
-- Évite certaines ambiguïtés avec `NULL` qui peut être `0`
+**Différences avec `NULL`** :
+- `nullptr` a un **type spécifique** : `nullptr_t` (défini dans `<stddef.h>`)
+- `NULL` est une macro qui peut valoir `0` ou `((void*)0)` selon l'implémentation
+- `nullptr` ne peut pas être implicitement converti en entier, contrairement à `NULL`
 
 **Exemple de clarté** :
 
 ```c
 #include <stdio.h>
 
-void traiter(int valeur) {
-    printf("Traitement d'un entier : %d\n", valeur);
-}
-
-void traiter_ptr(int* ptr) {
-    printf("Traitement d'un pointeur\n");
-}
-
 int main(void) {
-    // Avec NULL (0), il y a ambiguïté
-    // traiter(NULL);  // Compile, mais appelle traiter(int) !
+    int* ptr = nullptr;
 
-    // Avec nullptr, c'est clair
-    traiter_ptr(nullptr);  // Sans ambiguïté
+    // Avec NULL : pas d'erreur si on passe accidentellement à une fonction attendant un int
+    // int x = NULL;  // Peut compiler sans avertissement si NULL vaut 0 !
+
+    // Avec nullptr : erreur de compilation si on essaie de l'utiliser comme entier
+    // int x = nullptr;  // ERREUR : nullptr n'est pas un entier
+
+    if (ptr == nullptr) {
+        printf("Pointeur nul détecté\n");
+    }
 
     return 0;
 }
@@ -140,8 +141,8 @@ int masque = 0xF0;  // Hexadécimal : obligation de convertir mentalement
 ```c
 int masque = 0b11110000;  // Binaire : 240 en décimal
 
-unsigned char flags = 0b00001111;  // Plus lisible pour les bits
-unsigned int permissions = 0b101;   // rwx → r-x
+unsigned char flags = 0b00001111;  // Plus lisible pour les bits  
+unsigned int permissions = 0b101;   // rwx → r-x  
 ```
 
 **Avantages** :
@@ -161,9 +162,9 @@ unsigned int permissions = 0b101;   // rwx → r-x
 unsigned char gpio_config = GPIO_PIN_0 | GPIO_PIN_2;  // 0b00000101
 
 // Masques de bits
-unsigned int READ_PERM  = 0b100;  // 4
-unsigned int WRITE_PERM = 0b010;  // 2
-unsigned int EXEC_PERM  = 0b001;  // 1
+unsigned int READ_PERM  = 0b100;  // 4  
+unsigned int WRITE_PERM = 0b010;  // 2  
+unsigned int EXEC_PERM  = 0b001;  // 1  
 
 unsigned int permissions = READ_PERM | WRITE_PERM;  // 0b110 = 6 (rw-)
 ```
@@ -173,19 +174,19 @@ unsigned int permissions = READ_PERM | WRITE_PERM;  // 0b110 = 6 (rw-)
 **Avant C23** :
 
 ```c
-long population = 67000000;      // Difficile à lire
-int grand_nombre = 1234567890;   // Combien de zéros ?
+long population = 67000000;      // Difficile à lire  
+int grand_nombre = 1234567890;   // Combien de zéros ?  
 ```
 
 **Avec C23** :
 
 ```c
-long population = 67'000'000;          // 67 millions
-int grand_nombre = 1'234'567'890;      // Plus lisible !
+long population = 67'000'000;          // 67 millions  
+int grand_nombre = 1'234'567'890;      // Plus lisible !  
 
 // Fonctionne aussi avec hexadécimal et binaire
-unsigned int couleur = 0xFF'AA'BB;     // RGB
-unsigned int masque = 0b1111'0000'1010'0101;
+unsigned int couleur = 0xFF'AA'BB;     // RGB  
+unsigned int masque = 0b1111'0000'1010'0101;  
 ```
 
 **Règles** :
@@ -324,20 +325,18 @@ typeof(expression)  // Retourne le type de l'expression
 **Exemples** :
 
 ```c
-int x = 10;
-typeof(x) y = 20;  // y est de type int
+int x = 10;  
+typeof(x) y = 20;  // y est de type int  
 
-double pi = 3.14;
-typeof(pi) autre_reel = 2.71;  // autre_reel est de type double
+double pi = 3.14;  
+typeof(pi) autre_reel = 2.71;  // autre_reel est de type double  
 
-// Utile dans les macros
-#define MAX(a, b) ({ \
-    typeof(a) _a = (a); \
-    typeof(b) _b = (b); \
-    _a > _b ? _a : _b; \
-})
-
-int max = MAX(10, 20);  // max = 20
+// Utile pour déclarer une variable du même type qu'une autre
+int tableau[] = {1, 2, 3, 4, 5};  
+typeof(tableau[0]) somme = 0;  // somme est de type int  
+for (int i = 0; i < 5; i++) {  
+    somme += tableau[i];
+}
 ```
 
 **Avantages** :
@@ -345,49 +344,28 @@ int max = MAX(10, 20);  // max = 20
 - Évite de répéter les types
 - Code plus maintenable
 
-## Initialisation améliorée des structures
+## Constexpr (`constexpr` pour les variables)
 
-### Initialisation partielle plus permissive
-
-**C11/C17** :
+C23 introduit le mot-clé `constexpr` pour les variables, garantissant qu'elles sont évaluées à la **compilation** :
 
 ```c
-struct Point {
-    int x;
-    int y;
-    int z;
-};
+constexpr int TAILLE_MAX = 100;  
+constexpr double PI = 3.14159265358979323846;  
 
-// Obligation d'initialiser dans l'ordre
-struct Point p = {.x = 10, .y = 20, .z = 30};
+int tableau[TAILLE_MAX];  // OK : TAILLE_MAX est une constante de compilation
 ```
 
-**C23** : Plus de flexibilité
+**Différence avec `const`** :
+- `const` empêche la modification mais la valeur peut être déterminée à l'exécution
+- `constexpr` garantit que la valeur est connue à la compilation
 
 ```c
-struct Point {
-    int x;
-    int y;
-    int z;
-};
-
-// Ordre libre, champs omis initialisés à zéro
-struct Point p1 = {.z = 30, .x = 10};  // y = 0 automatiquement
-struct Point p2 = {.y = 20};            // x = 0, z = 0
+const int a = rand();      // OK : valeur déterminée à l'exécution
+// constexpr int b = rand();  // ERREUR : rand() n'est pas évaluable à la compilation
+constexpr int c = 42;      // OK : 42 est connu à la compilation
 ```
 
-### Initialisation de tableaux améliorée
-
-**C23** permet des initialisations plus flexibles :
-
-```c
-int tableau[10] = {
-    [0] = 100,
-    [5] = 500,
-    [9] = 900
-};
-// Les éléments non spécifiés sont à 0
-```
+> **Note** : En C23, `constexpr` ne s'applique qu'aux variables (pas aux fonctions, contrairement au C++).
 
 ## Fonction `memset_explicit()` (C23)
 
@@ -442,10 +420,10 @@ char texte_utf8[] = u8"Bonjour 世界";  // u8 prefix, mais type char
 char8_t texte_utf8[] = u8"Bonjour 世界";  // Type dédié : char8_t
 ```
 
-**Avantages** :
-- Distinction claire entre ASCII et UTF-8
-- Meilleure sûreté de type
-- Prépare pour l'Unicode moderne
+**Détails** :
+- `char8_t` est un **typedef** pour `unsigned char` (pas un type distinct comme en C++)
+- Les littéraux `u8""` ont le type `unsigned char[]` en C23 (au lieu de `char[]` en C11)
+- Améliore la distinction entre données textuelles ASCII et UTF-8
 
 ## Comparaison des standards
 
@@ -459,6 +437,7 @@ char8_t texte_utf8[] = u8"Bonjour 世界";  // Type dédié : char8_t
 | `_BitInt(N)` | ❌ | ❌ | ❌ | ❌ | ✅ |
 | `[[nodiscard]]` | ❌ | ❌ | ❌ | ❌ | ✅ |
 | `typeof` standard | ❌ | ❌ | ❌ (extension) | ❌ (extension) | ✅ |
+| `constexpr` | ❌ | ❌ | ❌ | ❌ | ✅ |
 | `memset_explicit()` | ❌ | ❌ | ❌ | ❌ | ✅ |
 
 ## Exemple complet utilisant les nouveautés C23
@@ -510,16 +489,6 @@ int main(void) {
     typeof(x) y = 100;  // y est automatiquement de type int
     printf("6. typeof: x=%d, y=%d\n", x, y);
 
-    // 7. Initialisation flexible de structure
-    struct Point {
-        int x;
-        int y;
-        int z;
-    };
-
-    struct Point p = {.z = 30, .x = 10};  // y = 0 automatiquement
-    printf("7. Point: x=%d, y=%d, z=%d\n", p.x, p.y, p.z);
-
     debug_info("Fin du programme");
 
     return 0;
@@ -529,7 +498,9 @@ int main(void) {
 **Compilation** :
 
 ```bash
-gcc -std=c23 -Wall -Wextra demo_c23.c -o demo_c23
+gcc -std=c23 -Wall -Wextra demo_c23.c -o demo_c23   # GCC 14+
+# ou
+gcc -std=c2x -Wall -Wextra demo_c23.c -o demo_c23   # GCC 13
 ./demo_c23
 ```
 
@@ -544,7 +515,6 @@ gcc -std=c23 -Wall -Wextra demo_c23.c -o demo_c23
 4. Population: 67000000 habitants
 5. Âge valide
 6. typeof: x=42, y=100
-7. Point: x=10, y=0, z=30
 ```
 
 ## Quand utiliser C23 ?

@@ -331,13 +331,13 @@ int main(void) {
 ### ⚠️ Erreur classique : Retourner un pointeur vers une variable locale
 
 ```c
-int* fonction_dangereuse(void) {
+int *fonction_dangereuse(void) {
     int x = 100;
     return &x;  // ❌ DANGER ! On retourne l'adresse d'une variable locale
 }
 
 int main(void) {
-    int* ptr = fonction_dangereuse();
+    int *ptr = fonction_dangereuse();
     // ptr pointe vers une zone mémoire qui n'est plus valide !
     printf("%d\n", *ptr);  // ❌ Comportement indéfini (crash probable)
     return 0;
@@ -359,8 +359,8 @@ int main(void) {
 Vous pouvez observer la pile en action avec le débogueur GDB. Compilons et exécutons :
 
 ```bash
-gcc -g -o programme programme.c
-gdb programme
+gcc -g -o programme programme.c  
+gdb programme  
 ```
 
 Commandes GDB utiles :
@@ -465,7 +465,7 @@ Nous approfondirons le **heap** dans le Module 3, mais voici une comparaison pr�
 Le compilateur peut **éliminer** certains stack frames en "inlinant" (inline) les fonctions :
 
 ```c
-inline int carre(int x) {
+static inline int carre(int x) {
     return x * x;
 }
 

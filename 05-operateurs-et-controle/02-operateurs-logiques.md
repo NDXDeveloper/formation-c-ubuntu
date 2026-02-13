@@ -25,7 +25,7 @@ condition1 && condition2
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int age = 25;
     int permis = 1;  // 1 signifie "a le permis", 0 signifie "n'a pas le permis"
 
@@ -69,7 +69,7 @@ condition1 || condition2
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     char jour = 'S';  // S pour Samedi
 
     // Le magasin est fermé le dimanche OU les jours fériés
@@ -112,10 +112,10 @@ L'opérateur `!` (NON logique ou négation) inverse la valeur d'une condition. S
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int pluie = 0;  // 0 signifie "il ne pleut pas"
 
-    // Si il ne pleut PAS
+    // S'il ne pleut PAS
     if (!pluie) {
         printf("Vous pouvez sortir sans parapluie.\n");
     } else {
@@ -148,7 +148,7 @@ Vous pouvez combiner plusieurs opérateurs logiques pour créer des conditions c
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int temperature = 22;
     int humidite = 65;
     int pluie = 0;
@@ -205,8 +205,8 @@ C'est un concept important à comprendre : le C optimise l'évaluation des expre
 Si la première condition est **fausse**, la seconde n'est **jamais évaluée** car le résultat sera forcément faux.
 
 ```c
-int x = 5;
-int y = 10;
+int x = 5;  
+int y = 10;  
 
 // Si x > 10 est faux, y > 5 n'est jamais testé
 if (x > 10 && y > 5) {
@@ -219,8 +219,8 @@ if (x > 10 && y > 5) {
 Si la première condition est **vraie**, la seconde n'est **jamais évaluée** car le résultat sera forcément vrai.
 
 ```c
-int connecte = 1;
-int admin = 0;
+int connecte = 1;  
+int admin = 0;  
 
 // Si connecte == 1 est vrai, admin == 1 n'est jamais testé
 if (connecte == 1 || admin == 1) {
@@ -256,7 +256,7 @@ En C, il n'existe pas de type booléen natif avant C99 (où `<stdbool.h>` a ét�
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int valeur1 = 5;
     int valeur2 = 0;
     int valeur3 = -3;
@@ -285,7 +285,7 @@ int main() {
 #include <stdio.h>
 #include <stdbool.h>
 
-int main() {
+int main(void) {
     bool est_majeur = true;
     bool a_permis = false;
 
@@ -320,8 +320,8 @@ if (x == 5) {
 ### 2. Oublier les parenthèses dans les conditions complexes
 
 ```c
-int age = 25;
-int salaire = 30000;
+int age = 25;  
+int salaire = 30000;  
 
 // ❌ Difficile à lire et source d'erreurs
 if (age > 18 && age < 65 || salaire > 50000 && salaire < 100000)
@@ -371,7 +371,7 @@ if (actif) {
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     int age = 16;
 
     // Enfant : 0 à 12 ans
@@ -400,7 +400,7 @@ int main() {
 #include <stdio.h>
 #include <string.h>
 
-int main() {
+int main(void) {
     char nom[50] = "Dupont";
     char email[100] = "dupont@example.com";
     int age = 25;
@@ -441,7 +441,7 @@ int main() {
 #include <stdio.h>
 #include <string.h>
 
-int main() {
+int main(void) {
     char utilisateur[50] = "admin";
     char mot_de_passe[50] = "secret123";
     int compte_actif = 1;

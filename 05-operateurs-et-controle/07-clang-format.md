@@ -325,10 +325,10 @@ Pour vous donner une idée de la puissance de clang-format, voici quelques exemp
 
 **Avant :**
 ```c
-int calculer(int x,int y,int z){
-int resultat=x+y+z;
-if(resultat>100){
-resultat=100;
+int calculer(int x,int y,int z){  
+int resultat=x+y+z;  
+if(resultat>100){  
+resultat=100;  
 }
 return resultat;
 }
@@ -352,9 +352,9 @@ int calculer(int x, int y, int z)
 
 **Avant :**
 ```c
-struct Point{int x;int y;};
-struct Rectangle{struct Point haut_gauche;struct Point bas_droite;};
-int aire(struct Rectangle r){return (r.bas_droite.x-r.haut_gauche.x)*(r.bas_droite.y-r.haut_gauche.y);}
+struct Point{int x;int y;};  
+struct Rectangle{struct Point haut_gauche;struct Point bas_droite;};  
+int aire(struct Rectangle r){return (r.bas_droite.x-r.haut_gauche.x)*(r.bas_droite.y-r.haut_gauche.y);}  
 ```
 
 **Après :**
@@ -380,8 +380,8 @@ int aire(struct Rectangle r)
 
 **Avant :**
 ```c
-int tab[5]={1,2,3,4,5};
-int matrice[3][3]={{1,2,3},{4,5,6},{7,8,9}};
+int tab[5]={1,2,3,4,5};  
+int matrice[3][3]={{1,2,3},{4,5,6},{7,8,9}};  
 ```
 
 **Après :**
@@ -493,8 +493,8 @@ echo "BasedOnStyle: LLVM" > .clang-format
 # Activer "format on save"
 
 # Installer les pre-commit hooks
-pip install pre-commit
-pre-commit install
+pip install pre-commit  
+pre-commit install  
 ```
 
 **2. Workflow quotidien :**
