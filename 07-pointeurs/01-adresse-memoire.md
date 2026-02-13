@@ -93,8 +93,8 @@ int main(void) {
 
 **Sortie possible :**
 ```
-La valeur de age est : 25
-L'adresse de age est : 0x7ffd4c8b3a4c
+La valeur de age est : 25  
+L'adresse de age est : 0x7ffd4c8b3a4c  
 ```
 
 ### Décortiquons cet exemple
@@ -118,15 +118,15 @@ Vous avez remarqué que l'adresse s'affiche avec des lettres et des chiffres com
 ### Exemple de conversion
 
 ```
-Hexadécimal : 0x2A
-Décimal     : 42
-Binaire     : 00101010
+Hexadécimal : 0x2A  
+Décimal     : 42  
+Binaire     : 00101010  
 ```
 
 ## Taille des adresses
 
-Sur un système 32 bits, une adresse fait 4 octets (32 bits).
-Sur un système 64 bits, une adresse fait 8 octets (64 bits).
+Sur un système 32 bits, une adresse fait 4 octets (32 bits).  
+Sur un système 64 bits, une adresse fait 8 octets (64 bits).  
 
 ```c
 #include <stdio.h>
@@ -143,8 +143,8 @@ int main(void) {
 
 **Sortie possible (système 64 bits) :**
 ```
-Taille d'un int : 4 octets
-Taille d'une adresse : 8 octets
+Taille d'un int : 4 octets  
+Taille d'une adresse : 8 octets  
 ```
 
 ## Plusieurs variables et leurs adresses
@@ -169,9 +169,9 @@ int main(void) {
 
 **Sortie possible :**
 ```
-Adresse de a : 0x7ffc8b2a4a0c (valeur : 10)
-Adresse de b : 0x7ffc8b2a4a08 (valeur : 20)
-Adresse de c : 0x7ffc8b2a4a04 (valeur : 30)
+Adresse de a : 0x7ffc8b2a4a0c (valeur : 10)  
+Adresse de b : 0x7ffc8b2a4a08 (valeur : 20)  
+Adresse de c : 0x7ffc8b2a4a04 (valeur : 30)  
 ```
 
 ### Observations importantes
@@ -247,7 +247,7 @@ Comprendre les adresses mémoire est crucial car :
 |---------|-------------|---------|
 | **Adresse mémoire** | Numéro identifiant un emplacement en mémoire | `0x7ffd4c8b3a4c` |
 | **Opérateur &** | Obtient l'adresse d'une variable | `&age` |
-| **Format %p** | Affiche une adresse en hexadécimal | `printf("%p", &var)` |
+| **Format %p** | Affiche une adresse en hexadécimal | `printf("%p", (void*)&var)` |
 | **sizeof()** | Retourne la taille en octets | `sizeof(int)` |
 
 ## Ce qu'il faut retenir

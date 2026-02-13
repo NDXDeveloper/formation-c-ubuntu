@@ -57,7 +57,7 @@ Fuite mémoire :
 ```c
 #include <stdlib.h>
 
-void fonction_avec_fuite() {
+void fonction_avec_fuite(void) {
     int* ptr = malloc(100 * sizeof(int));
 
     // Utilisation de ptr...
@@ -67,7 +67,7 @@ void fonction_avec_fuite() {
 
 }  // ptr est détruit, mais la mémoire reste allouée → FUITE
 
-int main() {
+int main(void) {
     // Chaque appel perd 400 octets
     for (int i = 0; i < 1000000; i++) {
         fonction_avec_fuite();
@@ -115,7 +115,7 @@ Programme terminé → OS récupère TOUTE la mémoire
 
 ```c
 // ❌ FUITE : Oubli de free()
-void traiter_donnees() {
+void traiter_donnees(void) {
     char* buffer = malloc(1024);
 
     if (buffer == NULL) return;
@@ -130,7 +130,7 @@ void traiter_donnees() {
 
 **✅ Correction :**
 ```c
-void traiter_donnees() {
+void traiter_donnees(void) {
     char* buffer = malloc(1024);
 
     if (buffer == NULL) return;
@@ -214,7 +214,7 @@ int traiter_fichier(const char* nom) {
 
 ```c
 // ❌ FUITE : Pointeur écrasé
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(100 * sizeof(int));
 
     // ... utilisation ...
@@ -227,18 +227,18 @@ void fonction() {
 
 **Visualisation :**
 ```
-Après 1er malloc :
-ptr ───► [Bloc 100 int]
+Après 1er malloc :  
+ptr ───► [Bloc 100 int]  
 
-Après 2e malloc :
-ptr ───► [Bloc 50 int]
+Après 2e malloc :  
+ptr ───► [Bloc 50 int]  
 
          [Bloc 100 int]  ← PERDU ! Plus de référence !
 ```
 
 **✅ Correction :**
 ```c
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(100 * sizeof(int));
 
     // ... utilisation ...
@@ -254,7 +254,7 @@ void fonction() {
 
 ```c
 // ❌ FUITE : Allocation répétée dans une boucle
-void fonction() {
+void fonction(void) {
     char* buffer = NULL;
 
     for (int i = 0; i < 100; i++) {
@@ -269,7 +269,7 @@ void fonction() {
 
 **✅ Correction 1 : Allouer une seule fois**
 ```c
-void fonction() {
+void fonction(void) {
     char* buffer = malloc(1024);
     if (buffer == NULL) return;
 
@@ -284,7 +284,7 @@ void fonction() {
 
 **✅ Correction 2 : Libérer à chaque itération**
 ```c
-void fonction() {
+void fonction(void) {
     for (int i = 0; i < 100; i++) {
         char* buffer = malloc(1024);
         if (buffer == NULL) continue;
@@ -308,7 +308,7 @@ typedef struct {
 } Personne;
 
 // ❌ FUITE : Libération incomplète
-void exemple_fuite() {
+void exemple_fuite(void) {
     Personne* p = malloc(sizeof(Personne));
     p->nom = malloc(50);
     p->adresse = malloc(100);
@@ -323,8 +323,8 @@ void exemple_fuite() {
 
 **Visualisation :**
 ```
-Avant free(p) :
-p ───► [Structure Personne]
+Avant free(p) :  
+p ───► [Structure Personne]  
          ├─ nom ───────► [Chaîne "Alice"]
          ├─ adresse ───► [Chaîne "123 Rue..."]
          └─ age = 30
@@ -338,7 +338,7 @@ Après free(p) seulement :
 
 **✅ Correction :**
 ```c
-void exemple_correct() {
+void exemple_correct(void) {
     Personne* p = malloc(sizeof(Personne));
     if (p == NULL) return;
 
@@ -373,7 +373,7 @@ void liberer_personne(Personne* p) {
     }
 }
 
-void exemple_avec_fonction() {
+void exemple_avec_fonction(void) {
     Personne* p = malloc(sizeof(Personne));
     // ... initialisation ...
 
@@ -400,8 +400,8 @@ void liberer_liste_incorrecte(Node* tete) {
 
 **Visualisation :**
 ```
-Liste avant libération :
-tete ───► [Node 1] ───► [Node 2] ───► [Node 3] ───► NULL
+Liste avant libération :  
+tete ───► [Node 1] ───► [Node 2] ───► [Node 3] ───► NULL  
 
 Après free(tete) seulement :
           [Node 1 libéré]
@@ -444,7 +444,7 @@ void liberer_liste_iterative(Node* tete) {
 
 jmp_buf env;
 
-void fonction_critique() {
+void fonction_critique(void) {
     char* buffer = malloc(1024);
 
     if (/* condition d'erreur */) {
@@ -463,7 +463,7 @@ void fonction_critique() {
 
 ```c
 // ❌ FUITE avec realloc()
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(10 * sizeof(int));
 
     // Tentative de redimensionnement
@@ -477,7 +477,7 @@ void fonction() {
 
 **✅ Correction :**
 ```c
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(10 * sizeof(int));
     if (ptr == NULL) return;
 
@@ -525,12 +525,12 @@ valgrind --leak-check=full --show-leak-kinds=all ./programme
 // fuite.c
 #include <stdlib.h>
 
-void fonction_avec_fuite() {
+void fonction_avec_fuite(void) {
     int* ptr = malloc(100 * sizeof(int));
     // Oubli de free()
 }
 
-int main() {
+int main(void) {
     fonction_avec_fuite();
     return 0;
 }
@@ -539,8 +539,8 @@ int main() {
 #### Compilation et test
 
 ```bash
-gcc -g -o fuite fuite.c
-valgrind --leak-check=full --show-leak-kinds=all ./fuite
+gcc -g -o fuite fuite.c  
+valgrind --leak-check=full --show-leak-kinds=all ./fuite  
 ```
 
 #### Rapport Valgrind
@@ -609,7 +609,7 @@ SUMMARY: AddressSanitizer: 400 byte(s) leaked in 1 allocation(s).
 #include <mcheck.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     mtrace();  // Activer le traçage
 
     int* ptr = malloc(100 * sizeof(int));
@@ -623,8 +623,8 @@ int main() {
 #### Compilation et exécution
 
 ```bash
-gcc -g -o programme programme.c
-export MALLOC_TRACE=malloc.log
+gcc -g -o programme programme.c  
+export MALLOC_TRACE=malloc.log  
 ./programme
 mtrace programme malloc.log
 ```
@@ -662,7 +662,7 @@ void cleanup_ptr(void* ptr) {
 // Macro pour simplifier
 #define auto_free __attribute__((cleanup(cleanup_ptr)))
 
-void exemple_auto_free() {
+void exemple_auto_free(void) {
     auto_free int* ptr = malloc(100 * sizeof(int));
 
     if (ptr == NULL) return;
@@ -673,7 +673,7 @@ void exemple_auto_free() {
     // ✅ free() appelé AUTOMATIQUEMENT à la fin du scope
 }
 
-int main() {
+int main(void) {
     exemple_auto_free();
     printf("Pas de fuite !\n");
     return 0;
@@ -703,7 +703,7 @@ int main() {
     (ptr) = NULL; \
 } while(0)
 
-int main() {
+int main(void) {
     int* tableau;
     SAFE_MALLOC(tableau, 100 * sizeof(int));
 
@@ -763,7 +763,7 @@ void release(RefCounted* rc) {
     }
 }
 
-int main() {
+int main(void) {
     RefCounted* obj = create_refcounted(100);
 
     retain(obj);   // ref_count = 2
@@ -823,7 +823,7 @@ void destroy_pool(MemoryPool* pool) {
     }
 }
 
-int main() {
+int main(void) {
     MemoryPool* pool = create_pool(1024 * 1024);  // 1 MB
 
     // Plusieurs allocations
@@ -869,7 +869,7 @@ void process_only(const char* string);
 
 ```c
 // ✅ Pattern correct
-void fonction() {
+void fonction(void) {
     char* buffer = malloc(1024);  // 1 malloc
     if (buffer == NULL) return;
 
@@ -882,7 +882,7 @@ void fonction() {
 ### Règle 2 : Libérer dans l'ordre inverse d'allocation
 
 ```c
-void fonction() {
+void fonction(void) {
     char* a = malloc(100);
     char* b = malloc(200);
     char* c = malloc(300);
@@ -899,7 +899,7 @@ void fonction() {
 ### Règle 3 : Mettre les pointeurs à NULL après free()
 
 ```c
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(sizeof(int));
 
     // ... utilisation ...
@@ -997,7 +997,7 @@ typedef struct {
 } Liste;
 
 // Créer une liste vide
-Liste* creer_liste() {
+Liste* creer_liste(void) {
     Liste* liste = malloc(sizeof(Liste));
     if (liste == NULL) return NULL;
 
@@ -1059,7 +1059,7 @@ void liberer_liste(Liste* liste) {
     free(liste);  // Libérer la structure
 }
 
-int main() {
+int main(void) {
     // Créer la liste
     Liste* ma_liste = creer_liste();
     if (ma_liste == NULL) {
@@ -1086,8 +1086,8 @@ cleanup:
 
 **Test avec Valgrind :**
 ```bash
-gcc -g -o liste liste.c
-valgrind --leak-check=full ./liste
+gcc -g -o liste liste.c  
+valgrind --leak-check=full ./liste  
 ```
 
 **Résultat attendu :**
@@ -1112,7 +1112,7 @@ Dans certains cas, des "fuites" peuvent être acceptables :
 // Cache initialisé une seule fois
 static char* cache_global = NULL;
 
-void initialiser_cache() {
+void initialiser_cache(void) {
     if (cache_global == NULL) {
         cache_global = malloc(1024);
         // ⚠️ Jamais libéré, mais c'est voulu (cache permanent)
@@ -1125,7 +1125,7 @@ void initialiser_cache() {
 // Configuration chargée au démarrage
 Config* config_globale = NULL;
 
-void charger_config() {
+void charger_config(void) {
     config_globale = malloc(sizeof(Config));
     // Reste en mémoire toute la durée du programme
     // L'OS récupère à la fin
@@ -1134,7 +1134,7 @@ void charger_config() {
 
 **3. Programmes très courts**
 ```c
-int main() {
+int main(void) {
     char* buffer = malloc(100);
     printf("%s\n", "Hello");
     // Pas de free() : programme se termine immédiatement

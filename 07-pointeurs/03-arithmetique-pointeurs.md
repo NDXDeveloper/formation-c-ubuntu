@@ -58,9 +58,9 @@ int main(void) {
 
 **Sortie possible :**
 ```
-Adresse de ptr     : 0x7ffd4c8b3a40
-Adresse de ptr + 1 : 0x7ffd4c8b3a44
-Adresse de ptr + 2 : 0x7ffd4c8b3a48
+Adresse de ptr     : 0x7ffd4c8b3a40  
+Adresse de ptr + 1 : 0x7ffd4c8b3a44  
+Adresse de ptr + 2 : 0x7ffd4c8b3a48  
 
 Différence en octets : 4
 ```
@@ -127,32 +127,32 @@ int main(void) {
 
 **Sortie possible :**
 ```
-sizeof(char)   = 1 octet
-sizeof(int)    = 4 octets
-sizeof(double) = 8 octets
+sizeof(char)   = 1 octet  
+sizeof(int)    = 4 octets  
+sizeof(double) = 8 octets  
 
-char*   : 0x7ffd4c8b3a40 → 0x7ffd4c8b3a41 (différence : 1 octets)
-int*    : 0x7ffd4c8b3a50 → 0x7ffd4c8b3a54 (différence : 4 octets)
-double* : 0x7ffd4c8b3a60 → 0x7ffd4c8b3a68 (différence : 8 octets)
+char*   : 0x7ffd4c8b3a40 → 0x7ffd4c8b3a41 (différence : 1 octets)  
+int*    : 0x7ffd4c8b3a50 → 0x7ffd4c8b3a54 (différence : 4 octets)  
+double* : 0x7ffd4c8b3a60 → 0x7ffd4c8b3a68 (différence : 8 octets)  
 ```
 
 ### Visualisation par type
 
 ```
-char* (1 octet par élément) :
-Adresse: 0x1000  0x1001  0x1002  0x1003  0x1004
+char* (1 octet par élément) :  
+Adresse: 0x1000  0x1001  0x1002  0x1003  0x1004  
          [  A ]  [  B ]  [  C ]  [  D ]  [  E ]
          ↑       ↑
          ptr     ptr+1  (avance de 1 octet)
 
-int* (4 octets par élément) :
-Adresse: 0x1000           0x1004           0x1008
+int* (4 octets par élément) :  
+Adresse: 0x1000           0x1004           0x1008  
          [ int1:10      ] [ int2:20      ] [ int3:30      ]
          ↑                ↑
          ptr              ptr+1  (avance de 4 octets)
 
-double* (8 octets par élément) :
-Adresse: 0x1000                   0x1008
+double* (8 octets par élément) :  
+Adresse: 0x1000                   0x1008  
          [ double1: 3.14        ] [ double2: 2.71        ]
          ↑                        ↑
          ptr                      ptr+1  (avance de 8 octets)
@@ -163,8 +163,8 @@ Adresse: 0x1000                   0x1008
 En C, le nom d'un tableau est essentiellement un pointeur vers son premier élément.
 
 ```c
-int tableau[5] = {10, 20, 30, 40, 50};
-int *ptr = tableau;    // Équivalent à : int *ptr = &tableau[0];
+int tableau[5] = {10, 20, 30, 40, 50};  
+int *ptr = tableau;    // Équivalent à : int *ptr = &tableau[0];  
 ```
 
 ### Deux notations équivalentes
@@ -191,9 +191,9 @@ int main(void) {
 
 **Sortie :**
 ```
-tableau[0] = 10
-tableau[1] = 20
-tableau[2] = 30
+tableau[0] = 10  
+tableau[1] = 20  
+tableau[2] = 30  
 
 *(tableau + 0) = 10
 *(tableau + 1) = 20
@@ -235,12 +235,12 @@ int main(void) {
 
 **Sortie possible :**
 ```
-Parcours du tableau avec un pointeur :
-Adresse : 0x7ffd4c8b3a40, Valeur : 10
-Adresse : 0x7ffd4c8b3a44, Valeur : 20
-Adresse : 0x7ffd4c8b3a48, Valeur : 30
-Adresse : 0x7ffd4c8b3a4c, Valeur : 40
-Adresse : 0x7ffd4c8b3a50, Valeur : 50
+Parcours du tableau avec un pointeur :  
+Adresse : 0x7ffd4c8b3a40, Valeur : 10  
+Adresse : 0x7ffd4c8b3a44, Valeur : 20  
+Adresse : 0x7ffd4c8b3a48, Valeur : 30  
+Adresse : 0x7ffd4c8b3a4c, Valeur : 40  
+Adresse : 0x7ffd4c8b3a50, Valeur : 50  
 ```
 
 ### Méthode 2 : Arithmétique sans modifier le pointeur
@@ -333,7 +333,8 @@ int main(void) {
 
     printf("Valeur initiale : *ptr = %d\n", *ptr);
 
-    *ptr++;     // Équivalent à *(ptr++) : déréférence puis avance
+    int val = *ptr++;   // Équivalent à *(ptr++) : lit la valeur, puis avance
+    printf("Valeur lue par *ptr++ : %d\n", val);
     printf("Après *ptr++ : *ptr = %d\n", *ptr);
 
     ptr = tableau;    // Réinitialise
@@ -348,8 +349,9 @@ int main(void) {
 
 **Sortie :**
 ```
-Valeur initiale : *ptr = 10
-Après *ptr++ : *ptr = 20
+Valeur initiale : *ptr = 10  
+Valeur lue par *ptr++ : 10  
+Après *ptr++ : *ptr = 20  
 Après (*ptr)++ : *ptr = 11, tableau[0] = 11
 ```
 
@@ -379,19 +381,19 @@ int main(void) {
 
 **Sortie :**
 ```
-ptr1 pointe vers tableau[1] (20)
-ptr2 pointe vers tableau[4] (50)
+ptr1 pointe vers tableau[1] (20)  
+ptr2 pointe vers tableau[4] (50)  
 
-ptr2 - ptr1 = 3 éléments
-ptr1 - ptr2 = -3 éléments
+ptr2 - ptr1 = 3 éléments  
+ptr1 - ptr2 = -3 éléments  
 ```
 
 ### Visualisation
 
 ```
-Tableau :
-Index:    0     1     2     3     4
-Valeur:  [10]  [20]  [30]  [40]  [50]
+Tableau :  
+Index:    0     1     2     3     4  
+Valeur:  [10]  [20]  [30]  [40]  [50]  
                 ↑                 ↑
                ptr1              ptr2
 
@@ -432,9 +434,9 @@ int main(void) {
 
 **Sortie :**
 ```
-ptr1 est avant ptr2 en mémoire
-ptr2 est après ptr1 en mémoire
-ptr1 pointe bien vers tableau[1]
+ptr1 est avant ptr2 en mémoire  
+ptr2 est après ptr1 en mémoire  
+ptr1 pointe bien vers tableau[1]  
 ```
 
 ### Opérateurs de comparaison valides
@@ -484,8 +486,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Valeur trouvée à l'index : 2
-Valeur : 30
+Valeur trouvée à l'index : 2  
+Valeur : 30  
 ```
 
 ### Explication de la fonction
@@ -500,8 +502,8 @@ Valeur : 30
 ### ⚠️ Ne pas dépasser les limites du tableau
 
 ```c
-int tableau[5] = {10, 20, 30, 40, 50};
-int *ptr = tableau;
+int tableau[5] = {10, 20, 30, 40, 50};  
+int *ptr = tableau;  
 
 // ✓ Valide : pointe vers tableau[2]
 ptr = ptr + 2;
@@ -518,11 +520,11 @@ ptr = ptr + 10;    // Pointe en dehors du tableau
 ### ⚠️ Pointeurs vers des tableaux différents
 
 ```c
-int tableau1[5] = {1, 2, 3, 4, 5};
-int tableau2[5] = {6, 7, 8, 9, 10};
+int tableau1[5] = {1, 2, 3, 4, 5};  
+int tableau2[5] = {6, 7, 8, 9, 10};  
 
-int *ptr1 = tableau1;
-int *ptr2 = tableau2;
+int *ptr1 = tableau1;  
+int *ptr2 = tableau2;  
 
 // ✗ NON DÉFINI : comparer des pointeurs de tableaux différents
 if (ptr1 < ptr2) {  // Résultat non prévisible
@@ -547,8 +549,8 @@ void *ptr_void;
 Pour faire de l'arithmétique sur `void*`, il faut d'abord le convertir :
 
 ```c
-char *ptr_char = (char*)ptr_void;
-ptr_char = ptr_char + 1;    // ✓ OK, avance de 1 octet
+char *ptr_char = (char*)ptr_void;  
+ptr_char = ptr_char + 1;    // ✓ OK, avance de 1 octet  
 ```
 
 ## Exemple récapitulatif complet
@@ -601,9 +603,9 @@ int main(void) {
 [ 100 200 300 400 500 600 ]
 
 === Navigation avec arithmétique ===
-Premier élément (*ptr)       : 100
-Troisième élément (*(ptr+2)) : 300
-Dernier élément (*(ptr+5))   : 600
+Premier élément (*ptr)       : 100  
+Troisième élément (*(ptr+2)) : 300  
+Dernier élément (*(ptr+5))   : 600  
 
 === Avancer le pointeur ===
 Après ptr + 2, *ptr = 300
@@ -623,8 +625,8 @@ Distance de ptr au début : 3 éléments
 ### 1. Parcourir un tableau
 
 ```c
-int *ptr = tableau;
-while (ptr < tableau + taille) {
+int *ptr = tableau;  
+while (ptr < tableau + taille) {  
     // Traiter *ptr
     ptr++;
 }
@@ -633,15 +635,15 @@ while (ptr < tableau + taille) {
 ### 2. Accéder au dernier élément
 
 ```c
-int *dernier = tableau + (taille - 1);
-printf("Dernier : %d\n", *dernier);
+int *dernier = tableau + (taille - 1);  
+printf("Dernier : %d\n", *dernier);  
 ```
 
 ### 3. Inverser un tableau
 
 ```c
-int *debut = tableau;
-int *fin = tableau + taille - 1;
+int *debut = tableau;  
+int *fin = tableau + taille - 1;  
 
 while (debut < fin) {
     int temp = *debut;
@@ -692,12 +694,12 @@ tableau: | 10 | 20 | 30 | 40 | 50 |
            |    |    |    |    |
         ptr   +1   +2   +3   +4
 
-Opérations :
-ptr + 0  → tableau[0] → 10
-ptr + 1  → tableau[1] → 20
-ptr + 2  → tableau[2] → 30
-ptr + 3  → tableau[3] → 40
-ptr + 4  → tableau[4] → 50
+Opérations :  
+ptr + 0  → tableau[0] → 10  
+ptr + 1  → tableau[1] → 20  
+ptr + 2  → tableau[2] → 30  
+ptr + 3  → tableau[3] → 40  
+ptr + 4  → tableau[4] → 50  
 
 *(ptr + i) ≡ tableau[i]
 ```

@@ -49,12 +49,12 @@ Dans cette section, vous découvrirez :
 // Benchmark : 1 million d'allocations/libérations
 
 // Avec malloc/free standard
-Temps : 150 ms
-Fragmentation : ~20%
+Temps : 150 ms  
+Fragmentation : ~20%  
 
 // Avec pool allocator personnalisé
-Temps : 15 ms    (10x plus rapide !)
-Fragmentation : 0%
+Temps : 15 ms    (10x plus rapide !)  
+Fragmentation : 0%  
 ```
 
 ---
@@ -115,11 +115,11 @@ Pool de 10 objets de 32 octets :
   ↑
   Free list : 0 → 1 → 3 → 5 → 6 → 8 → 9 → NULL
 
-L = Libre (dans la free list)
-O = Occupé (alloué à l'utilisateur)
+L = Libre (dans la free list)  
+O = Occupé (alloué à l'utilisateur)  
 
-pool_alloc() : Prendre le premier de la free list (O(1))
-pool_free()  : Ajouter au début de la free list (O(1))
+pool_alloc() : Prendre le premier de la free list (O(1))  
+pool_free()  : Ajouter au début de la free list (O(1))  
 ```
 
 ### Implémentation simple
@@ -237,7 +237,7 @@ void pool_stats(const PoolAllocator* pool) {
 }
 
 // Exemple d'utilisation
-int main() {
+int main(void) {
     // Créer un pool pour des entiers
     PoolAllocator* pool = pool_create(sizeof(int), 10);
 
@@ -425,6 +425,7 @@ typedef struct Token {
 } Token;
 
 Token* parse_tokens(Arena* arena, const char* source) {
+    (void)source;  // Simulation, pas utilisé
     // Simulation simple : créer quelques tokens
     Token* tokens = arena_alloc(arena, 10 * sizeof(Token));
     if (tokens == NULL) return NULL;
@@ -439,7 +440,7 @@ Token* parse_tokens(Arena* arena, const char* source) {
     return tokens;
 }
 
-int main() {
+int main(void) {
     // Créer une arena pour le parsing
     Arena* arena = arena_create(1024 * 1024);  // 1 MB
 
@@ -530,6 +531,7 @@ Alloc B (100B) :
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 
 typedef struct StackHeader {
@@ -607,7 +609,7 @@ void stack_destroy(StackAllocator* stack) {
 }
 
 // Exemple d'utilisation
-int main() {
+int main(void) {
     StackAllocator* stack = stack_create(1024);
 
     if (stack == NULL) {
@@ -678,6 +680,7 @@ Free List : A(32) → Reste(80) → NULL
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdint.h>
 
 typedef struct FreeBlock {
@@ -781,7 +784,7 @@ void freelist_destroy(FreeListAllocator* allocator) {
     }
 }
 
-int main() {
+int main(void) {
     FreeListAllocator* allocator = freelist_create(1024);
 
     if (allocator == NULL) {
@@ -871,7 +874,7 @@ typedef struct BuddyAllocator {
 // Calculer le niveau pour une taille donnée
 int get_level(size_t size) {
     if (size <= MIN_BLOCK_SIZE) return 0;
-    return (int)ceil(log2(size / MIN_BLOCK_SIZE));
+    return (int)ceil(log2((double)size / MIN_BLOCK_SIZE));
 }
 
 // Calculer la taille d'un niveau
@@ -976,7 +979,7 @@ void buddy_destroy(BuddyAllocator* buddy) {
     }
 }
 
-int main() {
+int main(void) {
     BuddyAllocator* buddy = buddy_create(1024);
 
     if (buddy == NULL) {
@@ -984,9 +987,9 @@ int main() {
     }
 
     // Allocations
-    void* a = buddy_alloc(buddy, 40);   // 64 octets
-    void* b = buddy_alloc(buddy, 100);  // 128 octets
-    void* c = buddy_alloc(buddy, 200);  // 256 octets
+    void* a = buddy_alloc(buddy, 40);   // → bloc de 64 octets
+    void* b = buddy_alloc(buddy, 100);  // → bloc de 128 octets
+    void* c = buddy_alloc(buddy, 200);  // → bloc de 256 octets
 
     printf("Allocations effectuées : %p, %p, %p\n", a, b, c);
 
@@ -1021,12 +1024,12 @@ int main() {
 ```
 Test : 1 million d'allocations/libérations de 64 octets
 
-malloc/free        : 150 ms  (100% baseline)
-Pool Allocator     :  10 ms  (15x plus rapide)
-Arena Allocator    :   5 ms  (30x plus rapide)
-Stack Allocator    :   8 ms  (19x plus rapide)
-Free List          :  40 ms  (4x plus rapide)
-Buddy Allocator    :  60 ms  (2.5x plus rapide)
+malloc/free        : 150 ms  (100% baseline)  
+Pool Allocator     :  10 ms  (15x plus rapide)  
+Arena Allocator    :   5 ms  (30x plus rapide)  
+Stack Allocator    :   8 ms  (19x plus rapide)  
+Free List          :  40 ms  (4x plus rapide)  
+Buddy Allocator    :  60 ms  (2.5x plus rapide)  
 ```
 
 ---
@@ -1041,7 +1044,7 @@ typedef struct GameFrame {
     Pool* entity_pool;    // Réutilisé entre frames
 } GameFrame;
 
-void game_loop() {
+void game_loop(void) {
     Arena* temp = arena_create(1024 * 1024);  // 1 MB par frame
     Pool* entities = pool_create(sizeof(Entity), 10000);
 
@@ -1183,8 +1186,8 @@ PoolAllocator* entity_pool = pool_create(sizeof(Entity), 10000);
 
 ```bash
 # Comparer les performances
-time ./programme_malloc
-time ./programme_custom_allocator
+time ./programme_malloc  
+time ./programme_custom_allocator  
 
 # Vérifier les fuites
 valgrind --leak-check=full ./programme
@@ -1222,8 +1225,8 @@ for (int i = 0; i < 1000; i++) {
 
 **3. Violer le LIFO du stack**
 ```c
-void* a = stack_alloc(stack, 100);
-void* b = stack_alloc(stack, 200);
+void* a = stack_alloc(stack, 100);  
+void* b = stack_alloc(stack, 200);  
 
 stack_free(stack, a);  // ❌ ERREUR : pas LIFO !
 ```

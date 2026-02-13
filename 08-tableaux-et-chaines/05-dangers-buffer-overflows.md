@@ -32,8 +32,8 @@ Imaginez un verre d'eau :
 ### Exemple visuel en mémoire
 
 ```c
-char buffer[5];  // Peut contenir 4 caractères + '\0'
-strcpy(buffer, "Bonjour");  // 7 caractères + '\0' = 8 octets
+char buffer[5];  // Peut contenir 4 caractères + '\0'  
+strcpy(buffer, "Bonjour");  // 7 caractères + '\0' = 8 octets  
 ```
 
 **Ce qui se passe en mémoire :**
@@ -88,9 +88,9 @@ void fonction_vulnerables(void) {
 Débordement dans la mémoire allouée dynamiquement.
 
 ```c
-char *buffer = malloc(10);
-strcpy(buffer, "Texte beaucoup trop long pour le buffer");  // ❌ OVERFLOW !
-free(buffer);
+char *buffer = malloc(10);  
+strcpy(buffer, "Texte beaucoup trop long pour le buffer");  // ❌ OVERFLOW !  
+free(buffer);  
 ```
 
 **Danger :** Peut corrompre :
@@ -103,8 +103,8 @@ free(buffer);
 Erreur de calcul d'un seul octet, mais aux conséquences graves.
 
 ```c
-char buffer[10];
-for (int i = 0; i <= 10; i++) {  // ❌ Devrait être i < 10
+char buffer[10];  
+for (int i = 0; i <= 10; i++) {  // ❌ Devrait être i < 10  
     buffer[i] = 'A';
 }
 // buffer[10] n'existe pas ! Écriture hors limites
@@ -121,16 +121,16 @@ char *strcpy(char *dest, const char *src);
 **Problème :** Ne vérifie **JAMAIS** la taille du buffer de destination.
 
 ```c
-char petit[5];
-char grand[] = "Texte très long";
-strcpy(petit, grand);  // ❌ BUFFER OVERFLOW GARANTI !
+char petit[5];  
+char grand[] = "Texte très long";  
+strcpy(petit, grand);  // ❌ BUFFER OVERFLOW GARANTI !  
 ```
 
 **Alternative sûre :**
 
 ```c
-strncpy(petit, grand, sizeof(petit) - 1);
-petit[sizeof(petit) - 1] = '\0';  // Garantir la terminaison
+strncpy(petit, grand, sizeof(petit) - 1);  
+petit[sizeof(petit) - 1] = '\0';  // Garantir la terminaison  
 ```
 
 ### strcat() - Dangereuse aussi
@@ -142,8 +142,8 @@ char *strcat(char *dest, const char *src);
 **Problème :** Ne vérifie pas si `dest` a assez d'espace pour `src`.
 
 ```c
-char buffer[10] = "Hello";
-strcat(buffer, " World");  // ❌ 11 caractères + '\0' = 12 octets > 10
+char buffer[10] = "Hello";  
+strcat(buffer, " World");  // ❌ 11 caractères + '\0' = 12 octets > 10  
 ```
 
 **Alternative sûre :**
@@ -161,8 +161,8 @@ char *gets(char *str);  // ⚠️ OBSOLÈTE ET DANGEREUSE
 **Problème :** Lit une ligne complète **sans limite de taille** !
 
 ```c
-char buffer[50];
-gets(buffer);  // ❌ Si l'utilisateur entre plus de 49 caractères, OVERFLOW !
+char buffer[50];  
+gets(buffer);  // ❌ Si l'utilisateur entre plus de 49 caractères, OVERFLOW !  
 ```
 
 **Pourquoi c'est terrible :**
@@ -187,9 +187,9 @@ int sprintf(char *str, const char *format, ...);
 **Problème :** Pas de vérification de la taille du buffer.
 
 ```c
-char buffer[20];
-int grand_nombre = 123456789;
-sprintf(buffer, "Le nombre est : %d", grand_nombre);  // Peut déborder
+char buffer[20];  
+int grand_nombre = 123456789;  
+sprintf(buffer, "Le nombre est : %d", grand_nombre);  // Peut déborder  
 ```
 
 **Alternative sûre :**
@@ -201,8 +201,8 @@ snprintf(buffer, sizeof(buffer), "Le nombre est : %d", grand_nombre);
 ### scanf() avec %s - Dangereuse
 
 ```c
-char buffer[50];
-scanf("%s", buffer);  // ❌ Pas de limite !
+char buffer[50];  
+scanf("%s", buffer);  // ❌ Pas de limite !  
 ```
 
 **Alternative sûre :**
@@ -253,11 +253,11 @@ int main(void) {
 
 **Sortie possible :**
 ```
-Avant overflow:
-secret = 12345, public = 67890
+Avant overflow:  
+secret = 12345, public = 67890  
 
-Après overflow:
-secret = 1094795585, public = 1094795585
+Après overflow:  
+secret = 1094795585, public = 1094795585  
 ```
 
 Les variables ont été écrasées par les 'A' (code ASCII 65).
@@ -359,13 +359,13 @@ int main(void) {
 ```bash
 # Entrée normale
 $ ./programme
-Entrez le mot de passe : wrong
-Accès refusé !
+Entrez le mot de passe : wrong  
+Accès refusé !  
 
 # Exploitation du buffer overflow
 $ ./programme
-Entrez le mot de passe : AAAAAAAAAA[valeur spéciale]
-Accès autorisé !
+Entrez le mot de passe : AAAAAAAAAA[valeur spéciale]  
+Accès autorisé !  
 # L'overflow écrase la variable 'autorisation' !
 ```
 
@@ -423,17 +423,17 @@ int main(void) {
 **Exploitation :**
 ```bash
 $ ./programme
-Entrez un message : Bonjour
-Bonjour
+Entrez un message : Bonjour  
+Bonjour  
 
 $ ./programme
-Entrez un message : %x %x %x %x
-bfffe890 80484c0 40014000 bfffe8d8
+Entrez un message : %x %x %x %x  
+bfffe890 80484c0 40014000 bfffe8d8  
 # L'attaquant peut lire la pile !
 
 $ ./programme
-Entrez un message : %n%n%n%n
-Segmentation fault
+Entrez un message : %n%n%n%n  
+Segmentation fault  
 # L'attaquant peut écrire en mémoire !
 ```
 
@@ -454,8 +454,8 @@ gcc -Wall -Wextra -Werror programme.c -o programme
 
 **Exemples de warnings détectés :**
 ```c
-warning: 'gets' is deprecated (declared at /usr/include/stdio.h:638)
-warning: format '%s' expects argument of type 'char *', but argument has type 'int'
+warning: 'gets' is deprecated (declared at /usr/include/stdio.h:638)  
+warning: format '%s' expects argument of type 'char *', but argument has type 'int'  
 ```
 
 ### 2. AddressSanitizer (ASan)
@@ -495,8 +495,8 @@ Address 0x7fffffffd945 is located in stack of thread T0 at offset 37
 ### 3. Valgrind
 
 ```bash
-gcc -g programme.c -o programme
-valgrind --leak-check=full --track-origins=yes ./programme
+gcc -g programme.c -o programme  
+valgrind --leak-check=full --track-origins=yes ./programme  
 ```
 
 **Détecte :**
@@ -527,13 +527,13 @@ clang-tidy programme.c -- -I/usr/include
 
 ```c
 // ❌ Dangereux
-strcpy(dest, src);
-strcat(dest, src);
-sprintf(dest, "%s", src);
+strcpy(dest, src);  
+strcat(dest, src);  
+sprintf(dest, "%s", src);  
 
 // ✅ Sûr
-strncpy(dest, src, sizeof(dest) - 1);
-dest[sizeof(dest) - 1] = '\0';
+strncpy(dest, src, sizeof(dest) - 1);  
+dest[sizeof(dest) - 1] = '\0';  
 
 strncat(dest, src, sizeof(dest) - strlen(dest) - 1);
 
@@ -546,8 +546,8 @@ snprintf(dest, sizeof(dest), "%s", src);
 char buffer[100];
 
 // ✅ Bon : s'adapte automatiquement si la taille change
-fgets(buffer, sizeof(buffer), stdin);
-snprintf(buffer, sizeof(buffer), "...");
+fgets(buffer, sizeof(buffer), stdin);  
+snprintf(buffer, sizeof(buffer), "...");  
 
 // ❌ Mauvais : magic number, risque d'erreur si buffer change
 fgets(buffer, 100, stdin);
@@ -556,14 +556,14 @@ fgets(buffer, 100, stdin);
 ### ✅ 3. Vérifier les retours de fonctions
 
 ```c
-char *result = fgets(buffer, sizeof(buffer), stdin);
-if (result == NULL) {
+char *result = fgets(buffer, sizeof(buffer), stdin);  
+if (result == NULL) {  
     fprintf(stderr, "Erreur de lecture\n");
     return -1;
 }
 
-int written = snprintf(buffer, sizeof(buffer), "...");
-if (written >= sizeof(buffer)) {
+int written = snprintf(buffer, sizeof(buffer), "...");  
+if (written >= (int)sizeof(buffer)) {
     fprintf(stderr, "Troncature détectée\n");
 }
 ```
@@ -599,15 +599,15 @@ void traiter_nom(const char *nom) {
 ```c
 #include "safestr.h"
 
-char dest[50];
-safe_strcpy(dest, sizeof(dest), src);  // Vérifie automatiquement
+char dest[50];  
+safe_strcpy(dest, sizeof(dest), src);  // Vérifie automatiquement  
 ```
 
 **strlcpy/strlcat (OpenBSD) :**
 ```c
 // Garantit toujours la terminaison par '\0'
-strlcpy(dest, src, sizeof(dest));
-strlcat(dest, src, sizeof(dest));
+strlcpy(dest, src, sizeof(dest));  
+strlcat(dest, src, sizeof(dest));  
 ```
 
 ### ✅ 6. Compiler avec les flags de sécurité
@@ -806,7 +806,7 @@ void traiter_utilisateur(void) {
                           "Bonjour %s %s (email: %s)",
                           prenom, nom, email);
 
-    if (written >= sizeof(message)) {
+    if (written >= (int)sizeof(message)) {
         fprintf(stderr, "Message tronqué\n");
     }
 

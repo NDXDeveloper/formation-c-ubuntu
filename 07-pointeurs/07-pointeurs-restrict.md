@@ -43,9 +43,9 @@ void fonction(int *restrict ptr1, int *restrict ptr2);
 L'**aliasing** se produit quand deux pointeurs différents pointent vers la même zone mémoire.
 
 ```c
-int valeur = 10;
-int *ptr1 = &valeur;
-int *ptr2 = &valeur;    // ptr1 et ptr2 sont des alias
+int valeur = 10;  
+int *ptr1 = &valeur;  
+int *ptr2 = &valeur;    // ptr1 et ptr2 sont des alias  
 
 *ptr1 = 20;    // Modifie valeur via ptr1
 // ptr2 pointe vers la même chose, donc *ptr2 vaut maintenant 20
@@ -228,6 +228,8 @@ void traiter(int *restrict ptr, int taille) {
 Si vous violez la promesse `restrict`, vous obtenez un **comportement indéfini**.
 
 ```c
+#include <stdio.h>
+
 void mauvais_exemple(int *restrict a, int *restrict b) {
     *a = 10;
     *b = 20;
@@ -266,8 +268,8 @@ C'est VOTRE responsabilité
 ### 1. Fonctions de copie mémoire
 
 ```c
-void *memcpy(void *restrict dest, const void *restrict src, size_t n);
-void *memmove(void *dest, const void *src, size_t n);    // PAS restrict !
+void *memcpy(void *restrict dest, const void *restrict src, size_t n);  
+void *memmove(void *dest, const void *src, size_t n);    // PAS restrict !  
 ```
 
 **Différence :**
@@ -327,9 +329,9 @@ void appliquer_filtre(unsigned char *restrict sortie,
 Plusieurs fonctions standard utilisent `restrict` :
 
 ```c
-char *strcpy(char *restrict dest, const char *restrict src);
-char *strcat(char *restrict dest, const char *restrict src);
-int sprintf(char *restrict str, const char *restrict format, ...);
+char *strcpy(char *restrict dest, const char *restrict src);  
+char *strcat(char *restrict dest, const char *restrict src);  
+int sprintf(char *restrict str, const char *restrict format, ...);  
 ```
 
 ## Restrict avec const
@@ -348,14 +350,15 @@ void fonction(const int *restrict ptr) {
 ### Ordre des qualificateurs
 
 ```c
-// Les trois sont valides et équivalents :
-const int *restrict ptr;
+// Les deux sont valides et équivalents :
+const int *restrict ptr;  
 int const *restrict ptr;
-restrict const int *ptr;    // Moins courant
 
 // Pointeur restrict constant vers int constant
-const int *restrict const ptr;
+const int *const restrict ptr;
 ```
+
+> **Note :** `restrict` doit toujours apparaître **après le `*`** dans la déclaration, jamais avant le type.
 
 ## Exemple complet : produit scalaire
 
@@ -424,6 +427,8 @@ Produit scalaire : 70.0
 ### Pointeur restrict vers une structure
 
 ```c
+#include <stdio.h>
+
 typedef struct {
     int x;
     int y;
@@ -540,14 +545,16 @@ void fonction(int *RESTRICT ptr);
 
 ### Vérification du support
 
+`restrict` est disponible dès lors que vous compilez en C99 ou ultérieur. Vous pouvez le vérifier avec la macro `__STDC_VERSION__` :
+
 ```c
 #include <stdio.h>
 
 int main(void) {
-#ifdef __STDC_NO_RESTRICT__
-    printf("restrict n'est pas supporté\n");
+#if __STDC_VERSION__ >= 199901L
+    printf("restrict est supporté (C99+)\n");
 #else
-    printf("restrict est supporté\n");
+    printf("restrict n'est pas disponible (pré-C99)\n");
 #endif
     return 0;
 }

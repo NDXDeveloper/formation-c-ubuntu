@@ -42,10 +42,12 @@ Index :        [0]      [1]      [2]      [3]      [4]
 ```c
 int nombres[5] = {10, 20, 30, 40, 50};
 
-// Ces trois expressions sont IDENTIQUES :
-printf("%p\n", nombres);        // Adresse du tableau
-printf("%p\n", &nombres[0]);    // Adresse du premier élément
-printf("%p\n", &nombres);       // Adresse du tableau lui-même (subtilité à voir plus tard)
+// Ces deux expressions donnent la MÊME adresse :
+printf("%p\n", (void*)nombres);        // Adresse du premier élément  
+printf("%p\n", (void*)&nombres[0]);    // Identique
+
+// Celle-ci donne la même valeur numérique, mais un type différent :
+printf("%p\n", (void*)&nombres);       // Type : int(*)[5] (pointeur vers tableau de 5 int)
 ```
 
 **Important :** `nombres` et `&nombres[0]` donnent exactement la même adresse.
@@ -94,8 +96,8 @@ for (int i = 0; i < 5; i++) {
 ### Méthode avec pointeur
 
 ```c
-int nombres[5] = {10, 20, 30, 40, 50};
-int *ptr = nombres;  // ptr pointe sur le premier élément
+int nombres[5] = {10, 20, 30, 40, 50};  
+int *ptr = nombres;  // ptr pointe sur le premier élément  
 
 for (int i = 0; i < 5; i++) {
     printf("%d ", *(ptr + i));
@@ -105,8 +107,8 @@ for (int i = 0; i < 5; i++) {
 ### Méthode avec pointeur itératif
 
 ```c
-int nombres[5] = {10, 20, 30, 40, 50};
-int *ptr = nombres;
+int nombres[5] = {10, 20, 30, 40, 50};  
+int *ptr = nombres;  
 
 for (int i = 0; i < 5; i++) {
     printf("%d ", *ptr);
@@ -127,7 +129,7 @@ void afficher_tableau(int tab[], int taille) {
     }
 }
 
-int main() {
+int main(void) {
     int nombres[5] = {10, 20, 30, 40, 50};
     afficher_tableau(nombres, 5);  // Passe l'adresse du premier élément
 }
@@ -136,8 +138,8 @@ int main() {
 **Ces déclarations sont équivalentes :**
 
 ```c
-void afficher_tableau(int tab[], int taille)
-void afficher_tableau(int *tab, int taille)
+void afficher_tableau(int tab[], int taille)  
+void afficher_tableau(int *tab, int taille)  
 ```
 
 Le compilateur traite `int tab[]` comme `int *tab` dans les paramètres de fonction.
@@ -166,11 +168,11 @@ Bien que les tableaux se comportent souvent comme des pointeurs, **ils ne sont p
 ### Différence 1 : sizeof
 
 ```c
-int nombres[5];
-int *ptr = nombres;
+int nombres[5];  
+int *ptr = nombres;  
 
-printf("%zu\n", sizeof(nombres));  // 20 (5 × 4 octets)
-printf("%zu\n", sizeof(ptr));      // 8 (taille d'un pointeur sur système 64 bits)
+printf("%zu\n", sizeof(nombres));  // 20 (5 × 4 octets)  
+printf("%zu\n", sizeof(ptr));      // 8 (taille d'un pointeur sur système 64 bits)  
 ```
 
 ### Différence 2 : Adresse de l'opérateur &
@@ -196,11 +198,11 @@ nombres + 1     // Avance de 4 octets (un int)
 ### Différence 3 : Modification
 
 ```c
-int nombres[5];
-int *ptr = nombres;
+int nombres[5];  
+int *ptr = nombres;  
 
-ptr = ptr + 1;  // ✅ OK : ptr est une variable, on peut la modifier
-nombres = nombres + 1;  // ❌ ERREUR : nombres est une constante
+ptr = ptr + 1;  // ✅ OK : ptr est une variable, on peut la modifier  
+nombres = nombres + 1;  // ❌ ERREUR : nombres est une constante  
 ```
 
 **Le nom d'un tableau est une constante**, vous ne pouvez pas le réassigner.
@@ -229,15 +231,15 @@ size_t taille = sizeof(nombres);  // Renvoie 20, pas 8
 L'arithmétique des pointeurs prend tout son sens avec les tableaux :
 
 ```c
-int nombres[5] = {10, 20, 30, 40, 50};
-int *ptr = nombres;
+int nombres[5] = {10, 20, 30, 40, 50};  
+int *ptr = nombres;  
 
-printf("%d\n", *ptr);       // 10
-printf("%d\n", *(ptr + 1)); // 20
-printf("%d\n", *(ptr + 2)); // 30
+printf("%d\n", *ptr);       // 10  
+printf("%d\n", *(ptr + 1)); // 20  
+printf("%d\n", *(ptr + 2)); // 30  
 
-ptr = ptr + 3;
-printf("%d\n", *ptr);       // 40
+ptr = ptr + 3;  
+printf("%d\n", *ptr);       // 40  
 ```
 
 ### Soustraction de pointeurs
@@ -245,12 +247,12 @@ printf("%d\n", *ptr);       // 40
 Vous pouvez soustraire deux pointeurs pour obtenir le nombre d'éléments qui les séparent :
 
 ```c
-int nombres[5] = {10, 20, 30, 40, 50};
-int *debut = &nombres[0];
-int *fin = &nombres[4];
+int nombres[5] = {10, 20, 30, 40, 50};  
+int *debut = &nombres[0];  
+int *fin = &nombres[4];  
 
-ptrdiff_t distance = fin - debut;  // Résultat : 4
-printf("Distance : %td éléments\n", distance);
+ptrdiff_t distance = fin - debut;  // Résultat : 4  
+printf("Distance : %td éléments\n", distance);  
 ```
 
 **Note :** `ptrdiff_t` est le type approprié pour stocker la différence entre deux pointeurs.
@@ -412,16 +414,16 @@ int main(void) {
 
 **Sortie possible :**
 ```
-Tableau initial :
-Valeurs : 10 20 30 40 50
-Adresses : 0x7ffd8c2a1a40 0x7ffd8c2a1a44 0x7ffd8c2a1a48 0x7ffd8c2a1a4c 0x7ffd8c2a1a50
+Tableau initial :  
+Valeurs : 10 20 30 40 50  
+Adresses : 0x7ffd8c2a1a40 0x7ffd8c2a1a44 0x7ffd8c2a1a48 0x7ffd8c2a1a4c 0x7ffd8c2a1a50  
 
-Nom du tableau : 0x7ffd8c2a1a40
-Adresse 1er élément : 0x7ffd8c2a1a40
-Taille du tableau : 20 octets
+Nom du tableau : 0x7ffd8c2a1a40  
+Adresse 1er élément : 0x7ffd8c2a1a40  
+Taille du tableau : 20 octets  
 
-Après doublement :
-Valeurs : 20 40 60 80 100
+Après doublement :  
+Valeurs : 20 40 60 80 100  
 
 Parcours avec pointeur itératif : 20 40 60 80 100
 ```

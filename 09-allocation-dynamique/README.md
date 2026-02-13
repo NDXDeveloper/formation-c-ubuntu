@@ -38,8 +38,8 @@ char buffer[1000];  // Et si le fichier fait 2000 octets ?
 **Avec allocation dynamique :**
 ```c
 // ✅ Approche flexible
-size_t taille = obtenir_taille_fichier("data.txt");
-char* buffer = malloc(taille);  // Taille exacte !
+size_t taille = obtenir_taille_fichier("data.txt");  
+char* buffer = malloc(taille);  // Taille exacte !  
 ```
 
 ### Problème 2 : Données qui doivent survivre à une fonction
@@ -48,7 +48,7 @@ Les variables locales sont automatiquement détruites quand une fonction se term
 
 **Sans allocation dynamique :**
 ```c
-int* creer_tableau() {
+int* creer_tableau(void) {
     int tableau[10] = {1, 2, 3, 4, 5};
     return tableau;  // ❌ ERREUR : tableau sera détruit !
 }
@@ -56,7 +56,7 @@ int* creer_tableau() {
 
 **Avec allocation dynamique :**
 ```c
-int* creer_tableau() {
+int* creer_tableau(void) {
     int* tableau = malloc(10 * sizeof(int));
     for (int i = 0; i < 10; i++) {
         tableau[i] = i + 1;
@@ -103,7 +103,7 @@ Pour comprendre l'allocation dynamique, il faut d'abord comprendre qu'un program
 
 **Exemple :**
 ```c
-void fonction() {
+void fonction(void) {
     int x = 10;        // Sur la Stack
     char nom[50];      // Sur la Stack
     double pi = 3.14;  // Sur la Stack
@@ -129,7 +129,7 @@ void fonction() {
 
 **Exemple :**
 ```c
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(sizeof(int));  // Alloué sur le Heap
     *ptr = 10;
 
@@ -156,8 +156,8 @@ Alloue `size` octets sur le Heap et retourne un pointeur vers le début de cette
 
 **Exemple :**
 ```c
-int* entier = malloc(sizeof(int));
-char* chaine = malloc(100 * sizeof(char));
+int* entier = malloc(sizeof(int));  
+char* chaine = malloc(100 * sizeof(char));  
 ```
 
 ### calloc() - Allouer et initialiser
@@ -213,7 +213,7 @@ Voici un exemple simple qui illustre les concepts de base :
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     // 1. Demander la taille à l'utilisateur
     printf("Combien d'entiers voulez-vous stocker ? ");
     int n;
@@ -250,8 +250,8 @@ int main() {
 
 **Exécution :**
 ```
-Combien d'entiers voulez-vous stocker ? 5
-Entrez 5 entiers :
+Combien d'entiers voulez-vous stocker ? 5  
+Entrez 5 entiers :  
 10 20 30 40 50
 Vous avez entré : 10 20 30 40 50
 ```
@@ -273,7 +273,7 @@ L'allocation dynamique est puissante, mais elle comporte des risques que nous al
 **Problème :** Oublier de libérer la mémoire allouée.
 
 ```c
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(1000 * sizeof(int));
     // ... utilisation ...
     // ❌ OUBLI : pas de free(ptr) !
@@ -287,9 +287,9 @@ void fonction() {
 **Problème :** Libérer la même mémoire deux fois.
 
 ```c
-int* ptr = malloc(sizeof(int));
-free(ptr);
-free(ptr);  // ❌ ERREUR : double free → Corruption mémoire
+int* ptr = malloc(sizeof(int));  
+free(ptr);  
+free(ptr);  // ❌ ERREUR : double free → Corruption mémoire  
 ```
 
 **Conséquence :** Corruption du gestionnaire de mémoire, crash du programme.
@@ -313,8 +313,8 @@ printf("%d\n", *ptr);  // ❌ ERREUR : lecture de mémoire libérée
 **Problème :** Écrire en dehors de la zone allouée.
 
 ```c
-char* buffer = malloc(10);
-strcpy(buffer, "Ceci est une très longue chaîne");  // ❌ DÉBORDEMENT !
+char* buffer = malloc(10);  
+strcpy(buffer, "Ceci est une très longue chaîne");  // ❌ DÉBORDEMENT !  
 ```
 
 **Conséquence :** Corruption de mémoire, crash, faille de sécurité.
@@ -327,8 +327,8 @@ strcpy(buffer, "Ceci est une très longue chaîne");  // ❌ DÉBORDEMENT !
 
 ```c
 // Pattern correct
-void* ptr = malloc(size);
-if (ptr != NULL) {
+void* ptr = malloc(size);  
+if (ptr != NULL) {  
     // ... utilisation de ptr ...
     free(ptr);  // ✅ Libération
     ptr = NULL; // ✅ Bonne pratique : éviter les erreurs
@@ -439,8 +439,8 @@ Pour travailler efficacement avec l'allocation dynamique, vous aurez besoin de c
 sudo apt-get install valgrind
 
 # Utilisation
-gcc -g programme.c -o programme
-valgrind --leak-check=full ./programme
+gcc -g programme.c -o programme  
+valgrind --leak-check=full ./programme  
 ```
 
 ### AddressSanitizer
@@ -533,7 +533,7 @@ typedef struct {
     size_t nombre;
 } Carnet;
 
-Carnet* creer_carnet() {
+Carnet* creer_carnet(void) {
     Carnet* carnet = malloc(sizeof(Carnet));
     if (carnet == NULL) return NULL;
 
@@ -594,7 +594,7 @@ void liberer_carnet(Carnet* carnet) {
     free(carnet);
 }
 
-int main() {
+int main(void) {
     Carnet* mon_carnet = creer_carnet();
 
     if (mon_carnet == NULL) {

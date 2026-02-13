@@ -57,7 +57,7 @@ Tentative d'allouer 250 KB :
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     size_t taille = 1024 * 1024;  // 1 MB
     void* ptr;
     int compteur = 0;
@@ -90,8 +90,8 @@ int main() {
 **❌ Code dangereux (sans vérification) :**
 
 ```c
-int* tableau = malloc(100 * sizeof(int));
-tableau[0] = 42;  // ⚠️ CRASH si malloc retourne NULL !
+int* tableau = malloc(100 * sizeof(int));  
+tableau[0] = 42;  // ⚠️ CRASH si malloc retourne NULL !  
 ```
 
 **✅ Code correct (avec vérification) :**
@@ -151,7 +151,7 @@ char* dupliquer_chaine(const char* source) {
     return copie;
 }
 
-int main() {
+int main(void) {
     const char* original = "Hello, World!";
     char* copie = dupliquer_chaine(original);
 
@@ -213,7 +213,7 @@ const char* error_to_string(ErrorCode err) {
     }
 }
 
-int main() {
+int main(void) {
     int* mon_tableau = NULL;
     ErrorCode result = creer_tableau(&mon_tableau, 100);
 
@@ -309,7 +309,7 @@ void liberer_etudiant(Etudiant* etudiant) {
     }
 }
 
-int main() {
+int main(void) {
     Etudiant* etudiant = creer_etudiant("Dupont", "Marie", 5);
 
     if (etudiant == NULL) {
@@ -350,7 +350,7 @@ void* malloc_ou_exit(size_t taille, const char* message) {
     return ptr;
 }
 
-int main() {
+int main(void) {
     // Pas besoin de vérifier : le programme se termine en cas d'échec
     int* tableau = malloc_ou_exit(100 * sizeof(int),
                                    "allocation du tableau principal");
@@ -379,7 +379,7 @@ La variable globale `errno` peut fournir plus d'informations sur l'échec.
 #include <errno.h>
 #include <string.h>
 
-int main() {
+int main(void) {
     // Tentative d'allocation énorme (probablement impossible)
     size_t taille_enorme = (size_t)1024 * 1024 * 1024 * 1024;  // 1 TB
 
@@ -439,7 +439,7 @@ void* malloc_flexible(size_t taille_souhaitee, size_t taille_min, size_t* taille
     return NULL;
 }
 
-int main() {
+int main(void) {
     size_t taille_allouee;
 
     // Essayer d'allouer 100 MB, minimum 10 MB
@@ -518,7 +518,7 @@ void destroy_pool(MemoryPool* pool) {
     }
 }
 
-int main() {
+int main(void) {
     // Créer un pool au démarrage
     MemoryPool* pool = init_pool(POOL_SIZE);
 
@@ -553,6 +553,7 @@ int main() {
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct {
     char* buffer;
@@ -614,7 +615,7 @@ void liberer_processeur(ProcesseurTexte* proc) {
     }
 }
 
-int main() {
+int main(void) {
     ProcesseurTexte* proc = creer_processeur(10 * 1024 * 1024);  // 10 MB
 
     if (proc == NULL) {
@@ -661,7 +662,7 @@ if (ptr == NULL) {
 
 #define LOG_ERROR(fmt, ...) \
     fprintf(stderr, "[ERREUR] %s:%d dans %s() : " fmt "\n", \
-            __FILE__, __LINE__, __func__, ##__VA_ARGS__)
+            __FILE__, __LINE__, __func__, __VA_ARGS__)
 
 void* allouer_buffer(size_t taille) {
     void* ptr = malloc(taille);
@@ -674,11 +675,11 @@ void* allouer_buffer(size_t taille) {
     return ptr;
 }
 
-int main() {
+int main(void) {
     void* buffer = allouer_buffer(100);
 
     if (buffer == NULL) {
-        LOG_ERROR("impossible de créer le buffer principal");
+        LOG_ERROR("%s", "impossible de créer le buffer principal");
         return 1;
     }
 
@@ -714,7 +715,7 @@ void traiter_donnees(int* donnees, size_t taille) {
     }
 }
 
-int main() {
+int main(void) {
     int* tableau = malloc(10 * sizeof(int));
 
     if (tableau == NULL) {
@@ -780,7 +781,7 @@ void* allouer_securise(size_t taille) {
     return ptr;
 }
 
-int main() {
+int main(void) {
     void* buffer = allouer_securise(0);  // Échec de validation
 
     if (buffer == NULL) {
@@ -803,11 +804,12 @@ Pour tester la gestion d'erreurs, on peut créer un wrapper qui simule des éche
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 // Variables globales pour les tests
-static bool test_mode = false;
-static int allocation_counter = 0;
-static int fail_at_allocation = -1;  // -1 = ne jamais échouer
+static bool test_mode = false;  
+static int allocation_counter = 0;  
+static int fail_at_allocation = -1;  // -1 = ne jamais échouer  
 
 void set_test_mode(bool enable, int fail_at) {
     test_mode = enable;
@@ -881,7 +883,7 @@ void destroy_complex(ComplexStruct* obj) {
     }
 }
 
-int main() {
+int main(void) {
     printf("=== Test 1 : Tout réussit ===\n");
     set_test_mode(true, -1);  // Pas d'échec
     ComplexStruct* obj1 = create_complex("test", 10);
@@ -923,7 +925,7 @@ valgrind --leak-check=full --show-leak-kinds=all ./test_erreurs
 #include <stdio.h>
 #include <sys/resource.h>
 
-void afficher_limites() {
+void afficher_limites(void) {
     struct rlimit limit;
 
     // Limite de taille de la Stack
@@ -963,7 +965,7 @@ void afficher_limites() {
     }
 }
 
-int main() {
+int main(void) {
     afficher_limites();
     return 0;
 }
@@ -1081,7 +1083,7 @@ Status dupliquer_chaine_robuste(const char* source, char** dest) {
     return OK;
 }
 
-int main() {
+int main(void) {
     char* copie = NULL;
     Status status = dupliquer_chaine_robuste("Hello, World!", &copie);
 

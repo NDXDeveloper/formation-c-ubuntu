@@ -45,18 +45,18 @@ char *strncpy(char *dest, const char *src, size_t n);
 **❌ Usage incorrect (fréquent) :**
 
 ```c
-char dest[10];
-strncpy(dest, "Texte très long", sizeof(dest));  // ❌ Pas de '\0' garanti !
-printf("%s\n", dest);  // Comportement indéfini
+char dest[10];  
+strncpy(dest, "Texte très long", sizeof(dest));  // ❌ Pas de '\0' garanti !  
+printf("%s\n", dest);  // Comportement indéfini  
 ```
 
 **✅ Usage correct :**
 
 ```c
-char dest[10];
-strncpy(dest, "Texte très long", sizeof(dest) - 1);
-dest[sizeof(dest) - 1] = '\0';  // Garantir la terminaison
-printf("%s\n", dest);  // "Texte trè"
+char dest[10];  
+strncpy(dest, "Texte très long", sizeof(dest) - 1);  
+dest[sizeof(dest) - 1] = '\0';  // Garantir la terminaison  
+printf("%s\n", dest);  // "Texte trè"  
 ```
 
 **Fonction wrapper sécurisée :**
@@ -70,8 +70,8 @@ void safe_strncpy(char *dest, const char *src, size_t dest_size) {
 }
 
 // Utilisation
-char buffer[20];
-safe_strncpy(buffer, "Bonjour le monde", sizeof(buffer));
+char buffer[20];  
+safe_strncpy(buffer, "Bonjour le monde", sizeof(buffer));  
 ```
 
 ### strncat() : Utilisation correcte
@@ -88,17 +88,17 @@ char *strncat(char *dest, const char *src, size_t n);
 **❌ Usage incorrect :**
 
 ```c
-char dest[20] = "Hello";
-strncat(dest, " World", sizeof(dest));  // ❌ Risque de débordement !
+char dest[20] = "Hello";  
+strncat(dest, " World", sizeof(dest));  // ❌ Risque de débordement !  
 // sizeof(dest) ne tient pas compte de ce qui est déjà dans dest
 ```
 
 **✅ Usage correct :**
 
 ```c
-char dest[20] = "Hello";
-size_t espace_restant = sizeof(dest) - strlen(dest) - 1;
-strncat(dest, " World", espace_restant);
+char dest[20] = "Hello";  
+size_t espace_restant = sizeof(dest) - strlen(dest) - 1;  
+strncat(dest, " World", espace_restant);  
 ```
 
 **Fonction wrapper sécurisée :**
@@ -116,8 +116,8 @@ void safe_strncat(char *dest, const char *src, size_t dest_size) {
 }
 
 // Utilisation
-char buffer[20] = "Hello";
-safe_strncat(buffer, " World", sizeof(buffer));
+char buffer[20] = "Hello";  
+safe_strncat(buffer, " World", sizeof(buffer));  
 ```
 
 ### Les limites de strncpy/strncat
@@ -157,14 +157,14 @@ int snprintf(char *str, size_t size, const char *format, ...);
 **Utilisation de base :**
 
 ```c
-char buffer[50];
-int nombre = 42;
-const char *nom = "Alice";
+char buffer[50];  
+int nombre = 42;  
+const char *nom = "Alice";  
 
 int written = snprintf(buffer, sizeof(buffer),
                        "Nom: %s, Age: %d", nom, nombre);
 
-if (written >= sizeof(buffer)) {
+if (written >= (int)sizeof(buffer)) {
     printf("Attention : troncature détectée\n");
 }
 
@@ -174,8 +174,8 @@ printf("%s\n", buffer);  // "Nom: Alice, Age: 42"
 **Pour copier une simple chaîne :**
 
 ```c
-char dest[50];
-const char *source = "Bonjour le monde";
+char dest[50];  
+const char *source = "Bonjour le monde";  
 
 snprintf(dest, sizeof(dest), "%s", source);
 // Équivalent à une copie sécurisée
@@ -184,13 +184,13 @@ snprintf(dest, sizeof(dest), "%s", source);
 **Vérification de troncature :**
 
 ```c
-char buffer[10];
-int written = snprintf(buffer, sizeof(buffer), "Texte très long");
+char buffer[10];  
+int written = snprintf(buffer, sizeof(buffer), "Texte très long");  
 
 if (written < 0) {
     // Erreur d'encodage (rare)
     fprintf(stderr, "Erreur snprintf\n");
-} else if (written >= sizeof(buffer)) {
+} else if (written >= (int)sizeof(buffer)) {
     // Troncature : written contient la taille nécessaire
     fprintf(stderr, "Troncature : %d caractères nécessaires, %zu disponibles\n",
             written, sizeof(buffer));
@@ -207,11 +207,11 @@ void construire_message_securise(char *buffer, size_t size) {
 
     // Ajouter la première partie
     offset += snprintf(buffer + offset, size - offset, "Ligne 1\n");
-    if (offset >= size) return;
+    if (offset >= (int)size) return;
 
     // Ajouter la deuxième partie
     offset += snprintf(buffer + offset, size - offset, "Ligne 2\n");
-    if (offset >= size) return;
+    if (offset >= (int)size) return;
 
     // Ajouter la troisième partie
     offset += snprintf(buffer + offset, size - offset, "Ligne 3\n");
@@ -237,8 +237,8 @@ Le standard C11 a introduit l'Annexe K (optionnelle) avec des fonctions sécuris
 // Disponible si __STDC_LIB_EXT1__ est défini
 #ifdef __STDC_LIB_EXT1__
 
-errno_t strcpy_s(char *dest, rsize_t dest_size, const char *src);
-errno_t strncpy_s(char *dest, rsize_t dest_size, const char *src, rsize_t count);
+errno_t strcpy_s(char *dest, rsize_t dest_size, const char *src);  
+errno_t strncpy_s(char *dest, rsize_t dest_size, const char *src, rsize_t count);  
 
 #endif
 ```
@@ -281,8 +281,8 @@ errno_t strcat_s(char *dest, rsize_t dest_size, const char *src);
 **Exemple :**
 
 ```c
-char buffer[50] = "Hello";
-errno_t err = strcat_s(buffer, sizeof(buffer), " World");
+char buffer[50] = "Hello";  
+errno_t err = strcat_s(buffer, sizeof(buffer), " World");  
 
 if (err != 0) {
     fprintf(stderr, "Erreur de concaténation\n");
@@ -341,8 +341,8 @@ size_t strlcpy(char *dst, const char *src, size_t size);
 **Exemple :**
 
 ```c
-char dest[10];
-const char *source = "Bonjour le monde";
+char dest[10];  
+const char *source = "Bonjour le monde";  
 
 size_t src_len = strlcpy(dest, source, sizeof(dest));
 
@@ -368,8 +368,8 @@ size_t strlcat(char *dst, const char *src, size_t size);
 **Exemple :**
 
 ```c
-char buffer[20] = "Hello";
-const char *ajout = " World";
+char buffer[20] = "Hello";  
+const char *ajout = " World";  
 
 size_t final_len = strlcat(buffer, ajout, sizeof(buffer));
 
@@ -402,12 +402,15 @@ size_t strlcpy(char *dst, const char *src, size_t size) {
 
 // Implémentation de strlcat
 size_t strlcat(char *dst, const char *src, size_t size) {
-    size_t dst_len = strnlen(dst, size);
+    // Trouver la fin de dst sans dépasser size (équivalent de strnlen)
+    const char *nul = memchr(dst, '\0', size);
     size_t src_len = strlen(src);
 
-    if (dst_len == size) {
-        return size + src_len;  // Pas d'espace
+    if (!nul) {
+        return size + src_len;  // dst non terminée dans size octets
     }
+
+    size_t dst_len = (size_t)(nul - dst);
 
     size_t available = size - dst_len - 1;
     size_t copy_len = (src_len < available) ? src_len : available;
@@ -470,7 +473,7 @@ void test_copy_functions(void) {
     printf("Résultat : \"%s\"\n", dest);
     printf("Terminaison garantie : OUI\n");
     printf("Troncature détectée : %s\n\n",
-           written >= sizeof(dest) ? "OUI" : "NON");
+           written >= (int)sizeof(dest) ? "OUI" : "NON");
 
     // Méthode 3 : strlcpy (BSD)
     #ifdef HAVE_STRLCPY
@@ -568,12 +571,14 @@ str_error_t safe_strcat(char *dest, size_t dest_size, const char *src) {
         return STR_ERROR_ZERO_SIZE;
     }
 
-    // Trouver la fin de dest
-    size_t dest_len = strnlen(dest, dest_size);
+    // Trouver la fin de dest (sans dépasser dest_size)
+    const char *nul = memchr(dest, '\0', dest_size);
 
-    if (dest_len >= dest_size) {
+    if (!nul) {
         return STR_ERROR_INVALID;  // dest n'est pas terminée
     }
+
+    size_t dest_len = (size_t)(nul - dest);
 
     // Calculer l'espace disponible
     size_t available = dest_size - dest_len - 1;
@@ -687,9 +692,9 @@ int main(void) {
     safe_strcat((dest), sizeof(dest), (src))
 
 // Utilisation
-char buffer[100];
-SAFE_STRCPY(buffer, "Bonjour");  // sizeof(buffer) automatique
-SAFE_STRCAT(buffer, " monde");
+char buffer[100];  
+SAFE_STRCPY(buffer, "Bonjour");  // sizeof(buffer) automatique  
+SAFE_STRCAT(buffer, " monde");  
 ```
 
 ### Macro de vérification
@@ -706,8 +711,8 @@ SAFE_STRCAT(buffer, " monde");
     } while(0)
 
 // Utilisation
-char dest[20];
-CHECK_STR_ERROR(
+char dest[20];  
+CHECK_STR_ERROR(  
     safe_strcpy(dest, sizeof(dest), source),
     return -1
 );
@@ -748,7 +753,7 @@ if (written < 0) {
     return -1;
 }
 
-if (written >= sizeof(buffer)) {
+if (written >= (int)sizeof(buffer)) {
     // Troncature
     fprintf(stderr, "Attention : données tronquées\n");
 }
@@ -812,8 +817,8 @@ sudo dnf install libbsd-devel
 ```c
 #include <bsd/string.h>
 
-char dest[50];
-strlcpy(dest, source, sizeof(dest));  // Disponible !
+char dest[50];  
+strlcpy(dest, source, sizeof(dest));  // Disponible !  
 ```
 
 **Compilation :**
@@ -828,8 +833,8 @@ Bibliothèque créée par Microsoft, compatible multi-plateforme.
 ```c
 #include <safe_lib.h>
 
-char dest[50];
-errno_t err = strcpy_s(dest, sizeof(dest), source);
+char dest[50];  
+errno_t err = strcpy_s(dest, sizeof(dest), source);  
 ```
 
 ### GLib (GNOME)
@@ -839,8 +844,8 @@ Bibliothèque riche avec fonctions de manipulation de chaînes.
 ```c
 #include <glib.h>
 
-gchar *str = g_strdup("Bonjour");  // Allocation automatique
-g_strlcpy(dest, source, sizeof(dest));  // Copie sécurisée
+gchar *str = g_strdup("Bonjour");  // Allocation automatique  
+g_strlcpy(dest, source, sizeof(dest));  // Copie sécurisée  
 ```
 
 ## Exemple complet : Application sécurisée
@@ -866,7 +871,7 @@ int safe_copy(char *dest, size_t dest_size, const char *src) {
         return -1;  // Erreur
     }
 
-    if (written >= dest_size) {
+    if ((size_t)written >= dest_size) {
         fprintf(stderr, "Attention : troncature\n");
         return 1;  // Troncature
     }
@@ -960,7 +965,7 @@ int process_user_registration(void) {
                           "Email : %s\n",
                           username, email);
 
-    if (written >= sizeof(message)) {
+    if (written >= (int)sizeof(message)) {
         fprintf(stderr, "Erreur : message tronqué\n");
         return -1;
     }

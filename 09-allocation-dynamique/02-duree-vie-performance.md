@@ -45,13 +45,13 @@ Les variables sur la Stack ont une durée de vie **automatique** et **limitée �
 ```c
 #include <stdio.h>
 
-void fonction_interne() {
+void fonction_interne(void) {
     int b = 20;
     printf("Dans fonction_interne : b = %d\n", b);
     // b existe UNIQUEMENT ici
 } // ← b est DÉTRUITE automatiquement ici
 
-void fonction_externe() {
+void fonction_externe(void) {
     int a = 10;
     printf("Dans fonction_externe : a = %d\n", a);
 
@@ -63,7 +63,7 @@ void fonction_externe() {
     printf("Retour dans fonction_externe : a = %d\n", a);
 } // ← a est DÉTRUITE automatiquement ici
 
-int main() {
+int main(void) {
     printf("Début du programme\n");
     fonction_externe();
     // Ici, ni a ni b n'existent plus !
@@ -106,7 +106,9 @@ main() débute
 La durée de vie est liée aux **blocs de code** délimités par `{ }` :
 
 ```c
-int main() {
+#include <stdio.h>
+
+int main(void) {
     int x = 5;  // x existe dans tout le main()
 
     {
@@ -152,7 +154,7 @@ Les variables sur le Heap ont une durée de vie **manuelle** et **contrôlée pa
 #include <stdlib.h>
 
 // Cette fonction crée des données qui SURVIVENT à son exécution
-int* creer_donnees() {
+int* creer_donnees(void) {
     int* ptr = malloc(sizeof(int));
     if (ptr == NULL) {
         return NULL;
@@ -164,7 +166,7 @@ int* creer_donnees() {
     // ← La fonction se termine, mais les données sur le Heap persistent !
 }
 
-int main() {
+int main(void) {
     printf("=== Début du main ===\n");
 
     int* mes_donnees = creer_donnees();
@@ -233,7 +235,7 @@ main() débute
 #include <stdio.h>
 #include <stdlib.h>
 
-void demonstration_duree_vie() {
+void demonstration_duree_vie(void) {
     // ===== STACK =====
     int stack_var = 100;  // Créée automatiquement
     printf("Variable Stack : %d\n", stack_var);
@@ -252,7 +254,7 @@ void demonstration_duree_vie() {
     free(heap_var);  // Libération manuelle
 }
 
-int main() {
+int main(void) {
     demonstration_duree_vie();
     // Après cette ligne :
     // - stack_var n'existe plus (Stack automatique)
@@ -272,12 +274,12 @@ int main() {
 Tenter d'utiliser une adresse Stack après la fin de sa durée de vie.
 
 ```c
-int* fonction_dangereuse() {
+int* fonction_dangereuse(void) {
     int x = 42;       // x est sur la Stack
     return &x;        // ❌ ERREUR : on retourne l'adresse d'une variable locale
 }  // x est DÉTRUITE ici
 
-int main() {
+int main(void) {
     int* ptr = fonction_dangereuse();
     // ptr pointe vers une zone mémoire qui n'est plus valide !
     printf("%d\n", *ptr);  // ⚠️ COMPORTEMENT INDÉFINI
@@ -305,7 +307,10 @@ Après fonction_dangereuse() :
 **Solution correcte : Utiliser le Heap**
 
 ```c
-int* fonction_correcte() {
+#include <stdio.h>
+#include <stdlib.h>
+
+int* fonction_correcte(void) {
     int* x = malloc(sizeof(int));  // x pointe vers le Heap
     if (x != NULL) {
         *x = 42;
@@ -313,7 +318,7 @@ int* fonction_correcte() {
     return x;  // ✅ OK : la mémoire Heap persiste
 }
 
-int main() {
+int main(void) {
     int* ptr = fonction_correcte();
     if (ptr != NULL) {
         printf("%d\n", *ptr);  // ✅ Valide
@@ -342,18 +347,18 @@ printf("%d\n", *ptr);  // ❌ ERREUR : use after free
 Oublier de libérer la mémoire Heap.
 
 ```c
-void fonction_avec_fuite() {
+void fonction_avec_fuite(void) {
     int* data = malloc(1000 * sizeof(int));
     // ... utilisation ...
 
     // ❌ Oubli de free(data) !
 }  // Le pointeur est détruit, mais la mémoire Heap reste allouée
 
-int main() {
+int main(void) {
     for (int i = 0; i < 1000000; i++) {
-        fonction_avec_fuite();  // ⚠️ Fuite de 4 MB à chaque itération !
+        fonction_avec_fuite();  // ⚠️ Fuite de ~4 KB à chaque itération !
     }
-    // Le programme a perdu 4 GB de mémoire !
+    // Le programme a perdu ~4 GB de mémoire !
     return 0;
 }
 ```
@@ -442,9 +447,9 @@ Résultat : Accès ULTRA-RAPIDE (hit de cache)
 **Zéro overhead** : Chaque variable occupe exactement sa taille.
 
 ```c
-int x;      // 4 octets utilisés
-char c;     // 1 octet utilisé
-double d;   // 8 octets utilisés
+int x;      // 4 octets utilisés  
+char c;     // 1 octet utilisé  
+double d;   // 8 octets utilisés  
 ```
 
 ---
@@ -526,8 +531,8 @@ Après plusieurs malloc/free :
       ↑        ↑             ↑
    Petits trous inutilisables = Fragmentation
 
-Problème : On ne peut plus allouer un gros bloc même si
-la somme des trous libres est suffisante !
+Problème : On ne peut plus allouer un gros bloc même si  
+la somme des trous libres est suffisante !  
 ```
 
 ### Localité mémoire
@@ -577,7 +582,7 @@ Résultat : Cache misses fréquents = Lenteur
 
 #define ITERATIONS 1000000
 
-void benchmark_stack() {
+void benchmark_stack(void) {
     clock_t start = clock();
 
     for (int i = 0; i < ITERATIONS; i++) {
@@ -590,7 +595,7 @@ void benchmark_stack() {
     printf("Stack : %f secondes pour %d allocations\n", temps, ITERATIONS);
 }
 
-void benchmark_heap() {
+void benchmark_heap(void) {
     clock_t start = clock();
 
     for (int i = 0; i < ITERATIONS; i++) {
@@ -606,7 +611,7 @@ void benchmark_heap() {
     printf("Heap  : %f secondes pour %d allocations\n", temps, ITERATIONS);
 }
 
-int main() {
+int main(void) {
     printf("=== Benchmark Stack vs Heap ===\n");
     benchmark_stack();
     benchmark_heap();
@@ -617,8 +622,8 @@ int main() {
 **Résultats typiques :**
 ```
 === Benchmark Stack vs Heap ===
-Stack : 0.001 secondes pour 1000000 allocations
-Heap  : 0.150 secondes pour 1000000 allocations
+Stack : 0.001 secondes pour 1000000 allocations  
+Heap  : 0.150 secondes pour 1000000 allocations  
 
 → Le Heap est environ 150x plus lent dans ce cas
 ```
@@ -654,7 +659,7 @@ Vitesse décroissante ↓          Taille croissante ↓
 Les variables Stack sont généralement dans le cache :
 
 ```c
-void fonction_rapide() {
+void fonction_rapide(void) {
     int a = 1;
     int b = 2;
     int c = 3;
@@ -668,7 +673,7 @@ void fonction_rapide() {
 ### Heap et cache : Relation compliquée
 
 ```c
-void fonction_lente() {
+void fonction_lente(void) {
     int* a = malloc(sizeof(int)); *a = 1;
     int* b = malloc(sizeof(int)); *b = 2;
     int* c = malloc(sizeof(int)); *c = 3;
@@ -687,8 +692,8 @@ void fonction_lente() {
 
 ```c
 // ❌ Mauvais : Allocations multiples
-int* tableau[100];
-for (int i = 0; i < 100; i++) {
+int* tableau[100];  
+for (int i = 0; i < 100; i++) {  
     tableau[i] = malloc(sizeof(int));  // 100 zones dispersées !
 }
 
@@ -728,8 +733,8 @@ for (int i = 0; i < 1000; i++) {
 }
 
 // ✅ Rapide : Allocation une seule fois
-char* buffer = malloc(256);
-for (int i = 0; i < 1000; i++) {
+char* buffer = malloc(256);  
+for (int i = 0; i < 1000; i++) {  
     // ... traitement ...
 }
 free(buffer);
@@ -774,12 +779,12 @@ typedef struct {
 MemoryPool* pool = create_pool(sizeof(int), 1000);
 
 // Allocation rapide depuis le pool (pas de malloc)
-int* x = pool_alloc(pool);
-int* y = pool_alloc(pool);
+int* x = pool_alloc(pool);  
+int* y = pool_alloc(pool);  
 
 // Libération rapide vers le pool (pas de free)
-pool_free(pool, x);
-pool_free(pool, y);
+pool_free(pool, x);  
+pool_free(pool, y);  
 
 // Nettoyage final
 destroy_pool(pool);
@@ -793,7 +798,7 @@ destroy_pool(pool);
 
 ✅ **Performances critiques**
 ```c
-void traitement_temps_reel() {
+void traitement_temps_reel(void) {
     int buffer[1024];  // Rapide, prévisible
     // ...
 }
@@ -801,7 +806,7 @@ void traitement_temps_reel() {
 
 ✅ **Petites données temporaires**
 ```c
-void calcul() {
+void calcul(void) {
     double temp1, temp2, resultat;  // Variables temporaires
     // ...
 }
@@ -809,7 +814,7 @@ void calcul() {
 
 ✅ **Tableaux de taille connue et raisonnable**
 ```c
-void process_image_tile() {
+void process_image_tile(void) {
     uint8_t pixel_buffer[256];  // Taille fixe, petite
     // ...
 }
@@ -871,9 +876,9 @@ for (int i = 0; i < 1000000; i++) {
     // ...
 }
 
-clock_t end = clock();
-double temps_cpu = ((double)(end - start)) / CLOCKS_PER_SEC;
-printf("Temps CPU : %f secondes\n", temps_cpu);
+clock_t end = clock();  
+double temps_cpu = ((double)(end - start)) / CLOCKS_PER_SEC;  
+printf("Temps CPU : %f secondes\n", temps_cpu);  
 ```
 
 ---
@@ -943,9 +948,9 @@ Taille connue à la compilation ?
 ### Man pages essentielles
 
 ```bash
-man 3 malloc   # Allocation dynamique
-man 3 free     # Libération mémoire
-man ulimit     # Limites ressources (taille Stack)
+man 3 malloc   # Allocation dynamique  
+man 3 free     # Libération mémoire  
+man ulimit     # Limites ressources (taille Stack)  
 ```
 
 ---

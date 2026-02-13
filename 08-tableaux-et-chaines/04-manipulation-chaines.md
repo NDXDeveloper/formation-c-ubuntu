@@ -42,11 +42,11 @@ int main(void) {
 
 **Sortie :**
 ```
-Bonjour
-le
-monde
-en
-C
+Bonjour  
+le  
+monde  
+en  
+C  
 ```
 
 **Comment ça fonctionne ?**
@@ -58,18 +58,18 @@ C
 **⚠️ Important :** `strtok()` **modifie** la chaîne originale !
 
 ```c
-char phrase[] = "A,B,C";
-printf("Avant : %s\n", phrase);  // "A,B,C"
+char phrase[] = "A,B,C";  
+printf("Avant : %s\n", phrase);  // "A,B,C"  
 
-char *token = strtok(phrase, ",");
-printf("Après : %s\n", phrase);   // "A" (les virgules sont remplacées par '\0')
+char *token = strtok(phrase, ",");  
+printf("Après : %s\n", phrase);   // "A" (les virgules sont remplacées par '\0')  
 ```
 
 ### strtok() avec plusieurs délimiteurs
 
 ```c
-char texte[] = "Nom: Jean; Age: 30; Ville: Paris";
-char *token = strtok(texte, ":;");
+char texte[] = "Nom: Jean; Age: 30; Ville: Paris";  
+char *token = strtok(texte, ":;");  
 
 while (token != NULL) {
     printf("[%s]\n", token);
@@ -105,7 +105,10 @@ while (token != NULL) {
 
 ### Alternative thread-safe : strtok_r()
 
+**Note :** `strtok_r()` est une fonction **POSIX**, pas C standard. Pour l'utiliser avec `-std=c17`, il faut définir `_POSIX_C_SOURCE` avant les includes.
+
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <string.h>
 
@@ -129,7 +132,10 @@ int main(void) {
 
 ### Implémentation personnalisée safe
 
+**Note :** Cet exemple utilise `strdup()`, une fonction **POSIX** (ajoutée au standard C23). Avec `-std=c17`, il faut définir `_POSIX_C_SOURCE`.
+
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -214,9 +220,9 @@ int main(void) {
 
 **Sortie :**
 ```
-Trouvé 'o' à la position 1
-Trouvé 'o' à la position 4
-Trouvé 'o' à la position 12
+Trouvé 'o' à la position 1  
+Trouvé 'o' à la position 4  
+Trouvé 'o' à la position 12  
 ```
 
 ### Trouver toutes les occurrences d'une sous-chaîne
@@ -245,14 +251,16 @@ int main(void) {
 
 **Sortie :**
 ```
-Trouvé "chat" à la position 3
-Trouvé "chat" à la position 15
-Trouvé "chat" à la position 24
+Trouvé "chat" à la position 3  
+Trouvé "chat" à la position 15  
+Trouvé "chat" à la position 24  
 ```
 
 ### Remplacer un caractère
 
 ```c
+#include <stdio.h>
+
 void remplacer_char(char *str, char ancien, char nouveau) {
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] == ancien) {
@@ -318,6 +326,7 @@ int main(void) {
 ### Remplacer toutes les occurrences
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -579,6 +588,7 @@ void supprimer_espaces(char *str) {
 ### Supprimer les caractères non alphanumériques
 
 ```c
+#include <stdio.h>
 #include <ctype.h>
 
 void garder_alnum(char *str) {
@@ -629,6 +639,7 @@ void to_lowercase(char *str) {
 ### Première lettre en majuscule (capitalize)
 
 ```c
+#include <stdio.h>
 #include <ctype.h>
 
 void capitalize(char *str) {
@@ -916,6 +927,7 @@ int main(void) {
 ### Vérifier si une chaîne est numérique
 
 ```c
+#include <stdio.h>
 #include <ctype.h>
 
 int est_numerique(const char *str) {
@@ -950,6 +962,7 @@ int main(void) {
 ### Vérifier un format d'email basique
 
 ```c
+#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -1044,6 +1057,7 @@ int main(void) {
 ### Comparaison insensible à la casse
 
 ```c
+#include <stdio.h>
 #include <ctype.h>
 
 int strcmp_case_insensitive(const char *s1, const char *s2) {
@@ -1128,6 +1142,7 @@ void reverse_string(char *str) {
 ### Rotation d'une chaîne
 
 ```c
+#include <stdio.h>
 #include <string.h>
 
 void rotate_left(char *str, int n) {
@@ -1306,8 +1321,8 @@ int main(void) {
 ### ✅ 1. Toujours vérifier les pointeurs NULL
 
 ```c
-char *result = strstr(texte, "cherche");
-if (result != NULL) {  // Toujours vérifier !
+char *result = strstr(texte, "cherche");  
+if (result != NULL) {  // Toujours vérifier !  
     // Utiliser result
 }
 ```
@@ -1323,9 +1338,9 @@ int compter_mots(const char *texte) {
 ### ✅ 3. Vérifier les limites de buffer
 
 ```c
-char buffer[50];
-strncpy(buffer, source, sizeof(buffer) - 1);
-buffer[sizeof(buffer) - 1] = '\0';  // Garantir la terminaison
+char buffer[50];  
+strncpy(buffer, source, sizeof(buffer) - 1);  
+buffer[sizeof(buffer) - 1] = '\0';  // Garantir la terminaison  
 ```
 
 ### ✅ 4. Libérer la mémoire allouée dynamiquement
@@ -1349,8 +1364,8 @@ snprintf(buffer, sizeof(buffer), "%s %d", str, num);
 ### ✅ 6. Gérer les erreurs de parsing
 
 ```c
-int resultat = parser_donnees(ligne, &data);
-if (resultat != 0) {
+int resultat = parser_donnees(ligne, &data);  
+if (resultat != 0) {  
     fprintf(stderr, "Erreur de parsing ligne %d\n", num_ligne);
     // Gérer l'erreur
 }
@@ -1361,24 +1376,24 @@ if (resultat != 0) {
 ### ❌ 1. Utiliser strtok() sur des chaînes constantes
 
 ```c
-const char *texte = "a,b,c";
-strtok(texte, ",");  // ❌ Modifie une zone lecture seule
+const char *texte = "a,b,c";  
+strtok(texte, ",");  // ❌ Modifie une zone lecture seule  
 ```
 
 ### ❌ 2. Oublier que strtok() modifie la chaîne
 
 ```c
-char original[] = "a,b,c";
-printf("Avant: %s\n", original);
-strtok(original, ",");
-printf("Après: %s\n", original);  // Affiche juste "a"
+char original[] = "a,b,c";  
+printf("Avant: %s\n", original);  
+strtok(original, ",");  
+printf("Après: %s\n", original);  // Affiche juste "a"  
 ```
 
 ### ❌ 3. Ne pas vérifier les débordements
 
 ```c
-char petit[5];
-strcpy(petit, "Longue chaîne");  // ❌ Buffer overflow !
+char petit[5];  
+strcpy(petit, "Longue chaîne");  // ❌ Buffer overflow !  
 ```
 
 ### ❌ 4. Utiliser strlen() dans une condition de boucle
@@ -1388,15 +1403,15 @@ strcpy(petit, "Longue chaîne");  // ❌ Buffer overflow !
 for (int i = 0; i < strlen(str); i++) { }
 
 // ✅ Efficace
-size_t len = strlen(str);
-for (int i = 0; i < len; i++) { }
+size_t len = strlen(str);  
+for (int i = 0; i < len; i++) { }  
 ```
 
 ### ❌ 5. Oublier le '\0' lors de la copie manuelle
 
 ```c
-char dest[10];
-for (int i = 0; i < 5; i++) {
+char dest[10];  
+for (int i = 0; i < 5; i++) {  
     dest[i] = src[i];
 }
 // ❌ Manque dest[5] = '\0';

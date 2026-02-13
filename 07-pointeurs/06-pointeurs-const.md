@@ -11,8 +11,8 @@ Le mot-clé **`const`** est un outil puissant pour rendre votre code plus sûr e
 Avant de parler des pointeurs, rappelons l'usage basique de `const` :
 
 ```c
-const int constante = 42;
-constante = 50;    // ✗ ERREUR de compilation : tentative de modification
+const int constante = 42;  
+constante = 50;    // ✗ ERREUR de compilation : tentative de modification  
 ```
 
 Une variable déclarée `const` ne peut **pas être modifiée** après son initialisation.
@@ -33,9 +33,9 @@ Avec les pointeurs, il existe **quatre combinaisons** principales de `const` :
 Pour comprendre où s'applique `const`, lisez **de droite à gauche** :
 
 ```
-const int *ptr     →  "ptr est un pointeur vers un int constant"
-int *const ptr     →  "ptr est un pointeur constant vers un int"
-const int *const ptr → "ptr est un pointeur constant vers un int constant"
+const int *ptr     →  "ptr est un pointeur vers un int constant"  
+int *const ptr     →  "ptr est un pointeur constant vers un int"  
+const int *const ptr → "ptr est un pointeur constant vers un int constant"  
 ```
 
 **Astuce mnémotechnique :** `const` s'applique à ce qui est **immédiatement à sa gauche**. S'il n'y a rien à gauche (début de ligne), il s'applique à ce qui est à sa droite.
@@ -45,8 +45,8 @@ const int *const ptr → "ptr est un pointeur constant vers un int constant"
 ### Syntaxe
 
 ```c
-const int *ptr;        // Méthode 1 (la plus courante)
-int const *ptr;        // Méthode 2 (équivalente)
+const int *ptr;        // Méthode 1 (la plus courante)  
+int const *ptr;        // Méthode 2 (équivalente)  
 ```
 
 Ces deux déclarations sont **strictement identiques**.
@@ -79,8 +79,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Valeur pointée : 10
-Nouvelle valeur pointée : 20
+Valeur pointée : 10  
+Nouvelle valeur pointée : 20  
 ```
 
 ### Visualisation
@@ -177,8 +177,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Valeur initiale : 10
-Valeur modifiée : 15
+Valeur initiale : 10  
+Valeur modifiée : 15  
 ```
 
 ### Visualisation
@@ -199,8 +199,8 @@ Opérations :
 ### Message d'erreur typique
 
 ```c
-int *const ptr = &x;
-ptr = &y;
+int *const ptr = &x;  
+ptr = &y;  
 ```
 
 **Erreur de compilation :**
@@ -213,12 +213,12 @@ error: assignment of read-only variable 'ptr'
 Lier un pointeur à une ressource unique :
 
 ```c
-int tableau[100];
-int *const ptr_tableau = tableau;    // Le pointeur ne changera jamais
+int tableau[100];  
+int *const ptr_tableau = tableau;    // Le pointeur ne changera jamais  
 
 // Dans toute la suite du code, ptr_tableau pointe toujours vers tableau
-ptr_tableau[0] = 10;    // ✓ OK
-ptr_tableau[1] = 20;    // ✓ OK
+ptr_tableau[0] = 10;    // ✓ OK  
+ptr_tableau[1] = 20;    // ✓ OK  
 ```
 
 ## Cas 3 : Pointeur constant vers une valeur constante
@@ -333,8 +333,8 @@ int *const ptr
 ```c
 int x = 10;
 
-int *ptr1 = &x;
-const int *ptr2 = ptr1;    // ✓ OK : ajoute const sur la valeur
+int *ptr1 = &x;  
+const int *ptr2 = ptr1;    // ✓ OK : ajoute const sur la valeur  
 
 // On peut passer un int* à une fonction qui attend const int*
 void afficher(const int *p) {
@@ -351,8 +351,8 @@ afficher(ptr1);    // ✓ OK
 ```c
 const int y = 20;
 
-const int *ptr_const = &y;
-int *ptr_modifiable = ptr_const;    // ✗ ERREUR : retire const
+const int *ptr_const = &y;  
+int *ptr_modifiable = ptr_const;    // ✗ ERREUR : retire const  
 ```
 
 **Erreur :**
@@ -367,8 +367,8 @@ warning: initialization discards 'const' qualifier from pointer target type
 ### Cast explicite (à utiliser avec prudence)
 
 ```c
-const int constante = 42;
-const int *ptr_const = &constante;
+const int constante = 42;  
+const int *ptr_const = &constante;  
 
 // Cast pour retirer const (DANGEREUX !)
 int *ptr = (int*)ptr_const;
@@ -400,9 +400,9 @@ int main(void) {
 
 **Sortie possible (comportement imprévisible) :**
 ```
-Avant : 42
-Après : 42      ← Le compilateur a optimisé !
-Via ptr : 100
+Avant : 42  
+Après : 42      ← Le compilateur a optimisé !  
+Via ptr : 100  
 ```
 
 Le compilateur peut mettre `constante` dans un registre ou en lecture seule, ignorant la modification.
@@ -423,8 +423,8 @@ printf("%d\n", tableau[0]);    // ✓ Lecture OK
 ```c
 const int *ptr = tableau;
 
-printf("%d\n", *ptr);      // ✓ OK
-printf("%d\n", ptr[2]);    // ✓ OK
+printf("%d\n", *ptr);      // ✓ OK  
+printf("%d\n", ptr[2]);    // ✓ OK  
 // ptr[2] = 100;    // ✗ ERREUR
 ptr++;    // ✓ OK : le pointeur peut bouger
 ```
@@ -444,8 +444,8 @@ const char *message = "Hello";    // ✓ Correct
 ### ⚠️ Piège classique
 
 ```c
-char *ptr = "Hello";    // ⚠️ Devrait être const char*
-ptr[0] = 'h';           // Comportement indéfini ! Peut crasher
+char *ptr = "Hello";    // ⚠️ Devrait être const char*  
+ptr[0] = 'h';           // Comportement indéfini ! Peut crasher  
 ```
 
 **Bonne pratique :**
@@ -487,9 +487,9 @@ void doubler_valeurs(int *tableau, size_t taille) {
 ```c
 // La signature indique clairement les intentions :
 
-void lire_donnees(const int *data);      // Ne modifie pas les données
-void ecrire_donnees(int *data);          // Peut modifier les données
-void traiter(const int *input, int *output);    // input en lecture, output en écriture
+void lire_donnees(const int *data);      // Ne modifie pas les données  
+void ecrire_donnees(int *data);          // Peut modifier les données  
+void traiter(const int *input, int *output);    // input en lecture, output en écriture  
 ```
 
 ## Pointeurs de pointeurs et const
@@ -497,24 +497,27 @@ void traiter(const int *input, int *output);    // input en lecture, output en �
 ### Différentes combinaisons
 
 ```c
-int x = 10;
-int *ptr = &x;
+int x = 10;  
+int *ptr = &x;  
+const int *cptr = &x;
 
 // Pointeur vers un (pointeur vers int)
-int **pp1 = &ptr;                    // Tout modifiable
+int **pp1 = &ptr;                        // Tout modifiable
 
 // Pointeur vers un (pointeur constant vers int)
-int *const *pp2 = &ptr;              // Le pointeur intermédiaire est constant
+int *const *pp2 = &ptr;                  // Le pointeur intermédiaire est constant
 
 // Pointeur vers un (pointeur vers int constant)
-const int **pp3 = &ptr;              // La valeur finale est constante
+const int **pp3 = &cptr;                 // La valeur finale est constante
 
 // Pointeur constant vers un (pointeur vers int)
-int **const pp4 = &ptr;              // pp4 est constant
+int **const pp4 = &ptr;                  // pp4 est constant
 
 // Pointeur constant vers un (pointeur constant vers int constant)
-const int *const *const pp5 = &ptr;  // Tout est constant !
+const int *const *const pp5 = &cptr;     // Tout est constant !
 ```
+
+> **Note :** On ne peut pas convertir `int**` en `const int**` implicitement, car cela pourrait violer la const-correctness. C'est pourquoi `pp3` et `pp5` utilisent `&cptr` (de type `const int**`) plutôt que `&ptr` (de type `int**`).
 
 ### Exemple pratique
 
@@ -540,8 +543,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Avant : *ptr = 10
-Après : *ptr = 20
+Avant : *ptr = 10  
+Après : *ptr = 20  
 ```
 
 ## const avec les structures
@@ -658,8 +661,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Valeur trouvée : 30
-Index : 2
+Valeur trouvée : 30  
+Index : 2  
 ```
 
 ### Variante sans const (modifiable)
@@ -718,15 +721,15 @@ size_t longueur(const char *str);
 const int* ptr;    // ✓ Correct
 
 // Confusion fréquente :
-int const* ptr;    // ✓ Correct aussi (identique)
-int *const ptr;    // ✗ Différent : pointeur constant !
+int const* ptr;    // ✓ Correct aussi (identique)  
+int *const ptr;    // ✗ Différent : pointeur constant !  
 ```
 
 ### ❌ Erreur 3 : Retirer const par cast sans raison
 
 ```c
-const int *ptr_const = ...;
-int *ptr = (int*)ptr_const;    // ⚠️ Dangereux et inutile la plupart du temps
+const int *ptr_const = ...;  
+int *ptr = (int*)ptr_const;    // ⚠️ Dangereux et inutile la plupart du temps  
 ```
 
 ## Bonnes pratiques
@@ -768,13 +771,13 @@ static const Config *const config = &default_config;
 ```
 Déclaration               Position de const       Ce qui est constant
 -----------------         -----------------       -------------------
-const int *ptr            Avant le type           La valeur pointée
-int const *ptr            Après le type           La valeur pointée (identique)
-int *const ptr            Après l'astérisque      Le pointeur lui-même
-const int *const ptr      Aux deux endroits       Les deux !
+const int *ptr            Avant le type           La valeur pointée  
+int const *ptr            Après le type           La valeur pointée (identique)  
+int *const ptr            Après l'astérisque      Le pointeur lui-même  
+const int *const ptr      Aux deux endroits       Les deux !  
 
-Règle de lecture (droite à gauche) :
-const int *const ptr
+Règle de lecture (droite à gauche) :  
+const int *const ptr  
         ↑       ↑
         |       |
         |       +-- "ptr est un pointeur constant"

@@ -38,13 +38,13 @@ Les pointeurs `void*` sont utiles dans plusieurs situations :
 ### ✅ Ce qu'on peut faire
 
 ```c
-int age = 25;
-float prix = 19.99f;
-void *ptr;
+int age = 25;  
+float prix = 19.99f;  
+void *ptr;  
 
 // ✓ Stocker l'adresse de n'importe quel type
-ptr = &age;     // OK
-ptr = &prix;    // OK aussi
+ptr = &age;     // OK  
+ptr = &prix;    // OK aussi  
 
 // ✓ Comparer avec NULL
 if (ptr == NULL) {
@@ -108,8 +108,8 @@ Valeur : 25
 #### Conversion implicite (vers void*)
 
 ```c
-int age = 25;
-void *ptr = &age;    // ✓ OK : conversion automatique vers void*
+int age = 25;  
+void *ptr = &age;    // ✓ OK : conversion automatique vers void*  
 ```
 
 Tout pointeur peut être **automatiquement** converti en `void*`.
@@ -117,11 +117,12 @@ Tout pointeur peut être **automatiquement** converti en `void*`.
 #### Conversion explicite (depuis void*)
 
 ```c
-void *ptr = &age;
-int *ptr_int = (int*)ptr;    // Cast explicite nécessaire
+void *ptr = &age;  
+int *ptr_int = (int*)ptr;    // Cast explicite (recommandé pour la lisibilité)  
+int *ptr_int2 = ptr;         // Conversion implicite (valide en C, pas en C++)
 ```
 
-Pour convertir un `void*` vers un type spécifique, le **cast explicite est obligatoire**.
+En C, la conversion de `void*` vers un type spécifique est **implicite** (automatique). Le cast explicite n'est pas obligatoire, mais il est **recommandé** pour la lisibilité et la documentation du code. En **C++**, le cast est obligatoire.
 
 ## Exemple complet avec void*
 
@@ -154,11 +155,11 @@ int main(void) {
 
 **Sortie possible (architecture little-endian) :**
 ```
-Représentation d'un int :
-Contenu en octets : 78 56 34 12
+Représentation d'un int :  
+Contenu en octets : 78 56 34 12  
 
-Représentation d'un float :
-Contenu en octets : C3 F5 48 40
+Représentation d'un float :  
+Contenu en octets : C3 F5 48 40  
 ```
 
 ### Explication
@@ -231,15 +232,15 @@ int main(void) {
 
 **Sortie :**
 ```
-Via int* : 65
-Via char* : A
+Via int* : 65  
+Via char* : A  
 ```
 
 ### Visualisation mémoire
 
 ```
-Mémoire (little-endian) :
-Adresse    Contenu (int = 65)
+Mémoire (little-endian) :  
+Adresse    Contenu (int = 65)  
 0x1000     [41] [00] [00] [00]
             ↑
             |
@@ -298,11 +299,11 @@ int main(void) {
 
 **Sortie :**
 ```
-Avant swap (int) : x = 10, y = 20
-Après swap (int) : x = 20, y = 10
+Avant swap (int) : x = 10, y = 20  
+Après swap (int) : x = 20, y = 10  
 
-Avant swap (float) : f1 = 3.14, f2 = 2.71
-Après swap (float) : f1 = 2.71, f2 = 3.14
+Avant swap (float) : f1 = 3.14, f2 = 2.71  
+Après swap (float) : f1 = 2.71, f2 = 3.14  
 ```
 
 ### Explication
@@ -333,8 +334,8 @@ int main(void) {
 
 **Sortie possible (little-endian) :**
 ```
-int complet : 1000
-Premier octet (via char*) : -24
+int complet : 1000  
+Premier octet (via char*) : -24  
 ```
 
 **Explication :**
@@ -419,8 +420,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Avant tri : 50 10 40 20 30
-Après tri : 10 20 30 40 50
+Avant tri : 50 10 40 20 30  
+Après tri : 10 20 30 40 50  
 ```
 
 ### Explication de qsort
@@ -466,21 +467,21 @@ void copier(void *dest, const void *src, size_t n);
 
 1. **Caster sans vérifier le type réel**
 ```c
-void *ptr = &mon_float;
-int *p = (int*)ptr;    // ⚠️ Erreur de type !
+void *ptr = &mon_float;  
+int *p = (int*)ptr;    // ⚠️ Erreur de type !  
 ```
 
 2. **Faire de l'arithmétique sur void*** (non portable)
 ```c
-void *ptr = ...;
-ptr++;    // ⚠️ Extension GCC, pas du C standard
+void *ptr = ...;  
+ptr++;    // ⚠️ Extension GCC, pas du C standard  
 ```
 
 3. **Oublier le cast lors du déréférencement**
 ```c
-void *ptr = &age;
-printf("%d\n", *ptr);    // ✗ ERREUR
-printf("%d\n", *(int*)ptr);    // ✓ OK
+void *ptr = &age;  
+printf("%d\n", *ptr);    // ✗ ERREUR  
+printf("%d\n", *(int*)ptr);    // ✓ OK  
 ```
 
 ## Casting de const
@@ -488,8 +489,8 @@ printf("%d\n", *(int*)ptr);    // ✓ OK
 ### Retirer const (DANGEREUX)
 
 ```c
-const int constante = 42;
-const int *ptr_const = &constante;
+const int constante = 42;  
+const int *ptr_const = &constante;  
 
 // ⚠️ Cast qui retire const
 int *ptr_modifiable = (int*)ptr_const;
@@ -501,8 +502,8 @@ int *ptr_modifiable = (int*)ptr_const;
 ### Ajouter const (OK)
 
 ```c
-int variable = 42;
-int *ptr = &variable;
+int variable = 42;  
+int *ptr = &variable;  
 
 const int *ptr_const = ptr;    // ✓ OK : conversion implicite
 ```
@@ -630,8 +631,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Entiers stockés : 10 20 30 40 50
-Floats stockés : 3.14 2.71 1.41
+Entiers stockés : 10 20 30 40 50  
+Floats stockés : 3.14 2.71 1.41  
 ```
 
 ### Points clés de l'exemple

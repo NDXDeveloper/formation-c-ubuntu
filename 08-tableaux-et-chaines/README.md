@@ -25,9 +25,9 @@ Les tableaux sont la structure de données la plus basique et la plus utilisée 
 
 **Exemples d'utilisation courante :**
 ```c
-int scores[10];           // Scores de 10 joueurs
-double temperatures[24];  // Températures par heure
-char buffer[256];         // Buffer de données
+int scores[10];           // Scores de 10 joueurs  
+double temperatures[24];  // Températures par heure  
+char buffer[256];         // Buffer de données  
 ```
 
 ### 2. Les chaînes en C : Un cas particulier
@@ -221,8 +221,8 @@ Après avoir complété ce chapitre, vous serez capable de :
 Chaque concept doit être **codé et testé**. Ne vous contentez pas de lire :
 ```c
 // Ne pas juste lire cet exemple, tapez-le et exécutez-le !
-char message[] = "Hello";
-printf("%s\n", message);
+char message[] = "Hello";  
+printf("%s\n", message);  
 ```
 
 ### 2. Utilisez les outils de debugging
@@ -246,8 +246,8 @@ Pour chaque concept, dessinez sur papier comment la mémoire est organisée :
 ```
 Tab[5] = {10, 20, 30, 40, 50}
 
-Mémoire :
-Adresse : 0x1000  0x1004  0x1008  0x100C  0x1010
+Mémoire :  
+Adresse : 0x1000  0x1004  0x1008  0x100C  0x1010  
          [  10  ][  20  ][  30  ][  40  ][  50  ]
 ```
 
@@ -258,27 +258,27 @@ Ne testez pas seulement le cas nominal :
 char buffer[10];
 
 // Testez avec différentes longueurs
-copier(buffer, "OK");        // Court
-copier(buffer, "Limite");    // Juste
-copier(buffer, "Trop long"); // Débordement
-copier(buffer, "");          // Vide
+copier(buffer, "OK");        // Court  
+copier(buffer, "Limite");    // Juste  
+copier(buffer, "Trop long"); // Débordement  
+copier(buffer, "");          // Vide  
 ```
 
 ### 5. Lisez les man pages
 
 Les pages de manuel sont vos amies :
 ```bash
-man strcpy
-man printf
-man malloc
+man strcpy  
+man printf  
+man malloc  
 ```
 
 ### 6. Attention aux détails
 
 En C, les petits détails comptent énormément :
 ```c
-char tab[] = "Hello";   // Copie modifiable
-char *ptr = "Hello";    // Pointeur vers littérale (ne pas modifier !)
+char tab[] = "Hello";   // Copie modifiable  
+char *ptr = "Hello";    // Pointeur vers littérale (ne pas modifier !)  
 ```
 
 Ces deux lignes semblent similaires mais ont des comportements **complètement différents**.
@@ -289,8 +289,8 @@ Ces deux lignes semblent similaires mais ont des comportements **complètement d
 
 En C, beaucoup d'erreurs ne provoquent pas d'erreur de compilation :
 ```c
-char buffer[5];
-strcpy(buffer, "Trop long");  // Compile mais DANGEREUX !
+char buffer[5];  
+strcpy(buffer, "Trop long");  // Compile mais DANGEREUX !  
 ```
 
 Le programme peut sembler fonctionner... jusqu'au crash en production.

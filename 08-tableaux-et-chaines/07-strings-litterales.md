@@ -90,12 +90,12 @@ char *ptr = "Bonjour";
 **En mémoire :**
 
 ```
-Segment .rodata (lecture seule) :
-Adresse 0x08040500 → [ 'B' 'o' 'n' 'j' 'o' 'u' 'r' '\0' ]
+Segment .rodata (lecture seule) :  
+Adresse 0x08040500 → [ 'B' 'o' 'n' 'j' 'o' 'u' 'r' '\0' ]  
                       ↑
                       │
-Pile (stack) :        │
-ptr : 0x08040500 ─────┘  (stocke l'adresse de la littérale)
+Pile (stack) :        │  
+ptr : 0x08040500 ─────┘  (stocke l'adresse de la littérale)  
 ```
 
 Le pointeur `ptr` est sur la pile et contient l'**adresse** de la chaîne littérale qui, elle, est en zone read-only.
@@ -105,8 +105,8 @@ Le pointeur `ptr` est sur la pile et contient l'**adresse** de la chaîne litté
 ### ❌ Tentative de modification : Comportement indéfini
 
 ```c
-char *str = "Bonjour";
-str[0] = 'b';  // ❌ COMPORTEMENT INDÉFINI !
+char *str = "Bonjour";  
+str[0] = 'b';  // ❌ COMPORTEMENT INDÉFINI !  
 ```
 
 **Ce qui se passe :**
@@ -136,8 +136,8 @@ int main(void) {
 
 **Résultat typique :**
 ```
-Avant : Hello
-Segmentation fault (core dumped)
+Avant : Hello  
+Segmentation fault (core dumped)  
 ```
 
 ### Protection du système d'exploitation
@@ -171,16 +171,16 @@ char tab[] = "Bonjour";
 Segment .rodata :
 "Bonjour" → [ 'B' 'o' 'n' 'j' 'o' 'u' 'r' '\0' ]
 
-Pile (stack) :
-tab[] → [ 'B' 'o' 'n' 'j' 'o' 'u' 'r' '\0' ]  (COPIE modifiable)
+Pile (stack) :  
+tab[] → [ 'B' 'o' 'n' 'j' 'o' 'u' 'r' '\0' ]  (COPIE modifiable)  
 ```
 
 **Utilisation :**
 
 ```c
-char tab[] = "Bonjour";
-tab[0] = 'b';  // ✅ OK : modification du tableau local
-printf("%s\n", tab);  // "bonjour"
+char tab[] = "Bonjour";  
+tab[0] = 'b';  // ✅ OK : modification du tableau local  
+printf("%s\n", tab);  // "bonjour"  
 ```
 
 ### char* : Pointeur vers littérale (immuable)
@@ -200,15 +200,15 @@ char *ptr = "Bonjour";
 Segment .rodata :
 "Bonjour" → [ 'B' 'o' 'n' 'j' 'o' 'u' 'r' '\0' ]
              ↑
-Pile :       │
-ptr ─────────┘  (pointe vers .rodata)
+Pile :       │  
+ptr ─────────┘  (pointe vers .rodata)  
 ```
 
 **Utilisation :**
 
 ```c
-char *ptr = "Bonjour";
-ptr[0] = 'b';  // ❌ ERREUR : modification d'une zone read-only
+char *ptr = "Bonjour";  
+ptr[0] = 'b';  // ❌ ERREUR : modification d'une zone read-only  
 ```
 
 ### Tableau comparatif
@@ -264,24 +264,31 @@ const char *ptr = "Bonjour";
 **Tentative de modification :**
 
 ```c
-const char *ptr = "Bonjour";
-ptr[0] = 'b';  // ❌ ERREUR DE COMPILATION
+const char *ptr = "Bonjour";  
+ptr[0] = 'b';  // ❌ ERREUR DE COMPILATION  
 // error: assignment of read-only location
 ```
 
 ### Warning du compilateur
 
-Sans `const`, le compilateur moderne génère un warning :
+En **C++**, le compilateur génère un warning car la conversion est dépréciée :
 
-```c
-char *ptr = "Bonjour";  // ⚠️ Warning
+```cpp
+// C++ uniquement
+char *ptr = "Bonjour";  // ⚠️ Warning en C++
 // warning: conversion from string literal to 'char *' is deprecated
 ```
 
-**En C moderne (depuis C11), la bonne pratique est :**
+En **C**, cette affectation ne génère pas de warning par défaut (même avec `-Wall -Wextra`). Vous pouvez activer le warning avec l'option `-Wwrite-strings` :
+
+```bash
+gcc -Wwrite-strings programme.c  # Active le warning en C
+```
+
+**La bonne pratique est toujours d'utiliser `const` :**
 
 ```c
-const char *ptr = "Bonjour";  // ✅ Correct
+const char *ptr = "Bonjour";  // ✅ Correct en C et C++
 ```
 
 ### const dans les paramètres de fonction
@@ -304,13 +311,13 @@ void afficher_mauvais(char *message) {
 
 ```c
 // Pointeur vers const char (la donnée est constante)
-const char *ptr1 = "Hello";
-ptr1 = "World";  // ✅ OK : réaffectation du pointeur
+const char *ptr1 = "Hello";  
+ptr1 = "World";  // ✅ OK : réaffectation du pointeur  
 // ptr1[0] = 'h';  // ❌ Erreur : modification de la donnée
 
 // Pointeur constant vers char (le pointeur est constant)
-char * const ptr2 = buffer;
-ptr2[0] = 'H';  // ✅ OK : modification de la donnée
+char * const ptr2 = buffer;  
+ptr2[0] = 'H';  // ✅ OK : modification de la donnée  
 // ptr2 = autre;  // ❌ Erreur : réaffectation du pointeur
 
 // Pointeur constant vers const char (tout est constant)
@@ -331,6 +338,8 @@ const char * const ptr3 = "Hello";
 Les chaînes littérales ont une **durée de vie statique** : elles existent pendant toute la durée d'exécution du programme.
 
 ```c
+#include <stdio.h>
+
 const char *obtenir_message(void) {
     return "Message constant";  // ✅ OK : littérale existe toujours
 }
@@ -345,6 +354,8 @@ int main(void) {
 **Contraste avec variable locale :**
 
 ```c
+#include <stdio.h>
+
 char *obtenir_message_dangereux(void) {
     char buffer[] = "Message";  // Variable locale
     return buffer;  // ❌ DANGEREUX : buffer est détruit !
@@ -390,8 +401,8 @@ char *get_error_message_bad(int code) {
 Le compilateur peut **fusionner** les chaînes littérales identiques pour économiser de la mémoire.
 
 ```c
-const char *str1 = "Hello";
-const char *str2 = "Hello";
+const char *str1 = "Hello";  
+const char *str2 = "Hello";  
 
 if (str1 == str2) {
     printf("Même adresse !\n");  // Peut s'afficher
@@ -406,13 +417,13 @@ if (str1 == str2) {
 **Visualisation :**
 
 ```
-Sans string pooling :
-Segment .rodata :
+Sans string pooling :  
+Segment .rodata :  
 0x1000 → "Hello\0"    ← str1
 0x1006 → "Hello\0"    ← str2
 
-Avec string pooling :
-Segment .rodata :
+Avec string pooling :  
+Segment .rodata :  
 0x1000 → "Hello\0"    ← str1 ET str2 (même adresse)
 ```
 
@@ -421,8 +432,8 @@ Segment .rodata :
 **❌ Ne jamais comparer des chaînes avec == :**
 
 ```c
-const char *str1 = "Hello";
-const char *str2 = "Hello";
+const char *str1 = "Hello";  
+const char *str2 = "Hello";  
 
 if (str1 == str2) {  // ❌ Compare les adresses, pas le contenu !
     // Peut être vrai ou faux selon l'optimisation
@@ -436,12 +447,12 @@ if (strcmp(str1, str2) == 0) {  // ✅ Compare le contenu
 ### Comportement non garanti
 
 ```c
-const char *a = "Test";
-const char *b = "Test";
-const char *c = "Te" "st";  // Concaténation à la compilation
+const char *a = "Test";  
+const char *b = "Test";  
+const char *c = "Te" "st";  // Concaténation à la compilation  
 
-printf("%d\n", a == b);  // Peut être 1 ou 0
-printf("%d\n", a == c);  // Peut être 1 ou 0
+printf("%d\n", a == b);  // Peut être 1 ou 0  
+printf("%d\n", a == c);  // Peut être 1 ou 0  
 ```
 
 Le standard C **ne garantit pas** le pooling. C'est une optimisation du compilateur.
@@ -499,8 +510,8 @@ En C++11+, les raw strings évitent l'échappement :
 
 ```cpp
 // C++ uniquement
-const char *str = R"(C:\Users\Documents\file.txt)";
-const char *json = R"({"name": "Alice", "age": 30})";
+const char *str = R"(C:\Users\Documents\file.txt)";  
+const char *json = R"({"name": "Alice", "age": 30})";  
 ```
 
 En C, vous devez échapper manuellement :
@@ -514,9 +525,9 @@ const char *json = "{\"name\": \"Alice\", \"age\": 30}";
 ### Avec backslash
 
 ```c
-const char *texte = "Ceci est une chaîne \
-qui continue sur \
-plusieurs lignes";
+const char *texte = "Ceci est une chaîne \  
+qui continue sur \  
+plusieurs lignes";  
 // Devient : "Ceci est une chaîne qui continue sur plusieurs lignes"
 ```
 
@@ -595,9 +606,9 @@ void fonction(void) {
 ### Piège 3 : Modification via cast
 
 ```c
-const char *str = "Hello";
-char *modifiable = (char*)str;  // ⚠️ Cast retire const
-modifiable[0] = 'h';  // ❌ TOUJOURS interdit, même avec cast !
+const char *str = "Hello";  
+char *modifiable = (char*)str;  // ⚠️ Cast retire const  
+modifiable[0] = 'h';  // ❌ TOUJOURS interdit, même avec cast !  
 ```
 
 **Le cast ne change pas la réalité :** La chaîne est toujours en zone read-only.
@@ -633,8 +644,8 @@ const char *message = "Hello";
 
 ```c
 // Si vous devez modifier
-char buffer[] = "Hello";
-buffer[0] = 'h';  // ✅ OK
+char buffer[] = "Hello";  
+buffer[0] = 'h';  // ✅ OK  
 
 // Si vous ne modifiez pas
 const char *texte = "Hello";  // ✅ OK
@@ -649,9 +660,9 @@ void print_message(const char *msg) {
 }
 
 // ✅ Permet de passer littérales et tableaux
-char buffer[] = "Test";
-print_message(buffer);      // OK
-print_message("Littérale"); // OK
+char buffer[] = "Test";  
+print_message(buffer);      // OK  
+print_message("Littérale"); // OK  
 ```
 
 ### ✅ 4. Préférer les littérales pour les constantes
@@ -687,8 +698,8 @@ char *get_status_bad(int code) {
 #include <string.h>
 
 // ✅ Constantes globales : littérales
-const char *APP_NAME = "MonApp";
-const char *VERSION = "1.0.0";
+const char *APP_NAME = "MonApp";  
+const char *VERSION = "1.0.0";  
 
 // ✅ Tableau de messages
 const char *error_messages[] = {
@@ -700,7 +711,7 @@ const char *error_messages[] = {
 
 // ✅ Fonction retournant une littérale
 const char *get_error_message(int code) {
-    if (code < 0 || code >= sizeof(error_messages) / sizeof(error_messages[0])) {
+    if (code < 0 || code >= (int)(sizeof(error_messages) / sizeof(error_messages[0]))) {
         return "Erreur inconnue";
     }
     return error_messages[code];

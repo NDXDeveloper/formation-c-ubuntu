@@ -36,9 +36,9 @@ Cette déclaration crée un tableau de **3 tableaux de 4 entiers chacun**.
 ```
         Colonne 0  Colonne 1  Colonne 2  Colonne 3
          ↓          ↓          ↓          ↓
-Ligne 0 [ ?  ]    [ ?  ]    [ ?  ]    [ ?  ]
-Ligne 1 [ ?  ]    [ ?  ]    [ ?  ]    [ ?  ]
-Ligne 2 [ ?  ]    [ ?  ]    [ ?  ]    [ ?  ]
+Ligne 0 [ ?  ]    [ ?  ]    [ ?  ]    [ ?  ]  
+Ligne 1 [ ?  ]    [ ?  ]    [ ?  ]    [ ?  ]  
+Ligne 2 [ ?  ]    [ ?  ]    [ ?  ]    [ ?  ]  
 ```
 
 ### Initialisation avec valeurs
@@ -114,8 +114,8 @@ int valeur = matrice[1][2];  // Ligne 1, Colonne 2 → 7
 **Exemple de modification :**
 
 ```c
-matrice[0][0] = 100;  // Change la première case
-matrice[2][3] = 200;  // Change la dernière case
+matrice[0][0] = 100;  // Change la première case  
+matrice[2][3] = 200;  // Change la dernière case  
 ```
 
 ### Parcourir un tableau 2D
@@ -181,9 +181,9 @@ int matrice[3][4];
 **Décomposition :**
 
 ```c
-matrice       // Type : int (*)[4]  → pointeur vers un tableau de 4 int
-matrice[0]    // Type : int*         → pointeur vers le premier int de la ligne 0
-matrice[0][0] // Type : int          → le premier entier
+matrice       // Type : int (*)[4]  → pointeur vers un tableau de 4 int  
+matrice[0]    // Type : int*         → pointeur vers le premier int de la ligne 0  
+matrice[0][0] // Type : int          → le premier entier  
 ```
 
 ### Équivalences avec pointeurs
@@ -216,16 +216,16 @@ int matrice[3][4] = {
     {9, 10, 11, 12}
 };
 
-printf("%p\n", matrice);        // Adresse de la première ligne
-printf("%p\n", matrice[0]);     // Adresse du premier élément de la ligne 0 (même valeur)
-printf("%p\n", &matrice[0][0]); // Adresse du premier élément (même valeur encore)
+printf("%p\n", matrice);        // Adresse de la première ligne  
+printf("%p\n", matrice[0]);     // Adresse du premier élément de la ligne 0 (même valeur)  
+printf("%p\n", &matrice[0][0]); // Adresse du premier élément (même valeur encore)  
 
-printf("%p\n", matrice + 1);    // Adresse de la ligne 1 (avance de 16 octets)
-printf("%p\n", matrice[1]);     // Adresse du premier élément de la ligne 1 (même valeur)
+printf("%p\n", matrice + 1);    // Adresse de la ligne 1 (avance de 16 octets)  
+printf("%p\n", matrice[1]);     // Adresse du premier élément de la ligne 1 (même valeur)  
 
-printf("%d\n", **matrice);      // Valeur : 1
-printf("%d\n", *(*matrice + 1));// Valeur : 2
-printf("%d\n", *(*(matrice + 1) + 2)); // Valeur : 7
+printf("%d\n", **matrice);      // Valeur : 1  
+printf("%d\n", *(*matrice + 1));// Valeur : 2  
+printf("%d\n", *(*(matrice + 1) + 2)); // Valeur : 7  
 ```
 
 ## Passage de tableaux 2D aux fonctions
@@ -235,6 +235,8 @@ Le passage de tableaux multidimensionnels aux fonctions est plus subtil que pour
 ### Méthode 1 : Spécifier toutes les dimensions sauf la première
 
 ```c
+#include <stdio.h>
+
 void afficher_matrice(int mat[][4], int lignes) {
     for (int i = 0; i < lignes; i++) {
         for (int j = 0; j < 4; j++) {
@@ -287,6 +289,8 @@ Les parenthèses sont **cruciales** !
 ### Méthode 3 : Passer les dimensions et utiliser un pointeur simple
 
 ```c
+#include <stdio.h>
+
 void afficher_matrice(int *mat, int lignes, int colonnes) {
     for (int i = 0; i < lignes; i++) {
         for (int j = 0; j < colonnes; j++) {
@@ -474,9 +478,9 @@ int *lignes[3];
 **Visualisation de `int *lignes[3]` :**
 
 ```
-lignes[0] ──→ [10][20][30][40]
-lignes[1] ──→ [50][60][70][80]
-lignes[2] ──→ [90][100][110][120]
+lignes[0] ──→ [10][20][30][40]  
+lignes[1] ──→ [50][60][70][80]  
+lignes[2] ──→ [90][100][110][120]  
 ```
 
 Chaque ligne peut être allouée séparément et être de taille différente (tableaux dentelés ou "jagged arrays").
@@ -484,9 +488,9 @@ Chaque ligne peut être allouée séparément et être de taille différente (ta
 **Exemple d'utilisation :**
 
 ```c
-int ligne0[] = {1, 2, 3, 4};
-int ligne1[] = {5, 6, 7, 8};
-int ligne2[] = {9, 10, 11, 12};
+int ligne0[] = {1, 2, 3, 4};  
+int ligne1[] = {5, 6, 7, 8};  
+int ligne2[] = {9, 10, 11, 12};  
 
 int *lignes[3] = {ligne0, ligne1, ligne2};
 
@@ -684,6 +688,8 @@ Matrice d'identité 5×5 :
 Depuis C99, vous pouvez déclarer des tableaux avec des dimensions déterminées à l'exécution (Variable Length Arrays).
 
 ```c
+#include <stdio.h>
+
 void afficher_matrice_vla(int lignes, int colonnes, int mat[lignes][colonnes]) {
     for (int i = 0; i < lignes; i++) {
         for (int j = 0; j < colonnes; j++) {
@@ -737,8 +743,8 @@ void fonction(int mat[][4], int lignes) {  // ✅ CORRECT
 ### ❌ Erreur 2 : Confusion pointeur vers tableau vs tableau de pointeurs
 
 ```c
-int (*ptr)[4];   // ✅ Pointeur vers un tableau de 4 int
-int *ptr[4];     // ✅ Tableau de 4 pointeurs vers int
+int (*ptr)[4];   // ✅ Pointeur vers un tableau de 4 int  
+int *ptr[4];     // ✅ Tableau de 4 pointeurs vers int  
 ```
 
 Les parenthèses changent tout !
@@ -746,9 +752,9 @@ Les parenthèses changent tout !
 ### ❌ Erreur 3 : Accès hors limites
 
 ```c
-int matrice[3][4];
-matrice[3][0] = 10;  // ❌ Ligne 3 n'existe pas (indices 0-2 seulement)
-matrice[0][4] = 10;  // ❌ Colonne 4 n'existe pas (indices 0-3 seulement)
+int matrice[3][4];  
+matrice[3][0] = 10;  // ❌ Ligne 3 n'existe pas (indices 0-2 seulement)  
+matrice[0][4] = 10;  // ❌ Colonne 4 n'existe pas (indices 0-3 seulement)  
 ```
 
 ### ❌ Erreur 4 : Retourner un tableau local

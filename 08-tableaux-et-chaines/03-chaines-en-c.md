@@ -60,8 +60,8 @@ char message[] = "Bonjour";
 ### Méthode 2 : Spécifier la taille explicitement
 
 ```c
-char message[8] = "Bonjour";  // Taille exacte
-char message[20] = "Bonjour"; // Taille plus grande (reste rempli de '\0')
+char message[8] = "Bonjour";  // Taille exacte  
+char message[20] = "Bonjour"; // Taille plus grande (reste rempli de '\0')  
 ```
 
 **Attention :** Si la taille est trop petite, le `'\0'` ne sera pas inclus !
@@ -121,13 +121,13 @@ Une **chaîne littérale** est du texte entre guillemets doubles dans le code so
 
 ```c
 // Cas 1 : Tableau de caractères (modifiable)
-char tab[] = "Bonjour";
-tab[0] = 'b';  // ✅ OK : mémoire modifiable
-printf("%s\n", tab);  // "bonjour"
+char tab[] = "Bonjour";  
+tab[0] = 'b';  // ✅ OK : mémoire modifiable  
+printf("%s\n", tab);  // "bonjour"  
 
 // Cas 2 : Pointeur vers chaîne littérale (non modifiable)
-char *ptr = "Bonjour";
-ptr[0] = 'b';  // ❌ Erreur : modification d'une zone lecture seule
+char *ptr = "Bonjour";  
+ptr[0] = 'b';  // ❌ Erreur : modification d'une zone lecture seule  
 
 // Version correcte avec const
 const char *ptr = "Bonjour";
@@ -141,8 +141,8 @@ const char *ptr = "Bonjour";
 **Attention à ne pas confondre !**
 
 ```c
-char caractere = 'A';      // Guillemets simples : un seul caractère
-char chaine[] = "A";       // Guillemets doubles : chaîne (2 octets : 'A' et '\0')
+char caractere = 'A';      // Guillemets simples : un seul caractère  
+char chaine[] = "A";       // Guillemets doubles : chaîne (2 octets : 'A' et '\0')  
 ```
 
 **En mémoire :**
@@ -159,12 +159,12 @@ char chaine[] = "A";       // Guillemets doubles : chaîne (2 octets : 'A' et '\
 **Conséquence :**
 
 ```c
-sizeof('A')   // 4 (car 'A' est promu en int en C)
-sizeof("A")   // 2 (caractère + '\0')
+sizeof('A')   // 4 (car 'A' est promu en int en C)  
+sizeof("A")   // 2 (caractère + '\0')  
 
-char c = 'A';      // OK
-char s[] = "A";    // OK
-char c2 = "A";     // ❌ Erreur de type
+char c = 'A';      // OK  
+char s[] = "A";    // OK  
+char c2 = "A";     // ❌ Erreur de type  
 ```
 
 ## Affichage et lecture de chaînes
@@ -174,8 +174,8 @@ char c2 = "A";     // ❌ Erreur de type
 ```c
 char nom[] = "Alice";
 
-printf("%s\n", nom);           // Alice
-printf("Bonjour %s\n", nom);   // Bonjour Alice
+printf("%s\n", nom);           // Alice  
+printf("Bonjour %s\n", nom);   // Bonjour Alice  
 ```
 
 **Le format `%s` :**
@@ -185,8 +185,8 @@ printf("Bonjour %s\n", nom);   // Bonjour Alice
 ### Lecture avec scanf (⚠️ dangereuse)
 
 ```c
-char nom[50];
-scanf("%s", nom);  // ⚠️ Ne lit qu'un mot (s'arrête à l'espace)
+char nom[50];  
+scanf("%s", nom);  // ⚠️ Ne lit qu'un mot (s'arrête à l'espace)  
 ```
 
 **Problèmes avec scanf :**
@@ -196,17 +196,17 @@ scanf("%s", nom);  // ⚠️ Ne lit qu'un mot (s'arrête à l'espace)
 
 **Exemple :**
 ```c
-char nom[50];
-printf("Votre nom : ");
-scanf("%s", nom);  // Si l'utilisateur entre "Jean Dupont", ne lit que "Jean"
+char nom[50];  
+printf("Votre nom : ");  
+scanf("%s", nom);  // Si l'utilisateur entre "Jean Dupont", ne lit que "Jean"  
 ```
 
 ### Lecture sécurisée avec fgets (recommandée)
 
 ```c
-char nom[50];
-printf("Votre nom : ");
-fgets(nom, sizeof(nom), stdin);
+char nom[50];  
+printf("Votre nom : ");  
+fgets(nom, sizeof(nom), stdin);  
 
 // Problème : fgets garde le '\n'
 // Solution : le retirer manuellement
@@ -225,8 +225,8 @@ nom[strcspn(nom, "\n")] = '\0';
 ```c
 #include <string.h>
 
-char message[] = "Bonjour";
-size_t longueur = strlen(message);  // 7 (ne compte pas '\0')
+char message[] = "Bonjour";  
+size_t longueur = strlen(message);  // 7 (ne compte pas '\0')  
 ```
 
 **Important :** `strlen()` compte les caractères **jusqu'au '\0'**, mais ne compte pas le `'\0'` lui-même.
@@ -236,8 +236,8 @@ size_t longueur = strlen(message);  // 7 (ne compte pas '\0')
 ```c
 char message[] = "Bonjour";
 
-printf("strlen(message) = %zu\n", strlen(message));  // 7
-printf("sizeof(message) = %zu\n", sizeof(message));  // 8
+printf("strlen(message) = %zu\n", strlen(message));  // 7  
+printf("sizeof(message) = %zu\n", sizeof(message));  // 8  
 ```
 
 **Différence cruciale :**
@@ -247,8 +247,8 @@ printf("sizeof(message) = %zu\n", sizeof(message));  // 8
 ```c
 char message[50] = "Bonjour";
 
-strlen(message)   // 7 : nombre de caractères avant '\0'
-sizeof(message)   // 50 : taille totale du tableau
+strlen(message)   // 7 : nombre de caractères avant '\0'  
+sizeof(message)   // 50 : taille totale du tableau  
 ```
 
 ## Passage de chaînes aux fonctions
@@ -316,8 +316,8 @@ for (int i = 0; message[i] != '\0'; i++) {
 ### Méthode 2 : Avec strlen()
 
 ```c
-char message[] = "Bonjour";
-size_t longueur = strlen(message);
+char message[] = "Bonjour";  
+size_t longueur = strlen(message);  
 
 for (size_t i = 0; i < longueur; i++) {
     printf("%c ", message[i]);
@@ -333,8 +333,8 @@ for (int i = 0; i < strlen(message); i++) {
 }
 
 // ✅ Bon : strlen() calculé une seule fois
-size_t len = strlen(message);
-for (int i = 0; i < len; i++) {
+size_t len = strlen(message);  
+for (int i = 0; i < len; i++) {  
     // ...
 }
 ```
@@ -342,8 +342,8 @@ for (int i = 0; i < len; i++) {
 ### Méthode 3 : Avec pointeur
 
 ```c
-char message[] = "Bonjour";
-char *ptr = message;
+char message[] = "Bonjour";  
+char *ptr = message;  
 
 while (*ptr != '\0') {
     printf("%c ", *ptr);
@@ -370,9 +370,9 @@ char jours[7][10] = {
 **En mémoire :** Chaque chaîne occupe 10 octets (gaspillage pour "Lundi", "Mardi", etc.)
 
 ```
-jours[0] : "Lundi\0????"      (10 octets)
-jours[1] : "Mardi\0????"      (10 octets)
-jours[2] : "Mercredi\0"       (10 octets)
+jours[0] : "Lundi\0????"      (10 octets)  
+jours[1] : "Mardi\0????"      (10 octets)  
+jours[2] : "Mercredi\0"       (10 octets)  
 ...
 ```
 
@@ -398,8 +398,8 @@ const char *jours[] = {
 **Accès :**
 
 ```c
-printf("%s\n", jours[0]);     // "Lundi"
-printf("%c\n", jours[0][1]);  // 'u'
+printf("%s\n", jours[0]);     // "Lundi"  
+printf("%c\n", jours[0][1]);  // 'u'  
 ```
 
 ## Copie de chaînes
@@ -407,8 +407,8 @@ printf("%c\n", jours[0][1]);  // 'u'
 ### ❌ On ne peut pas faire ceci :
 
 ```c
-char destination[20];
-destination = "Bonjour";  // ❌ Erreur : affectation invalide
+char destination[20];  
+destination = "Bonjour";  // ❌ Erreur : affectation invalide  
 ```
 
 ### ✅ Utiliser strcpy()
@@ -416,26 +416,26 @@ destination = "Bonjour";  // ❌ Erreur : affectation invalide
 ```c
 #include <string.h>
 
-char source[] = "Bonjour";
-char destination[20];
+char source[] = "Bonjour";  
+char destination[20];  
 
-strcpy(destination, source);
-printf("%s\n", destination);  // "Bonjour"
+strcpy(destination, source);  
+printf("%s\n", destination);  // "Bonjour"  
 ```
 
 **Danger :** `strcpy()` ne vérifie pas la taille du tableau de destination !
 
 ```c
-char petit[5];
-strcpy(petit, "Bonjour");  // ❌ Buffer overflow !
+char petit[5];  
+strcpy(petit, "Bonjour");  // ❌ Buffer overflow !  
 ```
 
 ### ✅ Version sécurisée : strncpy()
 
 ```c
-char destination[20];
-strncpy(destination, "Bonjour", sizeof(destination) - 1);
-destination[sizeof(destination) - 1] = '\0';  // Garantir la terminaison
+char destination[20];  
+strncpy(destination, "Bonjour", sizeof(destination) - 1);  
+destination[sizeof(destination) - 1] = '\0';  // Garantir la terminaison  
 ```
 
 **Problème de strncpy :** Ne garantit pas toujours la terminaison par '\0' !
@@ -457,11 +457,11 @@ strlcpy(destination, source, sizeof(destination));
 ```c
 #include <string.h>
 
-char destination[50] = "Bonjour";
-char source[] = " le monde";
+char destination[50] = "Bonjour";  
+char source[] = " le monde";  
 
-strcat(destination, source);
-printf("%s\n", destination);  // "Bonjour le monde"
+strcat(destination, source);  
+printf("%s\n", destination);  // "Bonjour le monde"  
 ```
 
 **Conditions :**
@@ -471,8 +471,8 @@ printf("%s\n", destination);  // "Bonjour le monde"
 ### strncat() : Version limitée
 
 ```c
-char destination[50] = "Bonjour";
-strncat(destination, " le monde", sizeof(destination) - strlen(destination) - 1);
+char destination[50] = "Bonjour";  
+strncat(destination, " le monde", sizeof(destination) - strlen(destination) - 1);  
 ```
 
 ## Comparaison de chaînes
@@ -480,8 +480,8 @@ strncat(destination, " le monde", sizeof(destination) - strlen(destination) - 1)
 ### ❌ On ne peut pas utiliser ==
 
 ```c
-char str1[] = "Hello";
-char str2[] = "Hello";
+char str1[] = "Hello";  
+char str2[] = "Hello";  
 
 if (str1 == str2) {  // ❌ Compare les ADRESSES, pas le contenu !
     printf("Égales\n");
@@ -493,9 +493,9 @@ if (str1 == str2) {  // ❌ Compare les ADRESSES, pas le contenu !
 ```c
 #include <string.h>
 
-char str1[] = "Hello";
-char str2[] = "Hello";
-char str3[] = "World";
+char str1[] = "Hello";  
+char str2[] = "Hello";  
+char str3[] = "World";  
 
 if (strcmp(str1, str2) == 0) {
     printf("str1 et str2 sont identiques\n");  // ✅ Affiche
@@ -512,9 +512,9 @@ if (strcmp(str1, str3) != 0) {
 - `> 0` : première chaîne est "plus grande"
 
 ```c
-strcmp("abc", "abc")  // 0
-strcmp("abc", "abd")  // < 0
-strcmp("abd", "abc")  // > 0
+strcmp("abc", "abc")  // 0  
+strcmp("abc", "abd")  // < 0  
+strcmp("abd", "abc")  // > 0  
 ```
 
 ### strncmp() : Comparaison limitée
@@ -532,11 +532,11 @@ if (strncmp("Hello", "Help", 3) == 0) {
 ```c
 #include <string.h>
 
-char phrase[] = "Bonjour le monde";
-char *position = strchr(phrase, 'o');
+char phrase[] = "Bonjour le monde";  
+char *position = strchr(phrase, 'o');  
 
 if (position != NULL) {
-    printf("Trouvé à l'index : %ld\n", position - phrase);  // 1
+    printf("Trouvé à l'index : %td\n", position - phrase);  // 1
     printf("Reste : %s\n", position);  // "onjour le monde"
 }
 ```
@@ -544,11 +544,11 @@ if (position != NULL) {
 ### strstr() : Trouver une sous-chaîne
 
 ```c
-char phrase[] = "Bonjour le monde";
+char phrase[] = "Bonjour le monde";  
 char *position = strstr(phrase, "monde");
 
 if (position != NULL) {
-    printf("Trouvé à l'index : %ld\n", position - phrase);  // 11
+    printf("Trouvé à l'index : %td\n", position - phrase);  // 11
     printf("Reste : %s\n", position);  // "monde"
 }
 ```
@@ -561,19 +561,19 @@ if (position != NULL) {
 #include <stdlib.h>
 
 // Conversion en entier
-char nombre_str[] = "42";
-int nombre = atoi(nombre_str);
-printf("%d\n", nombre);  // 42
+char nombre_str[] = "42";  
+int nombre = atoi(nombre_str);  
+printf("%d\n", nombre);  // 42  
 
 // Version plus robuste
-char *fin;
-long valeur = strtol("123abc", &fin, 10);
-printf("Valeur : %ld\n", valeur);  // 123
-printf("Reste : %s\n", fin);        // "abc"
+char *fin;  
+long valeur = strtol("123abc", &fin, 10);  
+printf("Valeur : %ld\n", valeur);  // 123  
+printf("Reste : %s\n", fin);        // "abc"  
 
 // Conversion en flottant
-double pi = atof("3.14159");
-printf("%.5f\n", pi);  // 3.14159
+double pi = atof("3.14159");  
+printf("%.5f\n", pi);  // 3.14159  
 ```
 
 ### De nombre vers chaîne
@@ -581,11 +581,11 @@ printf("%.5f\n", pi);  // 3.14159
 ```c
 #include <stdio.h>
 
-char buffer[50];
-int nombre = 42;
+char buffer[50];  
+int nombre = 42;  
 
-sprintf(buffer, "%d", nombre);
-printf("Chaîne : %s\n", buffer);  // "42"
+sprintf(buffer, "%d", nombre);  
+printf("Chaîne : %s\n", buffer);  // "42"  
 
 // Version plus sûre (C99)
 snprintf(buffer, sizeof(buffer), "%d", nombre);
@@ -598,18 +598,18 @@ snprintf(buffer, sizeof(buffer), "%d", nombre);
 ```c
 char nom[] = "Alice";
 
-printf("%s\n", nom);         // Alice
-printf("%10s\n", nom);       // "     Alice" (justifié à droite, largeur 10)
-printf("%-10s\n", nom);      // "Alice     " (justifié à gauche, largeur 10)
-printf("%.3s\n", nom);       // "Ali" (3 premiers caractères)
-printf("%10.3s\n", nom);     // "       Ali" (largeur 10, 3 caractères)
+printf("%s\n", nom);         // Alice  
+printf("%10s\n", nom);       // "     Alice" (justifié à droite, largeur 10)  
+printf("%-10s\n", nom);      // "Alice     " (justifié à gauche, largeur 10)  
+printf("%.3s\n", nom);       // "Ali" (3 premiers caractères)  
+printf("%10.3s\n", nom);     // "       Ali" (largeur 10, 3 caractères)  
 ```
 
 ### Lecture limitée avec scanf
 
 ```c
-char nom[20];
-scanf("%19s", nom);  // Lit au maximum 19 caractères (+ '\0')
+char nom[20];  
+scanf("%19s", nom);  // Lit au maximum 19 caractères (+ '\0')  
 ```
 
 ## Manipulation caractère par caractère
@@ -621,15 +621,15 @@ scanf("%19s", nom);  // Lit au maximum 19 caractères (+ '\0')
 
 char c = 'a';
 
-isalpha(c)   // Vrai si lettre
-isdigit(c)   // Vrai si chiffre
-isalnum(c)   // Vrai si lettre ou chiffre
-isspace(c)   // Vrai si espace, tab, newline...
-isupper(c)   // Vrai si majuscule
-islower(c)   // Vrai si minuscule
+isalpha(c)   // Vrai si lettre  
+isdigit(c)   // Vrai si chiffre  
+isalnum(c)   // Vrai si lettre ou chiffre  
+isspace(c)   // Vrai si espace, tab, newline...  
+isupper(c)   // Vrai si majuscule  
+islower(c)   // Vrai si minuscule  
 
-toupper(c)   // Convertit en majuscule
-tolower(c)   // Convertit en minuscule
+toupper(c)   // Convertit en majuscule  
+tolower(c)   // Convertit en minuscule  
 ```
 
 ### Exemple : Convertir en majuscules
@@ -657,15 +657,15 @@ int main(void) {
 ### ❌ Erreur 1 : Oublier le '\0'
 
 ```c
-char message[7] = {'B', 'o', 'n', 'j', 'o', 'u', 'r'};  // ❌ Pas de '\0'
-printf("%s\n", message);  // Comportement indéfini : continue après le tableau
+char message[7] = {'B', 'o', 'n', 'j', 'o', 'u', 'r'};  // ❌ Pas de '\0'  
+printf("%s\n", message);  // Comportement indéfini : continue après le tableau  
 ```
 
 ### ❌ Erreur 2 : Buffer overflow
 
 ```c
-char petit[5];
-strcpy(petit, "Bonjour");  // ❌ Déborde du tableau (7 + '\0' = 8 octets)
+char petit[5];  
+strcpy(petit, "Bonjour");  // ❌ Déborde du tableau (7 + '\0' = 8 octets)  
 ```
 
 **Conséquence :** Corruption de mémoire, plantage, faille de sécurité.
@@ -673,8 +673,8 @@ strcpy(petit, "Bonjour");  // ❌ Déborde du tableau (7 + '\0' = 8 octets)
 ### ❌ Erreur 3 : Modifier une chaîne littérale
 
 ```c
-char *ptr = "Bonjour";
-ptr[0] = 'b';  // ❌ Comportement indéfini : modification de zone lecture seule
+char *ptr = "Bonjour";  
+ptr[0] = 'b';  // ❌ Comportement indéfini : modification de zone lecture seule  
 ```
 
 **Solution :** Utilisez `const` ou copiez dans un tableau.
@@ -683,8 +683,8 @@ ptr[0] = 'b';  // ❌ Comportement indéfini : modification de zone lecture seul
 const char *ptr = "Bonjour";  // ✅ const empêche la modification
 
 // Ou :
-char tableau[] = "Bonjour";   // ✅ Copie modifiable
-tableau[0] = 'b';              // ✅ OK
+char tableau[] = "Bonjour";   // ✅ Copie modifiable  
+tableau[0] = 'b';              // ✅ OK  
 ```
 
 ### ❌ Erreur 4 : Retourner une chaîne locale
@@ -723,8 +723,8 @@ char *creer_message(void) {
 ### ❌ Erreur 5 : Comparer avec == au lieu de strcmp()
 
 ```c
-char str1[] = "Hello";
-char str2[] = "Hello";
+char str1[] = "Hello";  
+char str2[] = "Hello";  
 
 if (str1 == str2) {  // ❌ Compare les adresses !
     // Ne sera jamais vrai
@@ -748,8 +748,8 @@ void afficher(const char *message) {
 ### ✅ 2. Vérifier les retours de fonctions
 
 ```c
-char *position = strchr(phrase, 'x');
-if (position != NULL) {
+char *position = strchr(phrase, 'x');  
+if (position != NULL) {  
     // Traitement
 } else {
     printf("Caractère non trouvé\n");
@@ -759,17 +759,17 @@ if (position != NULL) {
 ### ✅ 3. Utiliser sizeof() pour les limites
 
 ```c
-char buffer[50];
-snprintf(buffer, sizeof(buffer), "Valeur : %d", nombre);
-fgets(buffer, sizeof(buffer), stdin);
+char buffer[50];  
+snprintf(buffer, sizeof(buffer), "Valeur : %d", nombre);  
+fgets(buffer, sizeof(buffer), stdin);  
 ```
 
 ### ✅ 4. Préférer les fonctions sécurisées
 
 ```c
 // Au lieu de strcpy
-strncpy(dest, src, sizeof(dest) - 1);
-dest[sizeof(dest) - 1] = '\0';
+strncpy(dest, src, sizeof(dest) - 1);  
+dest[sizeof(dest) - 1] = '\0';  
 
 // Au lieu de strcat
 strncat(dest, src, sizeof(dest) - strlen(dest) - 1);

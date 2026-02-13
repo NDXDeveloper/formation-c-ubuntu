@@ -79,18 +79,19 @@ La **Stack** est une zone de mémoire organisée selon le principe **LIFO** (Las
 ```c
 #include <stdio.h>
 
-void fonction_exemple() {
+void fonction_exemple(void) {
     int a = 10;        // Variable locale sur la Stack
     char c = 'X';      // Variable locale sur la Stack
     double pi = 3.14;  // Variable locale sur la Stack
 
-    printf("a = %d\n", a);
+    printf("a = %d, c = %c, pi = %.2f\n", a, c, pi);
     // Toutes ces variables seront automatiquement
     // détruites à la fin de cette fonction
 }
 
-int main() {
+int main(void) {
     int x = 5;         // Variable locale sur la Stack
+    printf("x = %d\n", x);
     fonction_exemple();
     // Ici, les variables de fonction_exemple() n'existent plus
     return 0;
@@ -171,7 +172,7 @@ Le **Heap** est une grande zone de mémoire libre que votre programme peut utili
 
 int* creer_tableau(int taille) {
     // Allocation sur le Heap
-    int* tableau = (int*)malloc(taille * sizeof(int));
+    int* tableau = malloc(taille * sizeof(int));
 
     if (tableau == NULL) {
         printf("Erreur d'allocation mémoire\n");
@@ -186,7 +187,7 @@ int* creer_tableau(int taille) {
     return tableau; // Le tableau survit à la fin de la fonction !
 }
 
-int main() {
+int main(void) {
     int taille = 100;  // Taille connue seulement à l'exécution
 
     int* mon_tableau = creer_tableau(taille);
@@ -274,7 +275,7 @@ Heap après plusieurs malloc() :
 #include <stdlib.h>
 #include <string.h>
 
-void exemple_complet() {
+void exemple_complet(void) {
     // ===== STACK =====
     int age = 25;                    // Sur la Stack
     char prenom[20] = "Alice";       // Sur la Stack (taille fixe)
@@ -284,7 +285,7 @@ void exemple_complet() {
     // ===== HEAP =====
     // Allocation dynamique pour une chaîne de taille variable
     int longueur = 100;
-    char* description = (char*)malloc(longueur * sizeof(char));
+    char* description = malloc(longueur * sizeof(char));
 
     if (description == NULL) {
         printf("Erreur d'allocation\n");
@@ -302,7 +303,7 @@ void exemple_complet() {
     // - description (Heap) a été manuellement libéré avec free()
 }
 
-int main() {
+int main(void) {
     exemple_complet();
     return 0;
 }
@@ -316,7 +317,7 @@ int main() {
 
 #### Stack
 ```c
-void exemple_stack() {
+void exemple_stack(void) {
     int x = 10;  // x existe UNIQUEMENT dans cette fonction
     // ...
 }  // ← x est DÉTRUITE ici automatiquement
@@ -324,13 +325,13 @@ void exemple_stack() {
 
 #### Heap
 ```c
-int* exemple_heap() {
+int* exemple_heap(void) {
     int* ptr = malloc(sizeof(int));
     *ptr = 10;
     return ptr;  // ptr survit et peut être utilisée ailleurs
 }
 
-int main() {
+int main(void) {
     int* valeur = exemple_heap();
     printf("%d\n", *valeur);
     free(valeur);  // Libération quand on n'en a plus besoin
@@ -386,12 +387,12 @@ int main() {
 
 ```c
 // ⚠️ CODE DANGEREUX - NE PAS FAIRE !
-int* mauvaise_fonction() {
+int* mauvaise_fonction(void) {
     int x = 42;
     return &x;  // ❌ x sera détruite à la fin de la fonction !
 }
 
-int main() {
+int main(void) {
     int* ptr = mauvaise_fonction();
     printf("%d\n", *ptr);  // ⚠️ Comportement indéfini ! (dangling pointer)
     return 0;
@@ -401,13 +402,13 @@ int main() {
 **Solution : Utiliser le Heap**
 ```c
 // ✅ CODE CORRECT
-int* bonne_fonction() {
+int* bonne_fonction(void) {
     int* x = malloc(sizeof(int));
     *x = 42;
     return x;  // ✅ La mémoire sur le Heap persiste
 }
 
-int main() {
+int main(void) {
     int* ptr = bonne_fonction();
     printf("%d\n", *ptr);  // ✅ Fonctionne correctement
     free(ptr);             // N'oubliez pas de libérer !
@@ -419,7 +420,7 @@ int main() {
 
 ```c
 // ⚠️ Risque de Stack Overflow
-void recursion_infinie() {
+void recursion_infinie(void) {
     int tableau[1000000];  // Énorme tableau sur la Stack
     recursion_infinie();   // Appel récursif sans condition d'arrêt
 }
@@ -434,7 +435,7 @@ void recursion_infinie() {
 
 ```c
 // ⚠️ FUITE MÉMOIRE
-void fuite() {
+void fuite(void) {
     char* data = malloc(1000);
     strcpy(data, "Hello");
     // ❌ Oubli de free(data) !
@@ -444,7 +445,7 @@ void fuite() {
 **Solution :**
 ```c
 // ✅ CODE CORRECT
-void correct() {
+void correct(void) {
     char* data = malloc(1000);
     if (data == NULL) return;
 

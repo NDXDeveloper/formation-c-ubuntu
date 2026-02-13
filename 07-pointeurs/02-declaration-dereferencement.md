@@ -47,10 +47,10 @@ type *nom_du_pointeur;
 ### Exemples de déclarations
 
 ```c
-int *ptr_int;       // Pointeur vers un int
-char *ptr_char;     // Pointeur vers un char
-float *ptr_float;   // Pointeur vers un float
-double *ptr_double; // Pointeur vers un double
+int *ptr_int;       // Pointeur vers un int  
+char *ptr_char;     // Pointeur vers un char  
+float *ptr_float;   // Pointeur vers un float  
+double *ptr_double; // Pointeur vers un double  
 ```
 
 ### Point important sur la syntaxe
@@ -58,17 +58,17 @@ double *ptr_double; // Pointeur vers un double
 L'astérisque peut être placé de différentes manières (toutes équivalentes) :
 
 ```c
-int *ptr;    // Style recommandé (proche du type)
-int* ptr;    // Style alternatif
+int *ptr;    // Style recommandé (proche du nom de variable)  
+int* ptr;    // Style alternatif (proche du type)  
 int * ptr;   // Avec espaces des deux côtés
 ```
 
 **Recommandation :** Utilisez `int *ptr` car cela évite les confusions lors de déclarations multiples :
 
 ```c
-int* a, b;     // ⚠️ ATTENTION : a est un pointeur, b est un int !
-int *a, b;     // Plus clair : a est un pointeur, b est un int
-int *a, *b;    // a et b sont tous les deux des pointeurs
+int* a, b;     // ⚠️ ATTENTION : a est un pointeur, b est un int !  
+int *a, b;     // Plus clair : a est un pointeur, b est un int  
+int *a, *b;    // a et b sont tous les deux des pointeurs  
 ```
 
 ## Initialisation d'un pointeur
@@ -96,17 +96,17 @@ int main(void) {
 
 **Sortie possible :**
 ```
-Valeur de age : 25
-Adresse de age : 0x7ffd4c8b3a4c
-Valeur de ptr_age (l'adresse stockée) : 0x7ffd4c8b3a4c
+Valeur de age : 25  
+Adresse de age : 0x7ffd4c8b3a4c  
+Valeur de ptr_age (l'adresse stockée) : 0x7ffd4c8b3a4c  
 ```
 
 ### Décortiquons cet exemple
 
 ```c
-int age = 25;        // Variable normale contenant 25
-int *ptr_age;        // Pointeur non initialisé (dangereux !)
-ptr_age = &age;      // Maintenant ptr_age contient l'adresse de age
+int age = 25;        // Variable normale contenant 25  
+int *ptr_age;        // Pointeur non initialisé (dangereux !)  
+ptr_age = &age;      // Maintenant ptr_age contient l'adresse de age  
 ```
 
 **Visualisation mémoire :**
@@ -123,8 +123,8 @@ Adresse      Variable     Valeur
 Il est préférable d'initialiser le pointeur dès sa déclaration :
 
 ```c
-int age = 25;
-int *ptr_age = &age;    // Déclaration + initialisation en une ligne
+int age = 25;  
+int *ptr_age = &age;    // Déclaration + initialisation en une ligne  
 ```
 
 ### Pointeur non initialisé (DANGER !)
@@ -170,19 +170,19 @@ int main(void) {
 
 **Sortie :**
 ```
-Valeur de age : 25
-Valeur via le pointeur : 25
+Valeur de age : 25  
+Valeur via le pointeur : 25  
 ```
 
 ### Comprendre le déréférencement
 
 ```c
-int age = 25;
-int *ptr_age = &age;
+int age = 25;  
+int *ptr_age = &age;  
 
 // Différentes manières d'accéder à la même valeur :
-printf("%d\n", age);        // Accès direct par le nom
-printf("%d\n", *ptr_age);   // Accès indirect via le pointeur
+printf("%d\n", age);        // Accès direct par le nom  
+printf("%d\n", *ptr_age);   // Accès indirect via le pointeur  
 ```
 
 **Visualisation :**
@@ -220,8 +220,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Avant : age = 25
-Après : age = 30
+Avant : age = 25  
+Après : age = 30  
 ```
 
 ### Que s'est-il passé ?
@@ -299,22 +299,22 @@ int main(void) {
 **Sortie possible :**
 ```
 === Variable 'nombre' ===
-Valeur de nombre : 42
-Adresse de nombre : 0x7ffd4c8b3a4c
-Taille de nombre : 4 octets
+Valeur de nombre : 42  
+Adresse de nombre : 0x7ffd4c8b3a4c  
+Taille de nombre : 4 octets  
 
 === Pointeur 'ptr_nombre' ===
-Valeur de ptr_nombre (adresse stockée) : 0x7ffd4c8b3a4c
-Adresse de ptr_nombre lui-même : 0x7ffd4c8b3a40
-Taille de ptr_nombre : 8 octets
-Valeur pointée (*ptr_nombre) : 42
+Valeur de ptr_nombre (adresse stockée) : 0x7ffd4c8b3a4c  
+Adresse de ptr_nombre lui-même : 0x7ffd4c8b3a40  
+Taille de ptr_nombre : 8 octets  
+Valeur pointée (*ptr_nombre) : 42  
 
 === Vérification ===
 ✓ ptr_nombre pointe bien vers nombre
 
 === Modification via le pointeur ===
-Avant : nombre = 42
-Après (*ptr_nombre = 100) : nombre = 100
+Avant : nombre = 42  
+Après (*ptr_nombre = 100) : nombre = 100  
 ```
 
 ### Observations importantes
@@ -355,8 +355,8 @@ valeur = 50
 *ptr1 = 50
 *ptr2 = 50
 
-Après *ptr1 = 60 :
-valeur = 60
+Après *ptr1 = 60 :  
+valeur = 60  
 *ptr2 = 60
 ```
 
@@ -380,11 +380,11 @@ valeur = 60
 Un pointeur est **typé** : il pointe vers un type spécifique de données.
 
 ```c
-int entier = 10;
-float reel = 3.14f;
+int entier = 10;  
+float reel = 3.14f;  
 
-int *ptr_int = &entier;      // ✓ Correct
-float *ptr_float = &reel;    // ✓ Correct
+int *ptr_int = &entier;      // ✓ Correct  
+float *ptr_float = &reel;    // ✓ Correct  
 
 // int *ptr_erreur = &reel;  // ✗ ERREUR : incompatibilité de types
 ```
@@ -396,12 +396,12 @@ Le type du pointeur indique :
 2. **Comment interpréter** les octets lus
 
 ```c
-int entier = 1000;
-int *ptr_int = &entier;
-char *ptr_char = (char*)&entier;  // Cast explicite (avancé)
+int entier = 1000;  
+int *ptr_int = &entier;  
+char *ptr_char = (char*)&entier;  // Cast explicite (avancé)  
 
-printf("Via int* : %d\n", *ptr_int);      // Lit 4 octets comme un int
-printf("Via char* : %d\n", *ptr_char);    // Lit 1 octet comme un char
+printf("Via int* : %d\n", *ptr_int);      // Lit 4 octets comme un int  
+printf("Via char* : %d\n", *ptr_char);    // Lit 1 octet comme un char  
 ```
 
 ## Erreurs courantes à éviter
@@ -409,30 +409,30 @@ printf("Via char* : %d\n", *ptr_char);    // Lit 1 octet comme un char
 ### ❌ Erreur 1 : Déréférencement d'un pointeur non initialisé
 
 ```c
-int *ptr;           // Pointeur non initialisé
-printf("%d\n", *ptr);  // ⚠️ DANGER : comportement indéfini, probablement un crash
+int *ptr;           // Pointeur non initialisé  
+printf("%d\n", *ptr);  // ⚠️ DANGER : comportement indéfini, probablement un crash  
 ```
 
 **Solution :**
 ```c
-int valeur = 42;
-int *ptr = &valeur;    // ✓ Initialisation correcte
-printf("%d\n", *ptr);  // ✓ Sûr
+int valeur = 42;  
+int *ptr = &valeur;    // ✓ Initialisation correcte  
+printf("%d\n", *ptr);  // ✓ Sûr  
 ```
 
 ### ❌ Erreur 2 : Confusion entre pointeur et valeur
 
 ```c
-int *ptr;
-int age = 25;
+int *ptr;  
+int age = 25;  
 
 ptr = age;     // ✗ ERREUR : on assigne une valeur à un pointeur !
 ```
 
 **Solution :**
 ```c
-int *ptr;
-int age = 25;
+int *ptr;  
+int age = 25;  
 
 ptr = &age;    // ✓ Correct : on assigne une adresse
 ```
@@ -440,11 +440,11 @@ ptr = &age;    // ✓ Correct : on assigne une adresse
 ### ❌ Erreur 3 : Oublier l'astérisque lors du déréférencement
 
 ```c
-int age = 25;
-int *ptr = &age;
+int age = 25;  
+int *ptr = &age;  
 
-printf("%d\n", ptr);   // ⚠️ Affiche l'adresse, pas la valeur !
-printf("%d\n", *ptr);  // ✓ Affiche la valeur (25)
+printf("%d\n", ptr);   // ⚠️ Affiche l'adresse, pas la valeur !  
+printf("%d\n", *ptr);  // ✓ Affiche la valeur (25)  
 ```
 
 ### ❌ Erreur 4 : Confusion dans les déclarations multiples
@@ -457,15 +457,15 @@ int* ptr1, ptr2;    // ⚠️ ptr1 est un pointeur, ptr2 est un int !
 ```c
 int *ptr1, *ptr2;   // ✓ Les deux sont des pointeurs
 // OU mieux :
-int *ptr1;
-int *ptr2;          // Une déclaration par ligne (plus clair)
+int *ptr1;  
+int *ptr2;          // Une déclaration par ligne (plus clair)  
 ```
 
 ## Résumé visuel
 
 ```c
-int age = 25;
-int *ptr = &age;
+int age = 25;  
+int *ptr = &age;  
 *ptr = 30;
 ```
 

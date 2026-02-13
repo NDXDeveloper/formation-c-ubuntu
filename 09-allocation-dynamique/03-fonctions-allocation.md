@@ -40,11 +40,12 @@ void* malloc(size_t size);
 ### Syntaxe de base
 
 ```c
+#include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     // Allouer de la mémoire pour un entier
-    int* ptr = (int*)malloc(sizeof(int));
+    int* ptr = malloc(sizeof(int));
 
     if (ptr == NULL) {
         printf("Erreur d'allocation mémoire\n");
@@ -106,11 +107,11 @@ HEAP :
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     int taille = 10;
 
     // Allouer un tableau de 10 entiers
-    int* tableau = (int*)malloc(taille * sizeof(int));
+    int* tableau = malloc(taille * sizeof(int));
 
     if (tableau == NULL) {
         printf("Erreur d'allocation\n");
@@ -137,15 +138,19 @@ int main() {
 ### Allocation de structures
 
 ```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 typedef struct {
     char nom[50];
     int age;
     double salaire;
 } Personne;
 
-int main() {
+int main(void) {
     // Allouer une structure
-    Personne* p = (Personne*)malloc(sizeof(Personne));
+    Personne* p = malloc(sizeof(Personne));
 
     if (p == NULL) {
         return 1;
@@ -205,11 +210,11 @@ void* calloc(size_t nmemb, size_t size);
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     int taille = 5;
 
     // Allouer un tableau de 5 entiers, tous initialisés à 0
-    int* tableau = (int*)calloc(taille, sizeof(int));
+    int* tableau = calloc(taille, sizeof(int));
 
     if (tableau == NULL) {
         printf("Erreur d'allocation\n");
@@ -228,11 +233,11 @@ int main() {
 
 **Sortie :**
 ```
-tableau[0] = 0
-tableau[1] = 0
-tableau[2] = 0
-tableau[3] = 0
-tableau[4] = 0
+tableau[0] = 0  
+tableau[1] = 0  
+tableau[2] = 0  
+tableau[3] = 0  
+tableau[4] = 0  
 ```
 
 ### Équivalence malloc() vs calloc()
@@ -241,15 +246,15 @@ Ces deux codes sont **équivalents** :
 
 **Avec malloc() :**
 ```c
-int* tableau = (int*)malloc(10 * sizeof(int));
-if (tableau != NULL) {
+int* tableau = malloc(10 * sizeof(int));  
+if (tableau != NULL) {  
     memset(tableau, 0, 10 * sizeof(int));  // Initialisation manuelle
 }
 ```
 
 **Avec calloc() :**
 ```c
-int* tableau = (int*)calloc(10, sizeof(int));  // Initialisation automatique
+int* tableau = calloc(10, sizeof(int));  // Initialisation automatique
 ```
 
 ### Visualisation de calloc()
@@ -287,15 +292,15 @@ HEAP :
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     int lignes = 3, colonnes = 4;
 
     // Allouer une matrice 3x4 initialisée à 0
-    int** matrice = (int**)calloc(lignes, sizeof(int*));
+    int** matrice = calloc(lignes, sizeof(int*));
     if (matrice == NULL) return 1;
 
     for (int i = 0; i < lignes; i++) {
-        matrice[i] = (int*)calloc(colonnes, sizeof(int));
+        matrice[i] = calloc(colonnes, sizeof(int));
         if (matrice[i] == NULL) {
             // Libérer ce qui a été alloué
             for (int j = 0; j < i; j++) {
@@ -353,9 +358,9 @@ void* realloc(void* ptr, size_t size);
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     // Allocation initiale : 5 entiers
-    int* tableau = (int*)malloc(5 * sizeof(int));
+    int* tableau = malloc(5 * sizeof(int));
     if (tableau == NULL) return 1;
 
     // Initialisation
@@ -364,7 +369,7 @@ int main() {
     }
 
     // Redimensionnement : passer à 10 entiers
-    int* nouveau_tableau = (int*)realloc(tableau, 10 * sizeof(int));
+    int* nouveau_tableau = realloc(tableau, 10 * sizeof(int));
 
     if (nouveau_tableau == NULL) {
         // ⚠️ En cas d'échec, l'ancien tableau est toujours valide !
@@ -395,8 +400,8 @@ int main() {
 
 ```c
 // ❌ CODE DANGEREUX - NE PAS FAIRE !
-int* tableau = malloc(5 * sizeof(int));
-tableau = realloc(tableau, 10 * sizeof(int));  // ERREUR !
+int* tableau = malloc(5 * sizeof(int));  
+tableau = realloc(tableau, 10 * sizeof(int));  // ERREUR !  
 
 // Si realloc échoue et retourne NULL, vous perdez
 // la référence au bloc original → FUITE MÉMOIRE !
@@ -405,8 +410,8 @@ tableau = realloc(tableau, 10 * sizeof(int));  // ERREUR !
 **✅ Toujours utiliser un pointeur temporaire :**
 
 ```c
-int* tableau = malloc(5 * sizeof(int));
-int* temp = realloc(tableau, 10 * sizeof(int));
+int* tableau = malloc(5 * sizeof(int));  
+int* temp = realloc(tableau, 10 * sizeof(int));  
 
 if (temp == NULL) {
     // L'ancien tableau existe toujours
@@ -469,10 +474,10 @@ Après realloc() pour 10 int :
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     int capacite = 2;
     int taille = 0;
-    int* liste = (int*)malloc(capacite * sizeof(int));
+    int* liste = malloc(capacite * sizeof(int));
 
     if (liste == NULL) return 1;
 
@@ -482,7 +487,7 @@ int main() {
         if (taille == capacite) {
             capacite *= 2;  // Doubler la capacité
 
-            int* temp = (int*)realloc(liste, capacite * sizeof(int));
+            int* temp = realloc(liste, capacite * sizeof(int));
             if (temp == NULL) {
                 free(liste);
                 return 1;
@@ -509,10 +514,10 @@ int main() {
 
 **Sortie :**
 ```
-Redimensionné à capacité 4
-Redimensionné à capacité 8
-Redimensionné à capacité 16
-Liste finale : 0 1 2 3 4 5 6 7 8 9
+Redimensionné à capacité 4  
+Redimensionné à capacité 8  
+Redimensionné à capacité 16  
+Liste finale : 0 1 2 3 4 5 6 7 8 9  
 ```
 
 ### Réduction de taille
@@ -523,8 +528,8 @@ int* tableau = malloc(100 * sizeof(int));
 // Utilisation...
 
 // Réduire à 50 éléments pour économiser la mémoire
-int* temp = realloc(tableau, 50 * sizeof(int));
-if (temp != NULL) {
+int* temp = realloc(tableau, 50 * sizeof(int));  
+if (temp != NULL) {  
     tableau = temp;
 }
 // Si realloc échoue pour une réduction, ce n'est généralement pas grave
@@ -600,8 +605,8 @@ Après ptr = NULL :
 ### free() avec NULL
 
 ```c
-int* ptr = NULL;
-free(ptr);  // ✅ SÉCURITAIRE : free(NULL) ne fait rien
+int* ptr = NULL;  
+free(ptr);  // ✅ SÉCURITAIRE : free(NULL) ne fait rien  
 ```
 
 **Comportement normalisé :** Appeler `free(NULL)` est parfaitement valide et ne fait rien.
@@ -622,6 +627,10 @@ if (tableau != NULL) {
 ### Exemple : Libération d'une structure avec pointeurs
 
 ```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 typedef struct {
     char* nom;
     char* prenom;
@@ -657,7 +666,7 @@ void liberer_personne(Personne* p) {
     }
 }
 
-int main() {
+int main(void) {
     Personne* p = creer_personne("Dupont", "Marie", 25);
 
     if (p != NULL) {
@@ -683,8 +692,8 @@ int* ptr = malloc(sizeof(int));
 
 **✅ Code correct :**
 ```c
-int* ptr = malloc(sizeof(int));
-if (ptr == NULL) {
+int* ptr = malloc(sizeof(int));  
+if (ptr == NULL) {  
     fprintf(stderr, "Erreur : mémoire insuffisante\n");
     return 1;
 }
@@ -697,8 +706,8 @@ if (ptr == NULL) {
 #include <errno.h>
 #include <string.h>
 
-int* ptr = malloc(1000000000 * sizeof(int));  // Demande énorme
-if (ptr == NULL) {
+int* ptr = malloc(1000000000 * sizeof(int));  // Demande énorme  
+if (ptr == NULL) {  
     fprintf(stderr, "Erreur malloc : %s\n", strerror(errno));
     return 1;
 }
@@ -719,7 +728,7 @@ void* malloc_securise(size_t taille, const char* message) {
     return ptr;
 }
 
-int main() {
+int main(void) {
     int* tableau = malloc_securise(10 * sizeof(int),
                                     "allocation du tableau");
 
@@ -741,16 +750,16 @@ int main() {
 
 **Problème :**
 ```c
-int* ptr = malloc(sizeof(int));
-free(ptr);
-free(ptr);  // ❌ ERREUR : Double free → Corruption de mémoire
+int* ptr = malloc(sizeof(int));  
+free(ptr);  
+free(ptr);  // ❌ ERREUR : Double free → Corruption de mémoire  
 ```
 
 **Solution :**
 ```c
-int* ptr = malloc(sizeof(int));
-free(ptr);
-ptr = NULL;  // Bonne pratique
+int* ptr = malloc(sizeof(int));  
+free(ptr);  
+ptr = NULL;  // Bonne pratique  
 
 free(ptr);   // ✅ OK : free(NULL) ne fait rien
 ```
@@ -771,16 +780,16 @@ printf("%d\n", *ptr);  // ❌ ERREUR : Lecture après libération
 ```c
 int* ptr = malloc(sizeof(int));
 *ptr = 42;
-printf("%d\n", *ptr);  // Utiliser AVANT free()
-free(ptr);
-ptr = NULL;            // Empêcher l'utilisation accidentelle
+printf("%d\n", *ptr);  // Utiliser AVANT free()  
+free(ptr);  
+ptr = NULL;            // Empêcher l'utilisation accidentelle  
 ```
 
 ### ❌ Erreur 3 : Memory Leak (Fuite mémoire)
 
 **Problème :**
 ```c
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(100 * sizeof(int));
     // ... code ...
     // ❌ Oubli de free(ptr) !
@@ -789,7 +798,7 @@ void fonction() {
 
 **Solution :**
 ```c
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(100 * sizeof(int));
     if (ptr == NULL) return;
 
@@ -803,33 +812,33 @@ void fonction() {
 
 **Problème :**
 ```c
-int* ptr = malloc(100 * sizeof(int));
-ptr = malloc(50 * sizeof(int));  // ❌ Le premier bloc est perdu !
+int* ptr = malloc(100 * sizeof(int));  
+ptr = malloc(50 * sizeof(int));  // ❌ Le premier bloc est perdu !  
 ```
 
 **Solution :**
 ```c
-int* ptr = malloc(100 * sizeof(int));
-free(ptr);  // Libérer l'ancien bloc d'abord
-ptr = malloc(50 * sizeof(int));  // Puis allouer le nouveau
+int* ptr = malloc(100 * sizeof(int));  
+free(ptr);  // Libérer l'ancien bloc d'abord  
+ptr = malloc(50 * sizeof(int));  // Puis allouer le nouveau  
 ```
 
 ### ❌ Erreur 5 : Libérer un pointeur non alloué
 
 **Problème :**
 ```c
-int tableau[10];
-free(tableau);  // ❌ ERREUR : tableau est sur la Stack !
+int tableau[10];  
+free(tableau);  // ❌ ERREUR : tableau est sur la Stack !  
 
-int* ptr;
-free(ptr);      // ❌ ERREUR : ptr non initialisé !
+int* ptr;  
+free(ptr);      // ❌ ERREUR : ptr non initialisé !  
 ```
 
 **Solution :**
 ```c
 // Ne libérer QUE les pointeurs retournés par malloc/calloc/realloc
-int* ptr = malloc(sizeof(int));
-if (ptr != NULL) {
+int* ptr = malloc(sizeof(int));  
+if (ptr != NULL) {  
     free(ptr);  // ✅ OK
 }
 ```
@@ -841,8 +850,8 @@ if (ptr != NULL) {
 ### 1. Toujours vérifier NULL
 
 ```c
-int* ptr = malloc(sizeof(int));
-if (ptr == NULL) {
+int* ptr = malloc(sizeof(int));  
+if (ptr == NULL) {  
     // Gérer l'erreur
     return 1;
 }
@@ -861,26 +870,30 @@ int* ptr = malloc(sizeof(*ptr));
 ### 3. Initialiser à NULL après free()
 
 ```c
-free(ptr);
-ptr = NULL;  // Évite les dangling pointers
+free(ptr);  
+ptr = NULL;  // Évite les dangling pointers  
 ```
 
 ### 4. Pattern de libération en cas d'erreur
 
 ```c
-char* buffer1 = malloc(100);
+char* buffer1 = NULL;  
+char* buffer2 = NULL;  
+char* buffer3 = NULL;
+
+buffer1 = malloc(100);  
 if (buffer1 == NULL) goto cleanup;
 
-char* buffer2 = malloc(200);
+buffer2 = malloc(200);  
 if (buffer2 == NULL) goto cleanup;
 
-char* buffer3 = malloc(300);
+buffer3 = malloc(300);  
 if (buffer3 == NULL) goto cleanup;
 
 // ... code principal ...
 
 cleanup:
-    free(buffer3);
+    free(buffer3);  // free(NULL) est sûr
     free(buffer2);
     free(buffer1);
     return status;
@@ -898,8 +911,8 @@ cleanup:
 } while(0)
 
 // Utilisation
-int* tableau;
-SAFE_MALLOC(tableau, 10 * sizeof(int));
+int* tableau;  
+SAFE_MALLOC(tableau, 10 * sizeof(int));  
 ```
 
 ### 6. Valgrind pour détecter les erreurs
@@ -997,7 +1010,7 @@ void liberer_tableau(TableauDynamique* tab) {
     }
 }
 
-int main() {
+int main(void) {
     TableauDynamique* tab = creer_tableau(2);
 
     if (tab == NULL) {
@@ -1024,13 +1037,13 @@ int main() {
 
 **Sortie :**
 ```
-Tableau [taille=1, capacité=2] : 0
-Tableau [taille=2, capacité=2] : 0 10
-Tableau redimensionné : capacité 4
-Tableau [taille=3, capacité=4] : 0 10 20
-Tableau [taille=4, capacité=4] : 0 10 20 30
-Tableau redimensionné : capacité 8
-Tableau [taille=5, capacité=8] : 0 10 20 30 40
+Tableau [taille=1, capacité=2] : 0  
+Tableau [taille=2, capacité=2] : 0 10  
+Tableau redimensionné : capacité 4  
+Tableau [taille=3, capacité=4] : 0 10 20  
+Tableau [taille=4, capacité=4] : 0 10 20 30  
+Tableau redimensionné : capacité 8  
+Tableau [taille=5, capacité=8] : 0 10 20 30 40  
 ...
 ```
 
@@ -1043,8 +1056,8 @@ Tableau [taille=5, capacité=8] : 0 10 20 30 40
 **Utilisez malloc :**
 ```c
 // Vous allez immédiatement remplir les données
-int* buffer = malloc(1000 * sizeof(int));
-for (int i = 0; i < 1000; i++) {
+int* buffer = malloc(1000 * sizeof(int));  
+for (int i = 0; i < 1000; i++) {  
     buffer[i] = i;  // Initialisation immédiate
 }
 ```
@@ -1063,14 +1076,14 @@ flags[42] = 1;  // Activer un flag spécifique
 
 **Comportement avec NULL :**
 ```c
-int* ptr = NULL;
-ptr = realloc(ptr, 100);  // ✅ Équivalent à malloc(100)
+int* ptr = NULL;  
+ptr = realloc(ptr, 100);  // ✅ Équivalent à malloc(100)  
 ```
 
 **Comportement avec taille 0 :**
 ```c
-int* ptr = malloc(100);
-ptr = realloc(ptr, 0);  // ⚠️ Comportement dépendant de l'implémentation
+int* ptr = malloc(100);  
+ptr = realloc(ptr, 0);  // ⚠️ Comportement dépendant de l'implémentation  
 // Sur certains systèmes : équivalent à free(ptr)
 // Préférez explicitement free() pour la clarté
 ```
@@ -1146,10 +1159,10 @@ gcc -fsanitize=address -g programme.c -o programme
 ### Man pages à consulter
 
 ```bash
-man 3 malloc
-man 3 calloc
-man 3 realloc
-man 3 free
+man 3 malloc  
+man 3 calloc  
+man 3 realloc  
+man 3 free  
 ```
 
 ### Ressources externes

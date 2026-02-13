@@ -242,8 +242,8 @@ free(ptr);    // Libère la mémoire
 int *ptr = malloc(sizeof(int));
 *ptr = 42;
 
-free(ptr);
-ptr = NULL;    // ✓ Réinitialiser à NULL après free
+free(ptr);  
+ptr = NULL;    // ✓ Réinitialiser à NULL après free  
 
 if (ptr) {
     *ptr = 50;    // Ne s'exécute pas car ptr est NULL
@@ -461,8 +461,8 @@ int *ptr = NULL;    // ✓ Initialisation systématique
 ### Règle 2 : Mettre à NULL après free
 
 ```c
-free(ptr);
-ptr = NULL;    // ✓ Empêche la réutilisation accidentelle
+free(ptr);  
+ptr = NULL;    // ✓ Empêche la réutilisation accidentelle  
 ```
 
 ### Règle 3 : Pattern "free et NULL" en une macro
@@ -592,8 +592,8 @@ Appeler `free()` deux fois sur le même pointeur :
 int *ptr = malloc(sizeof(int));
 *ptr = 42;
 
-free(ptr);
-free(ptr);    // ⚠️ DOUBLE FREE : corruption du tas !
+free(ptr);  
+free(ptr);    // ⚠️ DOUBLE FREE : corruption du tas !  
 ```
 
 **Conséquence :** Corruption de la structure interne du gestionnaire de mémoire, peut causer :
@@ -607,8 +607,8 @@ free(ptr);    // ⚠️ DOUBLE FREE : corruption du tas !
 int *ptr = malloc(sizeof(int));
 *ptr = 42;
 
-free(ptr);
-ptr = NULL;
+free(ptr);  
+ptr = NULL;  
 
 free(ptr);    // ✓ OK : free(NULL) ne fait rien
 ```
@@ -775,8 +775,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Liste : 10 20 30
-Liste correctement libérée
+Liste : 10 20 30  
+Liste correctement libérée  
 ```
 
 ### Points clés de l'exemple

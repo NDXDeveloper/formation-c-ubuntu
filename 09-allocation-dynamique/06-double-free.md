@@ -29,9 +29,9 @@ Dans cette section, vous apprendrez :
 Un **double free** se produit lorsqu'on appelle `free()` **deux fois** (ou plus) sur le **même pointeur**.
 
 ```c
-int* ptr = malloc(sizeof(int));
-free(ptr);      // ✅ Première libération : OK
-free(ptr);      // ❌ Deuxième libération : DOUBLE FREE !
+int* ptr = malloc(sizeof(int));  
+free(ptr);      // ✅ Première libération : OK  
+free(ptr);      // ❌ Deuxième libération : DOUBLE FREE !  
 ```
 
 ### Pourquoi c'est grave ?
@@ -56,8 +56,8 @@ Lorsque vous appelez `free()`, l'allocateur :
 │  Liste libre : B → NULL                │
 └────────────────────────────────────────┘
 
-Après malloc() :
-ptr ───► [Bloc A occupé]
+Après malloc() :  
+ptr ───► [Bloc A occupé]  
 
 Après premier free(ptr) :
 ┌────────────────────────────────────────┐
@@ -82,7 +82,7 @@ Résultat : L'allocateur est dans un état incohérent
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     int* ptr = malloc(sizeof(int));
 
     if (ptr == NULL) {
@@ -104,22 +104,22 @@ int main() {
 
 **Comportements possibles :**
 ```
-Scénario 1 : Crash immédiat
-Valeur : 42
-Premier free effectué
+Scénario 1 : Crash immédiat  
+Valeur : 42  
+Premier free effectué  
 *** Error in `./programme': double free or corruption (fasttop): 0x0000000001234560 ***
 Aborted (core dumped)
 
-Scénario 2 : Semble fonctionner (danger !)
-Valeur : 42
-Premier free effectué
-Deuxième free effectué
+Scénario 2 : Semble fonctionner (danger !)  
+Valeur : 42  
+Premier free effectué  
+Deuxième free effectué  
 [Programme se termine "normalement" mais heap corrompu]
 
-Scénario 3 : Crash plus tard
-Valeur : 42
-Premier free effectué
-Deuxième free effectué
+Scénario 3 : Crash plus tard  
+Valeur : 42  
+Premier free effectué  
+Deuxième free effectué  
 [Crash lors d'un prochain malloc ou free]
 ```
 
@@ -133,7 +133,7 @@ Deuxième free effectué
 
 ```c
 // ❌ Double free accidentel
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(sizeof(int));
 
     // ... utilisation ...
@@ -151,7 +151,7 @@ void fonction() {
 **✅ Solution : Mettre à NULL après free()**
 
 ```c
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(sizeof(int));
 
     // ... utilisation ...
@@ -172,7 +172,7 @@ void fonction() {
 
 ```c
 // ❌ Double free via copie de pointeur
-void fonction() {
+void fonction(void) {
     int* ptr1 = malloc(sizeof(int));
     int* ptr2 = ptr1;  // ptr2 pointe vers la même zone
 
@@ -186,13 +186,13 @@ void fonction() {
 **Visualisation :**
 
 ```
-Après malloc :
-ptr1 ───┐
+Après malloc :  
+ptr1 ───┐  
         ├──► [Bloc mémoire]
 ptr2 ───┘
 
-Après free(ptr1) :
-ptr1 ───┐
+Après free(ptr1) :  
+ptr1 ───┐  
         ├──► [Bloc LIBÉRÉ]
 ptr2 ───┘
 
@@ -223,7 +223,7 @@ void release(RefCounted* rc) {
 **✅ Solution 2 : Propriété claire**
 
 ```c
-void fonction() {
+void fonction(void) {
     int* owner = malloc(sizeof(int));
     int* alias = owner;  // Juste un alias, ne possède pas la mémoire
 
@@ -302,6 +302,7 @@ int traiter_donnees(const char* fichier) {
 
 ```c
 int traiter_donnees(const char* fichier) {
+    int result = -1;
     char* buffer = malloc(1024);
     if (buffer == NULL) return -1;
 
@@ -318,10 +319,11 @@ int traiter_donnees(const char* fichier) {
     // Traitement...
 
     fclose(f);
+    result = 0;
 
 cleanup_buffer:
     free(buffer);  // ✅ Un seul free, quel que soit le chemin
-    return 0;
+    return result;
 }
 ```
 
@@ -352,15 +354,15 @@ Bloc alloué typique :
 │  Métadonnées (footer)       │ ← Informations de contrôle
 └─────────────────────────────┘
 
-Si vous écrivez en dehors de "votre zone", vous
-corrompez les métadonnées → heap corruption !
+Si vous écrivez en dehors de "votre zone", vous  
+corrompez les métadonnées → heap corruption !  
 ```
 
 ### Exemple 1 : Buffer Overflow sur le Heap
 
 ```c
 // ❌ Corruption par buffer overflow
-void fonction() {
+void fonction(void) {
     char* buffer = malloc(10);  // 10 octets
 
     if (buffer == NULL) return;
@@ -403,7 +405,7 @@ Après strcpy avec chaîne trop longue :
 **✅ Solution : Utiliser strncpy ou vérifier la taille**
 
 ```c
-void fonction_securisee() {
+void fonction_securisee(void) {
     size_t taille = 10;
     char* buffer = malloc(taille);
 
@@ -425,7 +427,7 @@ void fonction_securisee() {
 
 ```c
 // ❌ Use after free
-void fonction() {
+void fonction(void) {
     int* ptr = malloc(sizeof(int));
     *ptr = 42;
 
@@ -440,13 +442,13 @@ void fonction() {
 **Pourquoi c'est dangereux ?**
 
 ```
-Après free(ptr) :
-ptr ───► [Bloc libéré, ajouté à la free list]
+Après free(ptr) :  
+ptr ───► [Bloc libéré, ajouté à la free list]  
 
 L'allocateur peut maintenant réutiliser ce bloc :
 
-Après un malloc() ailleurs :
-ptr ───► [Bloc réutilisé par autre allocation]
+Après un malloc() ailleurs :  
+ptr ───► [Bloc réutilisé par autre allocation]  
          (contient maintenant d'autres données)
 
 Si vous écrivez via ptr :
@@ -460,7 +462,7 @@ Si vous écrivez via ptr :
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     // Allocation 1
     int* ptr1 = malloc(sizeof(int));
     *ptr1 = 42;
@@ -486,15 +488,15 @@ int main() {
 
 **Sortie possible :**
 ```
-ptr1 pointe vers 0x5632a0, valeur = 42
-ptr2 pointe vers 0x5632a0, valeur = 100
-ptr2 après corruption : 999
+ptr1 pointe vers 0x5632a0, valeur = 42  
+ptr2 pointe vers 0x5632a0, valeur = 100  
+ptr2 après corruption : 999  
 ```
 
 **✅ Solution : NULL après free**
 
 ```c
-void fonction_securisee() {
+void fonction_securisee(void) {
     int* ptr = malloc(sizeof(int));
     *ptr = 42;
 
@@ -529,7 +531,7 @@ valgrind --leak-check=full --show-leak-kinds=all ./programme
 // test_double_free.c
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     int* ptr = malloc(sizeof(int));
     free(ptr);
     free(ptr);  // Double free
@@ -556,7 +558,7 @@ int main() {
 // test_use_after_free.c
 #include <stdlib.h>
 
-int main() {
+int main(void) {
     int* ptr = malloc(sizeof(int));
     *ptr = 42;
     free(ptr);
@@ -652,12 +654,14 @@ Aborted (core dumped)
 **La technique la plus simple et efficace.**
 
 ```c
+#include <stdlib.h>
+
 #define SAFE_FREE(ptr) do { \
     free(ptr); \
     (ptr) = NULL; \
 } while(0)
 
-int main() {
+int main(void) {
     int* ptr = malloc(sizeof(int));
 
     SAFE_FREE(ptr);  // ✅ ptr est automatiquement mis à NULL
@@ -705,7 +709,7 @@ void tracked_free(TrackedPointer* tp) {
     free(tp);
 }
 
-int main() {
+int main(void) {
     TrackedPointer* tp = tracked_malloc(sizeof(int));
 
     tracked_free(tp);
@@ -752,7 +756,7 @@ void smart_free(SmartPtr** sp) {
     *sp = NULL;  // Protéger contre double free
 }
 
-int main() {
+int main(void) {
     SmartPtr* sp = make_smart(sizeof(int), NULL);
 
     if (sp != NULL) {
@@ -774,6 +778,7 @@ int main() {
 ```c
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 void cleanup_free(void* ptr) {
     void** p = (void**)ptr;
@@ -786,7 +791,7 @@ void cleanup_free(void* ptr) {
 
 #define auto_free __attribute__((cleanup(cleanup_free)))
 
-void fonction() {
+void fonction(void) {
     auto_free char* buffer = malloc(100);
 
     if (buffer == NULL) return;
@@ -798,7 +803,7 @@ void fonction() {
     // ✅ Protection contre double free
 }
 
-int main() {
+int main(void) {
     fonction();
     printf("Pas de fuite, pas de double free\n");
     return 0;
@@ -854,7 +859,7 @@ typedef struct {
     char* surnom;  // Peut pointer vers nom
 } Personne;
 
-void scenario_dangereux() {
+void scenario_dangereux(void) {
     Personne* p = malloc(sizeof(Personne));
     p->nom = malloc(50);
     strcpy(p->nom, "Alice");
@@ -883,7 +888,7 @@ typedef struct Node {
     struct Node* next;
 } Node;
 
-void corruption_liste() {
+void corruption_liste(void) {
     Node* n1 = malloc(sizeof(Node));
     Node* n2 = malloc(sizeof(Node));
 
@@ -1039,7 +1044,7 @@ Exploitation typique :
 **Exemples réels :**
 - CVE-2006-4434 (Firefox) : Double free
 - CVE-2014-0160 (Heartbleed) : Buffer over-read
-- CVE-2017-5754 (Meltdown) : Use after free dans le kernel
+- CVE-2017-9445 (systemd) : Use after free dans systemd-resolved
 
 ---
 
@@ -1097,8 +1102,8 @@ export MALLOC_CHECK_=3
 ./programme
 
 # Core dump analysis
-ulimit -c unlimited
-gdb programme core
+ulimit -c unlimited  
+gdb programme core  
 ```
 
 ### Ressources
