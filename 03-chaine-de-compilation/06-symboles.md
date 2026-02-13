@@ -123,7 +123,7 @@ L'outil `nm` affiche la table des symboles :
 
 ```bash
 gcc -c programme.c -o programme.o  
-nm programme.o
+nm programme.o  
 ```
 
 **Résultat :**
@@ -222,11 +222,11 @@ L'outil `nm` utilise des lettres pour identifier le type de chaque symbole :
 // Variables globales
 int var_init = 42;              // D - data, initialisée  
 int var_non_init;               // B - bss, non initialisée  
-const int constante = 100;      // R - rodata, lecture seule
+const int constante = 100;      // R - rodata, lecture seule  
 
 // Variables statiques (locales au fichier)
 static int var_static = 10;     // d - data, locale  
-static void helper(void) { }    // t - text, locale
+static void helper(void) { }    // t - text, locale  
 
 // Fonction globale
 void publique(void) {           // T - text, globale
@@ -240,7 +240,7 @@ int main(void) {                // T - text, globale
 
 ```bash
 gcc -c types_symboles.c -o types_symboles.o  
-nm types_symboles.o
+nm types_symboles.o  
 ```
 
 **Résultat :**
@@ -380,10 +380,10 @@ void fonction_publique(void) {       // Visible
 ```c
 // fichier_a.c
 int globale = 1;                // nm: D globale (GLOBAL)  
-static int locale = 2;          // nm: d locale  (local)
+static int locale = 2;          // nm: d locale  (local)  
 
 void publique(void) { }         // nm: T publique (GLOBAL)  
-static void privee(void) { }    // nm: t privee   (local)
+static void privee(void) { }    // nm: t privee   (local)  
 ```
 
 ```bash
@@ -604,7 +604,7 @@ Lors de l'édition de liens, le linker :
 ```c
 // main.c
 extern void afficher(void);  
-int compteur = 0;
+int compteur = 0;  
 
 int main(void) {
     afficher();
@@ -681,12 +681,12 @@ gcc -s programme.c -o programme
 ```bash
 # Compiler normalement
 gcc programme.c -o programme_normal  
-ls -l programme_normal
+ls -l programme_normal  
 # -rwxr-xr-x 1 user user 16696 ... programme_normal
 
 # Compiler et stripper
 gcc -s programme.c -o programme_stripped  
-ls -l programme_stripped
+ls -l programme_stripped  
 # -rwxr-xr-x 1 user user 14472 ... programme_stripped
 
 # Voir les symboles
@@ -710,7 +710,7 @@ gcc -g programme.c -o programme_debug
 
 # Créer une version strippée pour la distribution
 cp programme_debug programme_release  
-strip programme_release
+strip programme_release  
 ```
 
 ### Symboles Externes (Debug Info Séparé)
@@ -844,7 +844,7 @@ diff <(nm fichier1.o) <(nm fichier2.o)
 ```c
 // module.c
 static int etat_interne = 0;           // Pas visible à l'extérieur  
-static void fonction_interne(void) {}  // Pas visible à l'extérieur
+static void fonction_interne(void) {}  // Pas visible à l'extérieur  
 
 void api_publique(void) {              // Interface publique
     fonction_interne();
@@ -856,12 +856,12 @@ void api_publique(void) {              // Interface publique
 ```c
 // module.h
 extern int variable;              // Déclaration  
-void fonction(void);              // Déclaration
+void fonction(void);              // Déclaration  
 
 // module.c
 #include "module.h"
 int variable = 42;                // Définition  
-void fonction(void) { /* ... */ } // Définition
+void fonction(void) { /* ... */ } // Définition  
 ```
 
 ### 3. Utilisez les Gardes d'Inclusion
@@ -872,7 +872,7 @@ void fonction(void) { /* ... */ } // Définition
 #define MODULE_H
 
 extern int variable;  
-void fonction(void);
+void fonction(void);  
 
 #endif // MODULE_H
 ```
@@ -886,7 +886,7 @@ int compteur_global = 0;
 // MIEUX
 static int compteur = 0;  
 int get_compteur(void) { return compteur; }  
-void increment_compteur(void) { compteur++; }
+void increment_compteur(void) { compteur++; }  
 ```
 
 ---

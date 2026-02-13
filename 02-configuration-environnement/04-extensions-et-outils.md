@@ -578,7 +578,7 @@ BreakBeforeBraces: Linux
 AllowShortIfStatementsOnASingleLine: false  
 IndentCaseLabels: true  
 PointerAlignment: Right  
-SpaceBeforeParens: ControlStatements
+SpaceBeforeParens: ControlStatements  
 ```
 
 ### Activer le formatage dans VS Code
@@ -627,7 +627,7 @@ set relativenumber      " Numéros relatifs
 set ruler               " Position du curseur  
 set showcmd             " Affiche les commandes  
 set wildmenu            " Menu de complétion  
-set mouse=a             " Support souris
+set mouse=a             " Support souris  
 
 " ===================================
 " INDENTATION
@@ -636,7 +636,7 @@ set tabstop=4           " Tabulations = 4 espaces
 set shiftwidth=4        " Indentation = 4 espaces  
 set expandtab           " Convertir tab en espaces  
 set autoindent          " Auto-indentation  
-set smartindent         " Indentation intelligente
+set smartindent         " Indentation intelligente  
 
 " ===================================
 " RECHERCHE
@@ -644,7 +644,7 @@ set smartindent         " Indentation intelligente
 set incsearch           " Recherche incrémentale  
 set hlsearch            " Surligne les résultats  
 set ignorecase          " Ignore la casse  
-set smartcase           " Casse intelligente
+set smartcase           " Casse intelligente  
 
 " ===================================
 " APPARENCE
@@ -652,13 +652,13 @@ set smartcase           " Casse intelligente
 syntax on               " Coloration syntaxique  
 colorscheme desert      " Thème  
 set background=dark  
-set cursorline          " Surligne la ligne actuelle
+set cursorline          " Surligne la ligne actuelle  
 
 " ===================================
 " FICHIERS
 " ===================================
 set encoding=utf-8  
-set fileencoding=utf-8
+set fileencoding=utf-8  
 
 " ===================================
 " COMPILATION C
@@ -766,12 +766,12 @@ Créez un script `compile.sh` à la racine de vos projets :
 # Couleurs
 RED='\033[0;31m'  
 GREEN='\033[0;32m'  
-NC='\033[0m' # No Color
+NC='\033[0m' # No Color  
 
 # Paramètres
 SOURCE="$1"  
 OUTPUT="${SOURCE%.c}"  
-FLAGS="-Wall -Wextra -std=c17 -g"
+FLAGS="-Wall -Wextra -std=c17 -g"  
 
 if [ -z "$SOURCE" ]; then
     echo "Usage: ./compile.sh fichier.c"
@@ -779,7 +779,7 @@ if [ -z "$SOURCE" ]; then
 fi
 
 echo "Compilation de $SOURCE..."  
-gcc $FLAGS "$SOURCE" -o "$OUTPUT"
+gcc $FLAGS "$SOURCE" -o "$OUTPUT"  
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✓ Compilation réussie${NC}"
@@ -808,7 +808,7 @@ Ajoutez dans `~/.bashrc` :
 # Alias pour la compilation C
 alias gcc-debug='gcc -Wall -Wextra -g -std=c17'  
 alias gcc-release='gcc -Wall -Wextra -O2 -std=c17'  
-alias gcc-strict='gcc -Wall -Wextra -Werror -pedantic -std=c17'
+alias gcc-strict='gcc -Wall -Wextra -Werror -pedantic -std=c17'  
 
 # Alias pour Valgrind
 alias valgrind-check='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes'

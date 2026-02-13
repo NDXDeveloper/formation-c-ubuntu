@@ -108,7 +108,7 @@ int x = 5 / 2;  // Toujours 2 (division entière définie par la norme)
 ```c
 /* Déclaration de fonction à l'ancienne */
 int add(a, b)  
-int a, b;  /* Types déclarés séparément */
+int a, b;  /* Types déclarés séparément */  
 {
     return a + b;
 }
@@ -164,7 +164,7 @@ int main(void) {
 #include <stdbool.h>
 
 int64_t big_number;     // Entier 64 bits garanti  
-bool is_valid = true;   // Type booléen natif
+bool is_valid = true;   // Type booléen natif  
 ```
 
 #### 2. Déclarations flexibles
@@ -172,7 +172,7 @@ bool is_valid = true;   // Type booléen natif
 // Variables déclarées n'importe où (pas seulement en début de bloc)
 int x = 10;  
 printf("%d\n", x);  
-int y = 20;  // OK en C99 !
+int y = 20;  // OK en C99 !  
 ```
 
 #### 3. Boucles for avec déclaration
@@ -185,7 +185,7 @@ for (int i = 0; i < 10; i++) {  // i déclaré dans le for
 #### 4. Tableaux de longueur variable (VLA)
 ```c
 int n = 10;  
-int array[n];  // Taille définie à l'exécution !
+int array[n];  // Taille définie à l'exécution !  
 ```
 
 #### 5. Commentaires //
@@ -287,7 +287,7 @@ alignas(16) float vector[4];  // Aligné sur 16 octets
 #### 7. Unicode amélioré
 ```c
 char16_t utf16_string[] = u"Hello 世界";  
-char32_t utf32_string[] = U"Hello 世界";
+char32_t utf32_string[] = U"Hello 世界";  
 ```
 
 **État en 2025** : **Standard recommandé en production** ⭐. Support universel, mature et stable.

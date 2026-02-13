@@ -80,14 +80,14 @@ Cette méthode installe VS Code et le maintient automatiquement à jour.
 ```bash
 # Télécharger et installer la clé GPG
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg  
-sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg  
 
 # Ajouter le dépôt
 sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
 
 # Installer
 sudo apt update  
-sudo apt install code
+sudo apt install code  
 ```
 
 #### Méthode 3 : Package .deb
@@ -96,7 +96,7 @@ Téléchargez le fichier `.deb` depuis le site officiel : https://code.visualstu
 
 ```bash
 sudo dpkg -i code_*.deb  
-sudo apt install -f  # Résout les dépendances
+sudo apt install -f  # Résout les dépendances  
 ```
 
 ### Lancement de VS Code
@@ -147,7 +147,7 @@ Permet d'exécuter rapidement votre code avec un simple clic.
 ```bash
 mkdir ~/projets-c  
 cd ~/projets-c  
-code .
+code .  
 ```
 
 Cette commande ouvre VS Code dans votre dossier de projets.
@@ -300,7 +300,7 @@ Vim fonctionne avec des **modes** :
 
 ```
 i          → Passer en mode insertion  
-Esc        → Retour au mode normal
+Esc        → Retour au mode normal  
 :w         → Sauvegarder
 :q         → Quitter
 :wq        → Sauvegarder et quitter
@@ -320,20 +320,20 @@ syntax on
 
 " Indentation automatique
 set autoindent  
-set smartindent
+set smartindent  
 
 " Tabulations = 4 espaces
 set tabstop=4  
 set shiftwidth=4  
-set expandtab
+set expandtab  
 
 " Afficher les espaces invisibles
 set list  
-set listchars=tab:→\ ,trail:·
+set listchars=tab:→\ ,trail:·  
 
 " Recherche intelligente
 set ignorecase  
-set smartcase
+set smartcase  
 
 " Thème
 colorscheme desert
@@ -455,7 +455,7 @@ sudo apt install geany
 IDE complet basé sur Eclipse, orienté C/C++.
 
 **Avantages :** Gratuit, puissant, beaucoup de plugins  
-**Inconvénients :** Lourd, interface complexe, lent au démarrage
+**Inconvénients :** Lourd, interface complexe, lent au démarrage  
 
 ```bash
 sudo snap install eclipse --classic
@@ -466,7 +466,7 @@ sudo snap install eclipse --classic
 Éditeur rapide et élégant, payant mais avec période d'essai illimitée.
 
 **Avantages :** Très rapide, interface moderne  
-**Inconvénients :** Payant (80$), pas un vrai IDE
+**Inconvénients :** Payant (80$), pas un vrai IDE  
 
 ```bash
 sudo snap install sublime-text --classic
@@ -565,7 +565,7 @@ sudo snap install code --classic
 ```bash
 mkdir ~/apprendre-c  
 cd ~/apprendre-c  
-code .
+code .  
 ```
 
 ### Étape 4 : Créer votre premier fichier

@@ -165,28 +165,28 @@ Contribuer à ces projets nécessite de maîtriser le C.
 ### C vs Python
 
 **Python** : Excellent pour le prototypage rapide, le data science, le scripting  
-**C** : Nécessaire pour les performances, la programmation système, l'embarqué
+**C** : Nécessaire pour les performances, la programmation système, l'embarqué  
 
 → Beaucoup de bibliothèques Python (NumPy, Pandas) sont écrites en C pour les performances !
 
 ### C vs Rust
 
 **Rust** (version 1.0 en 2015) : Langage moderne avec sécurité mémoire garantie par le compilateur  
-**C** : Plus simple, plus mature, plus universel
+**C** : Plus simple, plus mature, plus universel  
 
 → Rust est prometteur et gagne du terrain, mais le C reste dominant dans l'existant et l'embarqué. Apprendre le C facilite l'apprentissage de Rust.
 
 ### C vs C++
 
 **C++** : Extension du C avec la programmation orientée objet et de nombreuses fonctionnalités  
-**C** : Plus simple, plus prévisible, compilation plus rapide
+**C** : Plus simple, plus prévisible, compilation plus rapide  
 
 → C++ est utilisé pour les applications complexes (jeux, GUI), C pour le système et l'embarqué. Connaître le C est un prérequis pour bien comprendre le C++.
 
 ### C vs Go
 
 **Go** : Langage moderne de Google pour les services backend  
-**C** : Plus rapide, plus bas niveau, plus flexible
+**C** : Plus rapide, plus bas niveau, plus flexible  
 
 → Go est excellent pour les microservices web, mais ne remplace pas le C pour la programmation système.
 

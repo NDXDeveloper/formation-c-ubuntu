@@ -87,10 +87,10 @@ Le fichier `hello.i` ressemble à ceci (version très simplifiée) :
 typedef struct _IO_FILE FILE;  
 extern FILE *stdin;  
 extern FILE *stdout;  
-extern FILE *stderr;
+extern FILE *stderr;  
 
 extern int printf (const char *__format, ...);  
-extern int scanf (const char *__format, ...);
+extern int scanf (const char *__format, ...);  
 /* ... encore beaucoup de déclarations ... */
 
 # 2 "hello.c" 2
@@ -387,7 +387,7 @@ Chaque fichier `.c` traverse indépendamment les 3 premières étapes (préproce
 # Compilation séparée de chaque fichier
 gcc -c main.c -o main.o  
 gcc -c utils.c -o utils.o  
-gcc -c calc.c -o calc.o
+gcc -c calc.c -o calc.o  
 
 # Édition de liens finale
 gcc main.o utils.o calc.o -o programme
@@ -407,7 +407,7 @@ L'option `-v` (verbose) affiche tout ce qui se passe :
 
 ```
 Using built-in specs.  
-COLLECT_GCC=gcc
+COLLECT_GCC=gcc  
 ...
  /usr/lib/gcc/x86_64-linux-gnu/11/cc1 -quiet hello.c -o /tmp/ccXXXXXX.s
  as -v --64 -o /tmp/ccYYYYYY.o /tmp/ccXXXXXX.s

@@ -29,7 +29,7 @@ Les options commencent généralement par `-` (un tiret) ou `--` (deux tirets). 
 ```bash
 # Ces deux commandes sont équivalentes
 gcc -Wall -g hello.c -o hello  
-gcc hello.c -o hello -Wall -g
+gcc hello.c -o hello -Wall -g  
 ```
 
 ---
@@ -63,7 +63,7 @@ gcc hello.c -o hello
 # Fonctionne à toutes les étapes
 gcc -E hello.c -o hello.i  
 gcc -S hello.c -o hello.s  
-gcc -c hello.c -o hello.o
+gcc -c hello.c -o hello.o  
 ```
 
 **Conseil :** Utilisez toujours `-o` pour donner un nom explicite à vos exécutables.
@@ -153,7 +153,7 @@ gcc -Wall -Wconversion hello.c -o hello
 
 ```c
 int x = 1000;  
-char c = x;  // Warning : perte potentielle de données
+char c = x;  // Warning : perte potentielle de données  
 ```
 
 ### Combinaison Recommandée pour Débutants
@@ -216,13 +216,13 @@ gcc -g hello.c -o hello
 ```bash
 # Sans -g
 gcc hello.c -o hello  
-gdb ./hello
+gdb ./hello  
 # (gdb) break main
 # No symbol table is loaded. Use the "file" command.
 
 # Avec -g
 gcc -g hello.c -o hello  
-gdb ./hello
+gdb ./hello  
 # (gdb) break main
 # Breakpoint 1 at 0x1149: file hello.c, line 5.
 ```
@@ -598,7 +598,7 @@ Garde les fichiers `.i`, `.s` et `.o` :
 
 ```bash
 gcc -save-temps hello.c -o hello  
-ls
+ls  
 # hello  hello.c  hello.i  hello.o  hello.s
 ```
 
@@ -616,7 +616,7 @@ Affiche les dépendances du fichier (utile pour les Makefiles) :
 
 ```bash
 gcc -M hello.c   # Toutes les dépendances  
-gcc -MM hello.c  # Sans les en-têtes système
+gcc -MM hello.c  # Sans les en-têtes système  
 ```
 
 ### `--version` : Afficher la Version
@@ -631,7 +631,7 @@ gcc --version
 ```bash
 gcc --help  
 gcc --help=warnings  # Aide sur les warnings  
-gcc --help=optimizers  # Aide sur les optimisations
+gcc --help=optimizers  # Aide sur les optimisations  
 ```
 
 ---

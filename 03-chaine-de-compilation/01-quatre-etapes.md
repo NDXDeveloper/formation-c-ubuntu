@@ -185,7 +185,7 @@ Le fichier `hello.o` est un fichier binaire. Vous ne pouvez pas le lire directem
 
 ```bash
 objdump -d hello.o    # Affiche le désassemblage  
-objdump -t hello.o    # Affiche la table des symboles
+objdump -t hello.o    # Affiche la table des symboles  
 ```
 
 ### Extension de fichier
@@ -302,14 +302,14 @@ Dans un vrai projet, vous avez généralement plusieurs fichiers `.c`. La compil
 gcc -c fichier1.c -o fichier1.o  
 gcc -c fichier2.c -o fichier2.o  
 gcc -c fichier3.c -o fichier3.o  
-gcc fichier1.o fichier2.o fichier3.o -o mon_programme
+gcc fichier1.o fichier2.o fichier3.o -o mon_programme  
 ```
 
 Si vous modifiez uniquement `fichier2.c`, vous n'avez qu'à refaire :
 
 ```bash
 gcc -c fichier2.c -o fichier2.o  
-gcc fichier1.o fichier2.o fichier3.o -o mon_programme
+gcc fichier1.o fichier2.o fichier3.o -o mon_programme  
 ```
 
 C'est exactement ce qu'automatisent les outils comme **Make** et **CMake** que vous découvrirez plus tard dans cette formation.

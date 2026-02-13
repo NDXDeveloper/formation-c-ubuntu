@@ -117,14 +117,14 @@ Pour des projets complexes, la différence se compte en minutes voire heures.
 Un "Hello World" en C :
 ```bash
 gcc hello.c -o hello  
-ls -lh hello
+ls -lh hello  
 # Taille: ~16 KB (avec strip)
 ```
 
 Même programme en Rust :
 ```bash
 rustc hello.rs  
-ls -lh hello
+ls -lh hello  
 # Taille: ~400 KB (avec optimisation)
 ```
 
@@ -152,7 +152,7 @@ Tous les langages peuvent appeler du C (FFI - Foreign Function Interface) :
 # Python peut appeler une bibliothèque C
 import ctypes  
 lib = ctypes.CDLL('./mylib.so')  
-result = lib.my_c_function(42)
+result = lib.my_c_function(42)  
 ```
 
 ```rust
@@ -193,7 +193,7 @@ free(ptr);  // Vous devez penser à libérer !
 
 ```c
 int array[10];  
-array[15] = 42;  // Aucune vérification ! Comportement indéfini !
+array[15] = 42;  // Aucune vérification ! Comportement indéfini !  
 ```
 
 Le compilateur ne vous empêche pas de faire des erreurs dangereuses.
@@ -213,7 +213,7 @@ Le compilateur ne vous empêche pas de faire des erreurs dangereuses.
 
 ```c
 void *ptr = malloc(100);  // Type perdu  
-int *int_ptr = (int *)ptr;  // Cast manuel, aucune vérification
+int *int_ptr = (int *)ptr;  // Cast manuel, aucune vérification  
 ```
 
 Moins de sécurité au niveau des types comparé à C++ ou Rust.
@@ -234,7 +234,7 @@ int add(int a, int b) {
 
 // Code C++ supplémentaire
 class Calculator {  
-public:
+public:  
     int add(int a, int b) { return a + b; }
 };
 ```
@@ -246,13 +246,13 @@ Vous pouvez utiliser du code C dans du C++ directement.
 ```cpp
 // Template générique
 template<typename T>  
-T max(T a, T b) {
+T max(T a, T b) {  
     return a > b ? a : b;
 }
 
 // Le compilateur génère du code spécialisé
 int result = max(5, 10);        // Pas de surcoût runtime  
-float fresult = max(3.14f, 2.7f);
+float fresult = max(3.14f, 2.7f);  
 ```
 
 **Principe** : Abstraction sans perte de performance.
@@ -261,12 +261,12 @@ float fresult = max(3.14f, 2.7f);
 
 ```cpp
 class Animal {  
-public:
+public:  
     virtual void speak() = 0;
 };
 
 class Dog : public Animal {  
-public:
+public:  
     void speak() override {
         std::cout << "Woof!" << std::endl;
     }
@@ -282,7 +282,7 @@ Idéal pour les grandes applications structurées.
 #include <algorithm>
 
 std::vector<int> numbers = {5, 2, 8, 1, 9};  
-std::sort(numbers.begin(), numbers.end());
+std::sort(numbers.begin(), numbers.end());  
 ```
 
 Structures de données et algorithmes prêts à l'emploi.
@@ -360,7 +360,7 @@ Les templates et la STL génèrent beaucoup de code :
 ```bash
 # Hello World C++ avec iostream
 g++ hello.cpp -o hello  
-ls -lh hello
+ls -lh hello  
 # ~2 MB (avec strip)
 ```
 
@@ -372,7 +372,7 @@ int a = 5;
 int b(5);  
 int c{5};  
 int d = {5};  
-auto e = 5;
+auto e = 5;  
 ```
 
 **Résultat** : Confusion, surtout pour les débutants.
@@ -458,7 +458,7 @@ Le compilateur garantit qu'il n'y a pas de data race.
 cargo new my_project  
 cargo build  
 cargo test  
-cargo doc
+cargo doc  
 ```
 
 Tout est standardisé et simple.
@@ -533,7 +533,7 @@ Perdre les garanties de sécurité quand on interagit avec du code existant.
 
 ```bash
 cargo build --release  
-ls -lh target/release/program
+ls -lh target/release/program  
 # ~400 KB - 2 MB (selon le projet)
 ```
 
@@ -586,7 +586,7 @@ Simple          Complexe              Très complexe
 
 **C** : ~700 pages de spécification (C11, N1570)  
 **Rust** : ~500 pages de documentation (Rust Reference)  
-**C++** : ~1 800+ pages de spécification (C++23)
+**C++** : ~1 800+ pages de spécification (C++23)  
 
 ### Temps de compilation
 

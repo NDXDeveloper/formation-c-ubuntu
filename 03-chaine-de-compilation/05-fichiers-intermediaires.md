@@ -35,7 +35,7 @@ programme.c      # Votre code source (original)
 programme.i      # Après le préprocesseur  
 programme.s      # Code assembleur  
 programme.o      # Fichier objet (binaire)  
-programme        # Exécutable final
+programme        # Exécutable final  
 ```
 
 ### Méthode 2 : Étape par Étape
@@ -98,7 +98,7 @@ Générons tous les fichiers intermédiaires :
 
 ```bash
 gcc -save-temps exemple.c -o exemple  
-ls -la exemple*
+ls -la exemple*  
 ```
 
 ---
@@ -202,7 +202,7 @@ typedef struct _IO_FILE FILE;
 extern FILE *stdin;  
 extern FILE *stdout;  
 extern FILE *stderr;  
-extern int printf(const char *__restrict __format, ...);
+extern int printf(const char *__restrict __format, ...);  
 // ... etc
 ```
 
@@ -740,7 +740,7 @@ exemple.c
 calculer_somme  
 compteur  
 main  
-printf
+printf  
 ```
 
 ### Voir le Contenu Brut
@@ -886,7 +886,7 @@ Comparez le code assembleur avec et sans optimisation :
 ```bash
 gcc -S -O0 programme.c -o sans_inline.s  
 gcc -S -O2 programme.c -o avec_inline.s  
-diff sans_inline.s avec_inline.s
+diff sans_inline.s avec_inline.s  
 ```
 
 ### Cas 3 : Vérifier qu'un Symbole est Exporté

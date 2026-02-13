@@ -271,7 +271,7 @@ Ces notes seront précieuses si vous devez reconfigurer votre environnement ou a
         └── c_cpp_properties.json
 
 Projet type avec DevContainer :  
-mon-projet/
+mon-projet/  
 ├── .devcontainer/
 │   └── devcontainer.json     # Configuration DevContainer
 ├── .vscode/                   # Configuration VS Code

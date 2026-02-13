@@ -65,7 +65,7 @@ Sortie typique :
 ```
 gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0  
 Copyright (C) 2021 Free Software Foundation, Inc.  
-This is free software; see the source for copying conditions.
+This is free software; see the source for copying conditions.  
 ```
 
 Ici, la version est **GCC 11.4.0**.
@@ -91,7 +91,7 @@ COLLECT_GCC=gcc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper  
 Target: x86_64-linux-gnu  
 Thread model: posix  
-gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04)
+gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04)  
 ```
 
 ---
@@ -128,7 +128,7 @@ Sortie typique :
 gcc-9 - GNU C compiler  
 gcc-10 - GNU C compiler  
 gcc-11 - GNU C compiler  
-gcc-12 - GNU C compiler
+gcc-12 - GNU C compiler  
 ```
 
 ### Installer une version spécifique
@@ -137,7 +137,7 @@ gcc-12 - GNU C compiler
 
 ```bash
 sudo apt update  
-sudo apt install gcc-12 g++-12
+sudo apt install gcc-12 g++-12  
 ```
 
 **Note :** On installe à la fois `gcc-12` (compilateur C) et `g++-12` (compilateur C++).
@@ -187,7 +187,7 @@ Supposons que vous avez GCC 11 et GCC 12 installés. Enregistrons-les :
 
 ```bash
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110  
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 120
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 120  
 ```
 
 **Explication de la commande :**
@@ -200,7 +200,7 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 120
 
 ```bash
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 110  
-sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 120
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 120  
 ```
 
 ### Choisir la version par défaut
@@ -272,7 +272,7 @@ Ajoutez dans votre `~/.bashrc` :
 
 ```bash
 alias gcc12='gcc-12'  
-alias gcc11='gcc-11'
+alias gcc11='gcc-11'  
 ```
 
 Rechargez la configuration :
@@ -353,7 +353,7 @@ Si vous utilisez CMake (nous verrons cela plus tard), vous pouvez spécifier la 
 ```cmake
 # Spécifier GCC 12
 set(CMAKE_C_COMPILER gcc-12)  
-set(CMAKE_CXX_COMPILER g++-12)
+set(CMAKE_CXX_COMPILER g++-12)  
 ```
 
 Ou depuis la ligne de commande :
@@ -453,7 +453,7 @@ sudo apt purge gcc-10 g++-10
 
 ```bash
 which gcc  
-gcc --version
+gcc --version  
 ```
 
 Si nécessaire, reconfigurer avec `update-alternatives`.
@@ -489,7 +489,7 @@ Ce projet nécessite GCC 11 ou supérieur.
 
 ```bash
 gcc --version  # Doit afficher 11.x ou plus  
-gcc -std=c11 -Wall -Wextra main.c -o programme
+gcc -std=c11 -Wall -Wextra main.c -o programme  
 ```
 ```
 

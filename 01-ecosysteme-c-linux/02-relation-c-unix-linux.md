@@ -61,7 +61,7 @@ Code UNIX en C
       ↓
 Compilation pour architecture A → UNIX pour machine A  
 Compilation pour architecture B → UNIX pour machine B  
-Compilation pour architecture C → UNIX pour machine C
+Compilation pour architecture C → UNIX pour machine C  
 ```
 
 **Résultat** : UNIX s'est répandu rapidement sur de nombreuses plateformes différentes (DEC, IBM, Sun, HP...). Cette portabilité était un avantage compétitif énorme.
@@ -135,7 +135,7 @@ Grâce à C, UNIX a pu :
 **1991** : Linus Torvalds, étudiant finlandais, veut un UNIX libre pour son PC. Il crée Linux.
 
 **Question** : Dans quel langage écrit-il Linux ?  
-**Réponse** : En C, bien sûr !
+**Réponse** : En C, bien sûr !  
 
 Pourquoi ?
 - C est le langage naturel pour écrire un système d'exploitation
@@ -202,7 +202,7 @@ Voici les principaux composants du système Linux, tous écrits principalement e
 // Ces fonctions fonctionnent sur tous les systèmes POSIX
 int fd = open("/tmp/file.txt", O_RDONLY);  
 read(fd, buffer, size);  
-close(fd);
+close(fd);  
 ```
 
 ### Pourquoi POSIX est important ?
@@ -236,14 +236,14 @@ POSIX garantit que votre code C :
 ```bash
 cat fichier.txt        # Lire un fichier  
 cat /dev/urandom       # Lire un device  
-cat /proc/cpuinfo      # Lire des infos système
+cat /proc/cpuinfo      # Lire des infos système  
 ```
 
 **C** : L'API fichier uniforme
 ```c
 int fd = open(path, O_RDONLY);  // Marche pour tout  
 read(fd, buffer, size);         // Même API  
-close(fd);                      // Même API
+close(fd);                      // Même API  
 ```
 
 ### 3. Composition et pipelines
@@ -363,7 +363,7 @@ Tous les langages modernes peuvent appeler du C :
 Python → ctypes → bibliothèque C → kernel Linux  
 Go → cgo → bibliothèque C → kernel Linux  
 Rust → FFI → bibliothèque C → kernel Linux  
-Node.js → N-API → bibliothèque C → kernel Linux
+Node.js → N-API → bibliothèque C → kernel Linux  
 ```
 
 **C est le "langage commun" qui permet l'interopérabilité.**

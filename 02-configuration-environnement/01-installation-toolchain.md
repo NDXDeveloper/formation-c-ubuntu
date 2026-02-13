@@ -73,7 +73,7 @@ Vous devriez voir une sortie similaire à :
 ```
 gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0  
 Copyright (C) 2021 Free Software Foundation, Inc.  
-This is free software; see the source for copying conditions.
+This is free software; see the source for copying conditions.  
 ```
 
 Le numéro de version peut varier selon votre version d'Ubuntu. L'important est que la commande retourne une version sans erreur.
@@ -89,7 +89,7 @@ Vous devriez voir :
 ```
 GNU Make 4.3  
 Built for x86_64-pc-linux-gnu  
-Copyright (C) 1988-2020 Free Software Foundation, Inc.
+Copyright (C) 1988-2020 Free Software Foundation, Inc.  
 ```
 
 #### Vérifier GDB (optionnel mais recommandé)
