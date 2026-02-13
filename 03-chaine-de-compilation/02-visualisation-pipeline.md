@@ -84,12 +84,12 @@ Le fichier `hello.i` ressemble à ceci (version très simplifiée) :
 # 1 "/usr/include/x86_64-linux-gnu/bits/libc-header-start.h" 1 3 4
 /* ... des centaines de lignes de stdio.h et ses dépendances ... */
 
-typedef struct _IO_FILE FILE;
-extern FILE *stdin;
-extern FILE *stdout;
+typedef struct _IO_FILE FILE;  
+extern FILE *stdin;  
+extern FILE *stdout;  
 extern FILE *stderr;
 
-extern int printf (const char *__format, ...);
+extern int printf (const char *__format, ...);  
 extern int scanf (const char *__format, ...);
 /* ... encore beaucoup de déclarations ... */
 
@@ -385,8 +385,8 @@ Chaque fichier `.c` traverse indépendamment les 3 premières étapes (préproce
 
 ```bash
 # Compilation séparée de chaque fichier
-gcc -c main.c -o main.o
-gcc -c utils.c -o utils.o
+gcc -c main.c -o main.o  
+gcc -c utils.c -o utils.o  
 gcc -c calc.c -o calc.o
 
 # Édition de liens finale
@@ -406,7 +406,7 @@ gcc -v hello.c -o hello
 L'option `-v` (verbose) affiche tout ce qui se passe :
 
 ```
-Using built-in specs.
+Using built-in specs.  
 COLLECT_GCC=gcc
 ...
  /usr/lib/gcc/x86_64-linux-gnu/11/cc1 -quiet hello.c -o /tmp/ccXXXXXX.s

@@ -79,8 +79,8 @@ C'est la **déclaration de la fonction `main`**, le point d'entrée de tout prog
 **Variantes de `main` :**
 
 ```c
-int main(void)                    // Sans arguments
-int main(int argc, char *argv[])  // Avec arguments de ligne de commande
+int main(void)                    // Sans arguments  
+int main(int argc, char *argv[])  // Avec arguments de ligne de commande  
 int main(int argc, char **argv)   // Équivalent
 ```
 
@@ -175,7 +175,7 @@ int main(void) {
 **Après (simplifié) :**
 ```c
 /* Contenu de stdio.h : environ 800 lignes */
-typedef struct _IO_FILE FILE;
+typedef struct _IO_FILE FILE;  
 extern int printf(const char *format, ...);
 /* ... des centaines d'autres déclarations ... */
 
@@ -220,7 +220,7 @@ main:
 L'assembleur convertit le code assembleur en code machine (binaire).
 
 ```bash
-gcc -c hello.c -o hello.o
+gcc -c hello.c -o hello.o  
 hexdump -C hello.o | head -5
 # 00000000  7f 45 4c 46 02 01 01 00  00 00 00 00 00 00 00 00  |.ELF............|
 ```
@@ -616,14 +616,14 @@ strace ./hello
 **Sortie simplifiée :**
 
 ```
-execve("./hello", ["./hello"], ...) = 0
-brk(NULL)                           = 0x55a...
-mmap(...)                           = 0x7f3...  # Allocation mémoire
-openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", ...) = 3
-read(3, "\177ELF..."..., 832)       = 832  # Lecture de la libc
+execve("./hello", ["./hello"], ...) = 0  
+brk(NULL)                           = 0x55a...  
+mmap(...)                           = 0x7f3...  # Allocation mémoire  
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", ...) = 3  
+read(3, "\177ELF..."..., 832)       = 832  # Lecture de la libc  
 close(3)                            = 0
 ...
-write(1, "Hello, World!\n", 14)     = 14  # ← Notre printf !
+write(1, "Hello, World!\n", 14)     = 14  # ← Notre printf !  
 exit_group(0)                       = ?    # ← Notre return 0
 ```
 

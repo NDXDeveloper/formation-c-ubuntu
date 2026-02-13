@@ -28,7 +28,7 @@ Les options commencent généralement par `-` (un tiret) ou `--` (deux tirets). 
 
 ```bash
 # Ces deux commandes sont équivalentes
-gcc -Wall -g hello.c -o hello
+gcc -Wall -g hello.c -o hello  
 gcc hello.c -o hello -Wall -g
 ```
 
@@ -61,8 +61,8 @@ gcc hello.c -o hello
 ./hello
 
 # Fonctionne à toutes les étapes
-gcc -E hello.c -o hello.i
-gcc -S hello.c -o hello.s
+gcc -E hello.c -o hello.i  
+gcc -S hello.c -o hello.s  
 gcc -c hello.c -o hello.o
 ```
 
@@ -152,7 +152,7 @@ gcc -Wall -Wconversion hello.c -o hello
 ```
 
 ```c
-int x = 1000;
+int x = 1000;  
 char c = x;  // Warning : perte potentielle de données
 ```
 
@@ -215,13 +215,13 @@ gcc -g hello.c -o hello
 
 ```bash
 # Sans -g
-gcc hello.c -o hello
+gcc hello.c -o hello  
 gdb ./hello
 # (gdb) break main
 # No symbol table is loaded. Use the "file" command.
 
 # Avec -g
-gcc -g hello.c -o hello
+gcc -g hello.c -o hello  
 gdb ./hello
 # (gdb) break main
 # Breakpoint 1 at 0x1149: file hello.c, line 5.
@@ -397,7 +397,7 @@ Le langage C a évolué au fil des années. GCC supporte plusieurs versions du s
 | `-std=c99` | C99 | 1999 | Ajout de `//`, `bool`, VLA... |
 | `-std=c11` | C11 | 2011 | Threads, atomiques, `_Generic` |
 | `-std=c17` | C17 | 2017 | Corrections de C11 |
-| `-std=c23` | C23 | 2023 | Dernière version |
+| `-std=c23` | C23 | 2024 | Dernière version (ISO/IEC 9899:2024) |
 | `-std=gnu11` | GNU C11 | - | C11 + extensions GNU |
 
 ### Choisir un Standard
@@ -492,14 +492,15 @@ Lie votre programme avec une bibliothèque :
 # Lier avec la bibliothèque mathématique (libm.so)
 gcc hello.c -o hello -lm
 
-# Lier avec pthread (libpthread.so)
-gcc hello.c -o hello -lpthread
+# Lier avec pthread
+gcc hello.c -o hello -pthread
 ```
 
 **Convention de nommage :**
 - La bibliothèque `libXXX.so` se lie avec `-lXXX`
 - `libm.so` → `-lm`
-- `libpthread.so` → `-lpthread`
+
+**Note sur pthread :** Utilisez le flag `-pthread` (et non `-lpthread`) pour les threads POSIX. Le flag `-pthread` configure à la fois le compilateur (defines préprocesseur comme `_REENTRANT`) et le linker, ce qui est plus fiable que `-lpthread` seul.
 
 ### Exemple Complet
 
@@ -596,7 +597,7 @@ Utile pour diagnostiquer des problèmes de compilation.
 Garde les fichiers `.i`, `.s` et `.o` :
 
 ```bash
-gcc -save-temps hello.c -o hello
+gcc -save-temps hello.c -o hello  
 ls
 # hello  hello.c  hello.i  hello.o  hello.s
 ```
@@ -614,7 +615,7 @@ gcc -### hello.c -o hello
 Affiche les dépendances du fichier (utile pour les Makefiles) :
 
 ```bash
-gcc -M hello.c   # Toutes les dépendances
+gcc -M hello.c   # Toutes les dépendances  
 gcc -MM hello.c  # Sans les en-têtes système
 ```
 
@@ -628,8 +629,8 @@ gcc --version
 ### `--help` : Afficher l'Aide
 
 ```bash
-gcc --help
-gcc --help=warnings  # Aide sur les warnings
+gcc --help  
+gcc --help=warnings  # Aide sur les warnings  
 gcc --help=optimizers  # Aide sur les optimisations
 ```
 
@@ -675,7 +676,7 @@ gcc -g -Wall -Wextra -Werror -std=c11 \
     -L./lib \
     src/main.c src/utils.c \
     -o programme \
-    -lm -lpthread
+    -lm -pthread
 ```
 
 ---

@@ -61,12 +61,11 @@ Il **utilise** également un symbole externe :
 
 ### Ce Qui Ne Crée PAS de Symbole
 
-Certains éléments de votre code ne créent pas de symboles :
+Les **variables locales** (automatiques) ne créent pas de symboles :
 
 ```c
 void exemple(void) {
     int variable_locale = 42;    // PAS de symbole (variable locale)
-    static int compteur = 0;     // PAS de symbole exporté (static local)
 
     for (int i = 0; i < 10; i++) {  // PAS de symbole (i est local)
         // ...
@@ -75,6 +74,8 @@ void exemple(void) {
 ```
 
 Les variables locales vivent sur la **pile** et n'ont pas besoin de symboles car elles ne sont pas accessibles depuis d'autres fichiers.
+
+> **Attention :** Les variables `static` locales à une fonction (`static int compteur = 0;`) sont un cas particulier. Elles créent un **symbole local** (visible avec `nm` sous la forme `d compteur.1234`) car elles sont stockées dans `.data` ou `.bss`, pas sur la pile. Cependant, ce symbole n'est pas exporté et n'intervient pas dans l'édition de liens entre fichiers.
 
 ---
 
@@ -121,7 +122,7 @@ La **table des symboles** est une structure de données contenue dans les fichie
 L'outil `nm` affiche la table des symboles :
 
 ```bash
-gcc -c programme.c -o programme.o
+gcc -c programme.c -o programme.o  
 nm programme.o
 ```
 
@@ -201,7 +202,7 @@ L'outil `nm` utilise des lettres pour identifier le type de chaque symbole :
 │  ┌─── SYMBOLES SPÉCIAUX ──────────────────────────────────────────────┐     │
 │  │                                                                    │     │
 │  │  U        (aucune)       UNDEFINED - Non défini, à résoudre        │     │
-│  │  C        (common)       Variable "commune" non initialisée        │     │
+│  │  C        (common)       Variable "commune" (GCC < 10, -fcommon)   │     │
 │  │  W / w    (weak)         Symbole faible (peut être remplacé)       │     │
 │  │  A        (absolute)     Adresse absolue (ne change pas)           │     │
 │  │                                                                    │     │
@@ -219,12 +220,12 @@ L'outil `nm` utilise des lettres pour identifier le type de chaque symbole :
 #include <stdio.h>
 
 // Variables globales
-int var_init = 42;              // D - data, initialisée
-int var_non_init;               // B ou C - bss, non initialisée
+int var_init = 42;              // D - data, initialisée  
+int var_non_init;               // B - bss, non initialisée  
 const int constante = 100;      // R - rodata, lecture seule
 
 // Variables statiques (locales au fichier)
-static int var_static = 10;     // d - data, locale
+static int var_static = 10;     // d - data, locale  
 static void helper(void) { }    // t - text, locale
 
 // Fonction globale
@@ -238,7 +239,7 @@ int main(void) {                // T - text, globale
 ```
 
 ```bash
-gcc -c types_symboles.c -o types_symboles.o
+gcc -c types_symboles.c -o types_symboles.o  
 nm types_symboles.o
 ```
 
@@ -251,7 +252,7 @@ nm types_symboles.o
 0000000000000000 T publique
 0000000000000000 R constante
 0000000000000000 D var_init
-0000000000000004 C var_non_init
+0000000000000004 B var_non_init
 0000000000000004 d var_static
 ```
 
@@ -378,10 +379,10 @@ void fonction_publique(void) {       // Visible
 
 ```c
 // fichier_a.c
-int globale = 1;                // nm: D globale (GLOBAL)
+int globale = 1;                // nm: D globale (GLOBAL)  
 static int locale = 2;          // nm: d locale  (local)
 
-void publique(void) { }         // nm: T publique (GLOBAL)
+void publique(void) { }         // nm: T publique (GLOBAL)  
 static void privee(void) { }    // nm: t privee   (local)
 ```
 
@@ -602,7 +603,7 @@ Lors de l'édition de liens, le linker :
 
 ```c
 // main.c
-extern void afficher(void);
+extern void afficher(void);  
 int compteur = 0;
 
 int main(void) {
@@ -679,12 +680,12 @@ gcc -s programme.c -o programme
 
 ```bash
 # Compiler normalement
-gcc programme.c -o programme_normal
+gcc programme.c -o programme_normal  
 ls -l programme_normal
 # -rwxr-xr-x 1 user user 16696 ... programme_normal
 
 # Compiler et stripper
-gcc -s programme.c -o programme_stripped
+gcc -s programme.c -o programme_stripped  
 ls -l programme_stripped
 # -rwxr-xr-x 1 user user 14472 ... programme_stripped
 
@@ -708,7 +709,7 @@ Pour la production, vous pouvez :
 gcc -g programme.c -o programme_debug
 
 # Créer une version strippée pour la distribution
-cp programme_debug programme_release
+cp programme_debug programme_release  
 strip programme_release
 ```
 
@@ -742,7 +743,7 @@ gcc main.o -o programme
 
 **Solutions** :
 - Ajouter le fichier `.o` contenant la définition
-- Ajouter la bibliothèque (`-lm`, `-lpthread`, etc.)
+- Ajouter la bibliothèque (`-lm`, `-pthread`, etc.)
 - Vérifier l'orthographe du nom
 
 ```bash
@@ -842,7 +843,7 @@ diff <(nm fichier1.o) <(nm fichier2.o)
 
 ```c
 // module.c
-static int etat_interne = 0;           // Pas visible à l'extérieur
+static int etat_interne = 0;           // Pas visible à l'extérieur  
 static void fonction_interne(void) {}  // Pas visible à l'extérieur
 
 void api_publique(void) {              // Interface publique
@@ -854,12 +855,12 @@ void api_publique(void) {              // Interface publique
 
 ```c
 // module.h
-extern int variable;              // Déclaration
+extern int variable;              // Déclaration  
 void fonction(void);              // Déclaration
 
 // module.c
 #include "module.h"
-int variable = 42;                // Définition
+int variable = 42;                // Définition  
 void fonction(void) { /* ... */ } // Définition
 ```
 
@@ -870,7 +871,7 @@ void fonction(void) { /* ... */ } // Définition
 #ifndef MODULE_H
 #define MODULE_H
 
-extern int variable;
+extern int variable;  
 void fonction(void);
 
 #endif // MODULE_H
@@ -883,8 +884,8 @@ void fonction(void);
 int compteur_global = 0;
 
 // MIEUX
-static int compteur = 0;
-int get_compteur(void) { return compteur; }
+static int compteur = 0;  
+int get_compteur(void) { return compteur; }  
 void increment_compteur(void) { compteur++; }
 ```
 

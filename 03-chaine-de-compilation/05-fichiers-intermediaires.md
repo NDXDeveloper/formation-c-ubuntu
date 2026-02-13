@@ -31,10 +31,10 @@ gcc -save-temps programme.c -o programme
 Cette commande conserve tous les fichiers intermédiaires dans le répertoire courant :
 
 ```
-programme.c      # Votre code source (original)
-programme.i      # Après le préprocesseur
-programme.s      # Code assembleur
-programme.o      # Fichier objet (binaire)
+programme.c      # Votre code source (original)  
+programme.i      # Après le préprocesseur  
+programme.s      # Code assembleur  
+programme.o      # Fichier objet (binaire)  
 programme        # Exécutable final
 ```
 
@@ -97,7 +97,7 @@ int main(void) {
 Générons tous les fichiers intermédiaires :
 
 ```bash
-gcc -save-temps exemple.c -o exemple
+gcc -save-temps exemple.c -o exemple  
 ls -la exemple*
 ```
 
@@ -198,10 +198,10 @@ code exemple.i
 
 // APRÈS (exemple.i)
 // ~500 lignes de déclarations de stdio.h
-typedef struct _IO_FILE FILE;
-extern FILE *stdin;
-extern FILE *stdout;
-extern FILE *stderr;
+typedef struct _IO_FILE FILE;  
+extern FILE *stdin;  
+extern FILE *stdout;  
+extern FILE *stderr;  
 extern int printf(const char *__restrict __format, ...);
 // ... etc
 ```
@@ -732,14 +732,14 @@ strings exemple.o
 **Résultat :**
 
 ```
-Somme de 1 à %d : %d
-Carré de %d : %d
-Nombre d'itérations : %d
-GCC: (Ubuntu 11.4.0) 11.4.0
-exemple.c
-calculer_somme
-compteur
-main
+Somme de 1 à %d : %d  
+Carré de %d : %d  
+Nombre d'itérations : %d  
+GCC: (Ubuntu 11.4.0) 11.4.0  
+exemple.c  
+calculer_somme  
+compteur  
+main  
 printf
 ```
 
@@ -884,8 +884,8 @@ gcc -E programme.c | grep -A 5 "ma_fonction"
 Comparez le code assembleur avec et sans optimisation :
 
 ```bash
-gcc -S -O0 programme.c -o sans_inline.s
-gcc -S -O2 programme.c -o avec_inline.s
+gcc -S -O0 programme.c -o sans_inline.s  
+gcc -S -O2 programme.c -o avec_inline.s  
 diff sans_inline.s avec_inline.s
 ```
 
