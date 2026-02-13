@@ -95,7 +95,7 @@ Modules 1-4 : "Comment coder en C ?"
               ↓
          [Changement de niveau]
               ↓
-Module 5    : "Comment coder en C PROFESSIONNELLEMENT ?"
+Module 5    : "Comment coder en C PROFESSIONNELLEMENT ?"  
 Module 6-8  : Applications avancées
 ```
 
@@ -145,30 +145,30 @@ Ce module est organisé en **trois chapitres essentiels** qui couvrent l'ensembl
 **Concepts clés - CMake :**
 ```cmake
 # CMakeLists.txt moderne
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.15)  
 project(MyProject VERSION 1.0.0 LANGUAGES C)
 
 # Standard C11
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 11)  
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Warnings et sanitizers
-add_compile_options(-Wall -Wextra -Werror)
+add_compile_options(-Wall -Wextra -Werror)  
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_options(-fsanitize=address -fsanitize=undefined)
     add_link_options(-fsanitize=address -fsanitize=undefined)
 endif()
 
 # Bibliothèque
-add_library(mylib STATIC src/mylib.c)
+add_library(mylib STATIC src/mylib.c)  
 target_include_directories(mylib PUBLIC include)
 
 # Exécutable
-add_executable(myapp src/main.c)
+add_executable(myapp src/main.c)  
 target_link_libraries(myapp PRIVATE mylib)
 
 # Tests
-enable_testing()
+enable_testing()  
 add_test(NAME test_mylib COMMAND myapp)
 ```
 
@@ -221,21 +221,21 @@ cmake --install build --prefix /usr/local
 **Concepts clés :**
 ```bash
 # Bibliothèque statique
-gcc -c mylib.c -o mylib.o
-ar rcs libmylib.a mylib.o
+gcc -c mylib.c -o mylib.o  
+ar rcs libmylib.a mylib.o  
 ranlib libmylib.a
 
 # Utilisation
 gcc main.c -L. -lmylib -o main
 
 # Bibliothèque dynamique (shared object)
-gcc -fPIC -c mylib.c -o mylib.o
-gcc -shared -Wl,-soname,libmylib.so.1 -o libmylib.so.1.0.0 mylib.o
-ln -s libmylib.so.1.0.0 libmylib.so.1
+gcc -fPIC -c mylib.c -o mylib.o  
+gcc -shared -Wl,-soname,libmylib.so.1 -o libmylib.so.1.0.0 mylib.o  
+ln -s libmylib.so.1.0.0 libmylib.so.1  
 ln -s libmylib.so.1 libmylib.so
 
 # Utilisation
-gcc main.c -L. -lmylib -o main
+gcc main.c -L. -lmylib -o main  
 LD_LIBRARY_PATH=. ./main
 
 # Voir les dépendances
@@ -268,7 +268,7 @@ STATIQUE (.a)                     DYNAMIQUE (.so)
 EXPORT int public_function(void);
 
 // Fonction interne non exportée
-static int internal_function(void) { }
+static int internal_function(void) { return 0; }
 ```
 
 **Pourquoi c'est crucial :**
@@ -346,21 +346,21 @@ cmake -B build -DCMAKE_BUILD_TYPE=Debug \
       -DENABLE_ASAN=ON -DENABLE_UBSAN=ON
 
 # 2. Build et test
-cmake --build build
+cmake --build build  
 ctest --test-dir build
 
 # 3. Analyse Valgrind
 valgrind --leak-check=full --show-leak-kinds=all ./build/programme
 
 # 4. Analyse statique
-cppcheck --enable=all src/
+cppcheck --enable=all src/  
 clang-tidy src/*.c -- -Iinclude
 
 # 5. Code coverage
-cmake -B build -DCMAKE_BUILD_TYPE=Coverage
+cmake -B build -DCMAKE_BUILD_TYPE=Coverage  
 cmake --build build
 ./build/programme
-lcov --capture --directory . --output-file coverage.info
+lcov --capture --directory . --output-file coverage.info  
 genhtml coverage.info --output-directory coverage_html
 ```
 
@@ -421,9 +421,9 @@ Les outils de ce module sont **cumulatifs** : vous les utilisez tous ensemble, p
 
 ```bash
 # 1. Structure CMake
-cat > CMakeLists.txt << 'EOF'
-cmake_minimum_required(VERSION 3.15)
-project(MyProject C)
+cat > CMakeLists.txt << 'EOF'  
+cmake_minimum_required(VERSION 3.15)  
+project(MyProject C)  
 set(CMAKE_C_STANDARD 11)
 
 # Sanitizers en Debug
@@ -432,11 +432,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_link_options(-fsanitize=address,undefined)
 endif()
 
-add_executable(myapp src/main.c)
+add_executable(myapp src/main.c)  
 EOF
 
 # 2. Build
-cmake -B build -DCMAKE_BUILD_TYPE=Debug
+cmake -B build -DCMAKE_BUILD_TYPE=Debug  
 cmake --build build
 
 # 3. Test avec sanitizers (automatique)
@@ -470,7 +470,7 @@ git commit -m "Feature: ..."
 
 ```bash
 # Sur Ubuntu 22.04/24.04
-sudo apt update
+sudo apt update  
 sudo apt install -y \
     build-essential \
     cmake \
@@ -483,9 +483,9 @@ sudo apt install -y \
     clang-format
 
 # Vérifier les installations
-cmake --version      # >= 3.15
-gdb --version        # >= 8.0
-valgrind --version   # >= 3.15
+cmake --version      # >= 3.15  
+gdb --version        # >= 8.0  
+valgrind --version   # >= 3.15  
 cppcheck --version   # >= 2.0
 ```
 
@@ -508,19 +508,19 @@ cppcheck --version   # >= 2.0
 
 ```bash
 # Créer un template réutilisable
-mkdir ~/c-project-template
+mkdir ~/c-project-template  
 cd ~/c-project-template
 
 # Structure
 mkdir -p {src,include,tests,build}
 
 # CMakeLists.txt minimal
-cat > CMakeLists.txt << 'EOF'
-cmake_minimum_required(VERSION 3.15)
+cat > CMakeLists.txt << 'EOF'  
+cmake_minimum_required(VERSION 3.15)  
 project(ProjectName VERSION 1.0.0 LANGUAGES C)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 11)  
+set(CMAKE_C_STANDARD_REQUIRED ON)  
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Warnings
@@ -538,13 +538,13 @@ if(CMAKE_BUILD_TYPE STREQUAL "Coverage")
     add_link_options(--coverage)
 endif()
 
-add_subdirectory(src)
-enable_testing()
-add_subdirectory(tests)
+add_subdirectory(src)  
+enable_testing()  
+add_subdirectory(tests)  
 EOF
 
 # .gitignore
-cat > .gitignore << 'EOF'
+cat > .gitignore << 'EOF'  
 build/
 *.o
 *.a
@@ -553,7 +553,7 @@ build/
 EOF
 
 # Utiliser le template
-cp -r ~/c-project-template ~/mon-nouveau-projet
+cp -r ~/c-project-template ~/mon-nouveau-projet  
 cd ~/mon-nouveau-projet
 # Personnaliser CMakeLists.txt, puis build
 ```
@@ -599,11 +599,11 @@ cmake -B build -DCMAKE_BUILD_TYPE=Release
 ### 🚨 Erreur 4 : In-source builds avec CMake
 ```bash
 # ❌ Pollution du code source
-cmake .
+cmake .  
 make
 
 # ✅ Out-of-source build
-cmake -B build
+cmake -B build  
 cmake --build build
 # Facile à nettoyer : rm -rf build/
 ```
@@ -681,7 +681,7 @@ Vous savez que vous maîtrisez ce module quand :
 
 ### Semaine 5-6 (Debugging)
 - ✅ ASan activé par défaut en développement
-- ✅ Vous débogguez en 5 minutes ce qui prenait 2 heures
+- ✅ Vous déboguez en 5 minutes ce qui prenait 2 heures
 - ✅ Valgrind ne trouve aucun problème dans votre code
 - ✅ Vous profilez avant d'optimiser
 
@@ -722,8 +722,8 @@ Un template CMake bien configuré vous fait gagner 30 minutes à chaque nouveau 
 ### 3. **Intégrez dans votre muscle memory**
 ```bash
 # Ces commandes doivent devenir automatiques
-cmake -B build
-cmake --build build
+cmake -B build  
+cmake --build build  
 valgrind --leak-check=full ./build/programme
 ```
 
@@ -774,7 +774,7 @@ Valgrind et les sanitizers sont verbeux pour une raison. Lisez TOUT.
 
 Ce module est un **game changer**. Avant et après sont deux mondes différents.
 
-**Avant ce module** : Vous codez en C
+**Avant ce module** : Vous codez en C  
 **Après ce module** : Vous êtes un ingénieur C professionnel
 
 Les outils de ce module sont utilisés par **Google, Facebook, Netflix, Linux kernel, Redis, PostgreSQL** et tous les projets C sérieux.

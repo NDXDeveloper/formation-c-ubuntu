@@ -29,8 +29,8 @@ Ce n'est plus "comment faire quelque chose", mais **"comment le faire de la meil
 
 ### Le parcours jusqu'ici
 
-**Modules 1-4** : Fondamentaux du C
-**Module 5** : Outillage professionnel
+**Modules 1-4** : Fondamentaux du C  
+**Module 5** : Outillage professionnel  
 **Module 6** : Programmation système Linux
 
 **→ Vous savez créer des programmes système fonctionnels**
@@ -93,7 +93,7 @@ void sort(void *array, size_t n, size_t size, compare_fn cmp) {
 }
 
 // Table de dispatch (pattern FSM)
-typedef void (*state_handler)(void);
+typedef void (*state_handler)(void);  
 state_handler handlers[] = {
     state_idle,
     state_processing,
@@ -103,7 +103,7 @@ handlers[current_state]();  // Appel indirect
 
 // Pointeur opaque (API publique)
 // header.h
-typedef struct Database Database;  // Type incomplet
+typedef struct Database Database;  // Type incomplet  
 Database* db_create(const char *path);
 
 // impl.c
@@ -158,9 +158,9 @@ void my_printf(const char *format, ...) {
 // X-Macros : éviter la duplication
 #define ERROR_CODES \
     X(OK, 0, "Success") \
-    X(ENOMEM, -1, "Out of memory") \
-    X(EINVAL, -2, "Invalid argument") \
-    X(EIO, -3, "I/O error")
+    X(ENOMEM, 1, "Out of memory") \
+    X(EINVAL, 2, "Invalid argument") \
+    X(EIO, 3, "I/O error")
 
 // Générer enum
 #define X(name, code, desc) ERR_##name = code,
@@ -214,8 +214,8 @@ void cleanup_file(FILE **f) {
     if (*f) fclose(*f);
 }
 
-void cleanup_free(void **p) {
-    free(*p);
+void cleanup_free(void *p) {
+    free(*(void **)p);
 }
 
 int process_file(const char *path) {
@@ -293,7 +293,7 @@ Result divide(int a, int b) {
 }
 
 // Utilisation
-Result r = divide(10, 2);
+Result r = divide(10, 2);  
 if (!r.ok) {
     fprintf(stderr, "Error: %s\n", strerror(r.error_code));
     return -1;
@@ -302,7 +302,7 @@ printf("Result: %d\n", r.value);
 
 // errno : thread-safe
 #include <errno.h>
-int fd = open("file.txt", O_RDONLY);
+int fd = open("file.txt", O_RDONLY);  
 if (fd == -1) {
     // errno est défini par open()
     if (errno == ENOENT) {
@@ -497,7 +497,7 @@ gcc -pg -O2 programme.c -o programme
 gprof programme gmon.out > analysis.txt
 
 // Ou utiliser perf (plus moderne)
-perf record -g ./programme
+perf record -g ./programme  
 perf report
 ```
 
@@ -552,8 +552,8 @@ typedef struct {
     int y;
 } Point;
 
-Point* point_create(int x, int y);
-void point_destroy(Point *p);
+Point* point_create(int x, int y);  
+void point_destroy(Point *p);  
 int point_distance(const Point *a, const Point *b);
 
 #ifdef __cplusplus
@@ -568,10 +568,10 @@ lib = CDLL("./libmylib.so")
 class Point(Structure):
     _fields_ = [("x", c_int), ("y", c_int)]
 
-lib.point_create.argtypes = [c_int, c_int]
+lib.point_create.argtypes = [c_int, c_int]  
 lib.point_create.restype = POINTER(Point)
 
-p = lib.point_create(10, 20)
+p = lib.point_create(10, 20)  
 print(p.contents.x)  # 10
 
 // Rust FFI
@@ -589,7 +589,7 @@ package main
 
 // #cgo LDFLAGS: -L. -lmylib
 // #include "mylib.h"
-import "C"
+import "C"  
 import "fmt"
 
 func main() {
@@ -659,8 +659,8 @@ Analysez votre propre code comme si vous cherchiez des vulnérabilités.
 
 #### 4. **Expérimentez avec les flags de compilation**
 ```bash
-gcc -O0 vs -O1 vs -O2 vs -O3
-gcc -flto  # Link-Time Optimization
+gcc -O0 vs -O1 vs -O2 vs -O3  
+gcc -flto  # Link-Time Optimization  
 gcc -fprofile-generate  # PGO étape 1
 ```
 
@@ -711,7 +711,6 @@ gcc -fprofile-generate  # PGO étape 1
 ```bash
 # Sécurité
 sudo apt install cppcheck clang-tidy
-pip install bandit
 
 # Performance
 sudo apt install linux-tools-generic valgrind
@@ -777,7 +776,7 @@ Cette formation est un guide de référence complet. Pour ce module expert :
 - **Expérimentez** avec les techniques avancées
 - **Partagez** vos connaissances
 
-Le **Module 8** appliquera ces techniques dans des contextes DevOps (CI/CD).
+Le **Module 8** appliquera ces techniques dans des contextes DevOps (CI/CD).  
 Le **Module 9** vous donnera l'opportunité de créer des projets complets utilisant toutes ces compétences avancées.
 
 ⏭️ [Chapitre 22 : Pointeurs avancés →](22-pointeurs-avances/README.md)

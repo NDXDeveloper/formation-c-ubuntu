@@ -281,8 +281,8 @@ typedef struct {
 } User;
 
 // Prototypes des fonctions publiques
-User* user_create(const char *name, int age);
-void user_destroy(User *user);
+User* user_create(const char *name, int age);  
+void user_destroy(User *user);  
 void user_print(const User *user);
 
 #endif  // USER_H
@@ -331,8 +331,8 @@ my_project/
 **Compilation séparée :**
 ```bash
 # Compiler chaque fichier séparément en .o
-gcc -c -I./include src/mylib.c -o build/mylib.o
-gcc -c -I./include src/utils.c -o build/utils.o
+gcc -c -I./include src/mylib.c -o build/mylib.o  
+gcc -c -I./include src/utils.c -o build/utils.o  
 gcc -c -I./include src/main.c -o build/main.o
 
 # Lier tous les .o ensemble
@@ -402,7 +402,7 @@ Arbre binaire :
 Les structures de données dynamiques sont propices aux fuites :
 ```bash
 # Workflow obligatoire
-gcc -g structures.c -o structures
+gcc -g structures.c -o structures  
 valgrind --leak-check=full ./structures
 ```
 
@@ -431,14 +431,14 @@ test_project/
 
 ```bash
 # Créer la structure
-mkdir -p ~/c-learning/module-04/{include,src,tests,build}
+mkdir -p ~/c-learning/module-04/{include,src,tests,build}  
 cd ~/c-learning/module-04
 
 # Créer un Makefile simple
-cat > Makefile << 'EOF'
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I./include -g
-SRC = $(wildcard src/*.c)
+cat > Makefile << 'EOF'  
+CC = gcc  
+CFLAGS = -Wall -Wextra -Werror -I./include -g  
+SRC = $(wildcard src/*.c)  
 OBJ = $(SRC:src/%.c=build/%.o)
 
 all: program
@@ -523,7 +523,7 @@ void modify_user(struct User *user) {
 
 ### 🚨 Piège 3 : Comparer des structures avec ==
 ```c
-struct Point p1 = {1, 2};
+struct Point p1 = {1, 2};  
 struct Point p2 = {1, 2};
 
 if (p1 == p2) { }  // ❌ Erreur de compilation !
@@ -549,11 +549,11 @@ struct B { struct A *a; };
 
 // ✅ Solution : Forward declaration
 // a.h
-struct B;  // Forward declaration
+struct B;  // Forward declaration  
 struct A { struct B *b; };
 
 // b.h
-struct A;  // Forward declaration
+struct A;  // Forward declaration  
 struct B { struct A *a; };
 ```
 
@@ -697,8 +697,8 @@ Mesurez le temps d'exécution avec des données de tailles croissantes :
 
 clock_t start = clock();
 // ... opération ...
-clock_t end = clock();
-double time = (double)(end - start) / CLOCKS_PER_SEC;
+clock_t end = clock();  
+double time = (double)(end - start) / CLOCKS_PER_SEC;  
 printf("Temps: %f secondes\n", time);
 ```
 

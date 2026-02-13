@@ -149,11 +149,11 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install build-essential -y
 
 # 4. Vérifiez l'installation
-gcc --version
+gcc --version  
 make --version
 
 # 5. Créez votre premier dossier de travail
-mkdir -p ~/c-learning/module-01
+mkdir -p ~/c-learning/module-01  
 cd ~/c-learning/module-01
 ```
 
@@ -233,7 +233,7 @@ Dès ce premier module, gardez en tête ces erreurs classiques :
 👉 Résultat : Vous serez bloqué dès la première erreur de linking ou de macro. Prenez le temps de comprendre chaque étape.
 
 ### ❌ Erreur 3 : Ignorer les normes du langage
-**"C'est C'est pareil partout..."**
+**"C'est pareil partout..."**
 
 👉 Résultat : Votre code ne sera pas portable et vous utiliserez des features non-standard sans le savoir.
 

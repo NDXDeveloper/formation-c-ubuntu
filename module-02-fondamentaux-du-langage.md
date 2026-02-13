@@ -57,16 +57,16 @@ Ce module est organisé en **trois chapitres progressifs** qui construisent les 
 **Concepts clés :**
 ```c
 // Taille des types selon l'architecture
-sizeof(int)      // 4 bytes sur la plupart des systèmes
-sizeof(long)     // 4 ou 8 bytes selon 32-bit vs 64-bit
-sizeof(pointer)  // Dépend de l'architecture
+sizeof(int)      // 4 bytes sur la plupart des systèmes  
+sizeof(long)     // 4 ou 8 bytes selon 32-bit vs 64-bit  
+sizeof(void *)   // Dépend de l'architecture (4 ou 8 bytes)
 
 // Signed vs Unsigned
-int a = -1;           // Peut être négatif
+int a = -1;           // Peut être négatif  
 unsigned int b = -1;  // Devient un très grand nombre positif !
 
 // Conversions implicites dangereuses
-float x = 3.14f;
+float x = 3.14f;  
 int y = x;  // Perte de la partie décimale
 ```
 
@@ -89,9 +89,9 @@ int y = x;  // Perte de la partie décimale
 **Concepts clés :**
 ```c
 // Opérateurs bit-à-bit pour manipulation bas niveau
-unsigned int flags = 0;
-flags |= (1 << 3);   // Set bit 3
-flags &= ~(1 << 3);  // Clear bit 3
+unsigned int flags = 0;  
+flags |= (1 << 3);   // Set bit 3  
+flags &= ~(1 << 3);  // Clear bit 3  
 if (flags & (1 << 3)) { /* Test bit 3 */ }
 
 // Priorité des opérateurs
@@ -213,11 +213,11 @@ gcc -Wall -Wextra -Werror test_types.c -o test
 ### Environnement de développement
 ```bash
 # Vérifiez que votre environnement est prêt
-gcc --version      # GCC 9.0+
+gcc --version      # GCC 9.0+  
 clang-format --version  # Pour le chapitre 5
 
 # Créez votre répertoire de travail
-mkdir -p ~/c-learning/module-02
+mkdir -p ~/c-learning/module-02  
 cd ~/c-learning/module-02
 ```
 
@@ -235,7 +235,7 @@ xxd -b fichier
 nm programme
 
 # Voir le code assembleur généré
-gcc -S programme.c
+gcc -S programme.c  
 cat programme.s
 ```
 
@@ -283,7 +283,7 @@ Dans ce module, nous nous concentrons principalement sur la **pile (stack)** et 
 
 ### 🚨 Piège 1 : Confondre `=` et `==`
 ```c
-int x = 5;
+int x = 5;  
 if (x = 10) {  // ❌ Assignment, pas comparaison !
     // Ce bloc s'exécute toujours
 }
@@ -299,8 +299,8 @@ if (x == 10) {  // ✅ Comparaison correcte
 
 ### 🚨 Piège 2 : Overflow d'entiers
 ```c
-int a = 2000000000;
-int b = 2000000000;
+int a = 2000000000;  
+int b = 2000000000;  
 int c = a + b;  // ❌ Overflow ! Comportement indéfini
 
 // ✅ Solution : utiliser long ou détecter l'overflow
@@ -311,8 +311,8 @@ long c = (long)a + (long)b;
 
 ### 🚨 Piège 3 : Conversions implicites dangereuses
 ```c
-unsigned int a = 10;
-int b = -1;
+unsigned int a = 10;  
+int b = -1;  
 if (a > b) {  // ❌ Faux ! b est converti en unsigned
     // Cette condition est FAUSSE car -1 devient un très grand nombre unsigned
 }
@@ -430,8 +430,8 @@ C'est en cassant que vous apprenez.
 
 ```c
 // Testez volontairement les limites
-int x = 2147483647;  // INT_MAX
-x = x + 1;  // Que se passe-t-il ?
+int x = 2147483647;  // INT_MAX  
+x = x + 1;  // Que se passe-t-il ?  
 printf("%d\n", x);
 ```
 
@@ -445,8 +445,8 @@ gcc -Wall -Wextra -Werror -pedantic programme.c
 
 #### 4. **Consultez les man pages**
 ```bash
-man 3 printf   # Documentation de printf
-man limits.h   # Limites des types
+man 3 printf   # Documentation de printf  
+man limits.h   # Limites des types  
 man stdint.h   # Types à taille fixe
 ```
 

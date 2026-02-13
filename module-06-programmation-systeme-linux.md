@@ -31,8 +31,8 @@ Ce module vous transforme d'un développeur d'applications en un **ingénieur sy
 **Programmation d'application** (Modules 1-5) :
 ```c
 // Bibliothèque standard C
-FILE *f = fopen("data.txt", "r");
-fscanf(f, "%d", &value);
+FILE *f = fopen("data.txt", "r");  
+fscanf(f, "%d", &value);  
 fclose(f);
 
 // Le système fait la magie
@@ -41,12 +41,12 @@ fclose(f);
 **Programmation système** (Module 6) :
 ```c
 // Appel système direct
-int fd = open("data.txt", O_RDONLY);
+int fd = open("data.txt", O_RDONLY);  
 if (fd == -1) {
     perror("open");
     exit(1);
 }
-ssize_t n = read(fd, buffer, sizeof(buffer));
+ssize_t n = read(fd, buffer, sizeof(buffer));  
 close(fd);
 
 // Vous contrôlez TOUT
@@ -95,9 +95,9 @@ close(fd);
 
 ### Vous avez construit les fondations
 
-**Module 1-2** : Langage et syntaxe
-**Module 3** : Gestion mémoire
-**Module 4** : Structures de données
+**Module 1-2** : Langage et syntaxe  
+**Module 3** : Gestion mémoire  
+**Module 4** : Structures de données  
 **Module 5** : Outillage professionnel
 
 **→ Vous savez coder en C de manière professionnelle**
@@ -115,7 +115,7 @@ close(fd);
 ### Le gap de compétences
 
 ```
-Développeurs C qui maîtrisent le langage : 1,000,000+
+Développeurs C qui maîtrisent le langage : 1,000,000+  
 Développeurs C qui maîtrisent la programmation système : 10,000
                                                              ↑
                                                          VOUS ICI
@@ -145,18 +145,18 @@ Ce module est organisé en **six chapitres**, chacun couvrant un aspect fondamen
 **Concepts clés :**
 ```c
 // Tout sous Linux est un fichier
-int fd = open("/dev/null", O_WRONLY);  // Device
-int fd = open("data.txt", O_RDONLY);   // Fichier normal
-int fd = socket(AF_INET, SOCK_STREAM); // Socket réseau
+int fd = open("/dev/null", O_WRONLY);  // Device  
+int fd = open("data.txt", O_RDONLY);   // Fichier normal  
+int fd = socket(AF_INET, SOCK_STREAM, 0); // Socket réseau  
 int fd = open("/proc/cpuinfo", O_RDONLY); // Pseudo-fichier
 
 // File descriptor = entier
 // 0 = stdin, 1 = stdout, 2 = stderr
 
 // I/O multiplexing avec epoll (moderne)
-int epoll_fd = epoll_create1(0);
-struct epoll_event ev = {.events = EPOLLIN, .data.fd = fd};
-epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &ev);
+int epoll_fd = epoll_create1(0);  
+struct epoll_event ev = {.events = EPOLLIN, .data.fd = fd};  
+epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &ev);  
 epoll_wait(epoll_fd, events, MAX_EVENTS, timeout);
 ```
 
@@ -183,7 +183,7 @@ epoll_wait(epoll_fd, events, MAX_EVENTS, timeout);
 **Concepts clés :**
 ```c
 // Fork : créer un processus enfant
-pid_t pid = fork();
+pid_t pid = fork();  
 if (pid == 0) {
     // Code du processus enfant
     execl("/bin/ls", "ls", "-l", NULL);
@@ -203,7 +203,7 @@ void signal_handler(int sig) {
 signal(SIGINT, signal_handler);
 
 // Pipe : communication parent-enfant
-int pipefd[2];
+int pipefd[2];  
 pipe(pipefd);  // pipefd[0] = read, pipefd[1] = write
 ```
 
@@ -238,25 +238,25 @@ pipe(pipefd);  // pipefd[0] = read, pipefd[1] = write
 **Concepts clés :**
 ```c
 // Créer un thread
-pthread_t thread;
-pthread_create(&thread, NULL, thread_function, arg);
+pthread_t thread;  
+pthread_create(&thread, NULL, thread_function, arg);  
 pthread_join(thread, NULL);
 
 // Mutex : protéger une section critique
-pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;  
 pthread_mutex_lock(&lock);
 // Section critique (un seul thread à la fois)
-shared_counter++;
+shared_counter++;  
 pthread_mutex_unlock(&lock);
 
 // Atomics C11 : sans lock
 #include <stdatomic.h>
-atomic_int counter = 0;
+atomic_int counter = 0;  
 atomic_fetch_add(&counter, 1);  // Thread-safe, sans mutex !
 
 // Condition variable : attendre un événement
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
-pthread_mutex_lock(&lock);
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;  
+pthread_mutex_lock(&lock);  
 while (!condition) {
     pthread_cond_wait(&cond, &lock);  // Attend et libère le lock
 }
@@ -292,14 +292,14 @@ La concurrence est **contre-intuitive**. Un programme peut fonctionner 999 fois 
 **Concepts clés :**
 ```c
 // Shared memory POSIX
-int shm_fd = shm_open("/myshm", O_CREAT | O_RDWR, 0666);
-ftruncate(shm_fd, SIZE);
+int shm_fd = shm_open("/myshm", O_CREAT | O_RDWR, 0666);  
+ftruncate(shm_fd, SIZE);  
 void *ptr = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
                  MAP_SHARED, shm_fd, 0);
 // Plusieurs processus partagent cette mémoire
 
 // Memory-mapped file (rapide !)
-int fd = open("bigfile.dat", O_RDONLY);
+int fd = open("bigfile.dat", O_RDONLY);  
 void *map = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);
 // Accès direct comme un tableau, kernel gère le cache
 ```
@@ -326,13 +326,13 @@ void *map = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);
 **Concepts clés :**
 ```c
 // Serveur TCP basique
-int server_fd = socket(AF_INET, SOCK_STREAM, 0);
+int server_fd = socket(AF_INET, SOCK_STREAM, 0);  
 struct sockaddr_in addr = {
     .sin_family = AF_INET,
     .sin_port = htons(8080),
     .sin_addr.s_addr = INADDR_ANY
 };
-bind(server_fd, (struct sockaddr*)&addr, sizeof(addr));
+bind(server_fd, (struct sockaddr*)&addr, sizeof(addr));  
 listen(server_fd, 10);
 
 while (1) {
@@ -385,7 +385,7 @@ Serveur moderne (epoll)        →  1 thread, event loop
 **Concepts clés :**
 ```c
 // eBPF program (kernel space)
-SEC("tracepoint/syscalls/sys_enter_execve")
+SEC("tracepoint/syscalls/sys_enter_execve")  
 int trace_execve(struct trace_event_raw_sys_enter *ctx) {
     char comm[16];
     bpf_get_current_comm(&comm, sizeof(comm));
@@ -394,8 +394,8 @@ int trace_execve(struct trace_event_raw_sys_enter *ctx) {
 }
 
 // User space : charger et attacher
-struct bpf_object *obj = bpf_object__open_file("prog.o", NULL);
-bpf_object__load(obj);
+struct bpf_object *obj = bpf_object__open_file("prog.o", NULL);  
+bpf_object__load(obj);  
 bpf_program__attach(bpf_object__find_program_by_name(obj, "trace_execve"));
 ```
 
@@ -502,8 +502,8 @@ Vos erreurs peuvent :
 #### 1. **Lisez les man pages**
 Elles sont votre Bible. Pour chaque appel système :
 ```bash
-man 2 open   # Section 2 = appels système
-man 3 fopen  # Section 3 = bibliothèque C
+man 2 open   # Section 2 = appels système  
+man 3 fopen  # Section 3 = bibliothèque C  
 man 7 signal # Section 7 = overview
 ```
 
@@ -525,16 +525,16 @@ Ne créez pas un serveur multithread avec epoll comme premier projet. Commencez 
 #### 4. **Utilisez les outils spécialisés**
 ```bash
 # Thread debugging
-gcc -fsanitize=thread programme.c
+gcc -fsanitize=thread programme.c  
 valgrind --tool=helgrind ./programme
 
 # Network debugging
-netstat -tulpn
-ss -tulpn
+netstat -tulpn  
+ss -tulpn  
 tcpdump -i lo port 8080
 
 # eBPF
-bpftool prog list
+bpftool prog list  
 bpftool map list
 ```
 
@@ -566,19 +566,19 @@ sudo apt install -y \
 sudo apt install -y manpages-dev manpages-posix-dev
 
 # Template CMake pour programmation système
-cat > CMakeLists.txt << 'EOF'
-cmake_minimum_required(VERSION 3.15)
-project(SystemProg C)
+cat > CMakeLists.txt << 'EOF'  
+cmake_minimum_required(VERSION 3.15)  
+project(SystemProg C)  
 set(CMAKE_C_STANDARD 11)
 
 # Flags système
-add_compile_options(-Wall -Wextra -Werror -D_GNU_SOURCE)
-add_compile_options(-fsanitize=thread)  # Pour threads
+add_compile_options(-Wall -Wextra -Werror -D_GNU_SOURCE)  
+add_compile_options(-fsanitize=thread)  # Pour threads  
 add_link_options(-fsanitize=thread)
 
 # Bibliothèques système
-find_package(Threads REQUIRED)
-target_link_libraries(myapp Threads::Threads)
+find_package(Threads REQUIRED)  
+target_link_libraries(myapp Threads::Threads)  
 EOF
 ```
 
@@ -586,10 +586,10 @@ EOF
 
 ```bash
 # .gdbinit pour programmation système
-cat > ~/.gdbinit << 'EOF'
-set follow-fork-mode child   # Suivre le processus enfant
-set detach-on-fork off        # Ne pas détacher le parent
-set print thread-events on    # Afficher les événements threads
+cat > ~/.gdbinit << 'EOF'  
+set follow-fork-mode child   # Suivre le processus enfant  
+set detach-on-fork off        # Ne pas détacher le parent  
+set print thread-events on    # Afficher les événements threads  
 set scheduler-locking on      # Verrouiller sur le thread actuel
 
 # Breakpoints utiles
@@ -598,7 +598,7 @@ define bp_syscalls
     catch syscall close
     catch syscall fork
     catch syscall clone
-end
+end  
 EOF
 ```
 
@@ -649,11 +649,11 @@ EOF
 # Installer TOUTES les man pages
 sudo apt install manpages-dev manpages-posix-dev
 
-# Lecture essentielles
-man 2 intro    # Introduction aux appels système
-man 3 intro    # Introduction aux fonctions bibliothèque
-man 7 signal   # Overview des signaux
-man 7 pthreads # Overview POSIX threads
+# Lectures essentielles
+man 2 intro    # Introduction aux appels système  
+man 3 intro    # Introduction aux fonctions bibliothèque  
+man 7 signal   # Overview des signaux  
+man 7 pthreads # Overview POSIX threads  
 man 7 socket   # Overview sockets
 ```
 
@@ -739,7 +739,7 @@ La programmation système est cumulative. Vous comprendrez mieux les threads apr
 
 ## 🎯 Mot de conclusion
 
-Vous vous apprêtez à franchir la ligne qui séparé les développeurs d'applications des ingénieurs système.
+Vous vous apprêtez à franchir la ligne qui sépare les développeurs d'applications des ingénieurs système.
 
 **Ce module est difficile.** Mais c'est aussi :
 - 🏆 Le plus gratifiant
@@ -768,7 +768,7 @@ Cette formation est un guide de référence complet. Pour ce module expert :
 
 - **Lisez** chaque man page mentionnée en entier
 - **Testez** chaque appel système dans un programme minimal
-- **Débogguez** avec strace, GDB, et les sanitizers
+- **Déboguez** avec strace, GDB, et les sanitizers
 - **Expérimentez** : provoquez des erreurs pour les comprendre
 - **Consultez** les ressources (TLPI est indispensable)
 

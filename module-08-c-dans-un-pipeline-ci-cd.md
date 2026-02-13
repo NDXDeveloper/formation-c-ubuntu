@@ -87,11 +87,11 @@ En 2025, le C n'est plus développé de manière isolée. Il fait partie d'écos
 ```
 Développement isolé          DevOps moderne
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Code sur votre machine       Code dans le CI/CD
-Tests manuels                Tests automatisés
-Build ad-hoc                 Build reproductible
-Qualité "au feeling"         Qualité mesurée
-Déploiement manuel           Déploiement automatisé
+Code sur votre machine       Code dans le CI/CD  
+Tests manuels                Tests automatisés  
+Build ad-hoc                 Build reproductible  
+Qualité "au feeling"         Qualité mesurée  
+Déploiement manuel           Déploiement automatisé  
 Pas de feedback              Feedback continu
 ```
 
@@ -152,9 +152,9 @@ Suite* math_suite(void) {
 }
 
 // CMakeLists.txt pour tests
-enable_testing()
-add_executable(test_math test_math.c)
-target_link_libraries(test_math check m pthread)
+enable_testing()  
+add_executable(test_math test_math.c)  
+target_link_libraries(test_math check m pthread)  
 add_test(NAME MathTests COMMAND test_math)
 ```
 
@@ -288,35 +288,35 @@ jobs:
 ```cmake
 # Toolchain file pour ARM
 # arm-toolchain.cmake
-set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_NAME Linux)  
 set(CMAKE_SYSTEM_PROCESSOR arm)
 
-set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
+set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)  
 set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
 
-set(CMAKE_FIND_ROOT_PATH /usr/arm-linux-gnueabihf)
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH /usr/arm-linux-gnueabihf)  
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)  
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 
 # Build
-cmake -B build -DCMAKE_TOOLCHAIN_FILE=arm-toolchain.cmake
+cmake -B build -DCMAKE_TOOLCHAIN_FILE=arm-toolchain.cmake  
 cmake --build build
 ```
 
 **Docker multi-stage pour C :**
 ```dockerfile
 # Stage 1: Build
-FROM ubuntu:22.04 AS builder
-RUN apt-get update && apt-get install -y cmake gcc
-COPY . /src
-WORKDIR /src
+FROM ubuntu:22.04 AS builder  
+RUN apt-get update && apt-get install -y cmake gcc  
+COPY . /src  
+WORKDIR /src  
 RUN cmake -B build -DCMAKE_BUILD_TYPE=Release && \
     cmake --build build
 
 # Stage 2: Runtime (minimal)
-FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y libc6
-COPY --from=builder /src/build/myapp /usr/local/bin/
+FROM ubuntu:22.04  
+RUN apt-get update && apt-get install -y libc6  
+COPY --from=builder /src/build/myapp /usr/local/bin/  
 ENTRYPOINT ["/usr/local/bin/myapp"]
 ```
 
@@ -331,10 +331,10 @@ myapp_1.0.0/
         └── myapp
 
 # control file
-Package: myapp
-Version: 1.0.0
-Architecture: amd64
-Maintainer: Your Name <you@example.com>
+Package: myapp  
+Version: 1.0.0  
+Architecture: amd64  
+Maintainer: Your Name <you@example.com>  
 Description: My awesome C application
 
 # Build
@@ -405,8 +405,8 @@ Database* db_open(const char *path);
 ```
 MAJOR.MINOR.PATCH (ex: 2.4.1)
 
-MAJOR : Changements incompatibles (breaking changes)
-MINOR : Nouvelles fonctionnalités (backward compatible)
+MAJOR : Changements incompatibles (breaking changes)  
+MINOR : Nouvelles fonctionnalités (backward compatible)  
 PATCH : Bug fixes (backward compatible)
 
 1.2.3 → 1.2.4  (bug fix)
@@ -426,8 +426,8 @@ Brief description
 
 ## Installation
 ```bash
-cmake -B build
-cmake --build build
+cmake -B build  
+cmake --build build  
 sudo cmake --install build
 ```
 
@@ -489,7 +489,7 @@ MIT License
 
 #### 1. **Créez un projet de référence**
 ```bash
-mkdir ~/c-devops-template
+mkdir ~/c-devops-template  
 cd ~/c-devops-template
 
 # Structure complète
@@ -504,12 +504,12 @@ mkdir -p {src,include,tests,.github/workflows}
 
 #### 2. **Itérez progressivement**
 ```
-Jour 1: Tests unitaires avec Check
-Jour 2: GitHub Actions basique (build + test)
-Jour 3: Ajouter sanitizers dans le CI
-Jour 4: Ajouter Valgrind
-Jour 5: Code coverage + Codecov
-Jour 6: Analyse statique
+Jour 1: Tests unitaires avec Check  
+Jour 2: GitHub Actions basique (build + test)  
+Jour 3: Ajouter sanitizers dans le CI  
+Jour 4: Ajouter Valgrind  
+Jour 5: Code coverage + Codecov  
+Jour 6: Analyse statique  
 Jour 7: Artifacts et releases
 ```
 
@@ -531,10 +531,10 @@ Cherchez des projets C qui n'ont pas de CI/CD et proposez d'en ajouter un.
 
 ```bash
 # Créer le workflow
-mkdir -p .github/workflows
-cat > .github/workflows/ci.yml << 'EOF'
-name: CI
-on: [push, pull_request]
+mkdir -p .github/workflows  
+cat > .github/workflows/ci.yml << 'EOF'  
+name: CI  
+on: [push, pull_request]  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -550,8 +550,8 @@ jobs:
       run: ctest --test-dir build
 EOF
 
-git add .github/workflows/ci.yml
-git commit -m "Add GitHub Actions CI"
+git add .github/workflows/ci.yml  
+git commit -m "Add GitHub Actions CI"  
 git push
 ```
 
@@ -708,7 +708,7 @@ doxygen Doxyfile
 
 Ce module transforme votre code C en **produit professionnel**.
 
-**Avant ce module** : Code qui fonctionne sur votre machine
+**Avant ce module** : Code qui fonctionne sur votre machine  
 **Après ce module** : Code testé, automatisé, documenté, déployable
 
 Ces compétences DevOps C sont **extrêmement rares** sur le marché. La plupart des développeurs C ne savent pas :

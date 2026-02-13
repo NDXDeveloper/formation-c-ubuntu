@@ -100,19 +100,19 @@ Ce module est organisé en **trois chapitres profondément interconnectés** :
 
 **Concepts clés :**
 ```c
-int x = 42;
+int x = 42;  
 int *ptr = &x;     // ptr contient l'adresse de x
 *ptr = 100;        // Modifie x via le pointeur
-printf("%p\n", ptr);  // Affiche l'adresse mémoire
+printf("%p\n", (void *)ptr);  // Affiche l'adresse mémoire
 
 // Arithmétique des pointeurs
-int arr[5] = {1, 2, 3, 4, 5};
-int *p = arr;
+int arr[5] = {1, 2, 3, 4, 5};  
+int *p = arr;  
 p++;  // Avance de sizeof(int) bytes, pas de 1 byte !
 
 // Pointeur constant vs constante pointée
-const int *p1;     // Pointeur vers int constant
-int *const p2;     // Pointeur constant vers int
+const int *p1;     // Pointeur vers int constant  
+int *const p2;     // Pointeur constant vers int  
 const int *const p3;  // Les deux
 ```
 
@@ -142,19 +142,19 @@ const int *const p3;  // Les deux
 **Concepts clés :**
 ```c
 // Équivalence tableau-pointeur (avec nuances)
-int arr[5];
-int *ptr = arr;  // arr décroît en pointeur vers son premier élément
+int arr[5];  
+int *ptr = arr;  // arr se dégrade en pointeur vers son premier élément
 
 // Les chaînes sont des tableaux de char terminés par '\0'
-char str[] = "Hello";  // {'H', 'e', 'l', 'l', 'o', '\0'}
-char *s = "World";     // Chaîne littérale (constante !)
+char str[] = "Hello";  // {'H', 'e', 'l', 'l', 'o', '\0'}  
+const char *s = "World";  // Chaîne littérale (constante !)
 
 // Buffer overflow (BUG CRITIQUE)
-char buffer[10];
+char buffer[10];  
 strcpy(buffer, "Cette chaîne est trop longue");  // ❌ CRASH ou corruption
 
 // Version sécurisée
-strncpy(buffer, "Texte", sizeof(buffer) - 1);
+strncpy(buffer, "Texte", sizeof(buffer) - 1);  
 buffer[sizeof(buffer) - 1] = '\0';  // Assure la terminaison
 ```
 
@@ -178,7 +178,7 @@ buffer[sizeof(buffer) - 1] = '\0';  // Assure la terminaison
 **Concepts clés :**
 ```c
 // Allocation sur le tas (heap)
-int *arr = malloc(10 * sizeof(int));
+int *arr = malloc(10 * sizeof(int));  
 if (arr == NULL) {
     // Gestion d'erreur OBLIGATOIRE
     perror("malloc failed");
@@ -197,8 +197,10 @@ arr = NULL;  // Bonne pratique
 // calloc : initialise à zéro
 int *zeros = calloc(10, sizeof(int));
 
-// realloc : redimensionner
-arr = realloc(arr, 20 * sizeof(int));  // Attention : peut changer l'adresse !
+// realloc : redimensionner un tableau existant
+int *data = malloc(10 * sizeof(int));
+int *tmp = realloc(data, 20 * sizeof(int));  // Attention : peut changer l'adresse !
+if (tmp != NULL) data = tmp;  // Ne jamais écrire : data = realloc(data, ...)
 ```
 
 **Comparaison Stack vs Heap :**
@@ -275,8 +277,8 @@ Ce niveau de compréhension est nécessaire pour :
 ### Vérification préalable
 ```bash
 # Assurez-vous d'avoir ces outils
-gcc --version           # GCC 9+
-valgrind --version      # Valgrind 3.15+
+gcc --version           # GCC 9+  
+valgrind --version      # Valgrind 3.15+  
 gdb --version          # GDB 8+
 
 # Testez un programme avec sanitizers
@@ -293,7 +295,7 @@ gcc -fsanitize=address -g programme.c -o programme
 Les pointeurs deviennent clairs quand vous les visualisez. Pour chaque exemple :
 
 ```
-int x = 10;
+int x = 10;  
 int *p = &x;
 *p = 20;
 
@@ -353,8 +355,8 @@ void leak_test() {
 }
 
 // Test 3 : Double free
-int *p = malloc(sizeof(int));
-free(p);
+int *p = malloc(sizeof(int));  
+free(p);  
 free(p);  // ❌ Corruption du tas
 ```
 
@@ -429,7 +431,7 @@ int *p;          // ❌ p contient une adresse aléatoire
 *p = 42;         // ❌ CRASH ou corruption silencieuse
 
 // ✅ Solution
-int *p = NULL;   // Initialiser à NULL
+int *p = NULL;   // Initialiser à NULL  
 if (p != NULL) {
     *p = 42;
 }
@@ -471,28 +473,28 @@ void process_data() {
 ```c
 int *p = malloc(sizeof(int));
 *p = 42;
-free(p);
+free(p);  
 printf("%d\n", *p);  // ❌ Comportement indéfini
 
 // ✅ Solution
-free(p);
+free(p);  
 p = NULL;  // Empêche l'accès accidentel
 ```
 
 ### 🚨 Erreur 5 : Buffer overflow
 ```c
-char buffer[10];
+char buffer[10];  
 strcpy(buffer, "Chaîne trop longue");  // ❌ Écrit au-delà du buffer
 
 // ✅ Solution
-strncpy(buffer, "Texte", sizeof(buffer) - 1);
+strncpy(buffer, "Texte", sizeof(buffer) - 1);  
 buffer[sizeof(buffer) - 1] = '\0';
 ```
 
 ### 🚨 Erreur 6 : Arithmétique de pointeurs incorrecte
 ```c
-int arr[5];
-int *p = arr;
+int arr[5];  
+int *p = arr;  
 p = p + 5;  // p pointe juste après le tableau
 *p = 42;    // ❌ Écrit en dehors du tableau
 

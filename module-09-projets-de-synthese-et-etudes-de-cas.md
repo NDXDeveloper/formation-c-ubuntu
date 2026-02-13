@@ -64,11 +64,11 @@ Lire 8 modules de formation         ≠    Être un ingénieur C compétent
 
 ### Le parcours complet
 
-**Modules 1-2** : Fondamentaux du langage
-**Modules 3-4** : Gestion mémoire et structures de données
-**Module 5** : Outillage DevOps
-**Module 6** : Programmation système Linux
-**Module 7** : Techniques avancées
+**Modules 1-2** : Fondamentaux du langage  
+**Modules 3-4** : Gestion mémoire et structures de données  
+**Module 5** : Outillage DevOps  
+**Module 6** : Programmation système Linux  
+**Module 7** : Techniques avancées  
 **Module 8** : CI/CD et automatisation
 
 **→ Vous avez TOUTES les connaissances**
@@ -91,7 +91,7 @@ Théorie          Outils
  maîtrisée      maîtrisés
 ```
 
-**Sans le Module 9, vous êtes au niveau "Compétent" (ce qui est déjà excellent)**
+**Sans le Module 9, vous êtes au niveau "Compétent" (ce qui est déjà excellent)**  
 **Avec le Module 9, vous atteignez "Expert" (avec preuves tangibles)**
 
 ---
@@ -303,23 +303,23 @@ Vous devez :
 
 **Phase 1 : Analyse (2 semaines)**
 ```
-Semaine 1 : Méthodologie + Analyse Git
-Semaine 2 : Analyse Redis + Nginx
+Semaine 1 : Méthodologie + Analyse Git  
+Semaine 2 : Analyse Redis + Nginx  
 Livrables : Notes détaillées, patterns identifiés
 ```
 
 **Phase 2 : Construction (6-8 semaines)**
 ```
-Semaine 3-4   : Projet 1 (CLI système)
-Semaine 5-6   : Projet 2 (Parser de logs)
-Semaine 7-9   : Projet 3 (Agent monitoring)
-Semaine 10-12 : Projet 4 (Serveur web)
+Semaine 3-4   : Projet 1 (CLI système)  
+Semaine 5-6   : Projet 2 (Parser de logs)  
+Semaine 7-9   : Projet 3 (Agent monitoring)  
+Semaine 10-12 : Projet 4 (Serveur web)  
 Livrables : 4 projets GitHub complets avec CI/CD
 ```
 
 **Phase 3 : Debugging (1-2 semaines)**
 ```
-Semaine 13-14 : Résolution des 5 scénarios
+Semaine 13-14 : Résolution des 5 scénarios  
 Livrables : Méthodologie de debugging maîtrisée
 ```
 
@@ -554,7 +554,7 @@ git commit -m "update"
 # ✅ Bon
 git commit -m "feat: Add JSON output format for stats
 
-Implement JSON serialization of system statistics.
+Implement JSON serialization of system statistics.  
 Adds --json flag to enable JSON output mode.
 
 Closes #12"
