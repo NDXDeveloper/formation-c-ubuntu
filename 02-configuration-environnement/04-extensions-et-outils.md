@@ -89,7 +89,9 @@ Recherchez "Code Runner" dans les extensions (par Jun Han).
     "code-runner.runInTerminal": true,
     "code-runner.clearPreviousOutput": true,
     "code-runner.saveFileBeforeRun": true,
-    "code-runner.customCommand": "gcc -Wall -Wextra -std=c11 $fullFileName -o $fileNameWithoutExt && ./$fileNameWithoutExt"
+    "code-runner.executorMap": {
+        "c": "cd $dir && gcc -Wall -Wextra -std=c17 $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt"
+    }
 }
 ```
 
@@ -98,6 +100,7 @@ Cette configuration :
 - Efface la sortie précédente
 - Sauvegarde automatiquement avant d'exécuter
 - Compile avec les warnings activés (`-Wall -Wextra`)
+- Utilise `executorMap` pour définir la commande spécifique au langage C
 
 ### 4. Error Lens - POUR VOIR LES ERREURS CLAIREMENT
 
@@ -108,11 +111,11 @@ Recherchez "Error Lens" (par Alexander).
 
 **Résultat :** Les erreurs apparaissent en rouge directement dans votre code, plus besoin d'aller chercher dans le panneau de problèmes.
 
-### 5. Bracket Pair Colorizer 2 (ou natif depuis VS Code 1.60) - UTILE
+### 5. Coloration des paires d'accolades (natif) - UTILE
 
 Colore les paires de parenthèses/accolades pour mieux les identifier.
 
-**Note :** Cette fonctionnalité est maintenant intégrée nativement dans VS Code.
+**Note :** Cette fonctionnalité est intégrée nativement dans VS Code depuis la version 1.60. Il n'est pas nécessaire d'installer d'extension tierce.
 
 **Activation :**
 ```json
@@ -567,14 +570,14 @@ sudo apt install clang-format
 
 ```yaml
 ---
-BasedOnStyle: LLVM
-IndentWidth: 4
-ColumnLimit: 80
-UseTab: Never
-BreakBeforeBraces: Linux
-AllowShortIfStatementsOnASingleLine: false
-IndentCaseLabels: true
-PointerAlignment: Right
+BasedOnStyle: LLVM  
+IndentWidth: 4  
+ColumnLimit: 80  
+UseTab: Never  
+BreakBeforeBraces: Linux  
+AllowShortIfStatementsOnASingleLine: false  
+IndentCaseLabels: true  
+PointerAlignment: Right  
 SpaceBeforeParens: ControlStatements
 ```
 
@@ -619,42 +622,42 @@ Configuration de base dans `~/.vimrc` :
 " ===================================
 " GÉNÉRAL
 " ===================================
-set number              " Numéros de ligne
-set relativenumber      " Numéros relatifs
-set ruler               " Position du curseur
-set showcmd             " Affiche les commandes
-set wildmenu            " Menu de complétion
+set number              " Numéros de ligne  
+set relativenumber      " Numéros relatifs  
+set ruler               " Position du curseur  
+set showcmd             " Affiche les commandes  
+set wildmenu            " Menu de complétion  
 set mouse=a             " Support souris
 
 " ===================================
 " INDENTATION
 " ===================================
-set tabstop=4           " Tabulations = 4 espaces
-set shiftwidth=4        " Indentation = 4 espaces
-set expandtab           " Convertir tab en espaces
-set autoindent          " Auto-indentation
+set tabstop=4           " Tabulations = 4 espaces  
+set shiftwidth=4        " Indentation = 4 espaces  
+set expandtab           " Convertir tab en espaces  
+set autoindent          " Auto-indentation  
 set smartindent         " Indentation intelligente
 
 " ===================================
 " RECHERCHE
 " ===================================
-set incsearch           " Recherche incrémentale
-set hlsearch            " Surligne les résultats
-set ignorecase          " Ignore la casse
+set incsearch           " Recherche incrémentale  
+set hlsearch            " Surligne les résultats  
+set ignorecase          " Ignore la casse  
 set smartcase           " Casse intelligente
 
 " ===================================
 " APPARENCE
 " ===================================
-syntax on               " Coloration syntaxique
-colorscheme desert      " Thème
-set background=dark
+syntax on               " Coloration syntaxique  
+colorscheme desert      " Thème  
+set background=dark  
 set cursorline          " Surligne la ligne actuelle
 
 " ===================================
 " FICHIERS
 " ===================================
-set encoding=utf-8
+set encoding=utf-8  
 set fileencoding=utf-8
 
 " ===================================
@@ -761,13 +764,13 @@ Créez un script `compile.sh` à la racine de vos projets :
 # Script de compilation rapide
 
 # Couleurs
-RED='\033[0;31m'
-GREEN='\033[0;32m'
+RED='\033[0;31m'  
+GREEN='\033[0;32m'  
 NC='\033[0m' # No Color
 
 # Paramètres
-SOURCE="$1"
-OUTPUT="${SOURCE%.c}"
+SOURCE="$1"  
+OUTPUT="${SOURCE%.c}"  
 FLAGS="-Wall -Wextra -std=c17 -g"
 
 if [ -z "$SOURCE" ]; then
@@ -775,7 +778,7 @@ if [ -z "$SOURCE" ]; then
     exit 1
 fi
 
-echo "Compilation de $SOURCE..."
+echo "Compilation de $SOURCE..."  
 gcc $FLAGS "$SOURCE" -o "$OUTPUT"
 
 if [ $? -eq 0 ]; then
@@ -803,15 +806,15 @@ Ajoutez dans `~/.bashrc` :
 
 ```bash
 # Alias pour la compilation C
-alias gcc-debug='gcc -Wall -Wextra -g -std=c17'
-alias gcc-release='gcc -Wall -Wextra -O2 -std=c17'
+alias gcc-debug='gcc -Wall -Wextra -g -std=c17'  
+alias gcc-release='gcc -Wall -Wextra -O2 -std=c17'  
 alias gcc-strict='gcc -Wall -Wextra -Werror -pedantic -std=c17'
 
 # Alias pour Valgrind
 alias valgrind-check='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes'
 
-# Alias pour le nettoyage
-alias clean-exe='find . -type f -executable -not -name "*.sh" -delete'
+# Alias pour le nettoyage (limité au répertoire courant, non récursif)
+alias clean-exe='find . -maxdepth 1 -type f -executable -not -name "*.sh" -delete'
 ```
 
 Rechargez :

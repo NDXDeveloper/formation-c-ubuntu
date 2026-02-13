@@ -289,7 +289,7 @@ Dans la section suivante (2.5.1), nous allons découvrir en détail ce qu'est un
 
 Vous découvrirez que derrière ce nom un peu technique se cache un concept simple et élégant qui va transformer votre façon de travailler.
 
-**Passons à la suite : [2.5.1 Qu'est-ce qu'un DevContainer ?](./2.5.1-qu-est-ce-qu-un-devcontainer.md)**
+**Passons à la suite : [2.5.1 Qu'est-ce qu'un DevContainer ?](./05.1-quest-ce-quun-devcontainer.md)**
 
 ---
 

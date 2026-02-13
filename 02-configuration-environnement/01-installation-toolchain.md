@@ -71,8 +71,8 @@ gcc --version
 Vous devriez voir une sortie similaire à :
 
 ```
-gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
-Copyright (C) 2021 Free Software Foundation, Inc.
+gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0  
+Copyright (C) 2021 Free Software Foundation, Inc.  
 This is free software; see the source for copying conditions.
 ```
 
@@ -87,8 +87,8 @@ make --version
 Vous devriez voir :
 
 ```
-GNU Make 4.3
-Built for x86_64-pc-linux-gnu
+GNU Make 4.3  
+Built for x86_64-pc-linux-gnu  
 Copyright (C) 1988-2020 Free Software Foundation, Inc.
 ```
 
@@ -111,6 +111,14 @@ gdb --version
 ## Installation d'outils complémentaires
 
 Bien que `build-essential` soit suffisant pour commencer, voici quelques outils supplémentaires très utiles :
+
+### CMake (build system moderne)
+
+```bash
+sudo apt install cmake
+```
+
+CMake est le build system standard pour les projets C modernes. Nous l'utiliserons intensivement dans le module 5.
 
 ### Valgrind (détection de fuites mémoire)
 
@@ -182,7 +190,7 @@ Créez un fichier nommé `test.c` avec le contenu suivant :
 ```c
 #include <stdio.h>
 
-int main() {
+int main(void) {
     printf("Installation réussie ! GCC fonctionne.\n");
     return 0;
 }

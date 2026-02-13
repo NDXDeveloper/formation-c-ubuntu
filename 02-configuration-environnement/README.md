@@ -152,7 +152,7 @@ Bien que ce tutoriel cible Ubuntu, les concepts s'appliquent à :
 
 Ce tutoriel suppose que vous avez :
 
-- **Ubuntu 20.04 LTS** ou version ultérieure (22.04 LTS recommandé)
+- **Ubuntu 22.04 LTS** ou version ultérieure (24.04 LTS recommandé)
 - Accès à un compte avec droits administrateur (sudo)
 - Une connexion internet pour télécharger les paquets
 
@@ -270,7 +270,7 @@ Ces notes seront précieuses si vous devez reconfigurer votre environnement ou a
         ├── launch.json
         └── c_cpp_properties.json
 
-Projet type avec DevContainer :
+Projet type avec DevContainer :  
 mon-projet/
 ├── .devcontainer/
 │   └── devcontainer.json     # Configuration DevContainer
@@ -314,7 +314,7 @@ Vous serez alors prêt à passer à la section suivante : **La Chaîne de Compil
 
 Ouvrez un terminal sur votre Ubuntu (Ctrl+Alt+T) et passons à l'installation de la toolchain !
 
-**Prochaine étape : [2.1 Installation de la toolchain](./2.1-installation-toolchain.md)**
+**Prochaine étape : [2.1 Installation de la toolchain](./01-installation-toolchain.md)**
 
 ---
 

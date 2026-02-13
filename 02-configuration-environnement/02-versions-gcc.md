@@ -63,8 +63,8 @@ gcc --version
 
 Sortie typique :
 ```
-gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
-Copyright (C) 2021 Free Software Foundation, Inc.
+gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0  
+Copyright (C) 2021 Free Software Foundation, Inc.  
 This is free software; see the source for copying conditions.
 ```
 
@@ -86,11 +86,11 @@ Cette commande affiche :
 
 Exemple de sortie (extrait) :
 ```
-Using built-in specs.
-COLLECT_GCC=gcc
-COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper
-Target: x86_64-linux-gnu
-Thread model: posix
+Using built-in specs.  
+COLLECT_GCC=gcc  
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper  
+Target: x86_64-linux-gnu  
+Thread model: posix  
 gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04)
 ```
 
@@ -125,9 +125,9 @@ apt-cache search gcc | grep "^gcc-[0-9]"
 
 Sortie typique :
 ```
-gcc-9 - GNU C compiler
-gcc-10 - GNU C compiler
-gcc-11 - GNU C compiler
+gcc-9 - GNU C compiler  
+gcc-10 - GNU C compiler  
+gcc-11 - GNU C compiler  
 gcc-12 - GNU C compiler
 ```
 
@@ -136,7 +136,7 @@ gcc-12 - GNU C compiler
 #### Exemple 1 : Installer GCC 12
 
 ```bash
-sudo apt update
+sudo apt update  
 sudo apt install gcc-12 g++-12
 ```
 
@@ -186,7 +186,7 @@ C'est comme un **aiguilleur de gare** : quand vous tapez `gcc` dans le terminal,
 Supposons que vous avez GCC 11 et GCC 12 installés. Enregistrons-les :
 
 ```bash
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110  
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 120
 ```
 
@@ -199,7 +199,7 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 120
 #### Étape 2 : Faire de même pour g++
 
 ```bash
-sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 110
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 110  
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 120
 ```
 
@@ -253,17 +253,17 @@ Cela compilera avec GCC 12, même si la version par défaut est GCC 11.
 
 ### Méthode 2 : Variable d'environnement CC
 
-Vous pouvez définir la variable d'environnement `CC` (C Compiler) :
+Vous pouvez définir la variable d'environnement `CC` (C Compiler), utilisée par les build systems (Make, CMake) :
 
 ```bash
 export CC=gcc-12
-gcc monprogramme.c -o monprogramme
+$CC monprogramme.c -o monprogramme
 ```
 
-Ou en une ligne :
+Ou en une ligne pour un build Make :
 
 ```bash
-CC=gcc-12 gcc monprogramme.c -o monprogramme
+CC=gcc-12 make
 ```
 
 ### Méthode 3 : Alias dans votre shell
@@ -271,7 +271,7 @@ CC=gcc-12 gcc monprogramme.c -o monprogramme
 Ajoutez dans votre `~/.bashrc` :
 
 ```bash
-alias gcc12='gcc-12'
+alias gcc12='gcc-12'  
 alias gcc11='gcc-11'
 ```
 
@@ -352,7 +352,7 @@ Si vous utilisez CMake (nous verrons cela plus tard), vous pouvez spécifier la 
 
 ```cmake
 # Spécifier GCC 12
-set(CMAKE_C_COMPILER gcc-12)
+set(CMAKE_C_COMPILER gcc-12)  
 set(CMAKE_CXX_COMPILER g++-12)
 ```
 
@@ -414,6 +414,8 @@ Pour savoir quelles normes C votre version de GCC supporte bien :
 | GCC 11.x    | ✅  | ✅  | ✅  | ⚠️  |
 | GCC 12.x    | ✅  | ✅  | ✅  | ⚠️  |
 | GCC 13.x    | ✅  | ✅  | ✅  | 🔄  |
+| GCC 14.x    | ✅  | ✅  | ✅  | ⚠️  |
+| GCC 15.x    | ✅  | ✅  | ✅  | ✅  |
 
 **Légende :**
 - ✅ : Support complet et stable
@@ -450,7 +452,7 @@ sudo apt purge gcc-10 g++-10
 **Solution :** Vérifiez quelle version est réellement utilisée :
 
 ```bash
-which gcc
+which gcc  
 gcc --version
 ```
 
@@ -486,7 +488,7 @@ Dans votre README ou documentation de projet, indiquez :
 Ce projet nécessite GCC 11 ou supérieur.
 
 ```bash
-gcc --version  # Doit afficher 11.x ou plus
+gcc --version  # Doit afficher 11.x ou plus  
 gcc -std=c11 -Wall -Wextra main.c -o programme
 ```
 ```
