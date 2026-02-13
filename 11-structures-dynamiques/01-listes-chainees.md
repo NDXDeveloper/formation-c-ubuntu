@@ -356,13 +356,13 @@ typedef struct Node {
 } Node;
 
 // Prototypes des fonctions (voir implémentations ci-dessus)
-Node* create_node(int value);
-void insert_at_beginning(Node** head_ref, int value);
-void insert_at_end(Node** head_ref, int value);
-void print_list(Node* head);
-int search(Node* head, int value);
-void delete_node(Node** head_ref, int value);
-void free_list(Node** head_ref);
+Node* create_node(int value);  
+void insert_at_beginning(Node** head_ref, int value);  
+void insert_at_end(Node** head_ref, int value);  
+void print_list(Node* head);  
+int search(Node* head, int value);  
+void delete_node(Node** head_ref, int value);  
+void free_list(Node** head_ref);  
 
 int main(void) {
     Node* head = NULL;  // Liste vide
@@ -444,14 +444,14 @@ int main(void) {
 
 ❌ **Mauvais** :
 ```c
-Node* new_node = (Node*)malloc(sizeof(Node));
-new_node->data = 10;  // Segfault si malloc a échoué !
+Node* new_node = (Node*)malloc(sizeof(Node));  
+new_node->data = 10;  // Segfault si malloc a échoué !  
 ```
 
 ✅ **Bon** :
 ```c
-Node* new_node = (Node*)malloc(sizeof(Node));
-if (new_node == NULL) {
+Node* new_node = (Node*)malloc(sizeof(Node));  
+if (new_node == NULL) {  
     perror("malloc");
     return;
 }
@@ -489,8 +489,8 @@ previous->next = current->next;
 
 ✅ **Bon** :
 ```c
-previous->next = current->next;
-free(current);  // ✅ Libérer la mémoire
+previous->next = current->next;  
+free(current);  // ✅ Libérer la mémoire  
 ```
 
 ### 4. Déréférencer NULL

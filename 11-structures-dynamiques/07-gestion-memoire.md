@@ -18,17 +18,17 @@ for (int i = 0; i < 1000000; i++) {
 ```
 
 **Conséquences des erreurs de gestion mémoire** :
-- 🔴 **Fuites mémoire** : Votre programme consomme de plus en plus de RAM
-- 💥 **Segmentation faults** : Crashs brutaux du programme
-- 🐛 **Comportements imprévisibles** : Bugs difficiles à reproduire
+- 🔴 **Fuites mémoire** : Votre programme consomme de plus en plus de RAM  
+- 💥 **Segmentation faults** : Crashs brutaux du programme  
+- 🐛 **Comportements imprévisibles** : Bugs difficiles à reproduire  
 - 🔐 **Failles de sécurité** : Vulnérabilités exploitables
 
 ### Le contrat de la mémoire dynamique
 
 **Règle d'or** :
 ```
-Pour chaque malloc() / calloc() / realloc()
-Il DOIT y avoir exactement UN free() correspondant
+Pour chaque malloc() / calloc() / realloc()  
+Il DOIT y avoir exactement UN free() correspondant  
 ```
 
 ---
@@ -51,8 +51,8 @@ void function() {
 }
 ```
 
-**Avantage** : Pas de gestion manuelle
-**Inconvénient** : Taille limitée, durée de vie limitée à la fonction
+**Avantage** : Pas de gestion manuelle  
+**Inconvénient** : Taille limitée, durée de vie limitée à la fonction  
 
 ### Heap (Tas)
 
@@ -70,8 +70,8 @@ void function() {
 }
 ```
 
-**Avantage** : Grande taille, durée de vie contrôlée
-**Inconvénient** : Gestion manuelle nécessaire
+**Avantage** : Grande taille, durée de vie contrôlée  
+**Inconvénient** : Gestion manuelle nécessaire  
 
 ### Représentation visuelle
 
@@ -125,8 +125,8 @@ if (ptr != NULL) {
 #### 3. Libération
 
 ```c
-free(ptr);      // Libère la mémoire
-ptr = NULL;     // Bonne pratique : mettre à NULL après free
+free(ptr);      // Libère la mémoire  
+ptr = NULL;     // Bonne pratique : mettre à NULL après free  
 ```
 
 ### Visualisation du cycle
@@ -182,8 +182,8 @@ Node* create_leak() {
 }
 
 // Utilisation
-Node* temp = create_leak();
-free(temp);  // ⚠️ Libère seulement le premier nœud !
+Node* temp = create_leak();  
+free(temp);  // ⚠️ Libère seulement le premier nœud !  
              // Les nœuds 20 et 30 sont toujours alloués
 ```
 
@@ -205,9 +205,9 @@ void free_list_correctly(Node* head) {
 **Définition** : Appeler `free()` deux fois sur le même pointeur.
 
 ```c
-int* ptr = (int*)malloc(sizeof(int));
-free(ptr);
-free(ptr);  // ⚠️ DOUBLE FREE → Comportement indéfini / crash
+int* ptr = (int*)malloc(sizeof(int));  
+free(ptr);  
+free(ptr);  // ⚠️ DOUBLE FREE → Comportement indéfini / crash  
 ```
 
 **Conséquence** : Corruption de la mémoire, crash du programme.
@@ -215,9 +215,9 @@ free(ptr);  // ⚠️ DOUBLE FREE → Comportement indéfini / crash
 **Prévention** :
 
 ```c
-int* ptr = (int*)malloc(sizeof(int));
-free(ptr);
-ptr = NULL;  // ✅ Mettre à NULL après free
+int* ptr = (int*)malloc(sizeof(int));  
+free(ptr);  
+ptr = NULL;  // ✅ Mettre à NULL après free  
 
 free(ptr);   // ✅ free(NULL) est sûr et ne fait rien
 ```
@@ -258,8 +258,8 @@ ptr → [???] ⚠️ Contenu indéfini
 ```c
 int* ptr = (int*)malloc(sizeof(int));
 *ptr = 42;
-free(ptr);
-ptr = NULL;  // ✅ Empêche l'utilisation accidentelle
+free(ptr);  
+ptr = NULL;  // ✅ Empêche l'utilisation accidentelle  
 
 if (ptr != NULL) {
     *ptr = 100;  // Ne sera jamais exécuté
@@ -273,8 +273,8 @@ if (ptr != NULL) {
 #### Cas 1 : Après free
 
 ```c
-int* ptr1 = (int*)malloc(sizeof(int));
-int* ptr2 = ptr1;  // ptr2 pointe vers la même adresse
+int* ptr1 = (int*)malloc(sizeof(int));  
+int* ptr2 = ptr1;  // ptr2 pointe vers la même adresse  
 
 free(ptr1);
 // ptr2 est maintenant un dangling pointer !
@@ -289,8 +289,8 @@ int* return_local() {
     return &x;   // ⚠️ Retourne l'adresse d'une variable locale !
 }  // x est détruite à la fin de la fonction
 
-int* ptr = return_local();
-printf("%d\n", *ptr);  // ⚠️ Accès à mémoire invalide
+int* ptr = return_local();  
+printf("%d\n", *ptr);  // ⚠️ Accès à mémoire invalide  
 ```
 
 **Correction** :
@@ -302,9 +302,9 @@ int* return_heap() {
     return x;  // OK : la mémoire reste valide
 }
 
-int* ptr = return_heap();
-printf("%d\n", *ptr);
-free(ptr);  // Ne pas oublier de libérer !
+int* ptr = return_heap();  
+printf("%d\n", *ptr);  
+free(ptr);  // Ne pas oublier de libérer !  
 ```
 
 ### 5. Oubli de vérification de malloc
@@ -319,8 +319,8 @@ int* ptr = (int*)malloc(sizeof(int) * 1000000000);  // Énorme allocation
 **Correction** :
 
 ```c
-int* ptr = (int*)malloc(sizeof(int) * 1000000000);
-if (ptr == NULL) {
+int* ptr = (int*)malloc(sizeof(int) * 1000000000);  
+if (ptr == NULL) {  
     fprintf(stderr, "Erreur : allocation mémoire échouée\n");
     return -1;  // ou exit(EXIT_FAILURE);
 }
@@ -343,8 +343,8 @@ ptr = (int*)realloc(ptr, sizeof(int) * 20);
 ```c
 int* ptr = (int*)malloc(sizeof(int) * 10);
 
-int* temp = (int*)realloc(ptr, sizeof(int) * 20);
-if (temp == NULL) {
+int* temp = (int*)realloc(ptr, sizeof(int) * 20);  
+if (temp == NULL) {  
     // realloc a échoué, mais ptr est toujours valide
     free(ptr);  // Libérer l'ancienne allocation
     return -1;
@@ -418,22 +418,32 @@ void free_list_with_keys(Node* head) {
 ### Liste doublement chaînée
 
 ```c
+// Cas simple : données non allouées (int, double, etc.)
 void free_double_list(DoublyNode* head) {
     DoublyNode* current = head;
 
     while (current != NULL) {
         DoublyNode* next = current->next;  // Sauvegarder le suivant
+        free(current);
+        current = next;
+    }
+}
 
-        // Si la donnée est allouée dynamiquement
-        if (current->data != NULL) {
-            free(current->data);
-        }
+// Cas avec données allouées dynamiquement (ex: char* data)
+void free_double_list_with_data(DoublyNode* head) {
+    DoublyNode* current = head;
 
+    while (current != NULL) {
+        DoublyNode* next = current->next;
+
+        free(current->data);   // Libérer la donnée d'abord
         free(current);
         current = next;
     }
 }
 ```
+
+> **Note** : La deuxième version s'applique quand le champ `data` est un pointeur vers de la mémoire allouée dynamiquement (ex: `char*`, `void*`), pas un type scalaire comme `int`.
 
 ### Table de hachage
 
@@ -462,6 +472,7 @@ void free_hash_table(HashTable* table) {
 ### Arbre binaire
 
 ```c
+// Cas simple : données non allouées (int, double, etc.)
 void free_tree(TreeNode* root) {
     if (root == NULL) {
         return;  // Cas de base
@@ -471,14 +482,24 @@ void free_tree(TreeNode* root) {
     free_tree(root->left);   // Libérer sous-arbre gauche
     free_tree(root->right);  // Libérer sous-arbre droit
 
-    // Si la donnée est allouée dynamiquement
-    if (root->data != NULL) {
-        free(root->data);
-    }
-
     free(root);  // Libérer le nœud lui-même
 }
+
+// Cas avec données allouées dynamiquement (ex: char* data, void* data)
+void free_tree_with_data(TreeNode* root) {
+    if (root == NULL) {
+        return;
+    }
+
+    free_tree_with_data(root->left);
+    free_tree_with_data(root->right);
+
+    free(root->data);  // Libérer la donnée d'abord
+    free(root);        // Puis le nœud
+}
 ```
+
+> **Note** : La deuxième version s'applique quand le champ `data` est un pointeur vers de la mémoire allouée dynamiquement, pas un type scalaire comme `int`.
 
 **Pourquoi postfixe ?**
 
@@ -586,8 +607,8 @@ void list_add_takes_ownership(List* list, char* string) {
 }
 
 // Utilisation
-char* str = strdup("Hello");
-list_add_takes_ownership(&list, str);
+char* str = strdup("Hello");  
+list_add_takes_ownership(&list, str);  
 // Ne PAS faire free(str) ici !
 
 // Option B : La fonction fait une copie
@@ -599,9 +620,9 @@ void list_add_makes_copy(List* list, const char* string) {
 }
 
 // Utilisation
-char* str = strdup("Hello");
-list_add_makes_copy(&list, str);
-free(str);  // On peut libérer, la liste a sa propre copie
+char* str = strdup("Hello");  
+list_add_makes_copy(&list, str);  
+free(str);  // On peut libérer, la liste a sa propre copie  
 ```
 
 **Convention** : Documenter clairement l'ownership dans les commentaires.
@@ -654,24 +675,33 @@ void rc_release(RefCounted* rc) {
 ### Pattern 4 : RAII-like avec cleanup attribute (GNU)
 
 ```c
-// Extension GCC : libération automatique
-__attribute__((cleanup(cleanup_file))) FILE* f = fopen("file.txt", "r");
-// À la sortie du scope, cleanup_file(f) est appelé automatiquement
+// Extension GCC : libération automatique à la sortie du scope
 
+// 1. Définir la fonction de nettoyage (reçoit un pointeur vers la variable)
 void cleanup_file(FILE** fp) {
     if (*fp != NULL) {
         fclose(*fp);
     }
 }
 
-// Même principe pour malloc
-__attribute__((cleanup(cleanup_ptr))) char* str = malloc(100);
-
-void cleanup_ptr(void* ptr) {
-    void** p = ptr;
-    free(*p);
+void cleanup_ptr(void** ptr) {
+    free(*ptr);
+    *ptr = NULL;
 }
+
+// 2. Utilisation : cleanup_file(&f) est appelé automatiquement en fin de scope
+{
+    __attribute__((cleanup(cleanup_file))) FILE* f = fopen("file.txt", "r");
+    // ... utilisation de f ...
+}  // cleanup_file(&f) appelé automatiquement ici
+
+{
+    __attribute__((cleanup(cleanup_ptr))) char* str = malloc(100);
+    // ... utilisation de str ...
+}  // cleanup_ptr(&str) appelé automatiquement ici
 ```
+
+> **Note** : Cette fonctionnalité est une **extension GCC/Clang**, pas du C standard.
 
 ---
 
@@ -782,8 +812,8 @@ cppcheck --enable=all program.c
 
 ```c
 ✅ BON
-int* ptr = (int*)malloc(sizeof(int) * n);
-if (ptr == NULL) {
+int* ptr = (int*)malloc(sizeof(int) * n);  
+if (ptr == NULL) {  
     fprintf(stderr, "Erreur allocation\n");
     return -1;
 }
@@ -793,8 +823,8 @@ if (ptr == NULL) {
 
 ```c
 ✅ BON
-free(ptr);
-ptr = NULL;  // Évite les double free et use after free
+free(ptr);  
+ptr = NULL;  // Évite les double free et use after free  
 ```
 
 ### 3. Libérer dans l'ordre inverse de l'allocation
@@ -802,14 +832,14 @@ ptr = NULL;  // Évite les double free et use after free
 ```c
 ✅ BON
 // Allocation
-Database* db = malloc(...);
-db->users = malloc(...);
-db->cache = malloc(...);
+Database* db = malloc(...);  
+db->users = malloc(...);  
+db->cache = malloc(...);  
 
 // Libération (ordre inverse)
-free(db->cache);
-free(db->users);
-free(db);
+free(db->cache);  
+free(db->users);  
+free(db);  
 ```
 
 ### 4. Utiliser sizeof avec le type, pas la taille
@@ -902,8 +932,8 @@ void safe_free(void** ptr) {
 }
 
 // Utilisation
-int* array = safe_malloc(sizeof(int) * 100);
-safe_free((void**)&array);  // array devient NULL automatiquement
+int* array = safe_malloc(sizeof(int) * 100);  
+safe_free((void**)&array);  // array devient NULL automatiquement  
 ```
 
 ---
@@ -953,6 +983,7 @@ cppcheck --enable=all program.c
 ### Exemple 1 : Gestion correcte d'une liste
 
 ```c
+#define _POSIX_C_SOURCE 200809L  // Pour strdup()
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1016,8 +1047,8 @@ int main(void) {
 
 **Test avec Valgrind** :
 ```bash
-gcc -g program.c -o program
-valgrind --leak-check=full ./program
+gcc -g program.c -o program  
+valgrind --leak-check=full ./program  
 ```
 
 **Résultat attendu** :
@@ -1028,6 +1059,11 @@ All heap blocks were freed -- no leaks are possible
 ### Exemple 2 : Table de hachage avec libération correcte
 
 ```c
+#define _POSIX_C_SOURCE 200809L  // Pour strdup()
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 typedef struct HashNode {
     char* key;
     int value;
@@ -1038,6 +1074,15 @@ typedef struct HashTable {
     HashNode* buckets[10];
 } HashTable;
 
+unsigned int hash(const char* key) {
+    unsigned long h = 5381;
+    int c;
+    while ((c = *key++)) {
+        h = ((h << 5) + h) + (unsigned long)c;
+    }
+    return h % 10;
+}
+
 void init_hash_table(HashTable* table) {
     for (int i = 0; i < 10; i++) {
         table->buckets[i] = NULL;
@@ -1045,7 +1090,7 @@ void init_hash_table(HashTable* table) {
 }
 
 void insert(HashTable* table, const char* key, int value) {
-    int index = hash(key) % 10;
+    unsigned int index = hash(key);
 
     HashNode* node = malloc(sizeof(HashNode));
     if (node == NULL) {
@@ -1108,18 +1153,18 @@ int main(void) {
 
 ### Erreurs à éviter
 
-- ❌ Fuites mémoire (oubli de free)
-- ❌ Double free
-- ❌ Use after free
-- ❌ Dangling pointers
-- ❌ Oubli de vérification de malloc
+- ❌ Fuites mémoire (oubli de free)  
+- ❌ Double free  
+- ❌ Use after free  
+- ❌ Dangling pointers  
+- ❌ Oubli de vérification de malloc  
 - ❌ Mauvais ordre de libération
 
 ### Outils indispensables
 
-- ✅ **Valgrind** : détection complète des problèmes
-- ✅ **AddressSanitizer** : détection rapide en temps réel
-- ✅ **Static analyzers** : cppcheck, clang-tidy
+- ✅ **Valgrind** : détection complète des problèmes  
+- ✅ **AddressSanitizer** : détection rapide en temps réel  
+- ✅ **Static analyzers** : cppcheck, clang-tidy  
 - ✅ **Flags de compilation** : `-Wall -Wextra -g`
 
 ### Commandes essentielles
@@ -1157,8 +1202,8 @@ cppcheck --enable=all program.c
 Implémentez un détecteur de fuites mémoire simple en wrappant malloc/free :
 
 ```c
-void* tracked_malloc(size_t size, const char* file, int line);
-void tracked_free(void* ptr, const char* file, int line);
+void* tracked_malloc(size_t size, const char* file, int line);  
+void tracked_free(void* ptr, const char* file, int line);  
 
 #define malloc(size) tracked_malloc(size, __FILE__, __LINE__)
 #define free(ptr) tracked_free(ptr, __FILE__, __LINE__)

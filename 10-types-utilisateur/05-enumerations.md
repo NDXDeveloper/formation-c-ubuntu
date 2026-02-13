@@ -83,8 +83,8 @@ int main() {
 
 **Sortie** :
 ```
-Aujourd'hui est le jour numéro : 2
-C'est mercredi !
+Aujourd'hui est le jour numéro : 2  
+C'est mercredi !  
 ```
 
 ---
@@ -106,6 +106,8 @@ enum CouleursRGB {
 ### Mélanger valeurs automatiques et explicites
 
 ```c
+#include <stdio.h>
+
 enum Exemple {
     A,        // 0 (automatique)
     B,        // 1 (automatique)
@@ -236,8 +238,8 @@ enum Couleur couleur = ROUGE;
 #define STATUS_OK 0
 #define STATUS_ERROR 1
 
-int status = STATUS_OK;
-status = 42;  // ✅ Compile, mais incorrect !
+int status = STATUS_OK;  
+status = 42;  // ✅ Compile, mais incorrect !  
 
 // Avec enum
 enum Status {
@@ -245,8 +247,8 @@ enum Status {
     STATUS_ERROR
 };
 
-enum Status status = STATUS_OK;
-status = 42;  // ⚠️ Warning du compilateur (avec -Wall)
+enum Status status = STATUS_OK;  
+status = 42;  // ⚠️ Compile sans erreur ni warning en C (enum = int)
 ```
 
 ---
@@ -339,10 +341,10 @@ int main() {
 
 **Sortie** :
 ```
-Transition : DECONNECTE → CONNEXION_EN_COURS
-Transition : CONNEXION_EN_COURS → CONNECTE
-Transition : CONNECTE → DECONNEXION_EN_COURS
-Transition : DECONNEXION_EN_COURS → DECONNECTE
+Transition : DECONNECTE → CONNEXION_EN_COURS  
+Transition : CONNEXION_EN_COURS → CONNECTE  
+Transition : CONNECTE → DECONNEXION_EN_COURS  
+Transition : DECONNEXION_EN_COURS → DECONNECTE  
 ```
 
 ### 3. Jours de la semaine
@@ -395,6 +397,8 @@ int main() {
 ### 4. Options de configuration
 
 ```c
+#include <stdio.h>
+
 enum Options {
     OPTION_VERBOSE      = 0x01,  // Bit 0
     OPTION_DEBUG        = 0x02,  // Bit 1
@@ -430,9 +434,9 @@ int main() {
 
 **Sortie** :
 ```
-Mode verbose activé
-Mode debug activé
-Couleurs désactivées
+Mode verbose activé  
+Mode debug activé  
+Couleurs désactivées  
 ```
 
 ### 5. Priorités de tâches
@@ -534,8 +538,8 @@ enum FtpStatus {
 enum Status { OK, ERROR };
 
 // ✅ Bon : descriptif
-enum NetworkStatus { NETWORK_OK, NETWORK_ERROR };
-enum FileStatus { FILE_OK, FILE_ERROR };
+enum NetworkStatus { NETWORK_OK, NETWORK_ERROR };  
+enum FileStatus { FILE_OK, FILE_ERROR };  
 ```
 
 ---
@@ -578,8 +582,8 @@ typedef enum Couleur {
 } Couleur;
 
 // Les deux syntaxes fonctionnent :
-enum Couleur c1 = ROUGE;
-Couleur c2 = VERT;
+enum Couleur c1 = ROUGE;  
+Couleur c2 = VERT;  
 ```
 
 ---
@@ -700,8 +704,8 @@ enum Couleur {
     BLEU
 };
 
-enum Couleur c = ROUGE;
-c = 42;  // ⚠️ Compile, mais incorrect !
+enum Couleur c = ROUGE;  
+c = 42;  // ⚠️ Compile, mais incorrect !  
 
 // Le compilateur peut avertir avec -Wall -Wconversion
 ```
@@ -709,22 +713,22 @@ c = 42;  // ⚠️ Compile, mais incorrect !
 ### 2. Pas de vérification automatique de type strict
 
 ```c
-enum Animal { CHAT, CHIEN };
-enum Vehicule { VOITURE, VELO };
+enum Animal { CHAT, CHIEN };  
+enum Vehicule { VOITURE, VELO };  
 
-enum Animal a = CHAT;
-enum Vehicule v = a;  // ⚠️ Compile sans erreur (tous deux sont des int)
+enum Animal a = CHAT;  
+enum Vehicule v = a;  // ⚠️ Compile sans erreur (tous deux sont des int)  
 ```
 
 ### 3. Portée globale des constantes
 
 ```c
-enum Etat1 { ACTIF, INACTIF };
-enum Etat2 { ACTIF, SUSPENDU };  // ❌ Erreur : ACTIF déjà défini
+enum Etat1 { ACTIF, INACTIF };  
+enum Etat2 { ACTIF, SUSPENDU };  // ❌ Erreur : ACTIF déjà défini  
 
 // Solution : utiliser des préfixes
-enum Etat1 { ETAT1_ACTIF, ETAT1_INACTIF };
-enum Etat2 { ETAT2_ACTIF, ETAT2_SUSPENDU };
+enum Etat1 { ETAT1_ACTIF, ETAT1_INACTIF };  
+enum Etat2 { ETAT2_ACTIF, ETAT2_SUSPENDU };  
 ```
 
 ### 4. Taille de stockage
@@ -1013,8 +1017,8 @@ typedef enum {
 } TypeNom;
 
 // Utilisation
-enum Nom variable = CONSTANTE1;
-TypeNom autre = VALEUR1;
+enum Nom variable = CONSTANTE1;  
+TypeNom autre = VALEUR1;  
 
 // Avec switch
 switch (variable) {
@@ -1033,8 +1037,8 @@ switch (variable) {
 
 ```c
 // ❌ Mauvais : nombres magiques
-int status = 0;  // Que signifie 0 ?
-if (status == 2) { /* ... */ }
+int status = 0;  // Que signifie 0 ?  
+if (status == 2) { /* ... */ }  
 
 // ✅ Bon : enum explicite
 enum Status {
@@ -1043,8 +1047,8 @@ enum Status {
     STATUS_ERREUR
 };
 
-enum Status status = STATUS_OK;
-if (status == STATUS_ERREUR) { /* ... */ }
+enum Status status = STATUS_OK;  
+if (status == STATUS_ERREUR) { /* ... */ }  
 
 // Convention de nommage recommandée
 enum HttpStatus {

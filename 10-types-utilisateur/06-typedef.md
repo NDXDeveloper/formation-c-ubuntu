@@ -16,9 +16,9 @@ struct Point {
     int y;
 };
 
-struct Point p1;
-struct Point p2;
-struct Point p3;  // Répétitif...
+struct Point p1;  
+struct Point p2;  
+struct Point p3;  // Répétitif...  
 ```
 
 ### Après typedef
@@ -29,9 +29,9 @@ typedef struct Point {
     int y;
 } Point;
 
-Point p1;  // ✅ Beaucoup plus simple !
-Point p2;
-Point p3;
+Point p1;  // ✅ Beaucoup plus simple !  
+Point p2;  
+Point p3;  
 ```
 
 ---
@@ -76,10 +76,10 @@ String nom = "Alice";  // Équivalent à : char* nom = "Alice";
 ```c
 #include <stdio.h>
 
-typedef unsigned char Octet;        // 0 à 255
-typedef unsigned short Mot;         // 0 à 65535
-typedef unsigned int Entier32;      // 0 à 2^32-1
-typedef unsigned long long U64;     // 0 à 2^64-1
+typedef unsigned char Octet;        // 0 à 255  
+typedef unsigned short Mot;         // 0 à 65535  
+typedef unsigned int Entier32;      // 0 à 2^32-1  
+typedef unsigned long long U64;     // 0 à 2^64-1  
 
 int main() {
     Octet age = 25;
@@ -99,11 +99,11 @@ int main() {
 ### Types flottants
 
 ```c
-typedef float Reel32;
-typedef double Reel64;
+typedef float Reel32;  
+typedef double Reel64;  
 
-Reel32 temperature = 23.5f;
-Reel64 pi = 3.14159265358979323846;
+Reel32 temperature = 23.5f;  
+Reel64 pi = 3.14159265358979323846;  
 ```
 
 ### Améliorer la lisibilité du code
@@ -113,8 +113,8 @@ Reel64 pi = 3.14159265358979323846;
 unsigned long long taille_fichier = 1024000;
 
 // Avec typedef : intention claire
-typedef unsigned long long TailleFichier;
-TailleFichier taille_fichier = 1024000;
+typedef unsigned long long TailleFichier;  
+TailleFichier taille_fichier = 1024000;  
 ```
 
 ---
@@ -144,8 +144,8 @@ typedef struct Point {
 } Point;
 
 // Les deux syntaxes fonctionnent :
-struct Point p1 = {10, 20};
-Point p2 = {30, 40};  // Plus simple !
+struct Point p1 = {10, 20};  
+Point p2 = {30, 40};  // Plus simple !  
 ```
 
 ### Méthode 3 : struct anonyme avec typedef
@@ -266,8 +266,8 @@ typedef union {
     char c;
 } Valeur;
 
-Valeur v;
-v.i = 42;
+Valeur v;  
+v.i = 42;  
 ```
 
 ### Exemple : Tagged union
@@ -328,9 +328,9 @@ int main() {
 ```c
 typedef int* PointeurInt;
 
-PointeurInt p;
-int x = 42;
-p = &x;
+PointeurInt p;  
+int x = 42;  
+p = &x;  
 
 printf("%d\n", *p);  // 42
 ```
@@ -389,8 +389,8 @@ int additionner(int a, int b) {
 }
 
 // Utilisation
-operation = &additionner;
-int resultat = operation(5, 3);
+operation = &additionner;  
+int resultat = operation(5, 3);  
 ```
 
 ### La solution : typedef
@@ -406,8 +406,8 @@ int additionner(int a, int b) {
     return a + b;
 }
 
-op = additionner;  // Pas besoin de &
-int resultat = op(5, 3);
+op = additionner;  // Pas besoin de &  
+int resultat = op(5, 3);  
 ```
 
 ### Exemple complet : Calculatrice
@@ -527,8 +527,8 @@ Matrice3x3 identite = {
 ```c
 typedef char Chaine50[50];
 
-Chaine50 nom = "Alice";
-Chaine50 prenom = "Dupont";
+Chaine50 nom = "Alice";  
+Chaine50 prenom = "Dupont";  
 
 printf("%s %s\n", nom, prenom);
 ```
@@ -553,9 +553,9 @@ printf("%s %s\n", nom, prenom);
 // typedef unsigned long long uint64_t;
 
 // Utilisation
-uint8_t octet = 255;
-int32_t entier = -2147483648;
-uint64_t grand = 18446744073709551615ULL;
+uint8_t octet = 255;  
+int32_t entier = -2147483648;  
+uint64_t grand = 18446744073709551615ULL;  
 ```
 
 ### 2. Types opaques (information hiding)
@@ -564,9 +564,9 @@ uint64_t grand = 18446744073709551615ULL;
 // fichier: list.h
 typedef struct List List;  // Déclaration forward
 
-List* list_create(void);
-void list_destroy(List *list);
-void list_add(List *list, int value);
+List* list_create(void);  
+void list_destroy(List *list);  
+void list_add(List *list, int value);  
 
 // fichier: list.c
 struct List {
@@ -616,8 +616,8 @@ int main() {
 
 **Sortie** :
 ```
-Valeurs : 1 2 3 4 5
-Doublés : 2 4 6 8 10
+Valeurs : 1 2 3 4 5  
+Doublés : 2 4 6 8 10  
 ```
 
 ### 4. Types génériques (avec void*)
@@ -625,6 +625,7 @@ Doublés : 2 4 6 8 10
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef int (*CompareFn)(const void*, const void*);
 
@@ -687,8 +688,8 @@ int main() {
 #include <stdint.h>
 
 // Types de base
-typedef uint8_t Octet;
-typedef uint32_t U32;
+typedef uint8_t Octet;  
+typedef uint32_t U32;  
 
 // Structures
 typedef struct {
@@ -704,8 +705,8 @@ typedef enum {
 } Etat;
 
 // Pointeurs de fonctions
-typedef int (*CompareFn)(const void*, const void*);
-typedef void (*CallbackFn)(void*);
+typedef int (*CompareFn)(const void*, const void*);  
+typedef void (*CallbackFn)(void*);  
 
 #endif
 ```
@@ -738,12 +739,12 @@ int main() {
 
 ```c
 // ❌ Mauvais : peu clair
-typedef int i;
-typedef struct { int x, y; } p;
+typedef int i;  
+typedef struct { int x, y; } p;  
 
 // ✅ Bon : descriptif
-typedef int Compteur;
-typedef struct { int x, y; } Point;
+typedef int Compteur;  
+typedef struct { int x, y; } Point;  
 ```
 
 ### 2. Convention de nommage
@@ -752,12 +753,12 @@ Plusieurs conventions existent :
 
 ```c
 // Style 1 : PascalCase (recommandé)
-typedef struct Point Point;
-typedef enum Couleur Couleur;
+typedef struct Point Point;  
+typedef enum Couleur Couleur;  
 
 // Style 2 : snake_case avec suffixe _t
-typedef struct point point_t;
-typedef enum couleur couleur_t;
+typedef struct point point_t;  
+typedef enum couleur couleur_t;  
 
 // Style 3 : MAJUSCULES (pour constantes uniquement)
 #define MAX_SIZE 100
@@ -769,8 +770,8 @@ typedef enum couleur couleur_t;
 
 ```c
 // ❌ Mauvais : cache le type réel
-typedef int* IntPtr;
-IntPtr p;  // On ne voit pas que c'est un pointeur
+typedef int* IntPtr;  
+IntPtr p;  // On ne voit pas que c'est un pointeur  
 
 // ✅ Bon : le * est explicite
 int *p;
@@ -819,14 +820,14 @@ typedef int (*CompareFn)(const void *a, const void *b);
 #include <inttypes.h>
 
 // Ces types ont la même taille sur toutes les plateformes
-typedef uint8_t  U8;   // Toujours 8 bits
-typedef uint16_t U16;  // Toujours 16 bits
-typedef uint32_t U32;  // Toujours 32 bits
-typedef uint64_t U64;  // Toujours 64 bits
+typedef uint8_t  U8;   // Toujours 8 bits  
+typedef uint16_t U16;  // Toujours 16 bits  
+typedef uint32_t U32;  // Toujours 32 bits  
+typedef uint64_t U64;  // Toujours 64 bits  
 
 // Utilisation
-U32 valeur = 0x12345678;
-printf("Valeur : %" PRIx32 "\n", valeur);
+U32 valeur = 0x12345678;  
+printf("Valeur : %" PRIx32 "\n", valeur);  
 ```
 
 ### Types dépendants de la plateforme
@@ -856,8 +857,8 @@ struct Node {
     Node *suivant;
 };
 
-typedef void (*VisitFn)(Node*);
-typedef int (*PredicatFn)(Node*);
+typedef void (*VisitFn)(Node*);  
+typedef int (*PredicatFn)(Node*);  
 
 void parcourir(Node *tete, VisitFn visit) {
     while (tete != NULL) {
@@ -1091,9 +1092,9 @@ enum Couleur {
     ROUGE, VERT, BLEU
 };
 
-struct Point p1;
-enum Couleur c1;
-int (*operation)(int, int);
+struct Point p1;  
+enum Couleur c1;  
+int (*operation)(int, int);  
 
 // ✅ Avec typedef : concis et lisible
 typedef struct {
@@ -1106,9 +1107,9 @@ typedef enum {
 
 typedef int (*Operation)(int, int);
 
-Point p1;
-Couleur c1;
-Operation operation;
+Point p1;  
+Couleur c1;  
+Operation operation;  
 ```
 
 **Règle d'or** : Utilisez typedef pour améliorer la lisibilité, mais ne masquez pas la nature des types (sauf pour les pointeurs de fonctions où c'est nécessaire).

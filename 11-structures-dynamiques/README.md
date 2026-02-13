@@ -33,10 +33,10 @@ Contact contacts[1000];  // Combien prévoir ? 100 ? 1000 ? 10000 ?
 
 **Avec une structure dynamique** :
 ```c
-ContactList* contacts = create_list();  // Commence vide
-add_contact(contacts, alice);           // Grandit automatiquement
-add_contact(contacts, bob);
-add_contact(contacts, charlie);
+ContactList* contacts = create_list();  // Commence vide  
+add_contact(contacts, alice);           // Grandit automatiquement  
+add_contact(contacts, bob);  
+add_contact(contacts, charlie);  
 // ... autant de contacts que nécessaire
 ```
 
@@ -46,8 +46,8 @@ Une imprimante reçoit des documents à imprimer.
 
 **Avec un tableau** :
 ```c
-Document queue[50];
-int front = 0, rear = 0;
+Document queue[50];  
+int front = 0, rear = 0;  
 
 // Que faire quand la file est pleine mais qu'on a imprimé la moitié ?
 // Les emplacements du début sont "perdus"
@@ -55,9 +55,9 @@ int front = 0, rear = 0;
 
 **Avec une structure dynamique** :
 ```c
-Queue* print_queue = create_queue();
-enqueue(print_queue, doc1);  // Ajoute à la fin
-Document* next = dequeue(print_queue);  // Retire du début
+Queue* print_queue = create_queue();  
+enqueue(print_queue, doc1);  // Ajoute à la fin  
+Document* next = dequeue(print_queue);  // Retire du début  
 // La mémoire s'ajuste automatiquement
 ```
 
@@ -129,8 +129,8 @@ Avant d'aborder les structures dynamiques, assurez-vous de maîtriser :
 ### 1. Les pointeurs
 
 ```c
-int* ptr;                    // Déclaration
-ptr = &variable;             // Adresse
+int* ptr;                    // Déclaration  
+ptr = &variable;             // Adresse  
 *ptr = 10;                   // Déréférencement
 ptr->membre;                 // Accès membre via pointeur
 ```
@@ -140,13 +140,13 @@ ptr->membre;                 // Accès membre via pointeur
 ### 2. L'allocation dynamique
 
 ```c
-int* array = (int*)malloc(sizeof(int) * 10);  // Allocation
-if (array == NULL) {
+int* array = (int*)malloc(sizeof(int) * 10);  // Allocation  
+if (array == NULL) {  
     // Gérer l'erreur
 }
 // ... utilisation ...
-free(array);  // Libération
-array = NULL;
+free(array);  // Libération  
+array = NULL;  
 ```
 
 **Pourquoi ?** Chaque élément d'une structure dynamique est alloué sur le tas (heap).
@@ -222,8 +222,8 @@ push(10) → push(20) → push(30)
 **Files (FIFO)** : Premier entré, premier sorti (comme une file d'attente)
 
 ```
-enqueue(10) → enqueue(20) → enqueue(30)
-Front → [10] [20] [30] ← Rear
+enqueue(10) → enqueue(20) → enqueue(30)  
+Front → [10] [20] [30] ← Rear  
 ```
 
 **Cas d'usage** :
@@ -378,12 +378,12 @@ Le chapitre est organisé selon une **difficulté croissante** :
 
 Après avoir complété ce chapitre, vous serez capable de :
 
-- ✅ **Implémenter** les 7 structures de données principales
-- ✅ **Analyser** la complexité des opérations (O(1), O(n), O(log n))
-- ✅ **Choisir** la structure adaptée à un problème donné
-- ✅ **Gérer** correctement la mémoire dynamique sans fuites
-- ✅ **Déboguer** les problèmes mémoire avec Valgrind
-- ✅ **Comparer** les avantages/inconvénients de chaque structure
+- ✅ **Implémenter** les 7 structures de données principales  
+- ✅ **Analyser** la complexité des opérations (O(1), O(n), O(log n))  
+- ✅ **Choisir** la structure adaptée à un problème donné  
+- ✅ **Gérer** correctement la mémoire dynamique sans fuites  
+- ✅ **Déboguer** les problèmes mémoire avec Valgrind  
+- ✅ **Comparer** les avantages/inconvénients de chaque structure  
 - ✅ **Résoudre** des problèmes algorithmiques classiques
 
 ---
@@ -514,9 +514,9 @@ Chaque section de ce chapitre suivra cette structure :
 
 Les structures de données dynamiques sont au cœur de la programmation moderne. Elles vous permettront de :
 
-🎯 Résoudre des problèmes complexes élégamment
-🚀 Écrire du code plus flexible et maintenable
-💡 Comprendre le fonctionnement interne de bibliothèques et frameworks
+🎯 Résoudre des problèmes complexes élégamment  
+🚀 Écrire du code plus flexible et maintenable  
+💡 Comprendre le fonctionnement interne de bibliothèques et frameworks  
 🔧 Optimiser les performances de vos applications
 
 **La route sera parfois difficile**, surtout au début avec les pointeurs et la gestion mémoire. Mais une fois ces concepts maîtrisés, vous aurez franchi un cap majeur dans votre apprentissage du C.

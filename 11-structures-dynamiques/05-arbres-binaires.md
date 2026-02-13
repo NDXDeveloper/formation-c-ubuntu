@@ -196,12 +196,12 @@ Résultat :
 ```c
 TreeNode* root = NULL;  // Arbre vide
 
-root = insert(root, 50);
-root = insert(root, 30);
-root = insert(root, 70);
-root = insert(root, 20);
-root = insert(root, 40);
-root = insert(root, 80);
+root = insert(root, 50);  
+root = insert(root, 30);  
+root = insert(root, 70);  
+root = insert(root, 20);  
+root = insert(root, 40);  
+root = insert(root, 80);  
 ```
 
 ### 3. Recherche dans un BST
@@ -243,8 +243,8 @@ TreeNode* search_iterative(TreeNode* root, int value) {
 
 **Utilisation** :
 ```c
-TreeNode* found = search(root, 40);
-if (found != NULL) {
+TreeNode* found = search(root, 40);  
+if (found != NULL) {  
     printf("Valeur %d trouvée\n", found->data);
 } else {
     printf("Valeur non trouvée\n");
@@ -297,8 +297,8 @@ TreeNode* find_max(TreeNode* root) {
    /          \
 [20]         [80]
 
-Minimum : 20 (le plus à gauche)
-Maximum : 80 (le plus à droite)
+Minimum : 20 (le plus à gauche)  
+Maximum : 80 (le plus à droite)  
 ```
 
 ---
@@ -515,8 +515,8 @@ Supprimer 30 (un seul enfant : 20)
    /  \      \             /  \
 [20] [40]   [80]        [20] [40]
 
-Supprimer 50 (deux enfants)
-Remplacer par 70 (successeur = min du sous-arbre droit)
+Supprimer 50 (deux enfants)  
+Remplacer par 70 (successeur = min du sous-arbre droit)  
 ```
 
 ### Implémentation complète
@@ -854,16 +854,16 @@ int main(void) {
 Arbre créé avec 7 nœuds
 
 === Parcours ===
-Préfixe  : 50 30 20 10 40 70 80
-Infixe   : 10 20 30 40 50 70 80
-Postfixe : 10 20 40 30 80 70 50
-Largeur  : 50 30 70 20 40 80 10
+Préfixe  : 50 30 20 10 40 70 80  
+Infixe   : 10 20 30 40 50 70 80  
+Postfixe : 10 20 40 30 80 70 50  
+Largeur  : 50 30 70 20 40 80 10  
 
 === Propriétés ===
-Hauteur : 3
-Nombre de nœuds : 7
-Nombre de feuilles : 3
-Est un BST valide ? Oui
+Hauteur : 3  
+Nombre de nœuds : 7  
+Nombre de feuilles : 3  
+Est un BST valide ? Oui  
 
 ...
 ```
@@ -918,10 +918,10 @@ Est un BST valide ? Oui
 | **BST (équilibré)** | O(log n) | O(log n) | O(log n) | ✅ | O(n) |
 
 **Quand utiliser un BST ?**
-- ✅ Besoin d'ordre trié (min, max, successeur)
-- ✅ Recherche dichotomique efficace
-- ✅ Parcours dans l'ordre
-- ❌ Si accès constant nécessaire (→ table de hachage)
+- ✅ Besoin d'ordre trié (min, max, successeur)  
+- ✅ Recherche dichotomique efficace  
+- ✅ Parcours dans l'ordre  
+- ❌ Si accès constant nécessaire (→ table de hachage)  
 - ❌ Si insertions/suppressions fréquentes au milieu (→ liste)
 
 ---
@@ -932,10 +932,10 @@ Est un BST valide ? Oui
 
 ```c
 // Stocker des mots dans l'ordre alphabétique
-TreeNode* dictionary = NULL;
-dictionary = insert(dictionary, hash("apple"));
-dictionary = insert(dictionary, hash("banana"));
-dictionary = insert(dictionary, hash("cherry"));
+TreeNode* dictionary = NULL;  
+dictionary = insert(dictionary, hash("apple"));  
+dictionary = insert(dictionary, hash("banana"));  
+dictionary = insert(dictionary, hash("cherry"));  
 
 // Afficher dans l'ordre alphabétique
 inorder(dictionary);  // apple, banana, cherry

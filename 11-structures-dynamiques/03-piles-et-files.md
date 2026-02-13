@@ -200,16 +200,16 @@ int main(void) {
 
 **Sortie** :
 ```
-Push : 10
-Push : 20
-Push : 30
-Pile (sommet → base) : 30 20 10
-Sommet : 30
-Pop : 30
-Pop : 20
-Pile (sommet → base) : 10
-Push : 40
-Pile (sommet → base) : 40 10
+Push : 10  
+Push : 20  
+Push : 30  
+Pile (sommet → base) : 30 20 10  
+Sommet : 30  
+Pop : 30  
+Pop : 20  
+Pile (sommet → base) : 10  
+Push : 40  
+Pile (sommet → base) : 40 10  
 ```
 
 ---
@@ -368,8 +368,8 @@ int main(void) {
 
 #### 2. Évaluation d'expressions postfixes (Notation Polonaise Inversée)
 
-Expression **infixe** : `3 + 4`
-Expression **postfixe** : `3 4 +`
+Expression **infixe** : `3 + 4`  
+Expression **postfixe** : `3 4 +`  
 
 ```c
 int evaluate_postfix(const char* expression) {
@@ -958,10 +958,10 @@ typedef struct Deque {
 } Deque;
 
 // Opérations possibles :
-void push_front(Deque* dq, int value);   // Ajouter au début
-void push_back(Deque* dq, int value);    // Ajouter à la fin
-int pop_front(Deque* dq);                // Retirer du début
-int pop_back(Deque* dq);                 // Retirer de la fin
+void push_front(Deque* dq, int value);   // Ajouter au début  
+void push_back(Deque* dq, int value);    // Ajouter à la fin  
+int pop_front(Deque* dq);                // Retirer du début  
+int pop_back(Deque* dq);                 // Retirer de la fin  
 ```
 
 **Implémentation idéale** : Liste doublement chaînée

@@ -29,15 +29,15 @@ Dans cette section, nous allons explorer :
 **Format :** Mots séparés par des underscores (`_`), tout en minuscules.
 
 ```c
-int user_count;
-void calculate_total_price(void);
-struct database_connection;
+int user_count;  
+void calculate_total_price(void);  
+struct database_connection;  
 ```
 
 **Avantages :**
-- ✅ Très lisible
-- ✅ Convention standard en C
-- ✅ Utilisé dans la bibliothèque standard C (`printf`, `strlen`, etc.)
+- ✅ Très lisible  
+- ✅ Convention standard en C  
+- ✅ Utilisé dans la bibliothèque standard C (`printf`, `strlen`, etc.)  
 - ✅ Fonctionne bien avec les noms longs
 
 **Utilisé pour :** Variables, fonctions, noms de fichiers, structures
@@ -47,8 +47,8 @@ struct database_connection;
 **Format :** Première lettre en minuscule, majuscule pour chaque nouveau mot.
 
 ```c
-int userCount;
-void calculateTotalPrice(void);
+int userCount;  
+void calculateTotalPrice(void);  
 ```
 
 **Usage en C :** Peu courant, plus typique du Java/JavaScript.
@@ -60,8 +60,8 @@ void calculateTotalPrice(void);
 **Format :** Première lettre de chaque mot en majuscule.
 
 ```c
-int UserCount;
-void CalculateTotalPrice(void);
+int UserCount;  
+void CalculateTotalPrice(void);  
 ```
 
 **Usage en C :** Parfois utilisé pour les types (`typedef`).
@@ -96,8 +96,8 @@ int user-count;  // ERREUR de compilation
 **Usage en C :** **Uniquement** pour les noms de fichiers.
 
 ```
-my-project-config.h  ✅ (nom de fichier)
-my_project_config.h  ✅ (plus courant)
+my-project-config.h  ✅ (nom de fichier)  
+my_project_config.h  ✅ (plus courant)  
 ```
 
 ---
@@ -115,24 +115,24 @@ my_project_config.h  ✅ (plus courant)
 
 ```c
 // ✅ Bon
-int user_count = 0;
-double total_price = 0.0;
-char* file_path = NULL;
-size_t buffer_size = 1024;
+int user_count = 0;  
+double total_price = 0.0;  
+char* file_path = NULL;  
+size_t buffer_size = 1024;  
 
 // ❌ Mauvais
-int uc;              // Trop court, pas clair
-int usrCnt;          // Abréviation
-int theUserCount;    // Article inutile
-int user_count_var;  // Suffixe redondant
+int uc;              // Trop court, pas clair  
+int usrCnt;          // Abréviation  
+int theUserCount;    // Article inutile  
+int user_count_var;  // Suffixe redondant  
 ```
 
 **Variables de boucle :**
 
 ```c
 // ✅ Acceptable pour les boucles courtes
-for (int i = 0; i < 10; i++) { }
-for (size_t j = 0; j < array_size; j++) { }
+for (int i = 0; i < 10; i++) { }  
+for (size_t j = 0; j < array_size; j++) { }  
 
 // ✅ Meilleur pour les boucles complexes
 for (size_t user_index = 0; user_index < user_count; user_index++) { }
@@ -146,9 +146,9 @@ for (size_t user_index = 0; user_index < user_count; user_index++) { }
 
 ```c
 // globals.c
-int g_debug_level = 0;
-char* g_config_path = "/etc/myapp/config";
-bool g_is_running = false;
+int g_debug_level = 0;  
+char* g_config_path = "/etc/myapp/config";  
+bool g_is_running = false;  
 
 // Ou avec préfixe "global_"
 int global_debug_level = 0;
@@ -158,8 +158,8 @@ int global_debug_level = 0;
 
 ```c
 // Pour le projet "myapp"
-int myapp_debug_level = 0;
-int myapp_connection_count = 0;
+int myapp_debug_level = 0;  
+int myapp_connection_count = 0;  
 ```
 
 **Important :** Limitez l'usage des variables globales au strict minimum !
@@ -185,12 +185,12 @@ Deux écoles :
 
 ```c
 // Style 1 : Comme une variable normale
-const int max_users = 100;
-const double pi = 3.14159265359;
+const int max_users = 100;  
+const double pi = 3.14159265359;  
 
 // Style 2 : Comme une macro (plus courant en C)
-const int MAX_USERS = 100;
-const double PI = 3.14159265359;
+const int MAX_USERS = 100;  
+const double PI = 3.14159265359;  
 ```
 
 **Recommandation :** Préférez les constantes `const` aux macros `#define` quand c'est possible (type-safe).
@@ -203,16 +203,16 @@ const double PI = 3.14159265359;
 
 ```c
 // Module "user"
-void user_create(const char* name);
-void user_destroy(User* user);
-bool user_is_valid(const User* user);
-const char* user_get_name(const User* user);
-void user_set_email(User* user, const char* email);
+void user_create(const char* name);  
+void user_destroy(User* user);  
+bool user_is_valid(const User* user);  
+const char* user_get_name(const User* user);  
+void user_set_email(User* user, const char* email);  
 
 // Module "database"
-int database_connect(const char* host);
-void database_disconnect(void);
-bool database_execute_query(const char* query);
+int database_connect(const char* host);  
+void database_disconnect(void);  
+bool database_execute_query(const char* query);  
 ```
 
 **Verbes courants :**
@@ -228,8 +228,8 @@ bool database_execute_query(const char* query);
 
 ```c
 // Pas de préfixe nécessaire si la fonction est static
-static void helper_function(void) { }
-static int calculate_checksum(const uint8_t* data, size_t len) { }
+static void helper_function(void) { }  
+static int calculate_checksum(const uint8_t* data, size_t len) { }  
 
 // Ou avec préfixe underscore (certains projets)
 static void _internal_helper(void) { }
@@ -328,15 +328,15 @@ Status result = STATUS_OK;
 Sans préfixe, risque de collision :
 
 ```c
-enum status { OK, ERROR };      // OK et ERROR
-enum result { OK, FAILED };     // ❌ Conflit : OK déjà défini !
+enum status { OK, ERROR };      // OK et ERROR  
+enum result { OK, FAILED };     // ❌ Conflit : OK déjà défini !  
 ```
 
 Avec préfixe :
 
 ```c
-enum status { STATUS_OK, STATUS_ERROR };
-enum result { RESULT_OK, RESULT_FAILED };  // ✅ Pas de conflit
+enum status { STATUS_OK, STATUS_ERROR };  
+enum result { RESULT_OK, RESULT_FAILED };  // ✅ Pas de conflit  
 ```
 
 ### Types personnalisés (`typedef`)
@@ -345,23 +345,23 @@ enum result { RESULT_OK, RESULT_FAILED };  // ✅ Pas de conflit
 
 ```c
 // Style 1 : PascalCase (courant)
-typedef unsigned char Byte;
-typedef int (*CallbackFunction)(void* data);
+typedef unsigned char Byte;  
+typedef int (*CallbackFunction)(void* data);  
 
 // Style 2 : snake_case avec suffixe _t
-typedef unsigned char byte_t;
-typedef int (*callback_function_t)(void* data);
+typedef unsigned char byte_t;  
+typedef int (*callback_function_t)(void* data);  
 
 // Style 3 : snake_case sans suffixe
-typedef unsigned char byte;
-typedef int (*callback_function)(void* data);
+typedef unsigned char byte;  
+typedef int (*callback_function)(void* data);  
 ```
 
 **Recommandation standard C :** Évitez le suffixe `_t` (réservé POSIX). Utilisez plutôt un suffixe personnalisé :
 
 ```c
-typedef struct config config_s;    // Suffixe _s pour struct
-typedef void (*cleanup_fn)(void*); // Suffixe _fn pour fonction
+typedef struct config config_s;    // Suffixe _s pour struct  
+typedef void (*cleanup_fn)(void*); // Suffixe _fn pour fonction  
 ```
 
 ### Pointeurs de fonction
@@ -370,9 +370,9 @@ typedef void (*cleanup_fn)(void*); // Suffixe _fn pour fonction
 
 ```c
 // ✅ Bon
-typedef int (*compare_fn)(const void* a, const void* b);
-typedef void (*callback_func)(int event_id, void* user_data);
-typedef void (*cleanup_fn)(void* resource);
+typedef int (*compare_fn)(const void* a, const void* b);  
+typedef void (*callback_func)(int event_id, void* user_data);  
+typedef void (*cleanup_fn)(void* resource);  
 
 // Usage
 compare_fn my_comparator = &my_compare_function;
@@ -387,8 +387,8 @@ compare_fn my_comparator = &my_compare_function;
 void process_user(const char* user_name, int user_age, bool is_admin);
 
 // ❌ Mauvais
-void process_user(const char* n, int a, bool ia);  // Trop court
-void process_user(const char*, int, bool);         // Sans noms (acceptable dans les déclarations)
+void process_user(const char* n, int a, bool ia);  // Trop court  
+void process_user(const char*, int, bool);         // Sans noms (acceptable dans les déclarations)  
 ```
 
 **Déclarations vs définitions :**
@@ -409,9 +409,9 @@ void process_user(const char* user_name, int user_age, bool is_admin) {
 
 ```c
 // ✅ Bon
-user_manager.c / user_manager.h
-database_connector.c / database_connector.h
-config_parser.c / config_parser.h
+user_manager.c / user_manager.h  
+database_connector.c / database_connector.h  
+config_parser.c / config_parser.h  
 
 // Ou (moins courant)
 user-manager.c / user-manager.h
@@ -420,8 +420,8 @@ user-manager.c / user-manager.h
 **Correspondance `.c` ↔ `.h` :**
 
 ```c
-user_manager.c  ↔  user_manager.h
-network.c       ↔  network.h
+user_manager.c  ↔  user_manager.h  
+network.c       ↔  network.h  
 ```
 
 **Recommandation :** Utilisez le même nom de base pour le `.c` et le `.h`.
@@ -486,8 +486,8 @@ int main(void) {
 - Indentation : 2 espaces
 
 ```c
-int
-main (void)
+int  
+main (void)  
 {
   int x = 10;
 
@@ -626,8 +626,8 @@ int main(void)
 
 ```ini
 [*.c]
-indent_style = space
-indent_size = 4
+indent_style = space  
+indent_size = 4  
 ```
 
 ### Espacement
@@ -636,40 +636,40 @@ indent_size = 4
 
 ```c
 // ✅ Bon
-int x = a + b;
-int y = x * 2;
-bool result = (x > 0) && (y < 100);
+int x = a + b;  
+int y = x * 2;  
+bool result = (x > 0) && (y < 100);  
 
 // ❌ Mauvais
-int x=a+b;
-int y = x*2;
-bool result=(x>0)&&(y<100);
+int x=a+b;  
+int y = x*2;  
+bool result=(x>0)&&(y<100);  
 ```
 
 **Après les virgules :**
 
 ```c
 // ✅ Bon
-printf("%d, %d, %d\n", a, b, c);
-int array[] = {1, 2, 3, 4, 5};
+printf("%d, %d, %d\n", a, b, c);  
+int array[] = {1, 2, 3, 4, 5};  
 
 // ❌ Mauvais
-printf("%d,%d,%d\n",a,b,c);
-int array[] = {1,2,3,4,5};
+printf("%d,%d,%d\n",a,b,c);  
+int array[] = {1,2,3,4,5};  
 ```
 
 **Autour des parenthèses :**
 
 ```c
 // ✅ Bon
-if (condition) { }
-for (int i = 0; i < 10; i++) { }
-void function(int x, int y);
+if (condition) { }  
+for (int i = 0; i < 10; i++) { }  
+void function(int x, int y);  
 
 // ❌ Mauvais
-if( condition ){ }
-for( int i=0;i<10;i++ ){ }
-void function (int x,int y);
+if( condition ){ }  
+for( int i=0;i<10;i++ ){ }  
+void function (int x,int y);  
 ```
 
 **Pointeur : position de `*` :**
@@ -678,16 +678,16 @@ Trois conventions :
 
 ```c
 // Style 1 : Proche du type (recommandé)
-int* ptr;
-char* str;
+int* ptr;  
+char* str;  
 
 // Style 2 : Proche du nom
-int *ptr;
-char *str;
+int *ptr;  
+char *str;  
 
 // Style 3 : Centré
-int * ptr;
-char * str;
+int * ptr;  
+char * str;  
 ```
 
 **Piège avec style 1 :**
@@ -696,8 +696,8 @@ char * str;
 int* a, b;  // a est un pointeur, b est un int ! (pas un pointeur)
 
 // Plus clair :
-int* a;
-int b;
+int* a;  
+int b;  
 
 // Ou style 2 :
 int *a, *b;  // Les deux sont des pointeurs
@@ -794,8 +794,8 @@ void function2(void)
 }
 
 // ❌ Mauvais : trop compact
-void function1(void){int x=10;int y=20;x=x+y;printf("Sum: %d\n",x);y=x*2;printf("Double: %d\n",y);}
-void function2(void){/*...*/}
+void function1(void){int x=10;int y=20;x=x+y;printf("Sum: %d\n",x);y=x*2;printf("Double: %d\n",y);}  
+void function2(void){/*...*/}  
 ```
 
 ---
@@ -962,15 +962,15 @@ Result find_user(int user_id, User** out_user);
 
 ```c
 // ✅ Bon : paramètres en lecture seule
-int calculate_length(const char* str);
-void print_array(const int* array, size_t size);
+int calculate_length(const char* str);  
+void print_array(const int* array, size_t size);  
 
 // ✅ Bon : valeurs de retour constantes
 const char* get_version(void);
 
 // ✅ Bon : variables locales constantes
-const double pi = 3.14159265359;
-const int max_users = 100;
+const double pi = 3.14159265359;  
+const int max_users = 100;  
 ```
 
 ### Valeurs booléennes
@@ -1005,15 +1005,15 @@ typedef int bool;  // Ou utiliser int directement
 
 ```c
 // ✅ Bon
-int* ptr = NULL;
-int value = 0;
+int* ptr = NULL;  
+int value = 0;  
 
-if (ptr == NULL) { }
-if (value == 0) { }
+if (ptr == NULL) { }  
+if (value == 0) { }  
 
 // ❌ Confus (mais valide)
-int* ptr = 0;
-if (ptr == 0) { }
+int* ptr = 0;  
+if (ptr == 0) { }  
 ```
 
 ### Taille des types
@@ -1024,13 +1024,13 @@ if (ptr == 0) { }
 #include <stdint.h>
 
 // ✅ Bon : tailles explicites
-int32_t counter;         // Exactement 32 bits
-uint64_t timestamp;      // Non-signé 64 bits
-size_t buffer_size;      // Taille mémoire (typedef standard)
+int32_t counter;         // Exactement 32 bits  
+uint64_t timestamp;      // Non-signé 64 bits  
+size_t buffer_size;      // Taille mémoire (typedef standard)  
 
 // ❌ Moins portable
-int counter;             // Taille dépend de la plateforme (16/32/64 bits)
-unsigned long timestamp; // Peut être 32 ou 64 bits
+int counter;             // Généralement 32 bits, mais 16 bits sur certaines plateformes embarquées  
+unsigned long timestamp; // Peut être 32 ou 64 bits  
 ```
 
 ---
@@ -1061,11 +1061,11 @@ clang-format mon_fichier.c | diff mon_fichier.c -
 
 ```yaml
 ---
-BasedOnStyle: LLVM
-IndentWidth: 4
-ColumnLimit: 100
-PointerAlignment: Left
-BreakBeforeBraces: Attach
+BasedOnStyle: LLVM  
+IndentWidth: 4  
+ColumnLimit: 100  
+PointerAlignment: Left  
+BreakBeforeBraces: Attach  
 ```
 
 **Styles prédéfinis :**
@@ -1172,15 +1172,15 @@ int calculate_capped_sum(int x, int y)
 **❌ Mauvais :**
 
 ```c
-struct u{char n[50];int a;};
-void p(struct u *x){
-printf("%s %d\n",x->n,x->a);
+struct u{char n[50];int a;};  
+void p(struct u *x){  
+printf("%s %d\n",x->n,x->a);  
 }
-int main(){
-struct u usr;
-strcpy(usr.n,"John");usr.a=25;
-p(&usr);
-return 0;}
+int main(){  
+struct u usr;  
+strcpy(usr.n,"John");usr.a=25;  
+p(&usr);  
+return 0;}  
 ```
 
 **✅ Bon :**
@@ -1231,7 +1231,10 @@ int main(void)
 
 ```c
 #define max(a,b) a>b?a:b
-int x=max(5+2,3);  // Erreur : évalue 5+2>3?5+2:3 = 5+2 = 7 (incorrect!)
+
+int x = 2 * max(3, 5);
+// Erreur : évalue 2*3>5?3:5 → (2*3)>5 ? 3 : 5 → 6>5 ? 3 : 5 → 3
+// Résultat attendu : 2 * 5 = 10, résultat obtenu : 3 !
 ```
 
 **✅ Bon :**
@@ -1239,7 +1242,8 @@ int x=max(5+2,3);  // Erreur : évalue 5+2>3?5+2:3 = 5+2 = 7 (incorrect!)
 ```c
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
-int x = MAX(5 + 2, 3);  // Correct : ((5+2) > (3) ? (5+2) : (3)) = 7
+int x = 2 * MAX(3, 5);
+// Correct : 2 * ((3) > (5) ? (3) : (5)) → 2 * 5 → 10
 ```
 
 **Encore mieux :** Fonction inline (C99+)
@@ -1304,8 +1308,8 @@ int do_something(void)
 ### GNU (GCC, Emacs)
 
 ```c
-int
-do_something (void)
+int  
+do_something (void)  
 {
   int result = 0;
 

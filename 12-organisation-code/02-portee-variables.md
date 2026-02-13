@@ -92,8 +92,8 @@ int main(void) {
 #### Déclaration C89/C90 (ancienne norme)
 
 ```c
-int i;
-for (i = 0; i < 10; i++) {
+int i;  
+for (i = 0; i < 10; i++) {  
     printf("%d ", i);
 }
 printf("i après la boucle : %d\n", i);  // i vaut 10
@@ -138,9 +138,9 @@ int main(void) {
 
 **Sortie :**
 ```
-x externe : 10
-x interne : 20
-x externe après : 10
+x externe : 10  
+x interne : 20  
+x externe après : 10  
 ```
 
 **Explication :** Le `x` interne **masque** le `x` externe temporairement. Une fois le bloc fermé, l'ancien `x` redevient accessible.
@@ -173,8 +173,8 @@ int main(void) {
 Les **labels** (utilisés avec `goto`) ont une portée de fonction :
 
 ```c
-void exemple(void) {
-debut:  // Label visible dans toute la fonction
+void exemple(void) {  
+debut:  // Label visible dans toute la fonction  
     // ...
     if (condition) {
         goto debut;  // ✅ Accessible
@@ -224,8 +224,8 @@ void afficher(void) {
 #### Fichier `main.c`
 
 ```c
-void incrementer(void);  // Prototype
-void afficher(void);
+void incrementer(void);  // Prototype  
+void afficher(void);  
 
 int main(void) {
     incrementer();  // Affiche : Compteur dans module1 : 1
@@ -239,8 +239,8 @@ int main(void) {
 ```
 
 **Avantages de `static` :**
-- ✅ **Encapsulation** : Les données internes d'un module restent privées
-- ✅ **Pas de conflits de noms** : Deux fichiers peuvent avoir des variables `static` de même nom sans problème
+- ✅ **Encapsulation** : Les données internes d'un module restent privées  
+- ✅ **Pas de conflits de noms** : Deux fichiers peuvent avoir des variables `static` de même nom sans problème  
 - ✅ **Sécurité** : Limite l'accès aux données
 
 **Analogie :** C'est comme des variables "privées" dans un langage orienté objet.
@@ -300,8 +300,8 @@ void incrementer_global(void) {
 ```c
 #include <stdio.h>
 
-extern int compteur_global;  // Déclaration : "cette variable existe ailleurs"
-void incrementer_global(void);
+extern int compteur_global;  // Déclaration : "cette variable existe ailleurs"  
+void incrementer_global(void);  
 
 int main(void) {
     printf("Compteur initial : %d\n", compteur_global);  // 0
@@ -322,9 +322,9 @@ gcc globals.c main.c -o programme
 
 **Sortie :**
 ```
-Compteur initial : 0
-Compteur après : 1
-Compteur modifié : 100
+Compteur initial : 0  
+Compteur après : 1  
+Compteur modifié : 100  
 ```
 
 ### Le mot-clé `extern`
@@ -340,8 +340,8 @@ Le mot-clé `extern` indique au compilateur : *"Cette variable est définie dans
 #ifndef CONFIG_H
 #define CONFIG_H
 
-extern int niveau_debug;  // Déclaration
-extern const char* nom_application;
+extern int niveau_debug;  // Déclaration  
+extern const char* nom_application;  
 
 #endif
 ```
@@ -350,8 +350,8 @@ extern const char* nom_application;
 ```c
 #include "config.h"
 
-int niveau_debug = 1;  // Définition (une seule fois)
-const char* nom_application = "MonApp";
+int niveau_debug = 1;  // Définition (une seule fois)  
+const char* nom_application = "MonApp";  
 ```
 
 **Fichier `main.c`** :
@@ -488,8 +488,8 @@ void test(void) {
 **Initialisées automatiquement à zéro** si non spécifié :
 
 ```c
-int global;           // Vaut 0
-static int fichier;   // Vaut 0
+int global;           // Vaut 0  
+static int fichier;   // Vaut 0  
 
 int main(void) {
     static int locale_statique;  // Vaut 0
@@ -502,8 +502,8 @@ int main(void) {
 **Avec initialisation explicite :**
 
 ```c
-int global = 100;
-static int fichier = 200;
+int global = 100;  
+static int fichier = 200;  
 
 int main(void) {
     static int locale_statique = 300;
@@ -593,10 +593,10 @@ void afficher(void) {
 **Fichier `main.c`** :
 ```c
 // Prototypes des fonctions publiques
-void incrementer(void);
-void decrementer(void);
-int obtenir_valeur(void);
-void afficher(void);
+void incrementer(void);  
+void decrementer(void);  
+int obtenir_valeur(void);  
+void afficher(void);  
 
 int main(void) {
     afficher();              // Compteur : 0
@@ -625,9 +625,9 @@ int main(void) {
 #define CONFIG_H
 
 // Déclarations (extern)
-extern int port_serveur;
-extern const char* nom_serveur;
-extern int mode_debug;
+extern int port_serveur;  
+extern const char* nom_serveur;  
+extern int mode_debug;  
 
 #endif
 ```
@@ -637,9 +637,9 @@ extern int mode_debug;
 #include "config.h"
 
 // Définitions (une seule fois)
-int port_serveur = 8080;
-const char* nom_serveur = "MonServeur";
-int mode_debug = 0;
+int port_serveur = 8080;  
+const char* nom_serveur = "MonServeur";  
+int mode_debug = 0;  
 ```
 
 **Fichier `serveur.c`** :
@@ -675,8 +675,8 @@ gcc config.c serveur.c main.c -o programme
 
 **Sortie :**
 ```
-Démarrage de MonServeur sur le port 8080
-Mode debug activé
+Démarrage de MonServeur sur le port 8080  
+Mode debug activé  
 ```
 
 ---
@@ -742,9 +742,9 @@ void api_publique(void) {  // Fonction publique
 - Ressources singleton (connexions, logs)
 
 **Problèmes des variables globales :**
-- ❌ Dépendances cachées entre modules
-- ❌ Difficiles à tester
-- ❌ Risque de modification accidentelle
+- ❌ Dépendances cachées entre modules  
+- ❌ Difficiles à tester  
+- ❌ Risque de modification accidentelle  
 - ❌ Problèmes de concurrence (threads)
 
 **Alternative recommandée :** Passer des pointeurs/structures explicitement plutôt que d'utiliser des globales.
@@ -753,12 +753,12 @@ void api_publique(void) {  // Fonction publique
 // ❌ Mauvais : variable globale
 int compteur = 0;
 
-void fonction1(void) { compteur++; }
-void fonction2(void) { compteur += 2; }
+void fonction1(void) { compteur++; }  
+void fonction2(void) { compteur += 2; }  
 
 // ✅ Meilleur : passage explicite
-void fonction1(int* compteur) { (*compteur)++; }
-void fonction2(int* compteur) { (*compteur) += 2; }
+void fonction1(int* compteur) { (*compteur)++; }  
+void fonction2(int* compteur) { (*compteur) += 2; }  
 
 int main(void) {
     int compteur = 0;

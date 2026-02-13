@@ -77,10 +77,10 @@ int main() {
 
 **Sortie** :
 ```
-Taille : 4 octet(s)
-flag1 : 1
-flag2 : 0
-flag3 : 1
+Taille : 4 octet(s)  
+flag1 : 1  
+flag2 : 0  
+flag3 : 1  
 ```
 
 ---
@@ -219,9 +219,9 @@ int main() {
 
 **Sortie** :
 ```
-Taille : 4 octet(s)
-Options actives : Gras Italique
-Options actives : Gras Italique Souligné
+Taille : 4 octet(s)  
+Options actives : Gras Italique  
+Options actives : Gras Italique Souligné  
 ```
 
 ### 2. Registres de périphériques matériels
@@ -248,7 +248,6 @@ void configurer_capteur(struct CapteurRegistre *reg) {
 
 ```c
 #include <stdio.h>
-#include <stdint.h>
 
 // En-tête TCP simplifié
 struct TCPFlags {
@@ -305,12 +304,12 @@ struct Pixel565 {
     unsigned int vert  : 6;  // 6 bits : 0-63
     unsigned int bleu  : 5;  // 5 bits : 0-31
 };
-// Total : 16 bits (2 octets) au lieu de 24 bits (3 octets)
+// 16 bits de données utiles (mais sizeof = 4 car type unsigned int)
 
 int main() {
     struct Pixel565 pixel = {31, 63, 31};  // Blanc (valeurs max)
 
-    printf("Taille : %zu octets\n", sizeof(struct Pixel565));
+    printf("Taille : %zu octets\n", sizeof(struct Pixel565));  // 4
     printf("Rouge : %u, Vert : %u, Bleu : %u\n",
            pixel.rouge, pixel.vert, pixel.bleu);
 
@@ -506,8 +505,8 @@ L'accès aux bit-fields peut être **plus lent** que l'accès à des octets comp
 unsigned char permissions = 0;
 
 // Activer un flag
-permissions |= FLAG_LECTURE;
-permissions |= FLAG_ECRITURE;
+permissions |= FLAG_LECTURE;  
+permissions |= FLAG_ECRITURE;  
 
 // Vérifier un flag
 if (permissions & FLAG_LECTURE) {
@@ -528,8 +527,8 @@ struct {
 } permissions = {0};
 
 // Activer un flag
-permissions.lecture = 1;
-permissions.ecriture = 1;
+permissions.lecture = 1;  
+permissions.ecriture = 1;  
 
 // Vérifier un flag
 if (permissions.lecture) {
@@ -613,27 +612,27 @@ int main() {
 **Sortie** :
 ```
 === CONFIGURATION SYSTÈME ===
-Verbose       : Non
-Debug         : Non
-Couleur       : Oui
-Niveau log    : 3
-Threads       : 4
-Cache         : Actif
-Compression   : Rapide
-Protocole     : v2
-Taille config : 4 octets
+Verbose       : Non  
+Debug         : Non  
+Couleur       : Oui  
+Niveau log    : 3  
+Threads       : 4  
+Cache         : Actif  
+Compression   : Rapide  
+Protocole     : v2  
+Taille config : 4 octets  
 
 === Activation mode debug ===
 === CONFIGURATION SYSTÈME ===
-Verbose       : Oui
-Debug         : Oui
-Couleur       : Oui
-Niveau log    : 7
-Threads       : 4
-Cache         : Actif
-Compression   : Rapide
-Protocole     : v2
-Taille config : 4 octets
+Verbose       : Oui  
+Debug         : Oui  
+Couleur       : Oui  
+Niveau log    : 7  
+Threads       : 4  
+Cache         : Actif  
+Compression   : Rapide  
+Protocole     : v2  
+Taille config : 4 octets  
 ```
 
 ---
@@ -766,10 +765,10 @@ struct NonPortable {
 #define BIT_1 (1 << 1)
 #define BIT_2 (1 << 2)
 
-unsigned char flags = 0;
-flags |= BIT_0;              // Activer bit 0
-if (flags & BIT_1) { }       // Tester bit 1
-flags &= ~BIT_2;             // Désactiver bit 2
+unsigned char flags = 0;  
+flags |= BIT_0;              // Activer bit 0  
+if (flags & BIT_1) { }       // Tester bit 1  
+flags &= ~BIT_2;             // Désactiver bit 2  
 ```
 
 ### Option 2 : Fonctions d'accès
@@ -831,10 +830,10 @@ struct Flags {
 };
 
 // Utilisation
-struct Flags f = {0};
-f.actif = 1;
-f.mode = 2;
-f.niveau = 10;
+struct Flags f = {0};  
+f.actif = 1;  
+f.mode = 2;  
+f.niveau = 10;  
 
 // Vérification
 if (f.actif) {

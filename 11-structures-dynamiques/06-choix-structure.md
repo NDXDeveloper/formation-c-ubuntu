@@ -34,10 +34,10 @@ int arr[100];  // Tableau statique de 100 entiers
 ```
 
 **Caractéristiques** :
-- ✅ Accès direct par index en O(1)
-- ✅ Cache-friendly (mémoire contiguë)
-- ✅ Simple à utiliser
-- ❌ Taille fixe
+- ✅ Accès direct par index en O(1)  
+- ✅ Cache-friendly (mémoire contiguë)  
+- ✅ Simple à utiliser  
+- ❌ Taille fixe  
 - ❌ Insertion/suppression coûteuses (décalages)
 
 ### 2. Listes chaînées simples
@@ -52,11 +52,11 @@ typedef struct Node {
 ```
 
 **Caractéristiques** :
-- ✅ Taille dynamique
-- ✅ Insertion/suppression au début en O(1)
-- ✅ Pas de réallocation nécessaire
-- ❌ Accès séquentiel uniquement O(n)
-- ❌ Overhead mémoire (pointeurs)
+- ✅ Taille dynamique  
+- ✅ Insertion/suppression au début en O(1)  
+- ✅ Pas de réallocation nécessaire  
+- ❌ Accès séquentiel uniquement O(n)  
+- ❌ Overhead mémoire (pointeurs)  
 - ❌ Pas cache-friendly
 
 ### 3. Listes doublement chaînées
@@ -72,10 +72,10 @@ typedef struct Node {
 ```
 
 **Caractéristiques** :
-- ✅ Navigation bidirectionnelle
-- ✅ Suppression en O(1) si on a le nœud
-- ✅ Insertion avant/après un nœud en O(1)
-- ❌ Overhead mémoire double (2 pointeurs)
+- ✅ Navigation bidirectionnelle  
+- ✅ Suppression en O(1) si on a le nœud  
+- ✅ Insertion avant/après un nœud en O(1)  
+- ❌ Overhead mémoire double (2 pointeurs)  
 - ❌ Plus complexe à gérer
 
 ### 4. Piles (LIFO)
@@ -83,14 +83,14 @@ typedef struct Node {
 **Description** : Accès restreint, dernier entré = premier sorti.
 
 ```c
-push(10);   // Ajouter
-pop();      // Retirer le dernier
+push(10);   // Ajouter  
+pop();      // Retirer le dernier  
 ```
 
 **Caractéristiques** :
-- ✅ Opérations en O(1)
-- ✅ Parfait pour l'ordre inversé
-- ✅ Simple et efficace
+- ✅ Opérations en O(1)  
+- ✅ Parfait pour l'ordre inversé  
+- ✅ Simple et efficace  
 - ❌ Accès limité (seulement le sommet)
 
 ### 5. Files (FIFO)
@@ -98,14 +98,14 @@ pop();      // Retirer le dernier
 **Description** : Accès restreint, premier entré = premier sorti.
 
 ```c
-enqueue(10);   // Ajouter à la fin
-dequeue();     // Retirer du début
+enqueue(10);   // Ajouter à la fin  
+dequeue();     // Retirer du début  
 ```
 
 **Caractéristiques** :
-- ✅ Opérations en O(1)
-- ✅ Ordre naturel préservé
-- ✅ Idéal pour les files d'attente
+- ✅ Opérations en O(1)  
+- ✅ Ordre naturel préservé  
+- ✅ Idéal pour les files d'attente  
 - ❌ Accès limité (début et fin seulement)
 
 ### 6. Tables de hachage
@@ -113,16 +113,16 @@ dequeue();     // Retirer du début
 **Description** : Paires clé-valeur avec accès ultra-rapide.
 
 ```c
-hash_table_insert(&table, "Alice", 12345);
-hash_table_search(&table, "Alice", &value);
+hash_table_insert(&table, "Alice", 12345);  
+hash_table_search(&table, "Alice", &value);  
 ```
 
 **Caractéristiques** :
-- ✅ Recherche/insertion/suppression en O(1) moyen
-- ✅ Très flexible (tout type de clé)
-- ✅ Idéal pour les dictionnaires
-- ❌ Pas d'ordre
-- ❌ Overhead mémoire
+- ✅ Recherche/insertion/suppression en O(1) moyen  
+- ✅ Très flexible (tout type de clé)  
+- ✅ Idéal pour les dictionnaires  
+- ❌ Pas d'ordre  
+- ❌ Overhead mémoire  
 - ❌ Performances dépendent de la fonction de hachage
 
 ### 7. Arbres binaires de recherche (BST)
@@ -130,15 +130,15 @@ hash_table_search(&table, "Alice", &value);
 **Description** : Structure hiérarchique avec propriété d'ordre.
 
 ```c
-root = insert(root, 50);
-found = search(root, 30);
+root = insert(root, 50);  
+found = search(root, 30);  
 ```
 
 **Caractéristiques** :
-- ✅ Recherche/insertion/suppression en O(log n) si équilibré
-- ✅ Maintient l'ordre trié
-- ✅ Min/Max/Successeur faciles
-- ❌ Performances O(n) si déséquilibré
+- ✅ Recherche/insertion/suppression en O(log n) si équilibré  
+- ✅ Maintient l'ordre trié  
+- ✅ Min/Max/Successeur faciles  
+- ❌ Performances O(n) si déséquilibré  
 - ❌ Plus complexe qu'un tableau ou une liste
 
 ---
@@ -408,16 +408,16 @@ void cache_get(LRUCache* cache, const char* key) {
 
 #### Option 1 : Table de hachage (si vitesse prioritaire)
 ```c
-HashTable phonebook;
-hash_table_insert(&phonebook, "Alice", 123456);
-hash_table_search(&phonebook, "Alice", &number);  // O(1)
+HashTable phonebook;  
+hash_table_insert(&phonebook, "Alice", 123456);  
+hash_table_search(&phonebook, "Alice", &number);  // O(1)  
 ```
 
 #### Option 2 : BST (si ordre alphabétique important)
 ```c
-TreeNode* phonebook = NULL;
-phonebook = insert(phonebook, hash("Alice"), 123456);
-inorder(phonebook);  // Affiche dans l'ordre alphabétique
+TreeNode* phonebook = NULL;  
+phonebook = insert(phonebook, hash("Alice"), 123456);  
+inorder(phonebook);  // Affiche dans l'ordre alphabétique  
 ```
 
 ---
@@ -473,11 +473,11 @@ void go_forward(BrowserHistory* history) {
 **Choix** : **File (Queue)**
 
 ```c
-Queue print_queue;
-init_queue(&print_queue);
+Queue print_queue;  
+init_queue(&print_queue);  
 
-enqueue(&print_queue, document1);  // Ajouter
-enqueue(&print_queue, document2);
+enqueue(&print_queue, document1);  // Ajouter  
+enqueue(&print_queue, document2);  
 
 Document* next = dequeue(&print_queue);  // Imprimer le premier
 ```
@@ -562,13 +562,13 @@ void print_top_10(TreeNode* leaderboard) {
 
 ```c
 // Clé = "ligne,colonne"
-char key[50];
-sprintf(key, "%d,%d", row, col);
-hash_table_insert(&sparse_matrix, key, value);
+char key[50];  
+sprintf(key, "%d,%d", row, col);  
+hash_table_insert(&sparse_matrix, key, value);  
 
 // Accès
-int value;
-if (hash_table_search(&sparse_matrix, "10,25", &value)) {
+int value;  
+if (hash_table_search(&sparse_matrix, "10,25", &value)) {  
     // Élément trouvé
 } else {
     // Implicitement zéro
@@ -591,8 +591,8 @@ Node* found = search_list(list, target);  // O(n) = 10,000 comparaisons !
 ✅ **Bon** :
 ```c
 // Utiliser une table de hachage
-int value;
-bool found = hash_table_search(&table, key, &value);  // O(1)
+int value;  
+bool found = hash_table_search(&table, key, &value);  // O(1)  
 ```
 
 **Leçon** : Liste ≠ recherche rapide. Utiliser hash table ou BST.
@@ -809,8 +809,8 @@ Pour de très petits ensembles, **un tableau simple** est souvent le meilleur ch
 
 ```c
 // Pour 20 contacts, recherche linéaire est OK
-Contact contacts[20];
-for (int i = 0; i < size; i++) {
+Contact contacts[20];  
+for (int i = 0; i < size; i++) {  
     if (strcmp(contacts[i].name, "Alice") == 0) {
         // Trouvé en quelques cycles CPU
     }
@@ -857,13 +857,13 @@ int* found = bsearch(&key, array, size, sizeof(int), compare);
 
 ### Ne jamais oublier
 
-- ✅ **Performance** : Analyser les opérations critiques
-- ✅ **Mémoire** : Considérer l'overhead
-- ✅ **Simplicité** : Code facile à maintenir
+- ✅ **Performance** : Analyser les opérations critiques  
+- ✅ **Mémoire** : Considérer l'overhead  
+- ✅ **Simplicité** : Code facile à maintenir  
 - ✅ **Évolutivité** : Peut-on changer facilement ?
 
-- ❌ **Sur-optimisation** : KISS (Keep It Simple, Stupid)
-- ❌ **Mauvais choix initial** : Bien analyser avant de coder
+- ❌ **Sur-optimisation** : KISS (Keep It Simple, Stupid)  
+- ❌ **Mauvais choix initial** : Bien analyser avant de coder  
 - ❌ **Ignorer le profiling** : Mesurer, ne pas deviner
 
 ---

@@ -120,6 +120,7 @@ struct Structure2 {
 
 ```c
 #include <stdio.h>
+#include <stddef.h>
 
 // Structure normale
 struct Normal {
@@ -173,19 +174,19 @@ int main() {
 ```
 === COMPARAISON DES TAILLES ===
 
-Structure normale     : 12 octets
-Packed (attribut)     : 7 octets
-Packed (pragma)       : 7 octets
+Structure normale     : 12 octets  
+Packed (attribut)     : 7 octets  
+Packed (pragma)       : 7 octets  
 
 === DISPOSITION MÉMOIRE ===
 
-Normal - Offset c : 0
-Normal - Offset i : 4
-Normal - Offset s : 8
+Normal - Offset c : 0  
+Normal - Offset i : 4  
+Normal - Offset s : 8  
 
-Packed - Offset c : 0
-Packed - Offset i : 1
-Packed - Offset s : 5
+Packed - Offset c : 0  
+Packed - Offset i : 1  
+Packed - Offset s : 5  
 ```
 
 ### Visualisation mémoire
@@ -267,8 +268,8 @@ struct __attribute__((packed)) Lent {
     int i;  // Commence à l'adresse 1 (désaligné !)
 };
 
-struct Lent obj;
-obj.i = 42;  // Accès plus lent car désaligné
+struct Lent obj;  
+obj.i = 42;  // Accès plus lent car désaligné  
 ```
 
 Sur certaines architectures (ARM strictes), un accès désaligné peut :
@@ -330,9 +331,9 @@ struct WAVHeader {
 #pragma pack(pop)
 
 // Lecture directe depuis un fichier
-FILE *f = fopen("audio.wav", "rb");
-struct WAVHeader header;
-fread(&header, sizeof(header), 1, f);
+FILE *f = fopen("audio.wav", "rb");  
+struct WAVHeader header;  
+fread(&header, sizeof(header), 1, f);  
 // Les données correspondent exactement au format du fichier
 ```
 
@@ -572,16 +573,16 @@ int main() {
 **Sortie** :
 ```
 === Structure normale ===
-Taille totale : 12 octets
-Offset c      : 0
-Offset i      : 4 (padding : 3)
-Offset s      : 8 (padding : 0)
+Taille totale : 12 octets  
+Offset c      : 0  
+Offset i      : 4 (padding : 3)  
+Offset s      : 8 (padding : 0)  
 
 === Structure packed ===
-Taille totale : 7 octets
-Offset c      : 0
-Offset i      : 1 (padding : 0)
-Offset s      : 5 (padding : 0)
+Taille totale : 7 octets  
+Offset c      : 0  
+Offset i      : 1 (padding : 0)  
+Offset s      : 5 (padding : 0)  
 ```
 
 ### Vérifier le support du compilateur
@@ -757,6 +758,7 @@ int main() {
 
 ```c
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 #define N 10000000
@@ -821,15 +823,15 @@ int main() {
 ```
 === BENCHMARK (10 millions d'accès) ===
 
-Normal : 0.023 secondes
-Packed : 0.034 secondes
-Ratio  : 1.48x plus lent
+Normal : 0.023 secondes  
+Packed : 0.034 secondes  
+Ratio  : 1.48x plus lent  
 
 === UTILISATION MÉMOIRE ===
 
-Normal : 76.29 Mo
-Packed : 47.68 Mo
-Gain   : 28.61 Mo (37.5%)
+Normal : 76.29 Mo  
+Packed : 47.68 Mo  
+Gain   : 28.61 Mo (37.5%)  
 ```
 
 **Conclusion** : 37% d'économie mémoire, mais 48% plus lent !
@@ -872,8 +874,8 @@ struct NomStructure { ... };
 #pragma pack(pop)
 
 // Vérification
-sizeof(struct NomStructure)
-offsetof(struct NomStructure, membre)
+sizeof(struct NomStructure)  
+offsetof(struct NomStructure, membre)  
 ```
 
 ---

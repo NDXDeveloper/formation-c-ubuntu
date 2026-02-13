@@ -26,8 +26,8 @@ Dans cette section, nous allons découvrir :
 Imaginons deux modules qui se référencent mutuellement :
 
 ```
-Module A utilise Module B
-Module B utilise Module A
+Module A utilise Module B  
+Module B utilise Module A  
 ```
 
 ### Exemple concret : Utilisateur et Commande
@@ -57,8 +57,8 @@ typedef struct {
     int order_count;
 } User;
 
-User* user_create(const char* name);
-void user_add_order(User* user, Order* order);
+User* user_create(const char* name);  
+void user_add_order(User* user, Order* order);  
 
 #endif
 ```
@@ -77,8 +77,8 @@ typedef struct {
     User* customer;       // Référence à User
 } Order;
 
-Order* order_create(double amount, User* customer);
-User* order_get_customer(const Order* order);
+Order* order_create(double amount, User* customer);  
+User* order_get_customer(const Order* order);  
 
 #endif
 ```
@@ -138,8 +138,8 @@ Cette ligne dit au compilateur :
 ```c
 // Le compilateur n'a pas besoin de connaître la structure complète
 // pour déclarer un pointeur
-struct User;           // Forward declaration
-struct User* ptr;      // ✅ OK : pointeur vers type incomplet
+struct User;           // Forward declaration  
+struct User* ptr;      // ✅ OK : pointeur vers type incomplet  
 
 // Mais il ne peut pas créer une instance
 struct User user;      // ❌ ERREUR : taille inconnue
@@ -167,8 +167,8 @@ typedef struct {
     int order_count;
 } User;
 
-User* user_create(const char* name);
-void user_add_order(User* user, struct Order* order);
+User* user_create(const char* name);  
+void user_add_order(User* user, struct Order* order);  
 
 #endif
 ```
@@ -188,8 +188,8 @@ typedef struct {
     struct User* customer;  // ✅ Pointeur vers un type incomplet
 } Order;
 
-Order* order_create(double amount, struct User* customer);
-struct User* order_get_customer(const Order* order);
+Order* order_create(double amount, struct User* customer);  
+struct User* order_get_customer(const Order* order);  
 
 #endif
 ```
@@ -197,8 +197,8 @@ struct User* order_get_customer(const Order* order);
 ### Analyse de la solution
 
 **Avantages :**
-- ✅ Pas d'inclusion circulaire (`user.h` n'inclut plus `order.h` et vice versa)
-- ✅ Chaque header est **auto-suffisant**
+- ✅ Pas d'inclusion circulaire (`user.h` n'inclut plus `order.h` et vice versa)  
+- ✅ Chaque header est **auto-suffisant**  
 - ✅ Compilation réussie
 
 **Comment ça fonctionne ?**
@@ -286,12 +286,12 @@ struct User* order_get_customer(const Order* order)
 **✅ Supporté :**
 
 ```c
-struct User;              // Forward declaration
-struct User* ptr;         // ✅ OK : pointeur
-struct User** ptr_array;  // ✅ OK : pointeur de pointeur
+struct User;              // Forward declaration  
+struct User* ptr;         // ✅ OK : pointeur  
+struct User** ptr_array;  // ✅ OK : pointeur de pointeur  
 
-void process_user(struct User* user);  // ✅ OK : paramètre pointeur
-struct User* create_user(void);        // ✅ OK : retour pointeur
+void process_user(struct User* user);  // ✅ OK : paramètre pointeur  
+struct User* create_user(void);        // ✅ OK : retour pointeur  
 ```
 
 **❌ Non supporté sans définition complète :**
@@ -299,9 +299,9 @@ struct User* create_user(void);        // ✅ OK : retour pointeur
 ```c
 struct User;              // Forward declaration
 
-struct User user;         // ❌ ERREUR : taille inconnue
-int size = sizeof(struct User);  // ❌ ERREUR : taille inconnue
-user.name[0] = 'A';      // ❌ ERREUR : structure inconnue
+struct User user;         // ❌ ERREUR : taille inconnue  
+int size = sizeof(struct User);  // ❌ ERREUR : taille inconnue  
+user.name[0] = 'A';      // ❌ ERREUR : structure inconnue  
 ```
 
 ### Unions
@@ -309,19 +309,23 @@ user.name[0] = 'A';      // ❌ ERREUR : structure inconnue
 **Forward declarations fonctionnent aussi pour les unions :**
 
 ```c
-union Data;               // Forward declaration
-union Data* ptr;          // ✅ OK
+union Data;               // Forward declaration  
+union Data* ptr;          // ✅ OK  
 ```
 
 ### Énumérations
 
-**⚠️ Attention :** Les forward declarations d'énumérations sont plus complexes.
+**⚠️ Attention :** Les forward declarations d'énumérations ne sont **pas supportées** par le standard C (ni C99, ni C11, ni C17). Certains compilateurs les acceptent comme extension, mais avec `-pedantic` vous obtiendrez une erreur :
+
+```
+error: ISO C forbids forward references to 'enum' types
+```
 
 ```c
-enum Color;               // Forward declaration (C11+)
-enum Color* ptr;          // Comportement dépend du compilateur
+enum Color;               // ❌ Non standard en C  
+enum Color* ptr;          // ❌ Dépend d'extensions compilateur
 
-// Généralement, préférez définir les enums complètement
+// ✅ Solution : définir les enums complètement dans un header commun
 enum Color {
     RED,
     GREEN,
@@ -329,26 +333,30 @@ enum Color {
 };
 ```
 
+> **Note :** Si vous avez besoin de partager une énumération entre plusieurs modules, placez sa définition complète dans un header commun (ex : `types.h`) et incluez-le partout où nécessaire.
+
 ### Typedef et forward declarations
 
-**Problème :** On ne peut pas forward-déclarer un `typedef` directement.
+**Bonne nouvelle :** `typedef struct User User;` sert à la fois de forward declaration de `struct User` et de création du typedef `User`. C'est un idiome courant en C :
 
 ```c
-// ❌ Invalide
-typedef struct User User;  // On doit d'abord forward-déclarer struct User
-User* ptr;                 // ERREUR : User inconnu
+// ✅ Valide : le typedef sert aussi de forward declaration
+typedef struct User User;
+
+User* ptr;                 // ✅ OK : pointeur vers type incomplet
 ```
 
-**Solution 1 : Forward-déclarer d'abord la structure**
+**Trois approches possibles :**
+
+**Approche 1 : Typedef direct (recommandé)**
 
 ```c
-struct User;               // Forward declaration de la structure
-typedef struct User User;  // Typedef
+typedef struct User User;  // Forward declaration + typedef en une ligne
 
 User* ptr;                 // ✅ OK
 ```
 
-**Solution 2 : Utiliser directement `struct`**
+**Approche 2 : Utiliser directement `struct`**
 
 ```c
 struct User;               // Forward declaration
@@ -357,17 +365,27 @@ struct User;               // Forward declaration
 struct User* ptr;          // ✅ OK
 ```
 
-**Solution 3 : Typedef dans le .h mais définition ailleurs**
+**Approche 3 : Typedef dans le .h avec définition complète**
 
 ```c
 // user.h
 typedef struct User User;  // Déclaration du typedef
 
-struct User {              // Définition de la structure (peut être ailleurs)
+struct User {              // Définition de la structure (peut être dans le même .h ou un .c)
     char name[64];
     int id;
 };
 ```
+
+> **⚠️ Attention :** Ce qui ne fonctionne PAS, c'est de forward-déclarer un typedef de structure anonyme :
+> ```c
+> // user.h
+> typedef struct { char name[64]; } User;  // Structure anonyme
+>
+> // order.h
+> struct User;  // ❌ Ce n'est PAS le même type ! (struct User ≠ typedef anonyme)
+> ```
+> Pour éviter ce piège, utilisez toujours des structures nommées : `typedef struct User User;`
 
 ---
 
@@ -452,10 +470,10 @@ struct Account {
 typedef struct User User;
 
 // API publique : manipulation via pointeurs uniquement
-User* user_create(const char* name);
-void user_destroy(User* user);
-const char* user_get_name(const User* user);
-void user_set_name(User* user, const char* name);
+User* user_create(const char* name);  
+void user_destroy(User* user);  
+const char* user_get_name(const User* user);  
+void user_set_name(User* user, const char* name);  
 
 #endif
 ```
@@ -503,12 +521,12 @@ void user_set_name(User* user, const char* name)
 ```
 
 **Avantages :**
-- ✅ Encapsulation parfaite (les détails internes sont cachés)
-- ✅ Possibilité de modifier la structure sans recompiler les utilisateurs
+- ✅ Encapsulation parfaite (les détails internes sont cachés)  
+- ✅ Possibilité de modifier la structure sans recompiler les utilisateurs  
 - ✅ API claire et propre
 
 **Inconvénient :**
-- ❌ Allocation dynamique obligatoire (malloc/free)
+- ❌ Allocation dynamique obligatoire (malloc/free)  
 - ❌ Overhead d'appels de fonction pour accéder aux champs
 
 ### Pattern 2 : Structure séparée
@@ -518,8 +536,8 @@ void user_set_name(User* user, const char* name)
 **Avant (dépendance circulaire) :**
 
 ```
-User → Order
-Order → User
+User → Order  
+Order → User  
 ```
 
 **Après (pas de dépendance circulaire) :**
@@ -638,8 +656,8 @@ void user_process_order(User* user, struct Order* order);
 #ifndef ORDER_H
 #define ORDER_H
 
-struct User;
-struct Product;
+struct User;  
+struct Product;  
 
 typedef struct {
     int id;
@@ -649,8 +667,8 @@ typedef struct {
     int item_count;
 } Order;
 
-Order* order_create(struct User* customer);
-void order_add_product(Order* order, struct Product* product);
+Order* order_create(struct User* customer);  
+void order_add_product(Order* order, struct Product* product);  
 
 #endif
 ```
@@ -660,6 +678,8 @@ void order_add_product(Order* order, struct Product* product);
 ```c
 #ifndef PRODUCT_H
 #define PRODUCT_H
+
+#include <stdbool.h>
 
 struct Order;
 
@@ -685,8 +705,8 @@ bool product_is_in_order(const Product* product, const struct Order* order);
 Dessinez un graphe de dépendances :
 
 ```
-user.h → order.h
-order.h → user.h
+user.h → order.h  
+order.h → user.h  
 ```
 
 Si vous pouvez suivre un chemin qui revient à son point de départ, vous avez une dépendance circulaire.
@@ -696,8 +716,8 @@ Si vous pouvez suivre un chemin qui revient à son point de départ, vous avez u
 **include-what-you-use (IWYU) :**
 
 ```bash
-sudo apt install iwyu
-iwyu user.c
+sudo apt install iwyu  
+iwyu user.c  
 ```
 
 Analyse les inclusions et suggère des améliorations.
@@ -705,8 +725,8 @@ Analyse les inclusions et suggère des améliorations.
 **cinclude2dot :**
 
 ```bash
-cinclude2dot --src src/ --include include/ > deps.dot
-dot -Tpng deps.dot -o dependencies.png
+cinclude2dot --src src/ --include include/ > deps.dot  
+dot -Tpng deps.dot -o dependencies.png  
 ```
 
 Génère un graphe visuel des dépendances.
@@ -762,19 +782,19 @@ src/
   └── user.c
 ```
 
-### 4. Éviter les typedef dans les forward declarations
+### 4. Cohérence des typedef dans les forward declarations
 
-**Problème :**
+**Problème potentiel :** Si `user.h` définit `typedef struct User User;`, alors `order.h` avec seulement `struct User;` ne connaît pas le typedef `User` — il faut écrire `struct User*` au lieu de `User*`. Ce n'est pas une erreur de compilation, mais c'est incohérent.
 
 ```c
 // user.h
-typedef struct User User;  // Typedef
+typedef struct User User;  // Typedef + forward declaration
 
 // order.h
-struct User;  // ❌ Incompatible avec le typedef dans user.h
+struct User;              // ✅ Compile, mais seul struct User* est utilisable (pas User*)
 ```
 
-**Solution : Utiliser `struct` partout**
+**Solution 1 : Utiliser `struct` partout**
 
 ```c
 // user.h
@@ -783,15 +803,15 @@ struct User {
 };
 
 // order.h
-struct User;  // ✅ Compatible
+struct User;  // ✅ Cohérent
 ```
 
 **Ou définir le typedef dans un header commun :**
 
 ```c
 // types.h
-typedef struct User User;
-typedef struct Order Order;
+typedef struct User User;  
+typedef struct Order Order;  
 
 // user.h
 #include "types.h"
@@ -834,14 +854,14 @@ Member ←→ Loan ←→ Book
 #define TYPES_H
 
 // Forward declarations communes
-struct Book;
-struct Member;
-struct Loan;
+struct Book;  
+struct Member;  
+struct Loan;  
 
 // Typedefs (optionnel)
-typedef struct Book Book;
-typedef struct Member Member;
-typedef struct Loan Loan;
+typedef struct Book Book;  
+typedef struct Member Member;  
+typedef struct Loan Loan;  
 
 #endif
 ```
@@ -853,6 +873,7 @@ typedef struct Loan Loan;
 #define BOOK_H
 
 #include "types.h"
+#include <stdbool.h>
 
 struct Book {
     char title[128];
@@ -861,9 +882,9 @@ struct Book {
     bool is_available;
 };
 
-Book* book_create(const char* title, const char* author, const char* isbn);
-void book_destroy(Book* book);
-bool book_is_available(const Book* book);
+Book* book_create(const char* title, const char* author, const char* isbn);  
+void book_destroy(Book* book);  
+bool book_is_available(const Book* book);  
 
 #endif
 ```
@@ -884,9 +905,9 @@ struct Member {
     int loan_count;
 };
 
-Member* member_create(const char* name, int id);
-void member_destroy(Member* member);
-bool member_can_borrow(const Member* member);
+Member* member_create(const char* name, int id);  
+void member_destroy(Member* member);  
+bool member_can_borrow(const Member* member);  
 
 #endif
 ```
@@ -898,6 +919,7 @@ bool member_can_borrow(const Member* member);
 #define LOAN_H
 
 #include "types.h"
+#include <stdbool.h>
 #include <time.h>
 
 struct Loan {
@@ -909,10 +931,10 @@ struct Loan {
     bool is_returned;
 };
 
-Loan* loan_create(Book* book, Member* member);
-void loan_destroy(Loan* loan);
-bool loan_is_overdue(const Loan* loan);
-void loan_return(Loan* loan);
+Loan* loan_create(Book* book, Member* member);  
+void loan_destroy(Loan* loan);  
+bool loan_is_overdue(const Loan* loan);  
+void loan_return(Loan* loan);  
 
 #endif
 ```
@@ -986,8 +1008,8 @@ void loan_return(Loan* loan)
 ```
 
 **Résultat :**
-- ✅ Pas de dépendances circulaires dans les headers
-- ✅ Les `.c` peuvent inclure tous les headers nécessaires
+- ✅ Pas de dépendances circulaires dans les headers  
+- ✅ Les `.c` peuvent inclure tous les headers nécessaires  
 - ✅ Code propre et maintenable
 
 ---

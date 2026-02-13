@@ -158,8 +158,8 @@ int main() {
 
 **Sortie** :
 ```
-MauvaisOrdre : 12 octets
-BonOrdre     : 8 octets
+MauvaisOrdre : 12 octets  
+BonOrdre     : 8 octets  
 ```
 
 **Explication visuelle** :
@@ -215,11 +215,11 @@ int main() {
 
 **Sortie possible** :
 ```
-Taille : 32 octets
-Adresse de c : 0x7fff5fbff7e0
-Adresse de d : 0x7fff5fbff7e8  (décalage de 8 depuis c)
-Adresse de s : 0x7fff5fbff7f0  (décalage de 8 depuis d)
-Adresse de i : 0x7fff5fbff7f4  (décalage de 4 depuis s)
+Taille : 24 octets  
+Adresse de c : 0x7ffd...0010  (offset 0)  
+Adresse de d : 0x7ffd...0018  (offset 8, décalage de 8 depuis c)  
+Adresse de s : 0x7ffd...0020  (offset 16, décalage de 8 depuis d)  
+Adresse de i : 0x7ffd...0024  (offset 20, décalage de 4 depuis s)
 ```
 
 **Représentation mémoire** :
@@ -232,11 +232,9 @@ Offset:    0    1    2    3    4    5    6    7
           +----+----+----+----+----+----+----+----+
   16      | s0 | s1 | XX | XX | i0 | i1 | i2 | i3 |  (2 + 2 padding + 4)
           +----+----+----+----+----+----+----+----+
-  24      | XX | XX | XX | XX | XX | XX | XX | XX |  (8 padding final)
-          +----+----+----+----+----+----+----+----+
 ```
 
-**Taille** : 32 octets (beaucoup de gaspillage !)
+**Taille** : 24 octets (pas de padding final car 24 est déjà multiple de 8)
 
 ---
 
@@ -265,7 +263,7 @@ Offset:    0    1    2    3    4    5    6    7
           +----+----+----+----+----+----+----+----+
 ```
 
-**Taille** : 16 octets (gain de 16 octets par rapport à la version non optimisée !)
+**Taille** : 16 octets (gain de 8 octets par rapport à la version non optimisée !)
 
 ### Comparaison avant/après
 
@@ -298,9 +296,9 @@ int main() {
 
 **Sortie** :
 ```
-Avant optimisation : 32 octets
-Après optimisation : 16 octets
-Gain               : 16 octets (50.0%)
+Avant optimisation : 24 octets  
+Après optimisation : 16 octets  
+Gain               : 8 octets (33.3%)
 ```
 
 ---
@@ -339,12 +337,12 @@ int main() {
 ```
 Taille totale : 12 octets
 
-Offset de c  : 0
-Offset de i  : 4
-Offset de c2 : 8
+Offset de c  : 0  
+Offset de i  : 4  
+Offset de c2 : 8  
 
-Padding après c  : 3 octets
-Padding après c2 : 3 octets
+Padding après c  : 3 octets  
+Padding après c2 : 3 octets  
 ```
 
 ---
@@ -366,9 +364,9 @@ struct Test tableau[3];
 
 **Mémoire** :
 ```
-Element [0]:  | c | XX XX XX | i i i i |
-Element [1]:  | c | XX XX XX | i i i i |
-Element [2]:  | c | XX XX XX | i i i i |
+Element [0]:  | c | XX XX XX | i i i i |  
+Element [1]:  | c | XX XX XX | i i i i |  
+Element [2]:  | c | XX XX XX | i i i i |  
 ```
 
 Si la structure faisait 5 octets (sans padding final), l'élément [1] commencerait à l'adresse 5, et son `int` serait désaligné.
@@ -420,12 +418,12 @@ int main() {
 
 **Sortie typique (x86_64)** :
 ```
-Alignement de char   : 1
-Alignement de short  : 2
-Alignement de int    : 4
-Alignement de long   : 8
-Alignement de double : 8
-Alignement de void*  : 8
+Alignement de char   : 1  
+Alignement de short  : 2  
+Alignement de int    : 4  
+Alignement de long   : 8  
+Alignement de double : 8  
+Alignement de void*  : 8  
 ```
 
 ---
@@ -523,8 +521,8 @@ gcc -Wpadded -c fichier.c
 
 **Sortie** :
 ```
-warning: padding struct to align 'i' [-Wpadded]
-warning: padding struct size to alignment boundary [-Wpadded]
+warning: padding struct to align 'i' [-Wpadded]  
+warning: padding struct size to alignment boundary [-Wpadded]  
 ```
 
 ---
@@ -555,8 +553,8 @@ Offset 0: [c]
 - **Padding nécessaire** : 8 - 1 = 7 octets
 
 ```
-Offset 0: [c] [XX XX XX XX XX XX XX]
-Offset 8: [d d d d d d d d]
+Offset 0: [c] [XX XX XX XX XX XX XX]  
+Offset 8: [d d d d d d d d]  
 ```
 
 **Étape 3** : Placer `int i`
@@ -565,9 +563,9 @@ Offset 8: [d d d d d d d d]
 - **Padding nécessaire** : 0
 
 ```
-Offset 0:  [c] [XX XX XX XX XX XX XX]
-Offset 8:  [d d d d d d d d]
-Offset 16: [i i i i]
+Offset 0:  [c] [XX XX XX XX XX XX XX]  
+Offset 8:  [d d d d d d d d]  
+Offset 16: [i i i i]  
 ```
 
 **Étape 4** : Padding final
@@ -577,9 +575,9 @@ Offset 16: [i i i i]
 - **Padding final** : 24 - 20 = 4 octets
 
 ```
-Offset 0:  [c] [XX XX XX XX XX XX XX]
-Offset 8:  [d d d d d d d d]
-Offset 16: [i i i i] [XX XX XX XX]
+Offset 0:  [c] [XX XX XX XX XX XX XX]  
+Offset 8:  [d d d d d d d d]  
+Offset 16: [i i i i] [XX XX XX XX]  
 ```
 
 **Taille finale** : 24 octets
@@ -610,6 +608,7 @@ int main() {
 
 ```c
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 #define N 10000000
@@ -649,8 +648,8 @@ int main() {
 
 **Sortie** :
 ```
-NonOptimise : 16 octets × 10000000 = 152.59 Mo
-Optimise    : 12 octets × 10000000 = 114.44 Mo
+NonOptimise : 16 octets × 10000000 = 152.59 Mo  
+Optimise    : 12 octets × 10000000 = 114.44 Mo  
 ```
 
 **Gain** : 38 Mo économisés (25% de réduction) !
@@ -681,9 +680,9 @@ Où :
 ### Commandes utiles
 
 ```c
-sizeof(struct T)           // Taille totale
-offsetof(struct T, membre) // Position d'un membre
-alignof(type)              // Alignement requis (C11)
+sizeof(struct T)           // Taille totale  
+offsetof(struct T, membre) // Position d'un membre  
+alignof(type)              // Alignement requis (C11)  
 ```
 
 ---

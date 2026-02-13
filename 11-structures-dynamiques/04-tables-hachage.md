@@ -35,11 +35,11 @@ Clé → [Fonction de hachage] → Index → Valeur stockée
 **Exemple simplifié** :
 
 ```c
-Clé : "Alice"
-Fonction de hachage : somme des codes ASCII % taille_tableau
-Calcul : (65 + 108 + 105 + 99 + 101) % 10 = 478 % 10 = 8
-Index : 8
-Action : Stocker "Alice" → "06 12 34 56 78" à l'index 8
+Clé : "Alice"  
+Fonction de hachage : somme des codes ASCII % taille_tableau  
+Calcul : (65 + 108 + 105 + 99 + 101) % 10 = 478 % 10 = 8  
+Index : 8  
+Action : Stocker "Alice" → "06 12 34 56 78" à l'index 8  
 ```
 
 ### Représentation visuelle
@@ -83,8 +83,8 @@ unsigned int hash_int(int key, int table_size) {
 
 **Exemple** :
 ```c
-hash_int(42, 10) = 42 % 10 = 2     // Index : 2
-hash_int(157, 10) = 157 % 10 = 7   // Index : 7
+hash_int(42, 10) = 42 % 10 = 2     // Index : 2  
+hash_int(157, 10) = 157 % 10 = 7   // Index : 7  
 ```
 
 ### Fonction de hachage pour chaînes de caractères
@@ -148,8 +148,8 @@ unsigned int hash_polynomial(const char* key, int table_size) {
 Une **collision** se produit quand deux clés différentes ont le même hash.
 
 ```
-hash("Alice") = 8
-hash("Zoe") = 8  ← Collision !
+hash("Alice") = 8  
+hash("Zoe") = 8  ← Collision !  
 ```
 
 **Inévitable** : Avec un espace de clés infini et un tableau fini, les collisions sont mathématiquement garanties (principe du pigeonnier).
@@ -275,7 +275,7 @@ void hash_table_insert(HashTable* table, const char* key, int value) {
 }
 ```
 
-**Note** : `strdup()` alloue de la mémoire et copie la chaîne.
+**Note** : `strdup()` alloue de la mémoire et copie la chaîne. C'est une fonction POSIX (pas C standard). Sous Linux, ajoutez `#define _POSIX_C_SOURCE 200809L` avant les `#include`, ou compilez sans `-std=c17` (avec `-std=gnu17` par exemple).
 
 ### Recherche
 
@@ -304,8 +304,8 @@ bool hash_table_search(HashTable* table, const char* key, int* value_out) {
 
 **Utilisation** :
 ```c
-int phone;
-if (hash_table_search(&table, "Alice", &phone)) {
+int phone;  
+if (hash_table_search(&table, "Alice", &phone)) {  
     printf("Téléphone d'Alice : %d\n", phone);
 } else {
     printf("Alice non trouvée\n");
@@ -723,11 +723,11 @@ void hash_table_resize(HashTable* table, int new_size) {
 
 ```c
 // Compter la fréquence des mots
-HashTable word_count;
-init_hash_table(&word_count);
+HashTable word_count;  
+init_hash_table(&word_count);  
 
-char* text = "hello world hello";
-char* word = strtok(text, " ");
+char* text = "hello world hello";  
+char* word = strtok(text, " ");  
 
 while (word != NULL) {
     int count = 0;
@@ -834,10 +834,10 @@ void set_remove(Set* set, const char* element) {
 | **Arbre binaire de recherche** | O(log n) | O(log n) | O(log n) | ✅ Trié | Moyenne |
 
 **Quand utiliser une table de hachage ?**
-- ✅ Besoin d'accès très rapide par clé
-- ✅ Pas besoin d'ordre trié
-- ✅ Recherche, insertion, suppression fréquentes
-- ❌ Si besoin de parcourir dans l'ordre
+- ✅ Besoin d'accès très rapide par clé  
+- ✅ Pas besoin d'ordre trié  
+- ✅ Recherche, insertion, suppression fréquentes  
+- ❌ Si besoin de parcourir dans l'ordre  
 - ❌ Si mémoire très limitée
 
 ---
@@ -884,8 +884,8 @@ free(node);
 
 ✅ **Bon** :
 ```c
-free(node->key);  // ✅ Libérer la clé d'abord
-free(node);
+free(node->key);  // ✅ Libérer la clé d'abord  
+free(node);  
 ```
 
 ### 4. Ne pas gérer les collisions
@@ -979,8 +979,8 @@ Permet plusieurs valeurs pour une même clé.
 
 ```c
 // "Alice" → [123, 456, 789]
-multimap_insert(&mmap, "Alice", 123);
-multimap_insert(&mmap, "Alice", 456);
+multimap_insert(&mmap, "Alice", 123);  
+multimap_insert(&mmap, "Alice", 456);  
 ```
 
 ### 3. Ordered Hash Table (Hybrid)
@@ -1052,15 +1052,15 @@ Clé → [Hash] → Index → Valeur
 
 ### Avantages
 
-- ✅ Accès ultra-rapide (O(1))
-- ✅ Flexible (tout type de clé)
+- ✅ Accès ultra-rapide (O(1))  
+- ✅ Flexible (tout type de clé)  
 - ✅ Implémentation de dictionnaires, sets, caches
 
 ### Inconvénients
 
-- ❌ Pas d'ordre
-- ❌ Overhead mémoire
-- ❌ Performance dégradée si λ élevé
+- ❌ Pas d'ordre  
+- ❌ Overhead mémoire  
+- ❌ Performance dégradée si λ élevé  
 - ❌ Fonction de hachage critique
 
 ---

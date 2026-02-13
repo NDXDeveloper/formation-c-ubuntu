@@ -51,8 +51,8 @@ void autre_fonction() {
 ```
 
 **Problèmes de cette approche :**
-- ❌ Duplication de code (DRY : *Don't Repeat Yourself* violé)
-- ❌ Risque d'incohérence (si on modifie le prototype dans un fichier mais pas l'autre)
+- ❌ Duplication de code (DRY : *Don't Repeat Yourself* violé)  
+- ❌ Risque d'incohérence (si on modifie le prototype dans un fichier mais pas l'autre)  
 - ❌ Maintenance difficile
 
 **Solution : fichier d'en-tête**
@@ -86,8 +86,8 @@ void autre_fonction() {
 }
 ```
 
-- ✅ Un seul endroit où déclarer le prototype
-- ✅ Cohérence garantie
+- ✅ Un seul endroit où déclarer le prototype  
+- ✅ Cohérence garantie  
 - ✅ Facilité de maintenance
 
 ---
@@ -357,13 +357,13 @@ Certains compilateurs modernes (GCC, Clang, MSVC) supportent une directive plus 
 ```
 
 **Avantages :**
-- ✅ Plus concis (une seule ligne)
-- ✅ Pas de risque de collision de noms de gardes
+- ✅ Plus concis (une seule ligne)  
+- ✅ Pas de risque de collision de noms de gardes  
 - ✅ Légèrement plus rapide (le compilateur peut optimiser)
 
 **Inconvénients :**
-- ⚠️ **Non standard** (pas dans le standard C)
-- ⚠️ Peut poser problème avec certains systèmes de fichiers (liens symboliques, systèmes de fichiers réseau)
+- ⚠️ **Non standard** (pas dans le standard C)  
+- ⚠️ Peut poser problème avec certains systèmes de fichiers (liens symboliques, systèmes de fichiers réseau)  
 - ⚠️ Moins portable (compilateurs anciens ou exotiques)
 
 ### Comparaison
@@ -422,8 +422,8 @@ Cela garantit la compatibilité avec les compilateurs ne supportant pas `#pragma
 #ifndef STRING_UTILS_H
 #define STRING_UTILS_H
 
-char* copier_chaine(const char* source);
-int comparer_chaines(const char* s1, const char* s2);
+char* copier_chaine(const char* source);  
+int comparer_chaines(const char* s1, const char* s2);  
 
 #endif
 ```
@@ -451,8 +451,8 @@ typedef struct {
 #ifndef TYPES_H
 #define TYPES_H
 
-typedef unsigned char byte;
-typedef unsigned int uint;
+typedef unsigned char byte;  
+typedef unsigned int uint;  
 
 #endif
 ```
@@ -478,8 +478,8 @@ typedef unsigned int uint;
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-extern int compteur_global;  // Déclaration (défini dans globals.c)
-extern const char* nom_application;
+extern int compteur_global;  // Déclaration (défini dans globals.c)  
+extern const char* nom_application;  
 
 #endif
 ```
@@ -683,7 +683,7 @@ struct B {
 #endif
 ```
 
-✅ Pas d'inclusion circulaire
+✅ Pas d'inclusion circulaire  
 ✅ Compilation réussie
 
 **Limitation :** On ne peut utiliser que des **pointeurs** vers le type forward-déclaré (on ne connaît pas sa taille complète).
@@ -756,8 +756,8 @@ typedef struct {
     int y;
 } Point;
 
-void afficher_point(Point p);
-double distance_origine(Point p);
+void afficher_point(Point p);  
+double distance_origine(Point p);  
 
 #endif // POINT_H
 ```
@@ -775,8 +775,8 @@ typedef struct {
     Point coin_bas_droit;
 } Rectangle;
 
-int aire(Rectangle r);
-int perimetre(Rectangle r);
+int aire(Rectangle r);  
+int perimetre(Rectangle r);  
 
 #endif // RECTANGLE_H
 ```
@@ -789,8 +789,8 @@ int perimetre(Rectangle r);
 
 #define PI 3.14159265359
 
-int carre(int n);
-double racine_carree_approx(double x);
+int carre(int n);  
+double racine_carree_approx(double x);  
 
 #endif // MATH_UTILS_H
 ```

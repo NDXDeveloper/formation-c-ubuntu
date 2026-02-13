@@ -15,10 +15,10 @@ Imaginez que vous devez gérer des informations sur des étudiants dans un progr
 Comment organiser ces données ? Avec les types primitifs uniquement, vous devriez créer des variables séparées pour chaque information, ce qui devient vite ingérable :
 
 ```c
-char nom1[50], nom2[50], nom3[50];
-int age1, age2, age3;
-float moyenne1, moyenne2, moyenne3;
-int numero1, numero2, numero3;
+char nom1[50], nom2[50], nom3[50];  
+int age1, age2, age3;  
+float moyenne1, moyenne2, moyenne3;  
+int numero1, numero2, numero3;  
 // Cauchemar ! Et si vous avez 100 étudiants ?
 ```
 
@@ -41,8 +41,8 @@ struct Etudiant {
     int numero;
 };
 
-struct Etudiant etudiant1;  // Un étudiant, toutes ses infos ensemble
-struct Etudiant etudiant2;
+struct Etudiant etudiant1;  // Un étudiant, toutes ses infos ensemble  
+struct Etudiant etudiant2;  
 ```
 
 ### 2. Améliorer la lisibilité du code
@@ -133,8 +133,8 @@ union Valeur {
     char caractere;
 };
 
-union Valeur v;
-v.entier = 42;  // Stocke un entier
+union Valeur v;  
+v.entier = 42;  // Stocke un entier  
 ```
 
 **Utilité** : Économiser de la mémoire quand plusieurs types sont mutuellement exclusifs.
@@ -176,11 +176,11 @@ enum Jour aujourd_hui = MERCREDI;
 **Analogie** : Donner un surnom plus court à quelque chose de long ou complexe.
 
 ```c
-typedef unsigned long long U64;
-typedef struct Point Point;
+typedef unsigned long long U64;  
+typedef struct Point Point;  
 
-U64 grand_nombre = 123456789;
-Point p = {5, 10};  // Plus simple que "struct Point"
+U64 grand_nombre = 123456789;  
+Point p = {5, 10};  // Plus simple que "struct Point"  
 ```
 
 **Utilité** : Rendre le code plus concis et plus portable.
@@ -235,8 +235,8 @@ Les types personnalisés permettent de créer des **abstractions** : des représ
 
 ```c
 // Au lieu de penser à des variables séparées...
-char nom[50];
-int x, y;
+char nom[50];  
+int x, y;  
 
 // ... on pense à une entité cohérente
 struct Joueur {
@@ -277,8 +277,8 @@ struct Exemple {
 Les types personnalisés renforcent la sécurité du code :
 
 ```c
-enum Couleur { ROUGE, VERT, BLEU };
-enum Animal { CHAT, CHIEN };
+enum Couleur { ROUGE, VERT, BLEU };  
+enum Animal { CHAT, CHIEN };  
 
 enum Couleur c = ROUGE;
 // c = CHAT;  // ⚠️ Le compilateur peut avertir (types différents)
@@ -311,8 +311,8 @@ Vous pouvez suivre l'ordre du chapitre, en portant une attention particulière �
 
 ```c
 // Avec types primitifs (peu pratique)
-int point1_x = 10, point1_y = 20;
-int point2_x = 30, point2_y = 40;
+int point1_x = 10, point1_y = 20;  
+int point2_x = 30, point2_y = 40;  
 
 // Avec une structure (élégant)
 struct Point {
@@ -320,8 +320,8 @@ struct Point {
     int y;
 };
 
-struct Point p1 = {10, 20};
-struct Point p2 = {30, 40};
+struct Point p1 = {10, 20};  
+struct Point p2 = {30, 40};  
 ```
 
 ### Exemple 2 : États d'une application
@@ -357,8 +357,8 @@ union Valeur {
     char c;
 };
 
-union Valeur v;
-v.i = 42;           // Stocke un entier
+union Valeur v;  
+v.i = 42;           // Stocke un entier  
 // v.f = 3.14;      // Écrase l'entier
 ```
 
@@ -409,11 +409,12 @@ Essayez de dessiner comment les données sont disposées en mémoire :
 ```
 struct Point p = {10, 20};
 
-Mémoire :
-+----+----+----+----+----+----+----+----+
-| 10 | 10 | 10 | 10 | 20 | 20 | 20 | 20 |
-+----+----+----+----+----+----+----+----+
-  ^-- x (4 octets) --^-- y (4 octets) --^
+Mémoire (8 octets au total) :
+┌───────────────────┬───────────────────┐
+│      x = 10       │      y = 20       │
+│    (4 octets)     │    (4 octets)     │
+└───────────────────┴───────────────────┘
+Offset: 0           4                   8
 ```
 
 ### 3. Utilisez sizeof() et offsetof()
@@ -428,8 +429,8 @@ struct Exemple {
     int i;
 };
 
-printf("Taille : %zu\n", sizeof(struct Exemple));
-printf("Offset de i : %zu\n", offsetof(struct Exemple, i));
+printf("Taille : %zu\n", sizeof(struct Exemple));  
+printf("Offset de i : %zu\n", offsetof(struct Exemple, i));  
 ```
 
 ### 4. Compilez avec des warnings
@@ -453,13 +454,13 @@ gcc -Wall -Wextra -pedantic programme.c
 
 Après avoir complété ce chapitre, vous serez capable de :
 
-- ✅ **Créer des structures** pour modéliser des entités complexes
-- ✅ **Optimiser l'utilisation mémoire** avec unions et bit-fields
-- ✅ **Rendre le code lisible** avec enums et typedef
-- ✅ **Comprendre l'alignement mémoire** et le padding
-- ✅ **Choisir le bon type** selon le contexte (struct vs union vs enum)
-- ✅ **Écrire du code maintenable** avec des abstractions appropriées
-- ✅ **Interagir avec le hardware** (registres, protocoles)
+- ✅ **Créer des structures** pour modéliser des entités complexes  
+- ✅ **Optimiser l'utilisation mémoire** avec unions et bit-fields  
+- ✅ **Rendre le code lisible** avec enums et typedef  
+- ✅ **Comprendre l'alignement mémoire** et le padding  
+- ✅ **Choisir le bon type** selon le contexte (struct vs union vs enum)  
+- ✅ **Écrire du code maintenable** avec des abstractions appropriées  
+- ✅ **Interagir avec le hardware** (registres, protocoles)  
 - ✅ **Déboguer des problèmes** liés aux types personnalisés
 
 ---
@@ -475,15 +476,15 @@ struct Point {
     int x, y;
 };
 
-struct Point *ptr = &p;
-ptr->x = 5;  // Accès via pointeur
+struct Point *ptr = &p;  
+ptr->x = 5;  // Accès via pointeur  
 ```
 
 ### Avec l'allocation dynamique (Module 3)
 
 ```c
-struct Etudiant *e = malloc(sizeof(struct Etudiant));
-if (e != NULL) {
+struct Etudiant *e = malloc(sizeof(struct Etudiant));  
+if (e != NULL) {  
     strcpy(e->nom, "Alice");
 }
 free(e);
@@ -505,8 +506,8 @@ struct Point creer_point(int x, int y) {
 ### Avec les tableaux (Module 3)
 
 ```c
-struct Point points[10];
-points[0] = (struct Point){5, 10};
+struct Point points[10];  
+points[0] = (struct Point){5, 10};  
 ```
 
 ---
@@ -522,8 +523,8 @@ struct Point {
     int x, y;
 };
 
-Point p;  // ❌ Erreur : "Point" n'est pas un type
-struct Point p;  // ✅ Correct
+Point p;  // ❌ Erreur : "Point" n'est pas un type  
+struct Point p;  // ✅ Correct  
 ```
 
 Solution : Utiliser `typedef` pour simplifier.
@@ -545,8 +546,8 @@ struct Point {
     int x, y;
 };
 
-struct Point p;
-p.z = 5;  // ❌ Erreur : 'z' n'existe pas
+struct Point p;  
+p.z = 5;  // ❌ Erreur : 'z' n'existe pas  
 ```
 
 ### 4. Mélanger struct et union
@@ -558,10 +559,10 @@ union Valeur {
     float f;
 };
 
-union Valeur v;
-v.i = 42;
-v.f = 3.14;
-printf("%d\n", v.i);  // ⚠️ Valeur invalide !
+union Valeur v;  
+v.i = 42;  
+v.f = 3.14;  
+printf("%d\n", v.i);  // ⚠️ Valeur invalide !  
 ```
 
 ---
@@ -572,9 +573,8 @@ Pour approfondir vos connaissances :
 
 ### Documentation
 
-- **ISO C Standard** : Spécifications officielles
-- **man pages** : `man 3 struct`, `man 3 union`
-- **Norme C11** : Nouvelles fonctionnalités (unions anonymes, etc.)
+- **ISO C Standard** : Spécifications officielles (sections 6.7.2.1 à 6.7.2.3)
+- **Norme C11** : Nouvelles fonctionnalités (unions anonymes, structures anonymes, etc.)
 
 ### Outils
 

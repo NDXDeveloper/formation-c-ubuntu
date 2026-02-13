@@ -24,19 +24,19 @@ Imaginons que vous écrivez tout votre code dans un seul fichier `programme.c` :
 #include <string.h>
 
 // 50 fonctions différentes
-void fonction1() { /* ... */ }
-void fonction2() { /* ... */ }
+void fonction1() { /* ... */ }  
+void fonction2() { /* ... */ }  
 // ...
 void fonction50() { /* ... */ }
 
 // Structures
-struct User { /* ... */ };
-struct Order { /* ... */ };
-struct Product { /* ... */ };
+struct User { /* ... */ };  
+struct Order { /* ... */ };  
+struct Product { /* ... */ };  
 
 // Variables globales
-int compteur_global;
-char* config_path;
+int compteur_global;  
+char* config_path;  
 
 // Main
 int main() {
@@ -302,10 +302,10 @@ projet/
 
 Avant d'aborder ce chapitre, vous devez être à l'aise avec :
 
-- ✅ **Syntaxe de base du C** (types, opérateurs, structures de contrôle)
-- ✅ **Fonctions** (déclaration, appel, paramètres, valeurs de retour)
-- ✅ **Pointeurs** (déclaration, déréférencement, passage par référence)
-- ✅ **Structures** (`struct`, déclaration, utilisation)
+- ✅ **Syntaxe de base du C** (types, opérateurs, structures de contrôle)  
+- ✅ **Fonctions** (déclaration, appel, paramètres, valeurs de retour)  
+- ✅ **Pointeurs** (déclaration, déréférencement, passage par référence)  
+- ✅ **Structures** (`struct`, déclaration, utilisation)  
 - ✅ **Compilation basique** (`gcc fichier.c -o programme`)
 
 **Si ces concepts ne sont pas clairs, prenez le temps de les réviser avant de continuer.**
@@ -409,9 +409,9 @@ puis je l'organiserai plus tard."
 
 ```
 "Je structure mon projet dès le début,
-même si c'est petit. C'est plus facile
-d'ajouter du code à une bonne structure
-que de restructurer du mauvais code."
+même si c'est petit. C'est plus facile  
+d'ajouter du code à une bonne structure  
+que de restructurer du mauvais code."  
 ```
 
 **Bénéfice :** Habitude professionnelle, code toujours propre, pas de dette technique.

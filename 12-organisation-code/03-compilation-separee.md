@@ -59,10 +59,10 @@ gcc main.c utils.c math.c -o programme
 
 **Compilation séparée** :
 ```bash
-gcc -c main.c   # Produit main.o (étapes 1-3)
-gcc -c utils.c  # Produit utils.o
-gcc -c math.c   # Produit math.o
-gcc main.o utils.o math.o -o programme  # Linkage (étape 4)
+gcc -c main.c   # Produit main.o (étapes 1-3)  
+gcc -c utils.c  # Produit utils.o  
+gcc -c math.c   # Produit math.o  
+gcc main.o utils.o math.o -o programme  # Linkage (étape 4)  
 ```
 → Chaque fichier est compilé séparément, puis lié
 
@@ -86,8 +86,8 @@ Il n'est **pas exécutable** seul, car il peut contenir des références à des 
 
 **Commande `nm`** (affiche les symboles) :
 ```bash
-gcc -c math.c   # Crée math.o
-nm math.o       # Liste les symboles
+gcc -c math.c   # Crée math.o  
+nm math.o       # Liste les symboles  
 ```
 
 **Exemple de sortie :**
@@ -123,8 +123,8 @@ projet/
 #define MATH_H
 
 // Déclarations (prototypes)
-int addition(int a, int b);
-int multiplication(int a, int b);
+int addition(int a, int b);  
+int multiplication(int a, int b);  
 
 #endif // MATH_H
 ```
@@ -216,17 +216,17 @@ gcc math.c main.c -o programme
 Mais c'est équivalent à :
 
 ```bash
-gcc -c math.c
-gcc -c main.c
-gcc math.o main.o -o programme
+gcc -c math.c  
+gcc -c main.c  
+gcc math.o main.o -o programme  
 ```
 
 **Avantage de la compilation séparée :** Si on modifie `main.c`, on ne recompile **que** `main.c` :
 
 ```bash
 # Modification de main.c
-gcc -c main.c              # Recompile main.c uniquement
-gcc main.o math.o -o programme  # Re-linkage
+gcc -c main.c              # Recompile main.c uniquement  
+gcc main.o math.o -o programme  # Re-linkage  
 ```
 
 Pas besoin de recompiler `math.c` !
@@ -246,8 +246,8 @@ Produit `fichier.o` (fichier objet).
 ### Option `-o` : Spécifier le nom de sortie
 
 ```bash
-gcc -c math.c -o math_operations.o  # Fichier objet personnalisé
-gcc main.o math_operations.o -o mon_programme  # Exécutable personnalisé
+gcc -c math.c -o math_operations.o  # Fichier objet personnalisé  
+gcc main.o math_operations.o -o mon_programme  # Exécutable personnalisé  
 ```
 
 ### Option `-I` : Ajouter un répertoire d'include
@@ -264,9 +264,9 @@ projet/
 ```
 
 ```bash
-gcc -c src/math.c -I./include   # Cherche math.h dans include/
-gcc -c src/main.c -I./include
-gcc math.o main.o -o programme
+gcc -c src/math.c -I./include   # Cherche math.h dans include/  
+gcc -c src/main.c -I./include  
+gcc math.o main.o -o programme  
 ```
 
 ### Option `-Wall` et `-Wextra` : Warnings
@@ -284,9 +284,9 @@ Active tous les warnings courants pour détecter les erreurs potentielles.
 Pour utiliser GDB (debugger) :
 
 ```bash
-gcc -c -g math.c
-gcc -c -g main.c
-gcc -g main.o math.o -o programme
+gcc -c -g math.c  
+gcc -c -g main.c  
+gcc -g main.o math.o -o programme  
 ```
 
 ### Option `-O` : Optimisation
@@ -323,9 +323,9 @@ projet/
 #ifndef MATH_UTILS_H
 #define MATH_UTILS_H
 
-int addition(int a, int b);
-int multiplication(int a, int b);
-int puissance(int base, int exposant);
+int addition(int a, int b);  
+int multiplication(int a, int b);  
+int puissance(int base, int exposant);  
 
 #endif
 ```
@@ -358,8 +358,8 @@ int puissance(int base, int exposant) {
 #ifndef STRING_UTILS_H
 #define STRING_UTILS_H
 
-void inverser_chaine(char* str);
-int longueur_chaine(const char* str);
+void inverser_chaine(char* str);  
+int longueur_chaine(const char* str);  
 
 #endif
 ```
@@ -451,10 +451,10 @@ int main(void) {
 mkdir -p build
 
 # Compiler chaque .c en .o
-gcc -c src/math_utils.c -Iinclude -o build/math_utils.o
-gcc -c src/string_utils.c -Iinclude -o build/string_utils.o
-gcc -c src/config.c -Iinclude -o build/config.o
-gcc -c src/main.c -Iinclude -o build/main.o
+gcc -c src/math_utils.c -Iinclude -o build/math_utils.o  
+gcc -c src/string_utils.c -Iinclude -o build/string_utils.o  
+gcc -c src/config.c -Iinclude -o build/config.o  
+gcc -c src/main.c -Iinclude -o build/main.o  
 
 # Lier tous les .o
 gcc build/main.o build/math_utils.o build/string_utils.o build/config.o -o build/programme
@@ -520,8 +520,8 @@ int addition(int a, int b) {
 
 ```bash
 # Compiler
-gcc -c main.c
-gcc -c math.c
+gcc -c main.c  
+gcc -c math.c  
 
 # Voir les symboles de main.o
 nm main.o
@@ -532,8 +532,8 @@ nm math.o
 # Sortie : ... T addition ...  (T = défini)
 
 # Après linkage
-gcc main.o math.o -o programme
-nm programme
+gcc main.o math.o -o programme  
+nm programme  
 # Sortie : ... T addition ...  (résolu dans l'exécutable)
 ```
 
@@ -560,8 +560,8 @@ int main(void) {
 **Compilation :**
 
 ```bash
-gcc -c main.c  # ✅ Compilation OK (aucune vérification de définition)
-gcc main.o -o programme  # ❌ ERREUR de linkage
+gcc -c main.c  # ✅ Compilation OK (aucune vérification de définition)  
+gcc main.o -o programme  # ❌ ERREUR de linkage  
 ```
 
 **Message d'erreur :**
@@ -589,9 +589,9 @@ int compteur = 0;  // Même définition !
 **Compilation :**
 
 ```bash
-gcc -c math.c
-gcc -c utils.c
-gcc math.o utils.o -o programme  # ❌ ERREUR
+gcc -c math.c  
+gcc -c utils.c  
+gcc math.o utils.o -o programme  # ❌ ERREUR  
 ```
 
 **Message d'erreur :**
@@ -636,9 +636,9 @@ void fonction_utile(void) {
 **Compilation incorrecte :**
 
 ```bash
-gcc -c main.c
-gcc -c utils.c
-gcc main.o -o programme  # ❌ Oubli de utils.o
+gcc -c main.c  
+gcc -c utils.c  
+gcc main.o -o programme  # ❌ Oubli de utils.o  
 ```
 
 **Erreur :**
@@ -682,8 +682,8 @@ int multiplication(int a, int b) {
 **Étape 1 : Compiler en fichiers objets**
 
 ```bash
-gcc -c addition.c       # Produit addition.o
-gcc -c multiplication.c # Produit multiplication.o
+gcc -c addition.c       # Produit addition.o  
+gcc -c multiplication.c # Produit multiplication.o  
 ```
 
 **Étape 2 : Créer l'archive avec `ar`**
@@ -703,8 +703,8 @@ ar rcs libmath.a addition.o multiplication.o
 // main.c
 #include <stdio.h>
 
-int addition(int, int);
-int multiplication(int, int);
+int addition(int, int);  
+int multiplication(int, int);  
 
 int main(void) {
     printf("5 + 3 = %d\n", addition(5, 3));
@@ -735,8 +735,8 @@ gcc main.c -L. -lmath -o programme  # -L. cherche dans le dossier actuel, -lmath
 
 ### Avantages des bibliothèques statiques
 
-- ✅ Tout le code est inclus dans l'exécutable (pas de dépendance externe)
-- ✅ Performance (pas de résolution de symboles au runtime)
+- ✅ Tout le code est inclus dans l'exécutable (pas de dépendance externe)  
+- ✅ Performance (pas de résolution de symboles au runtime)  
 - ✅ Portabilité (un seul fichier exécutable)
 
 **Inconvénient :** Taille de l'exécutable plus grande.
@@ -753,19 +753,19 @@ Pour éviter de retaper toutes les commandes, on peut créer un script Bash :
 #!/bin/bash
 
 # Nettoyer les anciens fichiers
-rm -rf build
-mkdir -p build
+rm -rf build  
+mkdir -p build  
 
 # Compiler les fichiers sources
-echo "Compilation des modules..."
-gcc -c src/math_utils.c -Iinclude -o build/math_utils.o -Wall -Wextra
-gcc -c src/string_utils.c -Iinclude -o build/string_utils.o -Wall -Wextra
-gcc -c src/config.c -Iinclude -o build/config.o -Wall -Wextra
-gcc -c src/main.c -Iinclude -o build/main.o -Wall -Wextra
+echo "Compilation des modules..."  
+gcc -c src/math_utils.c -Iinclude -o build/math_utils.o -Wall -Wextra  
+gcc -c src/string_utils.c -Iinclude -o build/string_utils.o -Wall -Wextra  
+gcc -c src/config.c -Iinclude -o build/config.o -Wall -Wextra  
+gcc -c src/main.c -Iinclude -o build/main.o -Wall -Wextra  
 
 # Linkage
-echo "Linkage..."
-gcc build/*.o -o build/programme
+echo "Linkage..."  
+gcc build/*.o -o build/programme  
 
 echo "✅ Compilation terminée : build/programme"
 ```
@@ -810,14 +810,14 @@ compile_if_needed() {
 }
 
 # Compiler chaque fichier
-compile_if_needed "src/math_utils.c" "build/math_utils.o"
-compile_if_needed "src/string_utils.c" "build/string_utils.o"
-compile_if_needed "src/config.c" "build/config.o"
-compile_if_needed "src/main.c" "build/main.o"
+compile_if_needed "src/math_utils.c" "build/math_utils.o"  
+compile_if_needed "src/string_utils.c" "build/string_utils.o"  
+compile_if_needed "src/config.c" "build/config.o"  
+compile_if_needed "src/main.c" "build/main.o"  
 
 # Linkage
-echo "Linkage..."
-gcc build/*.o -o build/programme
+echo "Linkage..."  
+gcc build/*.o -o build/programme  
 
 echo "✅ Build terminé"
 ```
@@ -841,8 +841,8 @@ Si on modifie un fichier `.h`, tous les `.c` qui l'incluent doivent être **reco
 ```
 math_utils.h  (modifié)
     ↓ inclus par
-main.c        (doit être recompilé)
-utils.c       (doit être recompilé)
+main.c        (doit être recompilé)  
+utils.c       (doit être recompilé)  
 ```
 
 ### Gestion manuelle des dépendances
@@ -891,10 +891,10 @@ projet/
 ### Première compilation (tout est neuf)
 
 ```bash
-gcc -c src/module_a.c -Iinclude -o build/module_a.o
-gcc -c src/module_b.c -Iinclude -o build/module_b.o
-gcc -c src/main.c -Iinclude -o build/main.o
-gcc build/*.o -o build/programme
+gcc -c src/module_a.c -Iinclude -o build/module_a.o  
+gcc -c src/module_b.c -Iinclude -o build/module_b.o  
+gcc -c src/main.c -Iinclude -o build/main.o  
+gcc build/*.o -o build/programme  
 ```
 
 **Temps :** 5 secondes (exemple)
@@ -903,8 +903,8 @@ gcc build/*.o -o build/programme
 
 ```bash
 # Seul module_b.c est modifié
-gcc -c src/module_b.c -Iinclude -o build/module_b.o  # Recompilation
-gcc build/*.o -o build/programme  # Re-linkage
+gcc -c src/module_b.c -Iinclude -o build/module_b.o  # Recompilation  
+gcc build/*.o -o build/programme  # Re-linkage  
 ```
 
 **Temps :** 1 seconde (80% plus rapide !)
@@ -913,8 +913,8 @@ gcc build/*.o -o build/programme  # Re-linkage
 
 ```bash
 # module_b.h a changé → recompiler tous les fichiers qui l'incluent
-gcc -c src/module_b.c -Iinclude -o build/module_b.o  # module_b.c inclut module_b.h
-gcc -c src/main.c -Iinclude -o build/main.o          # main.c inclut module_b.h
+gcc -c src/module_b.c -Iinclude -o build/module_b.o  # module_b.c inclut module_b.h  
+gcc -c src/main.c -Iinclude -o build/main.o          # main.c inclut module_b.h  
 # Pas besoin de recompiler module_a.c (n'inclut pas module_b.h)
 gcc build/*.o -o build/programme
 ```
@@ -971,8 +971,8 @@ Liste les bibliothèques partagées (`.so`) dont dépend l'exécutable.
 ### `file` : Type de fichier
 
 ```bash
-file fichier.o
-file programme
+file fichier.o  
+file programme  
 ```
 
 Affiche le type du fichier (objet, exécutable, etc.).
@@ -1000,12 +1000,12 @@ Pour de vrais projets, écrire manuellement toutes les commandes de compilation 
 
 ```makefile
 # Variables
-CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude
-OBJDIR = build
-SOURCES = src/main.c src/math_utils.c src/string_utils.c src/config.c
-OBJECTS = $(OBJDIR)/main.o $(OBJDIR)/math_utils.o $(OBJDIR)/string_utils.o $(OBJDIR)/config.o
-TARGET = $(OBJDIR)/programme
+CC = gcc  
+CFLAGS = -Wall -Wextra -Iinclude  
+OBJDIR = build  
+SOURCES = src/main.c src/math_utils.c src/string_utils.c src/config.c  
+OBJECTS = $(OBJDIR)/main.o $(OBJDIR)/math_utils.o $(OBJDIR)/string_utils.o $(OBJDIR)/config.o  
+TARGET = $(OBJDIR)/programme  
 
 # Règle par défaut
 all: $(TARGET)
@@ -1029,8 +1029,8 @@ clean:
 **Utilisation :**
 
 ```bash
-make        # Compile le projet
-make clean  # Supprime les fichiers générés
+make        # Compile le projet  
+make clean  # Supprime les fichiers générés  
 ```
 
 **Avantage :** Make détecte automatiquement les fichiers modifiés et ne recompile que le nécessaire !

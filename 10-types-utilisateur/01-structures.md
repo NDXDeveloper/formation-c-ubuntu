@@ -17,17 +17,17 @@ C'est là qu'interviennent les **structures** (ou `struct`). Une structure est u
 Imaginons que nous voulions stocker les informations de 3 étudiants. Sans structure, nous devrions faire :
 
 ```c
-char nom1[50] = "Alice";
-int age1 = 20;
-float moyenne1 = 15.5;
+char nom1[50] = "Alice";  
+int age1 = 20;  
+float moyenne1 = 15.5;  
 
-char nom2[50] = "Bob";
-int age2 = 22;
-float moyenne2 = 14.2;
+char nom2[50] = "Bob";  
+int age2 = 22;  
+float moyenne2 = 14.2;  
 
-char nom3[50] = "Charlie";
-int age3 = 21;
-float moyenne3 = 16.8;
+char nom3[50] = "Charlie";  
+int age3 = 21;  
+float moyenne3 = 16.8;  
 ```
 
 **Problèmes** :
@@ -44,9 +44,9 @@ struct Etudiant {
     float moyenne;
 };
 
-struct Etudiant alice = {"Alice", 20, 15.5};
-struct Etudiant bob = {"Bob", 22, 14.2};
-struct Etudiant charlie = {"Charlie", 21, 16.8};
+struct Etudiant alice = {"Alice", 20, 15.5};  
+struct Etudiant bob = {"Bob", 22, 14.2};  
+struct Etudiant charlie = {"Charlie", 21, 16.8};  
 ```
 
 **Avantages** :
@@ -119,9 +119,9 @@ int main() {
 ### Méthode 1 : Déclaration puis initialisation
 
 ```c
-struct Point p1;  // Déclaration
-p1.x = 10;        // Initialisation membre par membre
-p1.y = 20;
+struct Point p1;  // Déclaration  
+p1.x = 10;        // Initialisation membre par membre  
+p1.y = 20;  
 ```
 
 ### Méthode 2 : Initialisation directe
@@ -135,8 +135,8 @@ struct Point p2 = {10, 20};  // x=10, y=20
 ### Méthode 3 : Initialisation partielle
 
 ```c
-struct Point p3 = {10};  // x=10, y=0 (initialisé à zéro)
-struct Point p4 = {0};   // x=0, y=0 (tous les membres à zéro)
+struct Point p3 = {10};  // x=10, y=0 (initialisé à zéro)  
+struct Point p4 = {0};   // x=0, y=0 (tous les membres à zéro)  
 ```
 
 Les membres non spécifiés sont automatiquement initialisés à zéro.
@@ -158,20 +158,20 @@ On utilise l'**opérateur point** (`.`) pour accéder aux membres :
 ```c
 struct Point p = {5, 10};
 
-printf("x = %d\n", p.x);  // Lecture
-printf("y = %d\n", p.y);
+printf("x = %d\n", p.x);  // Lecture  
+printf("y = %d\n", p.y);  
 
-p.x = 25;  // Modification
-p.y = 30;
+p.x = 25;  // Modification  
+p.y = 30;  
 
 printf("Nouveau x = %d\n", p.x);
 ```
 
 **Sortie** :
 ```
-x = 5
-y = 10
-Nouveau x = 25
+x = 5  
+y = 10  
+Nouveau x = 25  
 ```
 
 ---
@@ -209,8 +209,8 @@ int main() {
 
 **Sortie** :
 ```
-Informations de l'étudiant :
-Nom : Alice Dupont
+Informations de l'étudiant :  
+Nom : Alice Dupont  
 Âge : 20 ans
 Moyenne : 15.50/20
 ```
@@ -355,8 +355,8 @@ int main() {
 **Attention** : On ne peut pas comparer directement deux structures avec `==` !
 
 ```c
-struct Point p1 = {10, 20};
-struct Point p2 = {10, 20};
+struct Point p1 = {10, 20};  
+struct Point p2 = {10, 20};  
 
 // ❌ ERREUR : if (p1 == p2) { ... }
 ```
@@ -387,8 +387,8 @@ int main() {
 Contrairement à la comparaison, l'**affectation** entre structures fonctionne directement :
 
 ```c
-struct Point p1 = {10, 20};
-struct Point p2;
+struct Point p1 = {10, 20};  
+struct Point p2;  
 
 p2 = p1;  // ✅ Copie tous les membres automatiquement
 
@@ -403,17 +403,17 @@ printf("p2: x=%d, y=%d\n", p2.x, p2.y);  // Affiche: p2: x=10, y=20
 
 ```c
 // Convention : Majuscule pour les noms de structures
-struct Etudiant { ... };
-struct Personne { ... };
-struct Voiture { ... };
+struct Etudiant { ... };  
+struct Personne { ... };  
+struct Voiture { ... };  
 ```
 
 ### 2. Utiliser typedef pour simplifier
 
 Au lieu de :
 ```c
-struct Point p1;
-struct Point p2;
+struct Point p1;  
+struct Point p2;  
 ```
 
 On peut utiliser `typedef` :
@@ -423,8 +423,8 @@ typedef struct {
     int y;
 } Point;
 
-Point p1;  // Plus concis !
-Point p2;
+Point p1;  // Plus concis !  
+Point p2;  
 ```
 
 Nous verrons `typedef` en détail dans une section ultérieure (10.6).
@@ -525,12 +525,12 @@ struct Point {
 struct Point p1 = {10, 20};
 
 // Accès aux membres
-p1.x = 5;
-printf("%d\n", p1.y);
+p1.x = 5;  
+printf("%d\n", p1.y);  
 
 // Passage à une fonction
-void afficher(struct Point p);
-afficher(p1);
+void afficher(struct Point p);  
+afficher(p1);  
 
 // Tableau de structures
 struct Point points[10];

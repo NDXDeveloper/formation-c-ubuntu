@@ -105,7 +105,7 @@ int main() {
     // Stocker un char (écrase le float !)
     data.c = 'A';
     printf("Char   : %c\n", data.c);
-    printf("Float  : %.2f (⚠️ valeur invalide !)\n", data.f);
+    printf("Float  : %.2f (⚠️ valeur corrompue, seul le 1er octet a changé !)\n", data.f);
 
     return 0;
 }
@@ -115,12 +115,12 @@ int main() {
 ```
 Taille de l'union : 4 octets
 
-Entier : 42
-Float  : 3.14
-Entier : 1078523331 (⚠️ valeur invalide !)
+Entier : 42  
+Float  : 3.14  
+Entier : 1078523331 (⚠️ valeur invalide !)  
 
-Char   : A
-Float  : 0.00 (⚠️ valeur invalide !)
+Char   : A  
+Float  : 3.14 (⚠️ valeur corrompue, seul le 1er octet a changé !)
 ```
 
 **Leçon importante** : Quand on écrit dans un membre, les autres membres deviennent invalides !
@@ -165,12 +165,12 @@ union FloatBytes {
     unsigned char bytes[4];
 };
 
-union FloatBytes fb;
-fb.f = 3.14f;
+union FloatBytes fb;  
+fb.f = 3.14f;  
 
-printf("Float : %.2f\n", fb.f);
-printf("Bytes : ");
-for (int i = 0; i < 4; i++) {
+printf("Float : %.2f\n", fb.f);  
+printf("Bytes : ");  
+for (int i = 0; i < 4; i++) {  
     printf("%02X ", fb.bytes[i]);
 }
 printf("\n");
@@ -178,8 +178,8 @@ printf("\n");
 
 **Sortie** :
 ```
-Float : 3.14
-Bytes : C3 F5 48 40
+Float : 3.14  
+Bytes : C3 F5 48 40  
 ```
 
 ---
@@ -245,9 +245,9 @@ int main() {
 
 **Sortie** :
 ```
-Entier : 42
-Float  : 3.14
-String : Bonjour
+Entier : 42  
+Float  : 3.14  
+String : Bonjour  
 ```
 
 ---
@@ -295,15 +295,14 @@ void traiter_message(struct Message *msg) {
 }
 
 int main() {
-    struct Message msg1 = {MSG_TEXTE};
+    struct Message msg1 = {MSG_TEXTE, {{0}}};
     strcpy(msg1.contenu.texte, "Connexion établie");
     traiter_message(&msg1);
 
-    struct Message msg2 = {MSG_NOMBRE};
-    msg2.contenu.nombre = 42;
+    struct Message msg2 = {MSG_NOMBRE, {.nombre = 42}};
     traiter_message(&msg2);
 
-    struct Message msg3 = {MSG_ERREUR};
+    struct Message msg3 = {MSG_ERREUR, {{0}}};
     msg3.contenu.erreur.code = 404;
     strcpy(msg3.contenu.erreur.description, "Fichier introuvable");
     traiter_message(&msg3);
@@ -356,9 +355,9 @@ int main() {
 
 **Sortie (sur x86_64)** :
 ```
-Valeur : 0x12345678
-Octets : 78 56 34 12
-Architecture : Little Endian
+Valeur : 0x12345678  
+Octets : 78 56 34 12  
+Architecture : Little Endian  
 ```
 
 ### 3. Manipulation de bits et d'adresses IP
@@ -539,11 +538,11 @@ int main() {
 
 **Sortie** :
 ```
-Taille : 8 octets
-Adresse de c : 0x7ffc8b9c1e10
-Adresse de s : 0x7ffc8b9c1e10
-Adresse de i : 0x7ffc8b9c1e10
-Adresse de d : 0x7ffc8b9c1e10
+Taille : 8 octets  
+Adresse de c : 0x7ffc8b9c1e10  
+Adresse de s : 0x7ffc8b9c1e10  
+Adresse de i : 0x7ffc8b9c1e10  
+Adresse de d : 0x7ffc8b9c1e10  
 ```
 
 ### Avec padding
@@ -571,9 +570,9 @@ union Data {
     float f;
 };
 
-union Data d;
-d.i = 42;
-printf("%f\n", d.f);  // ⚠️ Comportement indéfini !
+union Data d;  
+d.i = 42;  
+printf("%f\n", d.f);  // ⚠️ Comportement indéfini !  
                       // On lit f alors que i a été écrit
 ```
 
@@ -595,8 +594,8 @@ union Data {
 union Data d1 = {42};        // Initialise i
 
 // ✅ Initialisation désignée (C99+)
-union Data d2 = {.f = 3.14}; // Initialise f
-union Data d3 = {.c = 'A'};  // Initialise c
+union Data d2 = {.f = 3.14}; // Initialise f  
+union Data d3 = {.c = 'A'};  // Initialise c  
 ```
 
 ### 3. Unions et pointeurs
@@ -643,22 +642,31 @@ union Dangereux {
 ```c
 #include <stdio.h>
 
+// Sans union : tous les champs sont toujours présents
 struct Personne1 {
-    char nom[50];
-    int age;
+    char nom[32];
+    int type;
+    // Champs étudiant
+    int annee_etude;
+    char universite[32];
+    // Champs employé
     float salaire;
-    char poste[30];
+    char entreprise[32];
 };
 
+// Avec union : seuls les champs pertinents occupent de la mémoire
 struct Personne2 {
-    char nom[50];
+    char nom[32];
     int type;  // 0 = étudiant, 1 = employé
     union {
-        int annee_etude;  // Si étudiant
+        struct {
+            int annee_etude;
+            char universite[32];
+        } etudiant;
         struct {
             float salaire;
-            char poste[30];
-        } employe;        // Si employé
+            char entreprise[32];
+        } employe;
     } info;
 };
 
@@ -674,9 +682,9 @@ int main() {
 
 **Sortie** :
 ```
-Taille struct Personne1 : 88 octets
-Taille struct Personne2 : 60 octets
-Gain : 28 octets
+Taille struct Personne1 : 108 octets  
+Taille struct Personne2 : 72 octets  
+Gain : 36 octets
 ```
 
 ---
@@ -784,10 +792,10 @@ int main() {
 
 **Sortie** :
 ```
-Variable 'compteur' = 42 (int)
-Variable 'prix' = 19.99 (double)
-Variable 'nom' = "Alice" (string)
-Variable 'actif' = true (bool)
+Variable 'compteur' = 42 (int)  
+Variable 'prix' = 19.99 (double)  
+Variable 'nom' = "Alice" (string)  
+Variable 'actif' = true (bool)  
 ```
 
 ---
@@ -904,9 +912,9 @@ struct Apres {
 };
 
 // Vérifier le gain
-printf("Avant : %zu octets\n", sizeof(struct Avant));
-printf("Après : %zu octets\n", sizeof(struct Apres));
-printf("Gain  : %zu octets (%.1f%%)\n",
+printf("Avant : %zu octets\n", sizeof(struct Avant));  
+printf("Après : %zu octets\n", sizeof(struct Apres));  
+printf("Gain  : %zu octets (%.1f%%)\n",  
        sizeof(struct Avant) - sizeof(struct Apres),
        100.0 * (sizeof(struct Avant) - sizeof(struct Apres)) / sizeof(struct Avant));
 ```
@@ -957,14 +965,14 @@ int main() {
 
 **Sortie** :
 ```
-Après u.i = 0x12345678 :
-Contenu brut : 78 56 34 12
+Après u.i = 0x12345678 :  
+Contenu brut : 78 56 34 12  
 
-Après u.f = 3.14f :
-Contenu brut : C3 F5 48 40
+Après u.f = 3.14f :  
+Contenu brut : C3 F5 48 40  
 
-Après u.c = 'A' :
-Contenu brut : 41 F5 48 40
+Après u.c = 'A' :  
+Contenu brut : 41 F5 48 40  
 ```
 
 ---
@@ -1043,9 +1051,9 @@ struct Bon {
 // On vérifie 'type' avant de lire 'data'
 
 // Utilisation sécurisée
-struct Bon valeur;
-valeur.type = TYPE_INT;
-valeur.data.i = 42;
+struct Bon valeur;  
+valeur.type = TYPE_INT;  
+valeur.data.i = 42;  
 
 if (valeur.type == TYPE_INT) {
     printf("%d\n", valeur.data.i);  // ✅ Sûr

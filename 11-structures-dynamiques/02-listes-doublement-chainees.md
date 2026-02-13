@@ -96,8 +96,8 @@ void init_list(DoublyLinkedList* list) {
 
 **Utilisation** :
 ```c
-DoublyLinkedList my_list;
-init_list(&my_list);
+DoublyLinkedList my_list;  
+init_list(&my_list);  
 ```
 
 ---
@@ -249,8 +249,8 @@ void insert_after(Node* node, int value) {
 
 **Schéma** :
 
-Avant : `[node|20|•] <--> [•|30|•]`
-Après insertion de `25` : `[node|20|•] <--> [•|25|•] <--> [•|30|•]`
+Avant : `[node|20|•] <--> [•|30|•]`  
+Après insertion de `25` : `[node|20|•] <--> [•|25|•] <--> [•|30|•]`  
 
 **Note importante** : Si `node` est le dernier élément, il faut aussi mettre à jour `list->tail` !
 
@@ -329,8 +329,8 @@ void print_list_backward(DoublyLinkedList* list) {
 
 **Exemple de sortie** :
 ```
-Liste (avant) : 10 <-> 20 <-> 30 -> NULL
-Liste (arrière) : 30 <-> 20 <-> 10 -> NULL
+Liste (avant) : 10 <-> 20 <-> 30 -> NULL  
+Liste (arrière) : 30 <-> 20 <-> 10 -> NULL  
 ```
 
 ---
@@ -356,8 +356,8 @@ Node* search(DoublyLinkedList* list, int value) {
 
 **Utilisation** :
 ```c
-Node* found = search(&my_list, 20);
-if (found != NULL) {
+Node* found = search(&my_list, 20);  
+if (found != NULL) {  
     printf("Valeur 20 trouvée : %d\n", found->data);
 }
 ```
@@ -491,16 +491,16 @@ typedef struct DoublyLinkedList {
 } DoublyLinkedList;
 
 // Prototypes
-Node* create_node(int value);
-void init_list(DoublyLinkedList* list);
-void insert_at_beginning(DoublyLinkedList* list, int value);
-void insert_at_end(DoublyLinkedList* list, int value);
-void print_list_forward(DoublyLinkedList* list);
-void print_list_backward(DoublyLinkedList* list);
-Node* search(DoublyLinkedList* list, int value);
-void delete_node(DoublyLinkedList* list, Node* node);
-int delete_by_value(DoublyLinkedList* list, int value);
-void free_list(DoublyLinkedList* list);
+Node* create_node(int value);  
+void init_list(DoublyLinkedList* list);  
+void insert_at_beginning(DoublyLinkedList* list, int value);  
+void insert_at_end(DoublyLinkedList* list, int value);  
+void print_list_forward(DoublyLinkedList* list);  
+void print_list_backward(DoublyLinkedList* list);  
+Node* search(DoublyLinkedList* list, int value);  
+void delete_node(DoublyLinkedList* list, Node* node);  
+int delete_by_value(DoublyLinkedList* list, int value);  
+void free_list(DoublyLinkedList* list);  
 
 int main(void) {
     DoublyLinkedList list;
@@ -661,8 +661,8 @@ void delete_node_GOOD(DoublyLinkedList* list, Node* node) {
 ❌ **Mauvais** :
 ```c
 // Si on oublie de mettre prev/next à NULL lors de la création
-Node* new_node = malloc(sizeof(Node));
-new_node->data = 10;
+Node* new_node = malloc(sizeof(Node));  
+new_node->data = 10;  
 // ⚠️ prev et next contiennent des valeurs aléatoires (garbage) !
 ```
 
@@ -714,8 +714,8 @@ void reverse_list(DoublyLinkedList* list) {
 }
 ```
 
-**Avant** : `10 <-> 20 <-> 30`
-**Après** : `30 <-> 20 <-> 10`
+**Avant** : `10 <-> 20 <-> 30`  
+**Après** : `30 <-> 20 <-> 10`  
 
 ### 2. Concaténer deux listes
 
@@ -889,14 +889,14 @@ Les listes doublement chaînées sont une évolution puissante des listes simple
 - Souvent accompagnée d'un pointeur `tail` pour l'efficacité
 
 **Avantages clés** :
-- ✅ Suppression en O(1) si on a le pointeur vers le nœud
-- ✅ Insertion avant/après un nœud en O(1)
-- ✅ Parcours dans les deux sens
+- ✅ Suppression en O(1) si on a le pointeur vers le nœud  
+- ✅ Insertion avant/après un nœud en O(1)  
+- ✅ Parcours dans les deux sens  
 - ✅ Opérations aux deux extrémités en O(1)
 
 **Prix à payer** :
-- ❌ +50% de mémoire pour les pointeurs
-- ❌ Plus complexe à implémenter correctement
+- ❌ +50% de mémoire pour les pointeurs  
+- ❌ Plus complexe à implémenter correctement  
 - ❌ Plus de liens à maintenir
 
 **Quand l'utiliser ?**

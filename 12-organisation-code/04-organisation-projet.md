@@ -36,10 +36,10 @@ mon_projet/
 ```
 
 **Problèmes évidents :**
-- ❌ Impossible de comprendre la structure
-- ❌ Noms de fichiers non descriptifs
-- ❌ Pas de séparation claire entre code source, tests, et builds
-- ❌ Fichiers temporaires/obsolètes mélangés avec le code actif
+- ❌ Impossible de comprendre la structure  
+- ❌ Noms de fichiers non descriptifs  
+- ❌ Pas de séparation claire entre code source, tests, et builds  
+- ❌ Fichiers temporaires/obsolètes mélangés avec le code actif  
 - ❌ Collaborer devient impossible
 
 ### Les avantages d'un projet bien organisé
@@ -59,11 +59,11 @@ mon_projet/
 ```
 
 **Avantages :**
-- ✅ Structure claire et prévisible
-- ✅ Facile à naviguer
-- ✅ Simple à comprendre pour un nouveau contributeur
-- ✅ Build et tests séparés du code source
-- ✅ Prêt pour le versionnement (Git)
+- ✅ Structure claire et prévisible  
+- ✅ Facile à naviguer  
+- ✅ Simple à comprendre pour un nouveau contributeur  
+- ✅ Build et tests séparés du code source  
+- ✅ Prêt pour le versionnement (Git)  
 - ✅ Professionnel
 
 ---
@@ -500,20 +500,20 @@ Dans les fichiers `.h` :
 
 ```c
 ✅ Recommandé :
-extern int g_debug_level;      // Préfixe g_ pour "global"
-extern char* g_config_path;
+extern int g_debug_level;      // Préfixe g_ pour "global"  
+extern char* g_config_path;  
 
-Ou :
-extern int global_debug_level;  // Préfixe "global_"
+Ou :  
+extern int global_debug_level;  // Préfixe "global_"  
 ```
 
 ### Fonctions
 
 ```c
 ✅ Recommandé :
-void user_manager_create(void);
-int database_connect(const char* host);
-bool auth_verify_token(const char* token);
+void user_manager_create(void);  
+int database_connect(const char* host);  
+bool auth_verify_token(const char* token);  
 
 // Préfixe par module pour éviter les conflits
 ```
@@ -550,9 +550,9 @@ Une courte description (1-2 phrases).
 ### Compilation
 
 ```bash
-mkdir build && cd build
-cmake ..
-make
+mkdir build && cd build  
+cmake ..  
+make  
 ```
 
 ## Utilisation
@@ -592,9 +592,9 @@ MIT License
 
 Copyright (c) 2025 Votre Nom
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction...
+Permission is hereby granted, free of charge, to any person obtaining a copy  
+of this software and associated documentation files (the "Software"), to deal  
+in the Software without restriction...  
 ```
 
 ### .gitignore
@@ -614,15 +614,15 @@ in the Software without restriction...
 *.exe
 
 # Répertoires de build
-build/
-bin/
-lib/
-obj/
+build/  
+bin/  
+lib/  
+obj/  
 
 # Fichiers de debug
 *.dSYM/
-core
-vgcore.*
+core  
+vgcore.*  
 
 # Éditeurs
 .vscode/
@@ -631,10 +631,10 @@ vgcore.*
 *~
 
 # CMake
-CMakeCache.txt
-CMakeFiles/
-cmake_install.cmake
-Makefile
+CMakeCache.txt  
+CMakeFiles/  
+cmake_install.cmake  
+Makefile  
 
 # Système
 .DS_Store
@@ -831,8 +831,8 @@ embedded_project/
 
 ### Concept
 
-**Headers publics** : API exposée aux utilisateurs
-**Headers privés** : Implémentation interne
+**Headers publics** : API exposée aux utilisateurs  
+**Headers privés** : Implémentation interne  
 
 ### Exemple : Module de gestion d'utilisateurs
 
@@ -858,9 +858,9 @@ user_module/
 typedef struct User User;
 
 // API publique
-User* user_create(const char* name, const char* email);
-void user_destroy(User* user);
-const char* user_get_name(const User* user);
+User* user_create(const char* name, const char* email);  
+void user_destroy(User* user);  
+const char* user_get_name(const User* user);  
 
 #endif
 ```
@@ -906,8 +906,8 @@ projet/
 **Commandes Git :**
 
 ```bash
-git submodule add https://github.com/json-c/json-c external/json-c
-git submodule update --init --recursive
+git submodule add https://github.com/json-c/json-c external/json-c  
+git submodule update --init --recursive  
 ```
 
 ### Option 2 : Gestionnaire de paquets
@@ -915,8 +915,8 @@ git submodule update --init --recursive
 **vcpkg** (Windows, Linux, macOS) :
 
 ```bash
-vcpkg install curl
-vcpkg install json-c
+vcpkg install curl  
+vcpkg install json-c  
 ```
 
 **conan** :
@@ -935,8 +935,8 @@ projet/
 └── src/
 ```
 
-**Avantage :** Pas de dépendance externe, contrôle total.
-**Inconvénient :** Mises à jour manuelles.
+**Avantage :** Pas de dépendance externe, contrôle total.  
+**Inconvénient :** Mises à jour manuelles.  
 
 ---
 
@@ -1161,11 +1161,11 @@ mature_project/
 
 ### Que remarquer ?
 
-- ✅ Hiérarchie claire
-- ✅ Nommage cohérent
-- ✅ Documentation complète
-- ✅ Tests exhaustifs
-- ✅ Scripts d'automatisation
+- ✅ Hiérarchie claire  
+- ✅ Nommage cohérent  
+- ✅ Documentation complète  
+- ✅ Tests exhaustifs  
+- ✅ Scripts d'automatisation  
 - ✅ CI/CD configuré
 
 ---
