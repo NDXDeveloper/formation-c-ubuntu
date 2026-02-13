@@ -101,7 +101,7 @@ Contrairement aux frameworks web qui changent tous les 6 mois, le C est extrême
 - **C99** (1999) : Standard largement adopté
 - **C11** (2011) : Ajouts pour la concurrence moderne
 - **C17** (2018) : Corrections et clarifications
-- **C23** (2023) : Nouvelles fonctionnalités tout en gardant la rétrocompatibilité
+- **C23** (2024) : Nouvelles fonctionnalités tout en gardant la rétrocompatibilité (ISO/IEC 9899:2024)
 
 Un programme C écrit il y a 20 ans peut souvent être recompilé et fonctionner aujourd'hui sans modification. Cette pérennité est cruciale pour :
 - Les projets à long terme
@@ -116,7 +116,7 @@ Un programme C écrit il y a 20 ans peut souvent être recompilé et fonctionner
 
 En 2025, le C joue un rôle clé dans l'infrastructure moderne :
 
-- **Conteneurs** : Docker et Kubernetes utilisent des composants écrits en C
+- **Conteneurs** : Docker et Kubernetes (écrits en Go) reposent sur des primitives Linux écrites en C (cgroups, namespaces, seccomp)
 - **Networking** : Les stacks réseau (TCP/IP, HTTP) sont en C
 - **Observabilité** : Les outils de monitoring système utilisent C pour l'efficacité
 - **eBPF** : La technologie révolutionnaire de tracing et sécurité Linux nécessite le C
@@ -164,28 +164,28 @@ Contribuer à ces projets nécessite de maîtriser le C.
 
 ### C vs Python
 
-**Python** : Excellent pour le prototypage rapide, le data science, le scripting
+**Python** : Excellent pour le prototypage rapide, le data science, le scripting  
 **C** : Nécessaire pour les performances, la programmation système, l'embarqué
 
 → Beaucoup de bibliothèques Python (NumPy, Pandas) sont écrites en C pour les performances !
 
 ### C vs Rust
 
-**Rust** (créé en 2015) : Langage moderne avec sécurité mémoire garantie par le compilateur
+**Rust** (version 1.0 en 2015) : Langage moderne avec sécurité mémoire garantie par le compilateur  
 **C** : Plus simple, plus mature, plus universel
 
 → Rust est prometteur et gagne du terrain, mais le C reste dominant dans l'existant et l'embarqué. Apprendre le C facilite l'apprentissage de Rust.
 
 ### C vs C++
 
-**C++** : Extension du C avec la programmation orientée objet et de nombreuses fonctionnalités
+**C++** : Extension du C avec la programmation orientée objet et de nombreuses fonctionnalités  
 **C** : Plus simple, plus prévisible, compilation plus rapide
 
 → C++ est utilisé pour les applications complexes (jeux, GUI), C pour le système et l'embarqué. Connaître le C est un prérequis pour bien comprendre le C++.
 
 ### C vs Go
 
-**Go** : Langage moderne de Google pour les services backend
+**Go** : Langage moderne de Google pour les services backend  
 **C** : Plus rapide, plus bas niveau, plus flexible
 
 → Go est excellent pour les microservices web, mais ne remplace pas le C pour la programmation système.

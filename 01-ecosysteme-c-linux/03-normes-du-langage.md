@@ -86,7 +86,7 @@ int x = 5 / 2;  // Toujours 2 (division entière définie par la norme)
 | 1999 | ISO/IEC 9899:1999 | **C99** | Révision majeure | 🔵 Largement utilisé |
 | 2011 | ISO/IEC 9899:2011 | **C11** | Révision majeure | 🟣 **Standard actuel** ⭐ |
 | 2017 | ISO/IEC 9899:2018 | **C17** (ou C18) | Corrections | 🟣 **Standard actuel** ⭐ |
-| 2023 | ISO/IEC 9899:2023 | **C23** | Révision majeure | 🆕 Nouvelle norme |
+| 2024 | ISO/IEC 9899:2024 | **C23** | Révision majeure | 🆕 Nouvelle norme |
 
 > 🎯 **À retenir** : En 2025, **C11/C17** est la version la plus utilisée en production, bien que C23 soit désormais disponible.
 
@@ -107,7 +107,7 @@ int x = 5 / 2;  // Toujours 2 (division entière définie par la norme)
 **Exemple K&R C** (syntaxe ancienne) :
 ```c
 /* Déclaration de fonction à l'ancienne */
-int add(a, b)
+int add(a, b)  
 int a, b;  /* Types déclarés séparément */
 {
     return a + b;
@@ -163,15 +163,15 @@ int main(void) {
 #include <stdint.h>
 #include <stdbool.h>
 
-int64_t big_number;     // Entier 64 bits garanti
+int64_t big_number;     // Entier 64 bits garanti  
 bool is_valid = true;   // Type booléen natif
 ```
 
 #### 2. Déclarations flexibles
 ```c
 // Variables déclarées n'importe où (pas seulement en début de bloc)
-int x = 10;
-printf("%d\n", x);
+int x = 10;  
+printf("%d\n", x);  
 int y = 20;  // OK en C99 !
 ```
 
@@ -184,7 +184,7 @@ for (int i = 0; i < 10; i++) {  // i déclaré dans le for
 
 #### 4. Tableaux de longueur variable (VLA)
 ```c
-int n = 10;
+int n = 10;  
 int array[n];  // Taille définie à l'exécution !
 ```
 
@@ -211,10 +211,12 @@ double complex z = 1.0 + 2.0*I;
 
 #### 8. Fonctions inline
 ```c
-inline int max(int a, int b) {
+static inline int max(int a, int b) {
     return a > b ? a : b;
 }
 ```
+
+> **Note** : En C99/C11, une fonction `inline` sans `static` ne fournit pas de définition externe. En pratique, utilisez toujours `static inline` pour éviter les erreurs de linkage.
 
 **État en 2025** : Très largement utilisé, excellent choix pour la compatibilité maximale.
 
@@ -231,6 +233,7 @@ inline int max(int a, int b) {
 #include <threads.h>
 
 int thread_function(void *arg) {
+    (void)arg;  // Paramètre non utilisé
     printf("Thread en cours\n");
     return 0;
 }
@@ -247,7 +250,7 @@ int main(void) {
 ```c
 #include <stdatomic.h>
 
-atomic_int counter = ATOMIC_VAR_INIT(0);
+atomic_int counter = 0;  // Initialisation directe (ATOMIC_VAR_INIT déprécié en C17)
 
 void increment() {
     atomic_fetch_add(&counter, 1);  // Thread-safe !
@@ -283,7 +286,7 @@ alignas(16) float vector[4];  // Aligné sur 16 octets
 
 #### 7. Unicode amélioré
 ```c
-char16_t utf16_string[] = u"Hello 世界";
+char16_t utf16_string[] = u"Hello 世界";  
 char32_t utf32_string[] = U"Hello 世界";
 ```
 
@@ -563,7 +566,7 @@ Ces sections détailleront les aspects pratiques du choix et de l'utilisation de
 - [Draft C99 (N1256)](http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1256.pdf)
 - [Draft C11 (N1570)](http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf)
 - [Draft C17 (N2310)](http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2310.pdf)
-- [Draft C23 (N3096)](http://www.open-std.org/jtc1/sc22/wg14/www/docs/n3096.pdf)
+- [Draft C23 (N3220)](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3220.pdf)
 
 ### Livres recommandés
 

@@ -59,8 +59,8 @@ Avant UNIX en C, réécrire un système d'exploitation pour une nouvelle machine
 ```
 Code UNIX en C
       ↓
-Compilation pour architecture A → UNIX pour machine A
-Compilation pour architecture B → UNIX pour machine B
+Compilation pour architecture A → UNIX pour machine A  
+Compilation pour architecture B → UNIX pour machine B  
 Compilation pour architecture C → UNIX pour machine C
 ```
 
@@ -134,7 +134,7 @@ Grâce à C, UNIX a pu :
 
 **1991** : Linus Torvalds, étudiant finlandais, veut un UNIX libre pour son PC. Il crée Linux.
 
-**Question** : Dans quel langage écrit-il Linux ?
+**Question** : Dans quel langage écrit-il Linux ?  
 **Réponse** : En C, bien sûr !
 
 Pourquoi ?
@@ -149,10 +149,11 @@ Pourquoi ?
 
 Le **Linux kernel** (noyau Linux) est :
 
-**Écrit en C à 98%** :
-- Environ 30 millions de lignes de code C
+**Écrit majoritairement en C** :
+- Environ 30 millions de lignes de code, principalement en C
 - Quelques parties en assembleur (boot, bas niveau architecture-spécifique)
-- Quelques scripts shell pour le build system
+- Du Rust intégré progressivement depuis la version 6.1 (2022) pour certains drivers
+- Quelques scripts shell et Python pour le build system
 
 **Compilé avec GCC ou Clang** :
 - GCC (GNU Compiler Collection) : Le compilateur C principal de Linux
@@ -170,7 +171,7 @@ Voici les principaux composants du système Linux, tous écrits principalement e
 
 | Composant | Description | Langage |
 |-----------|-------------|---------|
-| **Kernel** | Cœur du système | C (98%) |
+| **Kernel** | Cœur du système | C (+ assembleur et Rust depuis 6.1) |
 | **GNU Coreutils** | Commandes de base (`ls`, `cp`, `cat`...) | C |
 | **bash** | Shell principal | C |
 | **systemd** | Système d'init moderne | C |
@@ -199,8 +200,8 @@ Voici les principaux composants du système Linux, tous écrits principalement e
 #include <sys/types.h> // API POSIX
 
 // Ces fonctions fonctionnent sur tous les systèmes POSIX
-int fd = open("/tmp/file.txt", O_RDONLY);
-read(fd, buffer, size);
+int fd = open("/tmp/file.txt", O_RDONLY);  
+read(fd, buffer, size);  
 close(fd);
 ```
 
@@ -233,15 +234,15 @@ POSIX garantit que votre code C :
 
 **UNIX** : Les fichiers, devices, sockets, pipes... s'utilisent de la même façon
 ```bash
-cat fichier.txt        # Lire un fichier
-cat /dev/urandom       # Lire un device
+cat fichier.txt        # Lire un fichier  
+cat /dev/urandom       # Lire un device  
 cat /proc/cpuinfo      # Lire des infos système
 ```
 
 **C** : L'API fichier uniforme
 ```c
-int fd = open(path, O_RDONLY);  // Marche pour tout
-read(fd, buffer, size);         // Même API
+int fd = open(path, O_RDONLY);  // Marche pour tout  
+read(fd, buffer, size);         // Même API  
 close(fd);                      // Même API
 ```
 
@@ -329,10 +330,9 @@ Le noyau Linux (version 6.x en 2025) :
 
 ### 2. L'écosystème système Linux est en C
 
-Les outils fondamentaux Linux restent en C :
-- systemd (init system moderne)
-- Docker/containerd (conteneurisation)
-- QEMU (virtualisation)
+Les outils fondamentaux Linux restent en C ou reposent sur des composants C :
+- systemd (init system moderne, écrit en C)
+- QEMU (virtualisation, écrit en C)
 - OpenSSL (cryptographie)
 - iptables/nftables (firewall)
 
@@ -360,9 +360,9 @@ Un programme C écrit pour Linux dans les années 1990 :
 
 Tous les langages modernes peuvent appeler du C :
 ```
-Python → ctypes → bibliothèque C → kernel Linux
-Go → cgo → bibliothèque C → kernel Linux
-Rust → FFI → bibliothèque C → kernel Linux
+Python → ctypes → bibliothèque C → kernel Linux  
+Go → cgo → bibliothèque C → kernel Linux  
+Rust → FFI → bibliothèque C → kernel Linux  
 Node.js → N-API → bibliothèque C → kernel Linux
 ```
 
@@ -430,9 +430,8 @@ Les compétences C + Linux sont recherchées pour :
 
 ### Conteneurs et orchestration
 
-- **Docker** : Composants système en C
-- **Kubernetes** : Interagit avec le kernel Linux (C)
-- **containerd, runc** : Interaction kernel en C
+- **Docker, Kubernetes, containerd, runc** : écrits en Go, mais s'appuient sur des primitives kernel Linux écrites en C (cgroups, namespaces, seccomp)
+- **LXC** (Linux Containers) : écrit en C, utilise directement les API kernel
 
 ---
 

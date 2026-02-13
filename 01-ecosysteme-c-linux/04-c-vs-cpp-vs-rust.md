@@ -95,7 +95,7 @@ Le C fonctionne **partout** :
 - Tous les systèmes d'exploitation (Linux, Windows, macOS, RTOS, etc.)
 - Dans l'espace, dans les avions, dans les voitures, dans les satellites
 
-**Exemple** : Voyager 1 (lancé en 1977) exécute du code qui pourrait être recompilé en C aujourd'hui.
+**Exemple** : Le code de SQLite (créé en 2000) compile et fonctionne sans modification sur des centaines de plateformes, des montres connectées aux serveurs.
 
 #### 3. Compilation rapide
 
@@ -116,14 +116,14 @@ Pour des projets complexes, la différence se compte en minutes voire heures.
 
 Un "Hello World" en C :
 ```bash
-gcc hello.c -o hello
+gcc hello.c -o hello  
 ls -lh hello
 # Taille: ~16 KB (avec strip)
 ```
 
 Même programme en Rust :
 ```bash
-rustc hello.rs
+rustc hello.rs  
 ls -lh hello
 # Taille: ~400 KB (avec optimisation)
 ```
@@ -133,7 +133,7 @@ ls -lh hello
 #### 5. Standard stable et mûr
 
 ```c
-// Ce code de 1989 compile et fonctionne en 2025
+/* Ce code de 1989 compile et fonctionne en 2025 */
 #include <stdio.h>
 
 int main(void) {
@@ -150,8 +150,8 @@ Tous les langages peuvent appeler du C (FFI - Foreign Function Interface) :
 
 ```python
 # Python peut appeler une bibliothèque C
-import ctypes
-lib = ctypes.CDLL('./mylib.so')
+import ctypes  
+lib = ctypes.CDLL('./mylib.so')  
 result = lib.my_c_function(42)
 ```
 
@@ -192,7 +192,7 @@ free(ptr);  // Vous devez penser à libérer !
 #### 2. Pas de protection contre les erreurs de programmation
 
 ```c
-int array[10];
+int array[10];  
 array[15] = 42;  // Aucune vérification ! Comportement indéfini !
 ```
 
@@ -212,7 +212,7 @@ Le compilateur ne vous empêche pas de faire des erreurs dangereuses.
 #### 4. Système de types limité
 
 ```c
-void *ptr = malloc(100);  // Type perdu
+void *ptr = malloc(100);  // Type perdu  
 int *int_ptr = (int *)ptr;  // Cast manuel, aucune vérification
 ```
 
@@ -233,7 +233,7 @@ int add(int a, int b) {
 }
 
 // Code C++ supplémentaire
-class Calculator {
+class Calculator {  
 public:
     int add(int a, int b) { return a + b; }
 };
@@ -245,13 +245,13 @@ Vous pouvez utiliser du code C dans du C++ directement.
 
 ```cpp
 // Template générique
-template<typename T>
+template<typename T>  
 T max(T a, T b) {
     return a > b ? a : b;
 }
 
 // Le compilateur génère du code spécialisé
-int result = max(5, 10);        // Pas de surcoût runtime
+int result = max(5, 10);        // Pas de surcoût runtime  
 float fresult = max(3.14f, 2.7f);
 ```
 
@@ -260,12 +260,12 @@ float fresult = max(3.14f, 2.7f);
 #### 3. Orienté objet
 
 ```cpp
-class Animal {
+class Animal {  
 public:
     virtual void speak() = 0;
 };
 
-class Dog : public Animal {
+class Dog : public Animal {  
 public:
     void speak() override {
         std::cout << "Woof!" << std::endl;
@@ -281,7 +281,7 @@ Idéal pour les grandes applications structurées.
 #include <vector>
 #include <algorithm>
 
-std::vector<int> numbers = {5, 2, 8, 1, 9};
+std::vector<int> numbers = {5, 2, 8, 1, 9};  
 std::sort(numbers.begin(), numbers.end());
 ```
 
@@ -359,7 +359,7 @@ Les templates et la STL génèrent beaucoup de code :
 
 ```bash
 # Hello World C++ avec iostream
-g++ hello.cpp -o hello
+g++ hello.cpp -o hello  
 ls -lh hello
 # ~2 MB (avec strip)
 ```
@@ -368,10 +368,10 @@ ls -lh hello
 
 ```cpp
 // Toutes ces façons d'initialiser sont valides !
-int a = 5;
-int b(5);
-int c{5};
-int d = {5};
+int a = 5;  
+int b(5);  
+int c{5};  
+int d = {5};  
 auto e = 5;
 ```
 
@@ -397,11 +397,12 @@ fn main() {
 }
 ```
 
-**Impossible** de :
-- Avoir des memory leaks (sans unsafe)
-- Faire du use-after-free
-- Avoir des data races
-- Dépasser les limites d'un tableau
+**Empêche à la compilation** :
+- Le use-after-free
+- Les data races
+- Les dépassements de limites de tableau
+
+> ⚠️ **Nuance** : Les fuites mémoire restent possibles en Rust (cycles de références avec `Rc<RefCell<...>>`), car elles sont considérées comme "safe" par le langage.
 
 #### 2. Zéro abstractions avec sécurité
 
@@ -454,9 +455,9 @@ Le compilateur garantit qu'il n'y a pas de data race.
 - **Tests intégrés**
 
 ```bash
-cargo new my_project
-cargo build
-cargo test
+cargo new my_project  
+cargo build  
+cargo test  
 cargo doc
 ```
 
@@ -531,7 +532,7 @@ Perdre les garanties de sécurité quand on interagit avec du code existant.
 #### 6. Binaires moyennement gros
 
 ```bash
-cargo build --release
+cargo build --release  
 ls -lh target/release/program
 # ~400 KB - 2 MB (selon le projet)
 ```
@@ -566,7 +567,7 @@ Rust n'a pas de norme ISO/ANSI officielle. C'est la fondation Rust qui contrôle
 |---------------|---|-----|------|
 | **Buffer overflow** | ❌ Possible | ❌ Possible (raw ptr) | ✅ Empêché |
 | **Use-after-free** | ❌ Possible | ❌ Possible | ✅ Empêché |
-| **Memory leak** | ❌ Possible | 🟡 Réduit (smart ptr) | ✅ Empêché* |
+| **Memory leak** | ❌ Possible | 🟡 Réduit (smart ptr) | 🟡 Réduit (cycles Rc possibles) |
 | **Data race** | ❌ Possible | ❌ Possible | ✅ Empêché |
 | **Null pointer** | ❌ Possible | ❌ Possible | ✅ Empêché (Option) |
 
@@ -583,9 +584,9 @@ Simplicité ←─────────────────────�
 Simple          Complexe              Très complexe
 ```
 
-**C** : ~180 pages de spécification
-**Rust** : ~500 pages de documentation
-**C++** : ~1,500+ pages de spécification
+**C** : ~700 pages de spécification (C11, N1570)  
+**Rust** : ~500 pages de documentation (Rust Reference)  
+**C++** : ~1 800+ pages de spécification (C++23)
 
 ### Temps de compilation
 

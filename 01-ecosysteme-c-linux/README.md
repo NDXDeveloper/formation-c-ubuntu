@@ -98,7 +98,7 @@ Avant de commencer, voici quelques éléments qui montrent l'importance du C :
 ### Le C est partout
 
 - **90% des systèmes d'exploitation** ont leur noyau écrit en C
-- **Le noyau Linux** (~30 millions de lignes) est écrit à 98% en C
+- **Le noyau Linux** (~30 millions de lignes) est écrit majoritairement en C (avec de l'assembleur et, depuis la version 6.1, du Rust en complément)
 - **Votre smartphone** tourne sur un noyau écrit en C (Linux pour Android, Darwin pour iOS)
 - **Les serveurs web** les plus utilisés (Nginx, Apache) sont en C
 - **Les bases de données** majeures (PostgreSQL, MySQL, SQLite) sont en C
@@ -108,7 +108,7 @@ Avant de commencer, voici quelques éléments qui montrent l'importance du C :
 - **Créé en 1972** (il y a plus de 50 ans !)
 - Toujours dans le **top 3 des langages** les plus utilisés (index TIOBE 2025)
 - **Standard stable** : du code écrit il y a 30 ans peut encore compiler aujourd'hui
-- **Évolution continue** : nouvelle norme C23 publiée en 2023
+- **Évolution continue** : nouvelle norme C23 publiée en 2024 (ISO/IEC 9899:2024)
 
 ### Le C est une compétence recherchée
 
@@ -255,6 +255,6 @@ Vous allez découvrir que loin d'être un langage obsolète, le C reste au cœur
 
 **Bon apprentissage ! Que votre voyage dans le monde du C soit enrichissant et passionnant.** 🌟
 
-*"C is not just a language. It's a way of thinking."* - Dennis Ritchie (créateur du C)
+*"The only way to learn a new programming language is by writing programs in it."* - Brian Kernighan & Dennis Ritchie, *The C Programming Language* (1978)
 
 ⏭️ [Pourquoi le C en 2025 ?](/01-ecosysteme-c-linux/01-pourquoi-le-c-en-2025.md)
