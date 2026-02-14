@@ -21,11 +21,11 @@ Un **build system** (système de construction ou de build) est un outil qui auto
 **Sans build system** :
 ```bash
 # Compiler manuellement chaque fichier...
-gcc -c main.c -o main.o
-gcc -c utils.c -o utils.o
-gcc -c parser.c -o parser.o
-gcc -c network.c -o network.o
-gcc main.o utils.o parser.o network.o -o mon_app -lssl -lcrypto -lpthread
+gcc -c main.c -o main.o  
+gcc -c utils.c -o utils.o  
+gcc -c parser.c -o parser.o  
+gcc -c network.c -o network.o  
+gcc main.o utils.o parser.o network.o -o mon_app -lssl -lcrypto -lpthread  
 
 # Et recommencer à chaque modification !
 # Et adapter pour chaque plateforme !
@@ -102,9 +102,9 @@ Sans build system, modifier **un seul fichier** vous oblige à **tout recompiler
 nano utils.c
 
 # Recompilation de TOUT le projet (10 minutes)
-gcc -c main.c -o main.o          # Inutile ! main.c n'a pas changé
-gcc -c utils.c -o utils.o         # ✓ Nécessaire
-gcc -c parser.c -o parser.o       # Inutile ! parser.c n'a pas changé
+gcc -c main.c -o main.o          # Inutile ! main.c n'a pas changé  
+gcc -c utils.c -o utils.o         # ✓ Nécessaire  
+gcc -c parser.c -o parser.o       # Inutile ! parser.c n'a pas changé  
 # ... 297 autres fichiers inutiles
 ```
 
@@ -346,12 +346,12 @@ Vous allez découvrir **l'écosystème plus large** :
 La maîtrise des build systems est une compétence qui traverse les domaines :
 
 ```
-Développeur Backend      → Compile des services haute performance
-Ingénieur Systèmes       → Build des outils système en C
-Développeur Embedded     → Cross-compilation pour ARM/RISC-V
-DevOps Engineer          → Intégration CI/CD de projets C
-Développeur Gaming       → Build engines C++ complexes
-Contributeur Open-Source → Participe à des projets majeurs
+Développeur Backend      → Compile des services haute performance  
+Ingénieur Systèmes       → Build des outils système en C  
+Développeur Embedded     → Cross-compilation pour ARM/RISC-V  
+DevOps Engineer          → Intégration CI/CD de projets C  
+Développeur Gaming       → Build engines C++ complexes  
+Contributeur Open-Source → Participe à des projets majeurs  
 ```
 
 **Tous utilisent des build systems !**
@@ -374,9 +374,9 @@ Contributeur Open-Source → Participe à des projets majeurs
 
 **Sans build system standardisé** :
 ```
-Jour 1 : "Comment on compile ?"
-Jour 2 : "Pourquoi ça ne marche pas sur mon Ubuntu ?"
-Jour 3 : "J'ai cassé le build de tout le monde..."
+Jour 1 : "Comment on compile ?"  
+Jour 2 : "Pourquoi ça ne marche pas sur mon Ubuntu ?"  
+Jour 3 : "J'ai cassé le build de tout le monde..."  
 ```
 
 **Avec CMake** :
@@ -397,9 +397,9 @@ Avant de commencer, vous devriez être à l'aise avec :
 
 ✅ **Compilation C de base**
 ```bash
-gcc main.c -o programme
-gcc -c fichier.c -o fichier.o
-gcc fichier1.o fichier2.o -o programme
+gcc main.c -o programme  
+gcc -c fichier.c -o fichier.o  
+gcc fichier1.o fichier2.o -o programme  
 ```
 
 ✅ **Structure d'un projet C**
@@ -425,13 +425,13 @@ cd, ls, mkdir, rm, cp, mv
 
 ### Prérequis recommandés (mais pas obligatoires)
 
-⚠️ **Expérience avec des projets multi-fichiers**
+⚠️ **Expérience avec des projets multi-fichiers**  
 → Vous avez déjà ressenti la douleur de gérer plusieurs fichiers manuellement
 
-⚠️ **Notions de Git**
+⚠️ **Notions de Git**  
 → Utile pour comprendre l'intégration CI/CD
 
-⚠️ **Un IDE moderne installé**
+⚠️ **Un IDE moderne installé**  
 → VS Code ou CLion (pour la section 13.1.8)
 
 ### Ce que vous n'avez PAS besoin de connaître
@@ -541,8 +541,8 @@ Chaque exemple doit être :
 **2. Créez un répertoire d'exercices**
 
 ```bash
-mkdir ~/cmake_learning
-cd ~/cmake_learning
+mkdir ~/cmake_learning  
+cd ~/cmake_learning  
 # Tous vos tests ici
 ```
 
@@ -595,19 +595,19 @@ Les sections sur les bonnes pratiques (out-of-source builds, structure de projet
 
 Pour rester focalisé et accessible, ce chapitre ne couvre pas :
 
-❌ **Packaging complexe** (CPack en détail)
+❌ **Packaging complexe** (CPack en détail)  
 → Sujet pour un chapitre dédié au déploiement
 
-❌ **Cross-compilation avancée**
+❌ **Cross-compilation avancée**  
 → Brièvement mentionné, mais nécessiterait un chapitre entier
 
-❌ **Intégration avec tous les IDEs**
+❌ **Intégration avec tous les IDEs**  
 → Focus sur VS Code et CLion (les plus populaires)
 
-❌ **Build systems exotiques**
+❌ **Build systems exotiques**  
 → Seulement les principaux (CMake, Make, Ninja, Meson, Bazel)
 
-❌ **Scripting CMake avancé**
+❌ **Scripting CMake avancé**  
 → Fonctions custom, modules, etc. (niveau expert)
 
 Ces sujets pourront être explorés plus tard selon vos besoins.
@@ -655,8 +655,8 @@ Les build systems ne sont pas un détail technique obscur. Ce sont des outils **
 - Comment choisir le bon outil
 - Comment être productif avec les build systems modernes
 
-**Investissement** : 2-3 semaines
-**Retour sur investissement** : Des centaines d'heures économisées par an
+**Investissement** : 2-3 semaines  
+**Retour sur investissement** : Des centaines d'heures économisées par an  
 
 ---
 

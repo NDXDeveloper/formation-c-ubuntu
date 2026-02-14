@@ -177,8 +177,8 @@ Couche 6 : Code review humaine
 
 #### Buffer overflow (Débordement de tampon)
 ```c
-char buffer[10];
-strcpy(buffer, "Chaîne beaucoup trop longue");  // ❌ Écrit au-delà du buffer
+char buffer[10];  
+strcpy(buffer, "Chaîne beaucoup trop longue");  // ❌ Écrit au-delà du buffer  
 ```
 **Conséquences :** Corruption mémoire, crashs, failles de sécurité
 
@@ -186,8 +186,8 @@ strcpy(buffer, "Chaîne beaucoup trop longue");  // ❌ Écrit au-delà du buffe
 
 #### Use-after-free
 ```c
-int *ptr = malloc(sizeof(int));
-free(ptr);
+int *ptr = malloc(sizeof(int));  
+free(ptr);  
 *ptr = 42;  // ❌ Utilisation de mémoire libérée
 ```
 **Conséquences :** Corruption silencieuse, crashs aléatoires
@@ -207,8 +207,8 @@ void fonction() {
 
 #### Double-free
 ```c
-free(ptr);
-free(ptr);  // ❌ Libération double
+free(ptr);  
+free(ptr);  // ❌ Libération double  
 ```
 **Conséquences :** Corruption du tas, crash
 
@@ -220,8 +220,8 @@ free(ptr);  // ❌ Libération double
 
 #### Integer overflow
 ```c
-int x = INT_MAX;
-x = x + 1;  // ❌ Comportement indéfini
+int x = INT_MAX;  
+x = x + 1;  // ❌ Comportement indéfini  
 ```
 **Détection :** UBSan
 
@@ -263,11 +263,11 @@ void* thread_func(void* arg) {
 
 #### Deadlock
 ```c
-pthread_mutex_lock(&mutex1);
-pthread_mutex_lock(&mutex2);  // Thread 1
+pthread_mutex_lock(&mutex1);  
+pthread_mutex_lock(&mutex2);  // Thread 1  
 
-pthread_mutex_lock(&mutex2);
-pthread_mutex_lock(&mutex1);  // Thread 2 → Deadlock !
+pthread_mutex_lock(&mutex2);  
+pthread_mutex_lock(&mutex1);  // Thread 2 → Deadlock !  
 ```
 **Conséquences :** Programme bloqué
 
@@ -287,8 +287,8 @@ if (score = 100) {  // ❌ Assignation au lieu de comparaison
 
 #### Boucles infinies
 ```c
-int i = 0;
-while (i < 10) {
+int i = 0;  
+while (i < 10) {  
     printf("%d\n", i);
     // ❌ Oubli de i++
 }
@@ -297,8 +297,8 @@ while (i < 10) {
 
 #### Utilisation de variables non initialisées
 ```c
-int x;
-printf("%d\n", x);  // ❌ Valeur indéterminée
+int x;  
+printf("%d\n", x);  // ❌ Valeur indéterminée  
 ```
 **Détection :** UBSan, Valgrind, analyse statique
 
@@ -491,8 +491,8 @@ Ce chapitre est organisé en sections progressives, chacune se concentrant sur u
 **Ubuntu/Debian :**
 ```bash
 # Compilateurs avec support sanitizers
-sudo apt-get update
-sudo apt-get install build-essential
+sudo apt-get update  
+sudo apt-get install build-essential  
 
 # GDB
 sudo apt-get install gdb
@@ -591,32 +591,32 @@ set makeprg=gcc\ -Wall\ -Wextra\ -g\ %
 
 **1. Zéro tolérance pour les bugs connus**
 ```
-Si un outil détecte un bug → Corriger immédiatement
-Ne jamais "ignorer" ou "contourner" un avertissement
+Si un outil détecte un bug → Corriger immédiatement  
+Ne jamais "ignorer" ou "contourner" un avertissement  
 ```
 
 **2. Automatisation maximale**
 ```
-Si ça peut être automatisé → Doit être automatisé
-Ne pas compter sur la mémoire ou la discipline humaine
+Si ça peut être automatisé → Doit être automatisé  
+Ne pas compter sur la mémoire ou la discipline humaine  
 ```
 
 **3. Défense en profondeur**
 ```
-Utiliser plusieurs outils complémentaires
-Chaque couche rattrape les bugs des autres
+Utiliser plusieurs outils complémentaires  
+Chaque couche rattrape les bugs des autres  
 ```
 
 **4. Shift-Left : Détecter tôt**
 ```
-Plus tôt détecté = Plus facile à corriger
-Coût exponentiel avec le temps
+Plus tôt détecté = Plus facile à corriger  
+Coût exponentiel avec le temps  
 ```
 
 **5. Mesurer pour améliorer**
 ```
-Code coverage, métriques de qualité
-Ce qui n'est pas mesuré ne peut pas être amélioré
+Code coverage, métriques de qualité  
+Ce qui n'est pas mesuré ne peut pas être amélioré  
 ```
 
 ### Citations de développeurs expérimentés
@@ -657,9 +657,9 @@ Ce qui n'est pas mesuré ne peut pas être amélioré
 
 **Indicateurs qualitatifs :**
 
-✅ Confiance dans le code livré
-✅ Temps de review réduit
-✅ Moins de stress avant les releases
+✅ Confiance dans le code livré  
+✅ Temps de review réduit  
+✅ Moins de stress avant les releases  
 ✅ Meilleure maintenabilité du code
 
 ---

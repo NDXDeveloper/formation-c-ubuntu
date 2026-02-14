@@ -38,8 +38,8 @@ int main() {
 
 **À l'exécution :**
 ```
-Traitement terminé
-Traitement terminé
+Traitement terminé  
+Traitement terminé  
 ...
 Programme terminé avec succès!
 ```
@@ -113,14 +113,14 @@ Dans cette section, nous nous concentrons sur **Memcheck**, l'outil le plus util
 
 **Sans Valgrind :**
 ```
-Développement → Tests → Production → CRASH mystérieux →
-Heures de debugging → Impossible à reproduire → 😫
+Développement → Tests → Production → CRASH mystérieux →  
+Heures de debugging → Impossible à reproduire → 😫  
 ```
 
 **Avec Valgrind :**
 ```
-Développement → Valgrind détecte le bug →
-Correction immédiate → Production stable → 😊
+Développement → Valgrind détecte le bug →  
+Correction immédiate → Production stable → 😊  
 ```
 
 ### 2. Types de bugs détectés
@@ -143,8 +143,8 @@ void fonction() {
 #### Accès hors limites (Buffer Overflow) 💥
 
 ```c
-int *array = malloc(10 * sizeof(int));
-array[15] = 42;  // Écriture au-delà de l'allocation !
+int *array = malloc(10 * sizeof(int));  
+array[15] = 42;  // Écriture au-delà de l'allocation !  
 ```
 
 **Gravité :** Corruption mémoire, crash, faille de sécurité
@@ -154,9 +154,9 @@ array[15] = 42;  // Écriture au-delà de l'allocation !
 #### Utilisation après libération (Use-after-free) 🔥
 
 ```c
-char *ptr = malloc(50);
-free(ptr);
-ptr[0] = 'A';  // Utilisation après free !
+char *ptr = malloc(50);  
+free(ptr);  
+ptr[0] = 'A';  // Utilisation après free !  
 ```
 
 **Gravité :** Faille de sécurité critique
@@ -166,9 +166,9 @@ ptr[0] = 'A';  // Utilisation après free !
 #### Double libération (Double Free) ⚠️
 
 ```c
-char *ptr = malloc(50);
-free(ptr);
-free(ptr);  // Libération deux fois !
+char *ptr = malloc(50);  
+free(ptr);  
+free(ptr);  // Libération deux fois !  
 ```
 
 **Gravité :** Corruption du heap, crash
@@ -178,8 +178,8 @@ free(ptr);  // Libération deux fois !
 #### Valeurs non initialisées 🤔
 
 ```c
-int x;  // Non initialisée
-if (x > 10) {  // Lecture de valeur indéfinie
+int x;  // Non initialisée  
+if (x > 10) {  // Lecture de valeur indéfinie  
     printf("Grande valeur\n");
 }
 ```
@@ -336,8 +336,8 @@ less valgrind.log
 vim mon_programme.c
 
 # 7. Recompiler et re-tester
-gcc -g -O0 -o mon_programme mon_programme.c
-valgrind --leak-check=full ./mon_programme
+gcc -g -O0 -o mon_programme mon_programme.c  
+valgrind --leak-check=full ./mon_programme  
 # Sortie : 0 erreurs ✓
 ```
 
@@ -426,8 +426,8 @@ void traiter() {
     // Oubli du free → fuite
 }
 
-int *array = malloc(10 * sizeof(int));
-array[15] = 42;  // Corruption mémoire
+int *array = malloc(10 * sizeof(int));  
+array[15] = 42;  // Corruption mémoire  
 ```
 
 **Résultat :** Crashs aléatoires en production, debugging frustrant
@@ -446,8 +446,8 @@ void traiter() {
     free(data);  // ✅ Libération systématique
 }
 
-int *array = malloc(10 * sizeof(int));
-if (!array) return;
+int *array = malloc(10 * sizeof(int));  
+if (!array) return;  
 
 for (int i = 0; i < 10; i++) {  // ✅ Boucle correcte
     array[i] = 42;
@@ -479,8 +479,8 @@ gcc -fsanitize=address -g -o prog prog.c
 ./prog
 
 # 2. Avant commit : Valgrind complet
-gcc -g -O0 -o prog prog.c
-valgrind --leak-check=full ./prog
+gcc -g -O0 -o prog prog.c  
+valgrind --leak-check=full ./prog  
 
 # 3. CI/CD : Les deux
 # - ASan pour rapidité
@@ -504,9 +504,9 @@ Objectif : 0 erreurs, 0 fuites
 ==12345== All heap blocks were freed -- no leaks are possible
 ```
 
-**Pas de "c'est juste une petite fuite".**
-**Pas de "ça fonctionne quand même".**
-**Pas de "je corrigerai plus tard".**
+**Pas de "c'est juste une petite fuite".**  
+**Pas de "ça fonctionne quand même".**  
+**Pas de "je corrigerai plus tard".**  
 
 Chaque erreur Valgrind mérite d'être :
 1. 🔍 Analysée et comprise
@@ -635,9 +635,9 @@ Appliquez Valgrind à vos projets personnels :
 find ~/projets -name "*.c" -type f
 
 # Pour chaque projet
-cd ~/projets/mon_projet
-make clean && make
-valgrind --leak-check=full ./mon_executable
+cd ~/projets/mon_projet  
+make clean && make  
+valgrind --leak-check=full ./mon_executable  
 ```
 
 Vous découvrirez probablement des bugs que vous ignoriez !
@@ -716,8 +716,8 @@ Vous avez maintenant une vision complète de ce qui vous attend dans cette secti
 À la fin de cette section, chacun de vos programmes devrait passer ce test :
 
 ```bash
-valgrind --leak-check=full --error-exitcode=1 ./mon_programme
-echo $?
+valgrind --leak-check=full --error-exitcode=1 ./mon_programme  
+echo $?  
 # 0 ← Succès : Aucune erreur !
 ```
 

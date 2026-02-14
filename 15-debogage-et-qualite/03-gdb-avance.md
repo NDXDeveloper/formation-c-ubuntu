@@ -123,12 +123,12 @@ Votre PC                          Serveur distant
 1. **Scripts de commandes GDB** (simples) :
 ```gdb
 # debug.gdb
-break main
-break fonction_critique
-run
-backtrace
-print variable_importante
-continue
+break main  
+break fonction_critique  
+run  
+backtrace  
+print variable_importante  
+continue  
 ```
 
 2. **Scripts Python** (avancés) :
@@ -170,8 +170,8 @@ MyCommand()
 **La magie de rr :**
 
 ```
-Sans rr :
-Bug apparaît → Trop tard, il est passé → Relancer → Il n'apparaît plus → 😡
+Sans rr :  
+Bug apparaît → Trop tard, il est passé → Relancer → Il n'apparaît plus → 😡  
 
 Avec rr :
 1. Bug apparaît → rr l'a enregistré
@@ -374,12 +374,12 @@ Les exemples du tutoriel sont pédagogiques, mais la vraie maîtrise vient de l'
 
 Ne vous sentez pas obligé de tout maîtriser d'un coup :
 
-**Semaine 1** : Core dumps basiques
-**Semaine 2** : Debugging distant simple
-**Semaine 3** : Scripts GDB (commandes)
-**Semaine 4** : rr record/replay
-**Semaine 5** : Scripts Python GDB
-**Semaine 6** : rr reverse debugging avancé
+**Semaine 1** : Core dumps basiques  
+**Semaine 2** : Debugging distant simple  
+**Semaine 3** : Scripts GDB (commandes)  
+**Semaine 4** : rr record/replay  
+**Semaine 5** : Scripts Python GDB  
+**Semaine 6** : rr reverse debugging avancé  
 
 ### 3. Créez votre boîte à outils personnelle
 

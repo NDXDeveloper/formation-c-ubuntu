@@ -44,8 +44,8 @@ Le langage C est particulièrement sensible aux erreurs qui peuvent ne se manife
 
 1. **Chemins d'erreur non testés**
 ```c
-FILE *file = fopen("data.txt", "r");
-if (file == NULL) {
+FILE *file = fopen("data.txt", "r");  
+if (file == NULL) {  
     // ❌ Ce code de gestion d'erreur est-il testé ?
     fprintf(stderr, "Cannot open file\n");
     return -1;
@@ -121,13 +121,13 @@ Couverture = (Lignes exécutées / Lignes exécutables) × 100
 **Exemple :**
 
 ```c
-void function_a() { /* ... */ }
-void function_b() { /* ... */ }
-void function_c() { /* ... */ }
+void function_a() { /* ... */ }  
+void function_b() { /* ... */ }  
+void function_c() { /* ... */ }  
 
 // Tests
-function_a();
-function_b();
+function_a();  
+function_b();  
 // function_c() jamais appelée
 
 // Couverture de fonctions = 2/3 = 66.7%
@@ -360,8 +360,8 @@ void strong_test() {
 La couverture révèle **immédiatement** les zones dangereuses :
 
 ```
-Fichier: auth.c
-Couverture: 45%
+Fichier: auth.c  
+Couverture: 45%  
 
 Lignes non couvertes:
 - 23-28: Gestion de l'authentification échouée
@@ -407,10 +407,10 @@ void legacy_function() {
 Suivi de l'évolution :
 
 ```
-Janvier 2024:  55%
-Février 2024:  62%
-Mars 2024:     70%
-Avril 2024:    78%  ← Progrès constant
+Janvier 2024:  55%  
+Février 2024:  62%  
+Mars 2024:     70%  
+Avril 2024:    78%  ← Progrès constant  
 ```
 
 ### 5. Critère objectif de qualité
@@ -747,8 +747,8 @@ Nombre de bugs trouvés par les tests / Total de bugs.
 assert(result != NULL);
 
 // Haute qualité
-assert(result->value == 42);
-assert(strcmp(result->name, "test") == 0);
+assert(result->value == 42);  
+assert(strcmp(result->name, "test") == 0);  
 ```
 
 ### 3. Mutation testing

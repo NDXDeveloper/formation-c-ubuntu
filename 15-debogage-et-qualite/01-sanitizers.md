@@ -57,9 +57,9 @@ Il existe plusieurs sanitizers, chacun spécialisé dans la détection d'un type
 
 **Exemple de bug détecté :**
 ```c
-int *ptr = malloc(10 * sizeof(int));
-ptr[15] = 42;  // ❌ ASan détecte : écriture hors limites !
-free(ptr);
+int *ptr = malloc(10 * sizeof(int));  
+ptr[15] = 42;  // ❌ ASan détecte : écriture hors limites !  
+free(ptr);  
 ```
 
 **Overhead :** ~2× plus lent (acceptable en développement)
@@ -78,8 +78,8 @@ free(ptr);
 
 **Exemple de bug détecté :**
 ```c
-int max = INT_MAX;
-int result = max + 1;  // ❌ UBSan détecte : débordement d'entier !
+int max = INT_MAX;  
+int result = max + 1;  // ❌ UBSan détecte : débordement d'entier !  
 ```
 
 **Overhead :** ~1.2× plus lent (très léger)
@@ -147,11 +147,13 @@ void fonction() {
 - UBSan + LSan
 
 **❌ Ne peuvent PAS être combinés :**
-- TSan + ASan
-- TSan + UBSan
-- TSan + LSan
+- TSan + ASan (incompatibles, runtimes conflictuels)
+- TSan + LSan (LSan intégré à ASan, pas compatible avec TSan)
 
-**Règle simple :** ThreadSanitizer (TSan) doit toujours être utilisé **seul**.
+**✅ Combinaison possible mais moins courante :**
+- TSan + UBSan (fonctionne, utile pour détecter UB dans du code concurrent)
+
+**Règle simple :** ThreadSanitizer (TSan) ne peut pas être combiné avec AddressSanitizer (ASan). Pour le code multi-threadé, lancez TSan séparément.
 
 ---
 
@@ -171,14 +173,14 @@ free(data);  // Libération (ne pas oublier !)
 
 **2. Pas de vérification automatique des limites**
 ```c
-int array[10];
-array[15] = 42;  // Compilateur ne détecte pas l'erreur !
+int array[10];  
+array[15] = 42;  // Compilateur ne détecte pas l'erreur !  
 ```
 
 **3. Comportements indéfinis nombreux**
 ```c
-int x = INT_MAX;
-x = x + 1;  // Comportement indéfini (mais compile sans warning)
+int x = INT_MAX;  
+x = x + 1;  // Comportement indéfini (mais compile sans warning)  
 ```
 
 **4. Concurrence complexe**
@@ -249,8 +251,8 @@ Programme instrumenté → Exécution normale
 
 **Code original :**
 ```c
-int array[10];
-array[5] = 42;
+int array[10];  
+array[5] = 42;  
 ```
 
 **Code instrumenté (conceptuel) :**
@@ -525,8 +527,8 @@ Les sanitizers produisent très peu de faux positifs, mais cela peut arriver ave
 **Ubuntu/Debian :**
 ```bash
 # GCC avec support sanitizers (déjà installé généralement)
-sudo apt-get update
-sudo apt-get install build-essential
+sudo apt-get update  
+sudo apt-get install build-essential  
 
 # Vérifier la version
 gcc --version  # Recommandé : GCC 7.0+ ou Clang 6.0+
@@ -544,8 +546,8 @@ clang --version
 **Vérifier le support des sanitizers :**
 ```bash
 # Test rapide
-echo "int main() { return 0; }" > test.c
-gcc -fsanitize=address -o test test.c
+echo "int main() { return 0; }" > test.c  
+gcc -fsanitize=address -o test test.c  
 ./test
 # Si ça compile et s'exécute, les sanitizers sont disponibles
 rm test test.c

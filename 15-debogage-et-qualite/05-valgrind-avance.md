@@ -109,10 +109,10 @@ valgrind --tool=massif ./mon_programme
 
 **Exemple de détection :**
 ```c
-int *ptr = malloc(10 * sizeof(int));
-ptr[10] = 42;  // ❌ Débordement détecté par Memcheck
-free(ptr);
-ptr[0] = 0;    // ❌ Use-after-free détecté par Memcheck
+int *ptr = malloc(10 * sizeof(int));  
+ptr[10] = 42;  // ❌ Débordement détecté par Memcheck  
+free(ptr);  
+ptr[0] = 0;    // ❌ Use-after-free détecté par Memcheck  
 ```
 
 ---
@@ -173,8 +173,8 @@ Helgrind détectera que plusieurs threads accèdent à `compteur` sans protectio
 **Exemple d'analyse :**
 ```c
 // Code inefficace : accès non séquentiel
-int matrix[1000][1000];
-for (int col = 0; col < 1000; col++) {
+int matrix[1000][1000];  
+for (int col = 0; col < 1000; col++) {  
     for (int row = 0; row < 1000; row++) {
         matrix[row][col] = 0;  // ❌ Sauts de 1000 éléments = cache misses !
     }
@@ -395,7 +395,7 @@ Pour une analyse approfondie d'un programme, voici un workflow recommandé :
 3. **Cachegrind** : Analyser `apply_filter()` en détail
    ```bash
    valgrind --tool=cachegrind ./image_processor
-   cg_annotate --auto=yes callgrind.out.XXXXX image.c
+   cg_annotate --auto=yes cachegrind.out.XXXXX image.c
    ```
    **Résultat :** Taux de cache miss de 25% dans la boucle principale
 
@@ -437,8 +437,8 @@ Valgrind est excellent, mais il existe d'autres outils complémentaires :
 **Toujours** compiler avec `-g` pour obtenir des noms de fonctions et numéros de lignes :
 
 ```bash
-gcc -g -O0 mon_programme.c -o mon_programme  # Développement
-gcc -g -O2 mon_programme.c -o mon_programme  # Profiling réaliste
+gcc -g -O0 mon_programme.c -o mon_programme  # Développement  
+gcc -g -O2 mon_programme.c -o mon_programme  # Profiling réaliste  
 ```
 
 **Sans `-g` :**
@@ -516,24 +516,24 @@ Intégrer Valgrind dans votre workflow :
 #!/bin/bash
 # scripts/valgrind_full_check.sh
 
-echo "=== Phase 1: Memory Check ==="
-valgrind --tool=memcheck --leak-check=full ./programme 2>&1 | tee memcheck.log
+echo "=== Phase 1: Memory Check ==="  
+valgrind --tool=memcheck --leak-check=full ./programme 2>&1 | tee memcheck.log  
 
-echo ""
-echo "=== Phase 2: Performance Profile ==="
-valgrind --tool=callgrind --callgrind-out-file=callgrind.out ./programme
-callgrind_annotate callgrind.out | head -50 > profile.txt
+echo ""  
+echo "=== Phase 2: Performance Profile ==="  
+valgrind --tool=callgrind --callgrind-out-file=callgrind.out ./programme  
+callgrind_annotate callgrind.out | head -50 > profile.txt  
 
-echo ""
-echo "=== Phase 3: Memory Usage ==="
-valgrind --tool=massif --massif-out-file=massif.out ./programme
-ms_print massif.out | head -100 > memory_usage.txt
+echo ""  
+echo "=== Phase 3: Memory Usage ==="  
+valgrind --tool=massif --massif-out-file=massif.out ./programme  
+ms_print massif.out | head -100 > memory_usage.txt  
 
-echo ""
-echo "✅ Analyse complète terminée"
-echo "   - Rapport mémoire: memcheck.log"
-echo "   - Profil performance: profile.txt"
-echo "   - Utilisation RAM: memory_usage.txt"
+echo ""  
+echo "✅ Analyse complète terminée"  
+echo "   - Rapport mémoire: memcheck.log"  
+echo "   - Profil performance: profile.txt"  
+echo "   - Utilisation RAM: memory_usage.txt"  
 ```
 
 ---
@@ -633,12 +633,12 @@ Vous apprendrez à :
 ### Man Pages
 
 ```bash
-man valgrind         # Vue d'ensemble
-man memcheck        # Détails Memcheck
-man helgrind        # Détails Helgrind
-man cachegrind      # Détails Cachegrind
-man callgrind       # Détails Callgrind
-man massif          # Détails Massif
+man valgrind         # Vue d'ensemble  
+man memcheck        # Détails Memcheck  
+man helgrind        # Détails Helgrind  
+man cachegrind      # Détails Cachegrind  
+man callgrind       # Détails Callgrind  
+man massif          # Détails Massif  
 ```
 
 ### Commandes Rapides de Référence
@@ -651,17 +651,17 @@ valgrind ./programme
 valgrind --tool=helgrind ./programme
 
 # Cachegrind (cache)
-valgrind --tool=cachegrind ./programme
-cg_annotate cachegrind.out.XXXXX
+valgrind --tool=cachegrind ./programme  
+cg_annotate cachegrind.out.XXXXX  
 
 # Callgrind (profiling)
-valgrind --tool=callgrind ./programme
-callgrind_annotate callgrind.out.XXXXX
+valgrind --tool=callgrind ./programme  
+callgrind_annotate callgrind.out.XXXXX  
 # ou : kcachegrind callgrind.out.XXXXX
 
 # Massif (heap)
-valgrind --tool=massif ./programme
-ms_print massif.out.XXXXX
+valgrind --tool=massif ./programme  
+ms_print massif.out.XXXXX  
 # ou : massif-visualizer massif.out.XXXXX
 ```
 

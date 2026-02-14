@@ -119,10 +119,10 @@ calculator/
 # Makefile - Vous dites COMMENT compiler
 
 # Variables
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c11
-OBJS = main.o operations.o
-TARGET = calculator
+CC = gcc  
+CFLAGS = -Wall -Wextra -std=c11  
+OBJS = main.o operations.o  
+TARGET = calculator  
 
 # Règle par défaut
 all: $(TARGET)
@@ -157,12 +157,12 @@ clean:
 ```cmake
 # CMakeLists.txt - Vous dites QUOI compiler
 
-cmake_minimum_required(VERSION 3.15)
-project(Calculator C)
+cmake_minimum_required(VERSION 3.15)  
+project(Calculator C)  
 
 # Standard C
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 11)  
+set(CMAKE_C_STANDARD_REQUIRED ON)  
 
 # Warnings
 add_compile_options(-Wall -Wextra)
@@ -187,10 +187,10 @@ add_executable(calculator main.c operations.c)
 #### Makefile pour Linux
 
 ```makefile
-CC = gcc
-CFLAGS = -Wall -Wextra
-LDFLAGS = -lm -lpthread
-TARGET = mon_app
+CC = gcc  
+CFLAGS = -Wall -Wextra  
+LDFLAGS = -lm -lpthread  
+TARGET = mon_app  
 
 all: $(TARGET)
 
@@ -237,29 +237,29 @@ endif
 
 ```cmake
 # CMakeLists.txt - Fonctionne partout !
-cmake_minimum_required(VERSION 3.15)
-project(MonApp C)
+cmake_minimum_required(VERSION 3.15)  
+project(MonApp C)  
 
 add_executable(mon_app main.c utils.c)
 
 # Lier avec les bibliothèques (CMake s'adapte automatiquement)
-find_package(Threads REQUIRED)
-target_link_libraries(mon_app Threads::Threads m)
+find_package(Threads REQUIRED)  
+target_link_libraries(mon_app Threads::Threads m)  
 ```
 
 **Compilation** :
 ```bash
 # Linux
-cmake -B build
-cmake --build build
+cmake -B build  
+cmake --build build  
 
 # Windows (génère un projet Visual Studio)
-cmake -B build
-cmake --build build
+cmake -B build  
+cmake --build build  
 
 # macOS (génère un projet Xcode)
-cmake -B build
-cmake --build build
+cmake -B build  
+cmake --build build  
 ```
 
 **Le même CMakeLists.txt fonctionne partout !**
@@ -276,16 +276,16 @@ cmake --build build
 # Makefile - Dépendances manuelles
 
 # Où est OpenSSL ? (peut varier selon le système)
-OPENSSL_INCLUDE = /usr/include/openssl
-OPENSSL_LIB = /usr/lib/x86_64-linux-gnu
+OPENSSL_INCLUDE = /usr/include/openssl  
+OPENSSL_LIB = /usr/lib/x86_64-linux-gnu  
 
 # Ou peut-être ici sur un autre système ?
 # OPENSSL_INCLUDE = /usr/local/opt/openssl/include
 # OPENSSL_LIB = /usr/local/opt/openssl/lib
 
-CC = gcc
-CFLAGS = -I$(OPENSSL_INCLUDE)
-LDFLAGS = -L$(OPENSSL_LIB) -lssl -lcrypto
+CC = gcc  
+CFLAGS = -I$(OPENSSL_INCLUDE)  
+LDFLAGS = -L$(OPENSSL_LIB) -lssl -lcrypto  
 
 secure_app: main.o
 	$(CC) main.o -o secure_app $(LDFLAGS)
@@ -305,8 +305,8 @@ main.o: main.c
 ```cmake
 # CMakeLists.txt - Détection automatique
 
-cmake_minimum_required(VERSION 3.15)
-project(SecureApp C)
+cmake_minimum_required(VERSION 3.15)  
+project(SecureApp C)  
 
 # CMake trouve OpenSSL automatiquement
 find_package(OpenSSL REQUIRED)
@@ -353,9 +353,9 @@ OBJS = main.o parser.o lexer.o ast.o codegen.o \
 compiler: $(OBJS)
 	gcc $(OBJS) -o compiler
 
-main.o: main.c parser.h lexer.h
-parser.o: parser.c parser.h ast.h
-lexer.o: lexer.c lexer.h utils.h
+main.o: main.c parser.h lexer.h  
+parser.o: parser.c parser.h ast.h  
+lexer.o: lexer.c lexer.h utils.h  
 # ... 7 autres règles de dépendances à maintenir manuellement !
 ```
 
@@ -376,12 +376,12 @@ add_executable(compiler
 **CMakeLists.txt** :
 ```cmake
 # Organiser par modules
-add_subdirectory(frontend)
-add_subdirectory(backend)
-add_subdirectory(optimizer)
+add_subdirectory(frontend)  
+add_subdirectory(backend)  
+add_subdirectory(optimizer)  
 
-add_executable(compiler main.c)
-target_link_libraries(compiler frontend backend optimizer)
+add_executable(compiler main.c)  
+target_link_libraries(compiler frontend backend optimizer)  
 ```
 
 **Verdict** : Make = cauchemar, CMake = gérable.
@@ -395,12 +395,12 @@ target_link_libraries(compiler frontend backend optimizer)
 **Approche 1 : Makefiles séparés**
 ```bash
 # Structure
-Makefile.debug
-Makefile.release
+Makefile.debug  
+Makefile.release  
 
 # Utilisation
-make -f Makefile.debug
-make -f Makefile.release
+make -f Makefile.debug  
+make -f Makefile.release  
 ```
 
 **Approche 2 : Variable d'environnement**
@@ -420,8 +420,8 @@ mon_app: main.o
 
 **Utilisation** :
 ```bash
-make DEBUG=1          # Build debug
-make                  # Build release
+make DEBUG=1          # Build debug  
+make                  # Build release  
 ```
 
 **Problèmes** :
@@ -433,8 +433,8 @@ make                  # Build release
 
 ```cmake
 # CMakeLists.txt - Unique
-cmake_minimum_required(VERSION 3.15)
-project(MonApp C)
+cmake_minimum_required(VERSION 3.15)  
+project(MonApp C)  
 
 add_executable(mon_app main.c)
 ```
@@ -442,12 +442,12 @@ add_executable(mon_app main.c)
 **Utilisation** :
 ```bash
 # Build Debug
-cmake -B build-debug -DCMAKE_BUILD_TYPE=Debug
-cmake --build build-debug
+cmake -B build-debug -DCMAKE_BUILD_TYPE=Debug  
+cmake --build build-debug  
 
 # Build Release
-cmake -B build-release -DCMAKE_BUILD_TYPE=Release
-cmake --build build-release
+cmake -B build-release -DCMAKE_BUILD_TYPE=Release  
+cmake --build build-release  
 
 # Les deux coexistent sans conflit !
 ./build-debug/mon_app
@@ -503,8 +503,8 @@ Make excelle dans l'incrémental : il ne recompile que les fichiers modifiés.
 
 **Benchmark** (projet de 100 fichiers) :
 ```
-Compilation complète : 45 secondes
-Modification d'1 fichier : 2 secondes
+Compilation complète : 45 secondes  
+Modification d'1 fichier : 2 secondes  
 ```
 
 ### CMake + Make : Équivalent
@@ -513,9 +513,9 @@ CMake **génère** un Makefile optimisé. La vitesse de build est la même !
 
 **Benchmark** (même projet) :
 ```
-Configuration initiale : 3 secondes (une fois)
-Compilation complète : 45 secondes (identique)
-Modification d'1 fichier : 2 secondes (identique)
+Configuration initiale : 3 secondes (une fois)  
+Compilation complète : 45 secondes (identique)  
+Modification d'1 fichier : 2 secondes (identique)  
 ```
 
 ### CMake + Ninja : Plus rapide
@@ -524,15 +524,15 @@ Ninja est un build system plus moderne et rapide que Make.
 
 **Benchmark** (même projet) :
 ```
-Configuration initiale : 2 secondes
-Compilation complète : 28 secondes (37% plus rapide !)
-Modification d'1 fichier : 1.5 secondes
+Configuration initiale : 2 secondes  
+Compilation complète : 28 secondes (37% plus rapide !)  
+Modification d'1 fichier : 1.5 secondes  
 ```
 
 **Commande** :
 ```bash
-cmake -B build -G Ninja
-cmake --build build
+cmake -B build -G Ninja  
+cmake --build build  
 ```
 
 **Conclusion** : CMake n'est pas plus lent, et peut même être plus rapide avec Ninja.
@@ -644,13 +644,13 @@ Vous avez un projet existant avec un Makefile ? Voici comment migrer :
 
 ```makefile
 # Makefile existant
-CC = gcc
-CFLAGS = -Wall -Wextra -I include
-LDFLAGS = -lm -lpthread
+CC = gcc  
+CFLAGS = -Wall -Wextra -I include  
+LDFLAGS = -lm -lpthread  
 
-SRCS = main.c utils.c parser.c
-OBJS = $(SRCS:.c=.o)
-TARGET = mon_app
+SRCS = main.c utils.c parser.c  
+OBJS = $(SRCS:.c=.o)  
+TARGET = mon_app  
 
 all: $(TARGET)
 
@@ -664,12 +664,12 @@ $(TARGET): $(OBJS)
 #### Étape 2 : Créer un CMakeLists.txt équivalent
 
 ```cmake
-cmake_minimum_required(VERSION 3.15)
-project(MonApp C)
+cmake_minimum_required(VERSION 3.15)  
+project(MonApp C)  
 
 # Équivalent de CFLAGS
-add_compile_options(-Wall -Wextra)
-include_directories(include)
+add_compile_options(-Wall -Wextra)  
+include_directories(include)  
 
 # Équivalent de la définition du target
 add_executable(mon_app main.c utils.c parser.c)
@@ -685,8 +685,8 @@ target_link_libraries(mon_app m pthread)
 make
 
 # Tester CMake
-cmake -B build
-cmake --build build
+cmake -B build  
+cmake --build build  
 
 # Comparer les binaires
 ls -lh mon_app build/mon_app
@@ -696,9 +696,9 @@ ls -lh mon_app build/mon_app
 
 Une fois que CMake fonctionne parfaitement :
 ```bash
-git rm Makefile
-git add CMakeLists.txt
-git commit -m "Migration vers CMake"
+git rm Makefile  
+git add CMakeLists.txt  
+git commit -m "Migration vers CMake"  
 ```
 
 ### Tableau de correspondance Make → CMake
@@ -728,10 +728,10 @@ Le workflow le plus courant :
 cmake -B build -G "Unix Makefiles"
 
 # Puis vous utilisez make normalement
-cd build
-make
-make clean
-make install
+cd build  
+make  
+make clean  
+make install  
 ```
 
 **Vous bénéficiez des deux mondes** :
@@ -763,10 +763,10 @@ test: all
 
 **Utilisation** :
 ```bash
-make          # Build release avec CMake
-make debug    # Build debug avec CMake
-make test     # Tests
-make clean    # Nettoyage
+make          # Build release avec CMake  
+make debug    # Build debug avec CMake  
+make test     # Tests  
+make clean    # Nettoyage  
 ```
 
 **Avantages** :
@@ -800,20 +800,20 @@ http_server/
 
 ```makefile
 # Makefile
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c11 -I include
-LDFLAGS = -lpthread
+CC = gcc  
+CFLAGS = -Wall -Wextra -std=c11 -I include  
+LDFLAGS = -lpthread  
 
-SRC_DIR = src
-INCLUDE_DIR = include
-TEST_DIR = tests
-BUILD_DIR = build
+SRC_DIR = src  
+INCLUDE_DIR = include  
+TEST_DIR = tests  
+BUILD_DIR = build  
 
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+SRCS = $(wildcard $(SRC_DIR)/*.c)  
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)  
 
-TARGET = http_server
-TEST_TARGET = test_parser
+TARGET = http_server  
+TEST_TARGET = test_parser  
 
 .PHONY: all clean test
 
@@ -846,11 +846,11 @@ $(BUILD_DIR)/utils.o: $(SRC_DIR)/utils.c $(INCLUDE_DIR)/utils.h
 
 ```cmake
 # CMakeLists.txt
-cmake_minimum_required(VERSION 3.15)
-project(HttpServer VERSION 1.0.0 LANGUAGES C)
+cmake_minimum_required(VERSION 3.15)  
+project(HttpServer VERSION 1.0.0 LANGUAGES C)  
 
-set(CMAKE_C_STANDARD 11)
-add_compile_options(-Wall -Wextra)
+set(CMAKE_C_STANDARD 11)  
+add_compile_options(-Wall -Wextra)  
 
 # Répertoires d'include
 include_directories(include)
@@ -866,9 +866,9 @@ add_executable(http_server
 target_link_libraries(http_server pthread)
 
 # Tests
-enable_testing()
-add_executable(test_parser tests/test_parser.c src/parser.c)
-add_test(NAME TestParser COMMAND test_parser)
+enable_testing()  
+add_executable(test_parser tests/test_parser.c src/parser.c)  
+add_test(NAME TestParser COMMAND test_parser)  
 ```
 
 ### Comparaison
@@ -890,8 +890,8 @@ make
 ./http_server
 
 # Avec CMake
-cmake -B build
-cmake --build build
+cmake -B build  
+cmake --build build  
 ./build/http_server
 ```
 

@@ -76,10 +76,10 @@ Bien qu'il soit principalement utilisé pour C/C++, CMake supporte aussi Fortran
 ### 1. C'est le standard industriel
 
 En 2025, CMake est utilisé par :
-- **99% des grands projets C/C++ open-source** : LLVM/Clang, Boost, Qt, KDE, OpenCV, Redis, Nginx, TensorFlow (backend C++), PyTorch (backend C++)
-- **Les GAFAM** : Google (Chromium, TensorFlow), Microsoft (Visual Studio, vcpkg), Meta (Folly, HHVM)
+- **La majorité des grands projets C/C++ open-source** : LLVM/Clang, Qt, KDE, OpenCV, Blender, libcurl, MySQL, MariaDB, PyTorch (backend C++)
+- **Les GAFAM** : Google (Chromium), Microsoft (Visual Studio, vcpkg), Meta (Folly)
 - **Les géants tech** : NVIDIA (CUDA), Intel (oneAPI), AMD (ROCm)
-- **L'écosystème Linux** : systemd, GNOME, Blender
+- **L'écosystème Linux** : Blender, KDE, de nombreuses bibliothèques système
 
 **Statistique GitHub** : Plus de 500 000 dépôts utilisent CMake.
 
@@ -129,11 +129,11 @@ Contrairement aux Makefiles (syntaxe cryptique avec tabs/espaces) ou Autotools (
 **Comparaison** :
 ```makefile
 # Makefile (ancien style) - 30 lignes pour un projet simple
-CC = gcc
-CFLAGS = -Wall -Wextra -I include
-LDFLAGS = -lm -lpthread
-OBJS = main.o utils.o parser.o
-TARGET = mon_app
+CC = gcc  
+CFLAGS = -Wall -Wextra -I include  
+LDFLAGS = -lm -lpthread  
+OBJS = main.o utils.o parser.o  
+TARGET = mon_app  
 
 all: $(TARGET)
 
@@ -148,11 +148,11 @@ main.o: src/main.c include/utils.h
 
 ```cmake
 # CMakeLists.txt (CMake) - 5 lignes pour le même projet
-cmake_minimum_required(VERSION 3.15)
-project(MonApp C)
+cmake_minimum_required(VERSION 3.15)  
+project(MonApp C)  
 
-add_executable(mon_app src/main.c src/utils.c src/parser.c)
-target_link_libraries(mon_app m pthread)
+add_executable(mon_app src/main.c src/utils.c src/parser.c)  
+target_link_libraries(mon_app m pthread)  
 ```
 
 **Plus clair, plus concis, plus maintenable.**
@@ -167,9 +167,9 @@ Pour comprendre pourquoi CMake est devenu incontournable, il faut regarder l'his
 
 ```bash
 #!/bin/sh
-gcc -c main.c
-gcc -c utils.c
-gcc main.o utils.o -o mon_app
+gcc -c main.c  
+gcc -c utils.c  
+gcc main.o utils.o -o mon_app  
 ```
 
 **Problèmes** :
@@ -290,16 +290,16 @@ Si vous voulez suivre les exemples en même temps que la lecture, installez dès
 
 ```bash
 # CMake
-sudo apt update
-sudo apt install cmake
+sudo apt update  
+sudo apt install cmake  
 
 # Outils de build
 sudo apt install build-essential ninja-build
 
 # Vérification
-cmake --version
-gcc --version
-ninja --version
+cmake --version  
+gcc --version  
+ninja --version  
 ```
 
 **Note** : L'installation détaillée sera couverte dans la section 13.1.2.
@@ -374,14 +374,14 @@ add_executable(mon_app main.c utils.c)
 
 **Commandes shell** :
 ```bash
-cmake -B build
-cmake --build build
+cmake -B build  
+cmake --build build  
 ```
 
 **CMakeLists.txt** :
 ```cmake
-cmake_minimum_required(VERSION 3.15)
-project(MonProjet C)
+cmake_minimum_required(VERSION 3.15)  
+project(MonProjet C)  
 ```
 
 **Code C** :

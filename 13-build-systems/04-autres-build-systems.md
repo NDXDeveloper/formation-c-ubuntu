@@ -55,10 +55,10 @@ Fichier config → [Système intégré] → Compilation
 
 **Ninja** est un build system minimaliste conçu pour la **vitesse pure**. Il ne gère pas la configuration du projet (comme CMake) mais excelle dans l'exécution rapide des builds.
 
-**Créateur** : Evan Martin (Google)
-**Année** : 2011
-**Langage** : C++
-**Utilisé par** : Chromium, Android, LLVM, Swift
+**Créateur** : Evan Martin (Google)  
+**Année** : 2011  
+**Langage** : C++  
+**Utilisé par** : Chromium, Android, LLVM, Swift  
 
 ### Caractéristiques principales
 
@@ -75,8 +75,8 @@ Fichier config → [Système intégré] → Compilation
 ```ninja
 # build.ninja - Généré automatiquement, ne pas éditer à la main !
 
-cc = gcc
-cflags = -Wall -Wextra
+cc = gcc  
+cflags = -Wall -Wextra  
 
 rule compile
   command = $cc $cflags -c $in -o $out
@@ -84,9 +84,9 @@ rule compile
 rule link
   command = $cc $in -o $out
 
-build main.o: compile main.c
-build utils.o: compile utils.c
-build mon_app: link main.o utils.o
+build main.o: compile main.c  
+build utils.o: compile utils.c  
+build mon_app: link main.o utils.o  
 ```
 
 **Note** : Vous n'écrirez JAMAIS ce fichier à la main. CMake ou Meson le génèrent pour vous.
@@ -132,10 +132,10 @@ ninja -C build
 
 **Meson** est un build system moderne qui vise à être plus simple et plus rapide que CMake. Il génère automatiquement des fichiers Ninja (ou MSBuild/Xcode).
 
-**Créateur** : Jussi Pakkanen
-**Année** : 2013
-**Langage** : Python
-**Utilisé par** : systemd, GNOME, Mesa, GStreamer, X.org
+**Créateur** : Jussi Pakkanen  
+**Année** : 2013  
+**Langage** : Python  
+**Utilisé par** : systemd, GNOME, Mesa, GStreamer, X.org  
 
 ### Caractéristiques principales
 
@@ -172,8 +172,8 @@ executable('mon_app', sources,
 )
 
 # Tests
-test_exe = executable('test_utils', 'tests/test_utils.c', 'src/utils.c')
-test('test_utils', test_exe)
+test_exe = executable('test_utils', 'tests/test_utils.c', 'src/utils.c')  
+test('test_utils', test_exe)  
 ```
 
 **Compilation** :
@@ -208,19 +208,19 @@ meson install -C build
 
 **CMakeLists.txt** (14 lignes) :
 ```cmake
-cmake_minimum_required(VERSION 3.15)
-project(Calculator C)
+cmake_minimum_required(VERSION 3.15)  
+project(Calculator C)  
 
-set(CMAKE_C_STANDARD 11)
-add_compile_options(-Wall -Wextra)
+set(CMAKE_C_STANDARD 11)  
+add_compile_options(-Wall -Wextra)  
 
 add_executable(calculator
   src/main.c
   src/operations.c
 )
 
-target_include_directories(calculator PRIVATE include)
-target_link_libraries(calculator m)
+target_include_directories(calculator PRIVATE include)  
+target_link_libraries(calculator m)  
 ```
 
 **meson.build** (8 lignes) :
@@ -255,10 +255,10 @@ executable('calculator',
 
 **Bazel** est un build system open-source basé sur l'outil interne de Google (Blaze). Conçu pour les **monorepos géants** avec des milliers de développeurs.
 
-**Créateur** : Google
-**Année** : 2015
-**Langage** : Java
-**Utilisé par** : Google, Uber, Dropbox, TensorFlow
+**Créateur** : Google  
+**Année** : 2015  
+**Langage** : Java  
+**Utilisé par** : Google, Uber, Dropbox, TensorFlow  
 
 ### Caractéristiques principales
 
@@ -343,9 +343,9 @@ Bazel garantit que le **même code produit toujours le même binaire**, peu impo
 
 **SCons** est un build system écrit en Python, où la configuration est également du code Python.
 
-**Année** : 2000
-**Langage** : Python
-**Utilisé par** : MongoDB (historique), quelques projets embedded
+**Année** : 2000  
+**Langage** : Python  
+**Utilisé par** : MongoDB (historique), quelques projets embedded  
 
 ### Caractéristiques principales
 
@@ -365,8 +365,8 @@ Bazel garantit que le **même code produit toujours le même binaire**, peu impo
 env = Environment()
 
 # Définir les options de compilation
-env.Append(CCFLAGS=['-Wall', '-Wextra'])
-env.Append(CPPPATH=['include'])
+env.Append(CCFLAGS=['-Wall', '-Wextra'])  
+env.Append(CPPPATH=['include'])  
 
 # Sources
 sources = ['src/main.c', 'src/utils.c']
@@ -375,15 +375,15 @@ sources = ['src/main.c', 'src/utils.c']
 program = env.Program('mon_app', sources)
 
 # Installation
-env.Install('/usr/local/bin', program)
-env.Alias('install', '/usr/local/bin')
+env.Install('/usr/local/bin', program)  
+env.Alias('install', '/usr/local/bin')  
 ```
 
 **Compilation** :
 ```bash
-scons              # Build
-scons -c           # Clean
-scons install      # Install
+scons              # Build  
+scons -c           # Clean  
+scons install      # Install  
 ```
 
 ### Quand utiliser SCons ?
@@ -406,12 +406,12 @@ scons install      # Install
 
 ```bash
 ./configure
-make
-make install
+make  
+make install  
 ```
 
-**Année** : 1991
-**Utilisé par** : GCC, Bash, Coreutils, projets GNU legacy
+**Année** : 1991  
+**Utilisé par** : GCC, Bash, Coreutils, projets GNU legacy  
 
 ### Caractéristiques principales
 
@@ -429,17 +429,17 @@ make install
 
 **configure.ac** :
 ```m4
-AC_INIT([mon_app], [1.0])
-AM_INIT_AUTOMAKE
-AC_PROG_CC
-AC_CONFIG_FILES([Makefile])
-AC_OUTPUT
+AC_INIT([mon_app], [1.0])  
+AM_INIT_AUTOMAKE  
+AC_PROG_CC  
+AC_CONFIG_FILES([Makefile])  
+AC_OUTPUT  
 ```
 
 **Makefile.am** :
 ```makefile
-bin_PROGRAMS = mon_app
-mon_app_SOURCES = main.c utils.c
+bin_PROGRAMS = mon_app  
+mon_app_SOURCES = main.c utils.c  
 ```
 
 **Génération** :
@@ -466,9 +466,9 @@ make                  # Compile
 
 **xmake** est un build system moderne basé sur Lua, populaire en Chine et en Asie.
 
-**Année** : 2015
-**Langage** : C + Lua
-**Utilisé par** : Projets Tencent, certains projets gaming
+**Année** : 2015  
+**Langage** : C + Lua  
+**Utilisé par** : Projets Tencent, certains projets gaming  
 
 ### Caractéristiques principales
 
@@ -486,8 +486,8 @@ make                  # Compile
 **xmake.lua** :
 ```lua
 -- xmake.lua
-set_project("mon_app")
-set_version("1.0.0")
+set_project("mon_app")  
+set_version("1.0.0")  
 
 add_rules("mode.debug", "mode.release")
 
@@ -500,9 +500,9 @@ target("mon_app")
 
 **Compilation** :
 ```bash
-xmake              # Build
-xmake run          # Run
-xmake install      # Install
+xmake              # Build  
+xmake run          # Run  
+xmake install      # Install  
 ```
 
 ### Quand utiliser xmake ?
@@ -522,9 +522,9 @@ xmake install      # Install
 
 **Premake** génère des projets pour Visual Studio, Makefiles, Xcode à partir de scripts Lua.
 
-**Année** : 2002
-**Langage** : C + Lua
-**Utilisé par** : Quelques projets gaming indie
+**Année** : 2002  
+**Langage** : C + Lua  
+**Utilisé par** : Quelques projets gaming indie  
 
 ### Exemple : premake5.lua
 
@@ -550,9 +550,9 @@ project "mon_app"
 
 **Génération** :
 ```bash
-premake5 gmake2     # Génère Makefile
-premake5 vs2022     # Génère projet Visual Studio
-premake5 xcode      # Génère projet Xcode
+premake5 gmake2     # Génère Makefile  
+premake5 vs2022     # Génère projet Visual Studio  
+premake5 xcode      # Génère projet Xcode  
 ```
 
 ### Quand utiliser Premake ?
@@ -572,8 +572,8 @@ premake5 xcode      # Génère projet Xcode
 
 **Build2** est un build system moderne qui vise la **perfection technique** : builds reproductibles, modules C++20, gestion de paquets intégrée.
 
-**Année** : 2014
-**Utilisé par** : Quelques projets C++ modernes
+**Année** : 2014  
+**Utilisé par** : Quelques projets C++ modernes  
 
 ### Caractéristiques principales
 
@@ -669,19 +669,19 @@ Vous débutez en C ?
 ### Selon la plateforme
 
 ```
-Linux uniquement            → Make ou Meson (simples)
-Linux + Windows + macOS     → CMake (meilleure portabilité)
-Systèmes embarqués          → CMake + cross-compilation
+Linux uniquement            → Make ou Meson (simples)  
+Linux + Windows + macOS     → CMake (meilleure portabilité)  
+Systèmes embarqués          → CMake + cross-compilation  
 ```
 
 ### Selon les objectifs
 
 ```
-Vitesse de build maximale      → CMake + Ninja
-Simplicité de configuration    → Meson
-Reproductibilité hermétique    → Bazel ou Build2
-Contrôle total                 → Make
-Standard industriel            → CMake
+Vitesse de build maximale      → CMake + Ninja  
+Simplicité de configuration    → Meson  
+Reproductibilité hermétique    → Bazel ou Build2  
+Contrôle total                 → Make  
+Standard industriel            → CMake  
 ```
 
 ---
@@ -700,18 +700,18 @@ Standard industriel            → CMake
 ### Projections 2026-2030
 
 ```
-CMake:    78% → 82%    (consolidation)
-Meson:     4% → 8%     (croissance forte)
-Bazel:     2% → 3%     (croissance lente)
-Make:     15% → 10%    (déclin)
-Autres:    1% → 1%     (stagnation)
+CMake:    78% → 82%    (consolidation)  
+Meson:     4% → 8%     (croissance forte)  
+Bazel:     2% → 3%     (croissance lente)  
+Make:     15% → 10%    (déclin)  
+Autres:    1% → 1%     (stagnation)  
 ```
 
 ### Technologies émergentes
 
-**BuildXL** (Microsoft) : Build system pour Windows, utilisé pour Windows et Office
-**Please** : Build system multi-langage, alternative Bazel
-**Buck2** (Meta) : Successeur de Buck, inspiré de Bazel
+**BuildXL** (Microsoft) : Build system pour Windows, utilisé pour Windows et Office  
+**Please** : Build system multi-langage, alternative Bazel  
+**Buck2** (Meta) : Successeur de Buck, inspiré de Bazel  
 
 **Note** : Aucun ne menace vraiment la domination de CMake en 2025.
 
@@ -721,32 +721,32 @@ Autres:    1% → 1%     (stagnation)
 
 ### De Make vers CMake
 
-**Difficulté** : ⭐⭐ Facile
-**Temps** : 1-3 jours selon taille
-**Bénéfices** : Énormes (portabilité, IDE support)
+**Difficulté** : ⭐⭐ Facile  
+**Temps** : 1-3 jours selon taille  
+**Bénéfices** : Énormes (portabilité, IDE support)  
 
 ### De CMake vers Meson
 
-**Difficulté** : ⭐⭐⭐ Moyenne
-**Temps** : 3-7 jours
-**Bénéfices** : Syntaxe plus simple, vitesse légèrement meilleure
+**Difficulté** : ⭐⭐⭐ Moyenne  
+**Temps** : 3-7 jours  
+**Bénéfices** : Syntaxe plus simple, vitesse légèrement meilleure  
 
-**Question** : Est-ce que ça vaut le coup ?
-**Réponse** : Rarement, sauf si vous démarrez un nouveau projet.
+**Question** : Est-ce que ça vaut le coup ?  
+**Réponse** : Rarement, sauf si vous démarrez un nouveau projet.  
 
 ### De Autotools vers CMake
 
-**Difficulté** : ⭐⭐⭐⭐ Difficile
-**Temps** : 1-4 semaines
-**Bénéfices** : Énormes (portabilité Windows, vitesse, maintenabilité)
+**Difficulté** : ⭐⭐⭐⭐ Difficile  
+**Temps** : 1-4 semaines  
+**Bénéfices** : Énormes (portabilité Windows, vitesse, maintenabilité)  
 
 **Verdict** : Fortement recommandé si projet encore maintenu.
 
 ### Vers Bazel
 
-**Difficulté** : ⭐⭐⭐⭐⭐ Très difficile
-**Temps** : Plusieurs mois
-**Bénéfices** : Seulement pour très gros projets
+**Difficulté** : ⭐⭐⭐⭐⭐ Très difficile  
+**Temps** : Plusieurs mois  
+**Bénéfices** : Seulement pour très gros projets  
 
 **Verdict** : Uniquement si vous avez vraiment besoin de ses capacités.
 
@@ -760,7 +760,7 @@ Autres:    1% → 1%     (stagnation)
 - LLVM/Clang (compilateur)
 - Qt (framework GUI)
 - OpenCV (computer vision)
-- Boost (bibliothèques C++)
+- libcurl (bibliothèque réseau)
 - KDE (desktop Linux)
 - MySQL/MariaDB (bases de données)
 - Blender (3D)

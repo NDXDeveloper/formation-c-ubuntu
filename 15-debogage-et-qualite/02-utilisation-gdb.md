@@ -33,9 +33,9 @@ Dans cette section, nous allons apprendre les fondamentaux de GDB, de la compila
 Beaucoup de débutants déboguent en ajoutant des `printf()` partout dans leur code :
 
 ```c
-printf("DEBUG: x = %d\n", x);
-printf("DEBUG: Entrée dans la fonction\n");
-printf("DEBUG: Avant la boucle\n");
+printf("DEBUG: x = %d\n", x);  
+printf("DEBUG: Entrée dans la fonction\n");  
+printf("DEBUG: Avant la boucle\n");  
 ```
 
 **Problèmes avec cette approche** :
@@ -69,8 +69,8 @@ Imaginez que vous essayez de comprendre pourquoi une voiture ne démarre pas :
 GDB est généralement préinstallé avec le paquet `build-essential`. Si ce n'est pas le cas :
 
 ```bash
-sudo apt update
-sudo apt install gdb
+sudo apt update  
+sudo apt install gdb  
 ```
 
 ### Vérification de l'Installation
@@ -82,9 +82,9 @@ gdb --version
 Vous devriez voir quelque chose comme :
 
 ```
-GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
-Copyright (C) 2022 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1  
+Copyright (C) 2022 Free Software Foundation, Inc.  
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>  
 ```
 
 ### Version Minimale
@@ -127,8 +127,8 @@ int main() {
 **Compilation sans `-g`** :
 
 ```bash
-gcc -o hello hello.c
-gdb ./hello
+gcc -o hello hello.c  
+gdb ./hello  
 ```
 
 Dans GDB :
@@ -147,8 +147,8 @@ No symbol table is loaded.  Use the "file" command.
 **Compilation avec `-g`** :
 
 ```bash
-gcc -g -o hello hello.c
-gdb ./hello
+gcc -g -o hello hello.c  
+gdb ./hello  
 ```
 
 Dans GDB :
@@ -279,18 +279,18 @@ GDB utilise une **interface en ligne de commande**. Voici les commandes les plus
 GDB a un système d'aide intégré :
 
 ```gdb
-help           # Aide générale
-help running   # Aide sur les commandes d'exécution
-help breakpoints  # Aide sur les breakpoints
-help <commande>   # Aide sur une commande spécifique
+help           # Aide générale  
+help running   # Aide sur les commandes d'exécution  
+help breakpoints  # Aide sur les breakpoints  
+help <commande>   # Aide sur une commande spécifique  
 ```
 
 Exemple :
 
 ```gdb
 (gdb) help run
-Start debugged program.  You may specify arguments to give it.
-Args may include "*", or "[...]"; they are expanded using "sh".
+Start debugged program.  You may specify arguments to give it.  
+Args may include "*", or "[...]"; they are expanded using "sh".  
 ...
 ```
 
@@ -307,8 +307,8 @@ Ou raccourci : `l`
 Pour voir une fonction spécifique :
 
 ```gdb
-list main
-list nom_fonction
+list main  
+list nom_fonction  
 ```
 
 Pour voir une ligne spécifique :
@@ -601,8 +601,8 @@ gcc -g -o bug_corrige bug_corrige.c
 **Résultat** :
 
 ```
-Erreur : division par zéro
-Résultat : 0
+Erreur : division par zéro  
+Résultat : 0  
 ```
 
 Le programme ne crash plus ! ✅
@@ -758,15 +758,15 @@ Vous pouvez personnaliser GDB avec un fichier de configuration `~/.gdbinit`.
 # ~/.gdbinit
 
 # Historique des commandes
-set history save on
-set history filename ~/.gdb_history
-set history size 10000
+set history save on  
+set history filename ~/.gdb_history  
+set history size 10000  
 
 # Affichage
-set print pretty on          # Formatte les structures
-set print array on           # Formatte les tableaux
-set print array-indexes on   # Affiche les indices
-set pagination off           # Pas de pause après une page
+set print pretty on          # Formatte les structures  
+set print array on           # Formatte les tableaux  
+set print array-indexes on   # Affiche les indices  
+set pagination off           # Pas de pause après une page  
 
 # Désassemblage en Intel syntax (optionnel)
 set disassembly-flavor intel
@@ -788,9 +788,9 @@ Si vous avez des commandes que vous tapez souvent, créez un fichier `.gdbinit` 
 
 ```bash
 # .gdbinit (dans le répertoire du projet)
-break main
-break fonction_importante
-run arg1 arg2
+break main  
+break fonction_importante  
+run arg1 arg2  
 ```
 
 GDB chargera automatiquement ce fichier au démarrage (dans le répertoire courant).
@@ -810,12 +810,12 @@ set auto-load safe-path /
 Quand vous lancez GDB, vous verrez beaucoup de texte. Voici comment le lire :
 
 ```
-GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
-Copyright (C) 2022 Free Software Foundation, Inc.
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1  
+Copyright (C) 2022 Free Software Foundation, Inc.  
 ...
-For help, type "help".
-Type "apropos word" to search for commands related to "word"...
-Reading symbols from ./programme...
+For help, type "help".  
+Type "apropos word" to search for commands related to "word"...  
+Reading symbols from ./programme...  
 (gdb) _
 ```
 
@@ -827,15 +827,15 @@ Reading symbols from ./programme...
 ### Messages d'Erreur Courants
 
 **"No symbol table is loaded"**
-→ Le programme n'a pas été compilé avec `-g`
+→ Le programme n'a pas été compilé avec `-g`  
 → **Solution** : Recompilez avec `gcc -g`
 
 **"No source file named X"**
-→ GDB ne trouve pas le fichier source
+→ GDB ne trouve pas le fichier source  
 → **Solution** : Assurez-vous que le fichier source existe et que vous êtes dans le bon répertoire
 
 **"Cannot access memory at address 0x..."**
-→ Tentative d'accès à une adresse invalide (pointeur NULL, mémoire libérée, etc.)
+→ Tentative d'accès à une adresse invalide (pointeur NULL, mémoire libérée, etc.)  
 → **Solution** : Vérifiez vos pointeurs
 
 ---

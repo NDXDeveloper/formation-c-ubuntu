@@ -53,17 +53,17 @@ Imaginez un projet C avec 10 fichiers source. Sans Make, après avoir modifié u
 
 ```bash
 # ❌ Recompilation manuelle (pénible et inefficace)
-gcc -c main.c -o main.o
-gcc -c utils.c -o utils.o
-gcc -c config.c -o config.o
-gcc -c network.c -o network.o
-gcc -c database.c -o database.o
-gcc -c auth.c -o auth.o
-gcc -c logger.c -o logger.o
-gcc -c parser.c -o parser.o
-gcc -c handler.c -o handler.o
-gcc -c crypto.c -o crypto.o
-gcc -o programme main.o utils.o config.o network.o database.o auth.o logger.o parser.o handler.o crypto.o
+gcc -c main.c -o main.o  
+gcc -c utils.c -o utils.o  
+gcc -c config.c -o config.o  
+gcc -c network.c -o network.o  
+gcc -c database.c -o database.o  
+gcc -c auth.c -o auth.o  
+gcc -c logger.c -o logger.o  
+gcc -c parser.c -o parser.o  
+gcc -c handler.c -o handler.o  
+gcc -c crypto.c -o crypto.o  
+gcc -o programme main.o utils.o config.o network.o database.o auth.o logger.o parser.o handler.o crypto.o  
 ```
 
 **Problèmes** :
@@ -90,9 +90,9 @@ Make repose sur trois concepts fondamentaux :
 Une **cible** est un fichier à créer ou une action à effectuer :
 
 ```makefile
-programme    # Cible : l'exécutable final
-main.o       # Cible : un fichier objet
-clean        # Cible : une action (pas un fichier)
+programme    # Cible : l'exécutable final  
+main.o       # Cible : un fichier objet  
+clean        # Cible : une action (pas un fichier)  
 ```
 
 #### 2. Les Dépendances (Prerequisites)
@@ -100,8 +100,8 @@ clean        # Cible : une action (pas un fichier)
 Les **dépendances** indiquent de quoi une cible a besoin :
 
 ```makefile
-programme: main.o utils.o    # programme dépend de main.o et utils.o
-main.o: main.c utils.h       # main.o dépend de main.c et utils.h
+programme: main.o utils.o    # programme dépend de main.o et utils.o  
+main.o: main.c utils.h       # main.o dépend de main.c et utils.h  
 ```
 
 #### 3. Les Commandes (Recipes)
@@ -169,8 +169,8 @@ make
 make clean
 
 # Recompile uniquement ce qui a changé
-touch main.c
-make        # Recompile seulement main.o et relink programme
+touch main.c  
+make        # Recompile seulement main.o et relink programme  
 ```
 
 ## Histoire et Évolution
@@ -296,8 +296,8 @@ ninja
 
 ```python
 # meson.build : Alternative moderne à CMake
-project('myapp', 'c')
-executable('myapp', 'main.c')
+project('myapp', 'c')  
+executable('myapp', 'main.c')  
 ```
 
 ### Just
@@ -359,8 +359,8 @@ make --version
 
 ```bash
 # Ubuntu/Debian
-sudo apt update
-sudo apt install build-essential
+sudo apt update  
+sudo apt install build-essential  
 
 # Fedora/RHEL
 sudo dnf install make
@@ -440,8 +440,8 @@ int addition(int a, int b) {
 **Makefile** :
 ```makefile
 # Variables
-CC = gcc
-CFLAGS = -Wall -Wextra
+CC = gcc  
+CFLAGS = -Wall -Wextra  
 
 # Cible par défaut
 all: programme
@@ -471,9 +471,9 @@ rebuild: clean all
 ```bash
 # Compilation initiale
 $ make
-gcc -Wall -Wextra -c main.c
-gcc -Wall -Wextra -c utils.c
-gcc -o programme main.o utils.o
+gcc -Wall -Wextra -c main.c  
+gcc -Wall -Wextra -c utils.c  
+gcc -o programme main.o utils.o  
 
 # Exécution
 $ ./programme
@@ -488,8 +488,8 @@ $ touch utils.c
 
 # Recompilation intelligente
 $ make
-gcc -Wall -Wextra -c utils.c
-gcc -o programme main.o utils.o
+gcc -Wall -Wextra -c utils.c  
+gcc -o programme main.o utils.o  
 # Note : main.c n'est pas recompilé !
 
 # Nettoyage
@@ -498,10 +498,10 @@ rm -f *.o programme
 
 # Reconstruction complète
 $ make rebuild
-rm -f *.o programme
-gcc -Wall -Wextra -c main.c
-gcc -Wall -Wextra -c utils.c
-gcc -o programme main.o utils.o
+rm -f *.o programme  
+gcc -Wall -Wextra -c main.c  
+gcc -Wall -Wextra -c utils.c  
+gcc -o programme main.o utils.o  
 ```
 
 ### Observation du Comportement Intelligent
@@ -534,8 +534,8 @@ Voici les commandes que vous utiliserez le plus souvent :
 make
 
 # Compiler une cible spécifique
-make clean
-make programme
+make clean  
+make programme  
 
 # Dry-run (afficher sans exécuter)
 make -n
@@ -584,8 +584,8 @@ Le fichier peut s'appeler :
 **Fichier custom** :
 
 ```bash
-make -f build.mk
-make -f scripts/build-debug.mk
+make -f build.mk  
+make -f scripts/build-debug.mk  
 ```
 
 ## Philosophie Make
@@ -622,7 +622,7 @@ make --help
 ### Livres Recommandés
 
 - **"Managing Projects with GNU Make"** par Robert Mecklenburg (O'Reilly)
-- Chapitre Make dans **"The Linux Programming Interface"** par Michael Kerrisk
+- **"The GNU Make Book"** par John Graham-Cumming
 
 ## Ce Qui Vient Ensuite
 
@@ -655,9 +655,9 @@ Ne vous contentez pas de lire, écrivez des Makefiles pour :
 
 ```bash
 # Clone et explore
-git clone https://github.com/git/git.git
-cd git
-less Makefile
+git clone https://github.com/git/git.git  
+cd git  
+less Makefile  
 
 # Projets intéressants :
 # - Redis : Makefile très lisible
@@ -669,9 +669,9 @@ less Makefile
 
 ```bash
 # Cassez les choses exprès
-make -n   # Voir ce qui se passe
-make -d   # Mode debug
-make -p   # Voir toutes les règles
+make -n   # Voir ce qui se passe  
+make -d   # Mode debug  
+make -p   # Voir toutes les règles  
 ```
 
 ### 4. Construisez Progressivement
@@ -688,8 +688,8 @@ Créez votre propre template de Makefile que vous réutiliserez :
 
 ```makefile
 # Mon template de base
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c11
+CC = gcc  
+CFLAGS = -Wall -Wextra -std=c11  
 
 all: programme
 

@@ -106,8 +106,8 @@ Exécution :                           Exécution :
     │ Tout est déjà là                    │ Charge libmath.so
     │                                     │
     ▼                                     ▼
-Fonctionne                            ┌──────────────────┐
-immédiatement                         │  Mémoire RAM     │
+Fonctionne                            ┌──────────────────┐  
+immédiatement                         │  Mémoire RAM     │  
                                       │                  │
                                       │ programme (100K) │
                                       │ libmath.so (1M)  │◄─┐
@@ -193,8 +193,8 @@ Total RAM utilisée : 10 MB (économie de 44%!)
 - LibreOffice utilise `libc.so.6` (2 MB)
 - GIMP utilise `libc.so.6` (2 MB)
 
-**Avec linking statique :** 3 × 2 MB = 6 MB en RAM
-**Avec linking dynamique :** 1 × 2 MB = 2 MB en RAM
+**Avec linking statique :** 3 × 2 MB = 6 MB en RAM  
+**Avec linking dynamique :** 1 × 2 MB = 2 MB en RAM  
 
 **Économie :** 4 MB pour cet exemple simple. Imaginez avec 50 programmes !
 
@@ -205,19 +205,19 @@ Total RAM utilisée : 10 MB (économie de 44%!)
 **Avec bibliothèques statiques :**
 ```bash
 # Il faut recompiler TOUS les programmes !
-recompile nginx
-recompile curl
-recompile openssh
-recompile apache
-recompile 100+ autres programmes...
+recompile nginx  
+recompile curl  
+recompile openssh  
+recompile apache  
+recompile 100+ autres programmes...  
 # Déployer tous ces nouveaux binaires
 ```
 
 **Avec bibliothèques dynamiques :**
 ```bash
 # Remplacer UN SEUL fichier
-sudo apt update
-sudo apt upgrade libssl1.1
+sudo apt update  
+sudo apt upgrade libssl1.1  
 # Redémarrer les services
 # Tous les programmes utilisent automatiquement la version corrigée !
 ```
@@ -249,10 +249,10 @@ Les bibliothèques dynamiques permettent le **chargement à la demande** :
 
 ```c
 // Charger un plugin à l'exécution
-void *plugin = dlopen("plugin_compress.so", RTLD_LAZY);
-void (*compress)(char*) = dlsym(plugin, "compress_data");
-compress("mes données");
-dlclose(plugin);
+void *plugin = dlopen("plugin_compress.so", RTLD_LAZY);  
+void (*compress)(char*) = dlsym(plugin, "compress_data");  
+compress("mes données");  
+dlclose(plugin);  
 ```
 
 **Exemples d'utilisation :**
@@ -362,8 +362,8 @@ Stacktrace typique :
 
 ```bash
 # Firefox, LibreOffice, GIMP, etc.
-ls /usr/bin/firefox
-ldd /usr/bin/firefox | wc -l
+ls /usr/bin/firefox  
+ldd /usr/bin/firefox | wc -l  
 # Sortie : 150+ bibliothèques !
 ```
 
@@ -402,8 +402,8 @@ Pour un outil que vous distribuez indépendamment :
 
 ```bash
 # Version statique : fonctionne partout
-curl -L https://example.com/mytool -o mytool
-chmod +x mytool
+curl -L https://example.com/mytool -o mytool  
+chmod +x mytool  
 ./mytool  # Fonctionne immédiatement !
 ```
 
@@ -416,9 +416,9 @@ chmod +x mytool
 #### 3. **Conteneurs Docker minimalistes**
 
 ```dockerfile
-FROM scratch
-COPY programme_statique /
-ENTRYPOINT ["/programme_statique"]
+FROM scratch  
+COPY programme_statique /  
+ENTRYPOINT ["/programme_statique"]  
 ```
 
 Un conteneur de 5 MB au lieu de 500 MB !
@@ -460,9 +460,9 @@ readelf -l /bin/ls | grep interpreter
 Le **nom de compatibilité** d'une bibliothèque :
 
 ```
-libmath.so.1.2.3   ← Real name (fichier physique)
-libmath.so.1       ← SONAME (compatibilité)
-libmath.so         ← Linker name (développement)
+libmath.so.1.2.3   ← Real name (fichier physique)  
+libmath.so.1       ← SONAME (compatibilité)  
+libmath.so         ← Linker name (développement)  
 ```
 
 **Règle :** Même SONAME = binaire-compatible

@@ -66,13 +66,13 @@ $ nm -D libmylib.so | grep " T "
 
 ```c
 // Ce que vous voulez exposer (API publique)
-void mylib_init(void);
-void mylib_process(void);
+void mylib_init(void);  
+void mylib_process(void);  
 
 // Ce qui devrait rester privé
-void internal_helper(void);
-void debug_print(void);
-static int calculate_hash(const char *str);
+void internal_helper(void);  
+void debug_print(void);  
+static int calculate_hash(const char *str);  
 ```
 
 ✅ **Objectif** : Seules `mylib_init()` et `mylib_process()` devraient être visibles.
@@ -109,8 +109,8 @@ int main(void) {
 Le linker dynamique doit résoudre tous les symboles exportés au chargement du programme. Moins de symboles = chargement plus rapide.
 
 ```
-Bibliothèque avec 1000 symboles exportés → Temps de chargement : 50ms
-Bibliothèque avec 50 symboles exportés   → Temps de chargement : 5ms
+Bibliothèque avec 1000 symboles exportés → Temps de chargement : 50ms  
+Bibliothèque avec 50 symboles exportés   → Temps de chargement : 5ms  
 ```
 
 ---
@@ -228,8 +228,8 @@ $ nm -D libmylib.so | grep " T "
 #endif
 
 // API publique
-MYLIB_PUBLIC void mylib_init(void);
-MYLIB_PUBLIC void mylib_process(void);
+MYLIB_PUBLIC void mylib_init(void);  
+MYLIB_PUBLIC void mylib_process(void);  
 
 #endif
 ```
@@ -325,9 +325,9 @@ void internal_helper(void) {
 #include "mylib_export.h"
 
 // API publique - tous les symboles marqués MYLIB_API
-MYLIB_API void mylib_init(void);
-MYLIB_API void mylib_process(const char *data);
-MYLIB_API int mylib_get_version(void);
+MYLIB_API void mylib_init(void);  
+MYLIB_API void mylib_process(const char *data);  
+MYLIB_API int mylib_get_version(void);  
 
 #endif
 ```
@@ -434,11 +434,11 @@ $ readelf --dyn-syms libmylib.so
 
 ```c
 // mylib.c
-void mylib_init(void) { }
-void mylib_process(void) { }
-void internal_helper(void) { }
-void debug_print(void) { }
-void calculate_hash(void) { }
+void mylib_init(void) { }  
+void mylib_process(void) { }  
+void internal_helper(void) { }  
+void debug_print(void) { }  
+void calculate_hash(void) { }  
 ```
 
 ```bash
@@ -553,9 +553,9 @@ mylib/
 
 typedef struct mylib_context mylib_context_t;
 
-MYLIB_API mylib_context_t* mylib_create(void);
-MYLIB_API int mylib_process(mylib_context_t *ctx, const char *input);
-MYLIB_API void mylib_destroy(mylib_context_t *ctx);
+MYLIB_API mylib_context_t* mylib_create(void);  
+MYLIB_API int mylib_process(mylib_context_t *ctx, const char *input);  
+MYLIB_API void mylib_destroy(mylib_context_t *ctx);  
 
 #endif
 ```
@@ -599,8 +599,8 @@ void parse_config(void) {  // Même nom !
 
 ```bash
 $ ./mon_programme
-Foo parsing
-Foo parsing  ← libbar.so appelle la fonction de libfoo.so ! ❌
+Foo parsing  
+Foo parsing  ← libbar.so appelle la fonction de libfoo.so ! ❌  
 ```
 
 **Avec visibilité contrôlée** :
@@ -621,8 +621,8 @@ void parse_config(void) {
 
 ```bash
 $ ./mon_programme
-Foo parsing
-Bar parsing  ← Chaque bibliothèque utilise sa propre fonction ✅
+Foo parsing  
+Bar parsing  ← Chaque bibliothèque utilise sa propre fonction ✅  
 ```
 
 ---
@@ -704,8 +704,8 @@ $ nm -D myplugin.so | grep " T "
 ### CMakeLists.txt moderne
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(mylib VERSION 1.0.0 LANGUAGES C)
+cmake_minimum_required(VERSION 3.10)  
+project(mylib VERSION 1.0.0 LANGUAGES C)  
 
 # Créer la bibliothèque
 add_library(mylib SHARED
@@ -721,8 +721,8 @@ set_target_properties(mylib PROPERTIES
 )
 
 # Générer automatiquement le fichier d'export
-include(GenerateExportHeader)
-generate_export_header(mylib
+include(GenerateExportHeader)  
+generate_export_header(mylib  
     BASE_NAME MYLIB
     EXPORT_FILE_NAME include/mylib_export.h
 )
@@ -1111,8 +1111,8 @@ MYLIB_API void mylib_destroy(mylib_context_t *ctx) {
 #include <stdbool.h>
 
 // Fonctions internes (pas de MYLIB_API)
-bool parse_input(const char *data, size_t len);
-int parse_config(const char *path);
+bool parse_input(const char *data, size_t len);  
+int parse_config(const char *path);  
 
 #endif
 ```
@@ -1122,8 +1122,8 @@ int parse_config(const char *path);
 ### CMakeLists.txt
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(mylib VERSION 1.0.0 LANGUAGES C)
+cmake_minimum_required(VERSION 3.10)  
+project(mylib VERSION 1.0.0 LANGUAGES C)  
 
 # Bibliothèque partagée
 add_library(mylib SHARED

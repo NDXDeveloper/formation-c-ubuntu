@@ -90,8 +90,8 @@ int resultat = additionner(5, 3);
 Si vous trouvez un bug ou voulez améliorer une fonction, vous ne modifiez qu'**un seul endroit** : la bibliothèque.
 
 ```
-Sans bibliothèque : Corriger le bug dans 50 projets différents ❌
-Avec bibliothèque : Corriger le bug une fois, mettre à jour la bibliothèque ✅
+Sans bibliothèque : Corriger le bug dans 50 projets différents ❌  
+Avec bibliothèque : Corriger le bug une fois, mettre à jour la bibliothèque ✅  
 ```
 
 ---
@@ -133,9 +133,9 @@ $ sudo cp mylib.h /usr/local/include/
 Les bibliothèques dynamiques permettent de **partager le code en mémoire** entre plusieurs programmes.
 
 ```
-Programme A ─┐
-Programme B ─┼─→ libcrypto.so (une seule copie en mémoire)
-Programme C ─┘
+Programme A ─┐  
+Programme B ─┼─→ libcrypto.so (une seule copie en mémoire)  
+Programme C ─┘  
 
 Économie de RAM : 3 programmes, 1 seule copie de la bibliothèque
 ```
@@ -148,8 +148,8 @@ En C sous Linux, il existe deux types principaux de bibliothèques :
 
 ### 1. **Bibliothèques statiques (.a)**
 
-**Extension** : `.a` (archive)
-**Principe** : Le code de la bibliothèque est **copié intégralement** dans votre exécutable lors de la compilation.
+**Extension** : `.a` (archive)  
+**Principe** : Le code de la bibliothèque est **copié intégralement** dans votre exécutable lors de la compilation.  
 
 ```
 Code source + Bibliothèque statique → Exécutable autonome
@@ -178,8 +178,8 @@ $ ls -lh mon_programme
 
 ### 2. **Bibliothèques dynamiques (.so)**
 
-**Extension** : `.so` (shared object)
-**Principe** : Le code de la bibliothèque reste **externe** et est chargé en mémoire au moment de l'exécution du programme.
+**Extension** : `.so` (shared object)  
+**Principe** : Le code de la bibliothèque reste **externe** et est chargé en mémoire au moment de l'exécution du programme.  
 
 ```
 Exécutable léger + Référence → Bibliothèque .so (chargée au runtime)
@@ -222,8 +222,8 @@ Programme 1 (500 Ko)           Programme 2 (450 Ko)          Programme 3 (480 Ko
 │ libmath (copie) │           │ libmath (copie) │          │ libmath (copie) │
 └─────────────────┘           └─────────────────┘          └─────────────────┘
 
-Total sur disque : 1430 Ko
-Total en RAM (3 programmes actifs) : 1430 Ko
+Total sur disque : 1430 Ko  
+Total en RAM (3 programmes actifs) : 1430 Ko  
 ```
 
 ---
@@ -243,8 +243,8 @@ Programme 1 (50 Ko)    Programme 2 (40 Ko)    Programme 3 (45 Ko)
                             │ Code partagé    │
                             └─────────────────┘
 
-Total sur disque : 335 Ko (80% plus petit!)
-Total en RAM (3 programmes actifs) : 335 Ko (une seule copie de libmath.so)
+Total sur disque : 335 Ko (80% plus petit!)  
+Total en RAM (3 programmes actifs) : 335 Ko (une seule copie de libmath.so)  
 ```
 
 ---
@@ -273,8 +273,8 @@ int multiplier(int a, int b) {
 #ifndef MYLIB_H
 #define MYLIB_H
 
-int additionner(int a, int b);
-int multiplier(int a, int b);
+int additionner(int a, int b);  
+int multiplier(int a, int b);  
 
 #endif
 ```
@@ -401,9 +401,9 @@ Définit l'**interface publique** (ce que l'utilisateur voit) :
 typedef struct mylib_context mylib_context_t;
 
 // Fonctions publiques
-mylib_context_t* mylib_create(void);
-int mylib_process(mylib_context_t *ctx, const char *data);
-void mylib_destroy(mylib_context_t *ctx);
+mylib_context_t* mylib_create(void);  
+int mylib_process(mylib_context_t *ctx, const char *data);  
+void mylib_destroy(mylib_context_t *ctx);  
 
 #endif
 ```
@@ -586,14 +586,13 @@ $ gcc main.o -L./lib -lmylib -o mon_programme
 
 ### Ordre de recherche des bibliothèques
 
-Le linker cherche dans cet ordre :
+À la compilation, le linker (`ld`) cherche dans cet ordre :
 
 1. Les chemins spécifiés avec `-L`
-2. Les chemins système standards :
-   - `/lib`
-   - `/usr/lib`
-   - `/usr/local/lib`
-3. Les chemins définis dans `LD_LIBRARY_PATH`
+2. Les chemins de la variable d'environnement `LIBRARY_PATH` (si définie)
+3. Les chemins système standards (`/usr/lib`, `/usr/local/lib`, etc.)
+
+> **Note** : Au runtime, le chargeur dynamique (`ld.so`) utilise un ordre différent incluant `LD_LIBRARY_PATH` – voir Section 14.4.
 
 ---
 
@@ -779,12 +778,12 @@ Si ces concepts ne sont pas clairs, revoyez les chapitres précédents avant de 
 ### Commandes à connaître
 
 ```bash
-man gcc        # Documentation du compilateur
-man ar         # Documentation de l'archiveur
-man ld         # Documentation du linker
-man ldd        # Liste les dépendances dynamiques
-man ldconfig   # Configure le cache des bibliothèques
-man nm         # Liste les symboles
+man gcc        # Documentation du compilateur  
+man ar         # Documentation de l'archiveur  
+man ld         # Documentation du linker  
+man ldd        # Liste les dépendances dynamiques  
+man ldconfig   # Configure le cache des bibliothèques  
+man nm         # Liste les symboles  
 ```
 
 ---

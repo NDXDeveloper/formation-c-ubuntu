@@ -36,9 +36,9 @@ Une **API propre** possède ces caractéristiques :
 
 ```c
 // bad_api.h
-int process(char *d, int t, void *p);  // Noms cryptiques
-void cleanup();                         // Nom générique
-extern int global_state;               // État global exposé
+int process(char *d, int t, void *p);  // Noms cryptiques  
+void cleanup();                         // Nom générique  
+extern int global_state;               // État global exposé  
 #define MAX 100                        // Nom trop générique
 ```
 
@@ -76,8 +76,8 @@ typedef enum {
 } mylib_error_t;
 
 // Fonctions avec noms explicites et préfixe
-mylib_error_t mylib_init(mylib_context_t **ctx);
-mylib_error_t mylib_process_data(mylib_context_t *ctx,
+mylib_error_t mylib_init(mylib_context_t **ctx);  
+mylib_error_t mylib_process_data(mylib_context_t *ctx,  
                                   const char *data,
                                   size_t data_len);
 void mylib_cleanup(mylib_context_t **ctx);
@@ -101,8 +101,8 @@ void mylib_cleanup(mylib_context_t **ctx);
 En C, la **séparation interface/implémentation** se fait via deux fichiers :
 
 ```
-mylib.h   → Interface publique (ce que l'utilisateur voit)
-mylib.c   → Implémentation (les détails internes)
+mylib.h   → Interface publique (ce que l'utilisateur voit)  
+mylib.c   → Implémentation (les détails internes)  
 ```
 
 ---
@@ -123,15 +123,15 @@ mylib.c   → Implémentation (les détails internes)
 typedef struct queue queue_t;
 
 // Création et destruction
-queue_t* queue_create(void);
-void queue_destroy(queue_t *q);
+queue_t* queue_create(void);  
+void queue_destroy(queue_t *q);  
 
 // Opérations
-bool queue_push(queue_t *q, int value);
-bool queue_pop(queue_t *q, int *value);
-bool queue_peek(const queue_t *q, int *value);
-size_t queue_size(const queue_t *q);
-bool queue_is_empty(const queue_t *q);
+bool queue_push(queue_t *q, int value);  
+bool queue_pop(queue_t *q, int *value);  
+bool queue_peek(const queue_t *q, int *value);  
+size_t queue_size(const queue_t *q);  
+bool queue_is_empty(const queue_t *q);  
 
 #endif // QUEUE_H
 ```
@@ -250,14 +250,14 @@ void queue_destroy(queue_t *q) {
 
 ```c
 // ❌ MAUVAIS : Noms génériques
-void init(void);
-int process(char *data);
-typedef struct context context_t;
+void init(void);  
+int process(char *data);  
+typedef struct context context_t;  
 
 // ✅ BON : Tout est préfixé
-void mylib_init(void);
-int mylib_process(char *data);
-typedef struct mylib_context mylib_context_t;
+void mylib_init(void);  
+int mylib_process(char *data);  
+typedef struct mylib_context mylib_context_t;  
 ```
 
 💡 **Pourquoi ?** Éviter les collisions de noms avec d'autres bibliothèques.
@@ -270,14 +270,14 @@ typedef struct mylib_context mylib_context_t;
 // Nom de bibliothèque : "vector"
 
 // Types : vector_xxx_t
-typedef struct vector_context vector_context_t;
-typedef enum vector_error vector_error_t;
+typedef struct vector_context vector_context_t;  
+typedef enum vector_error vector_error_t;  
 
 // Fonctions : vector_action_objet()
-vector_context_t* vector_create(void);
-void vector_destroy(vector_context_t *v);
-bool vector_push_back(vector_context_t *v, int value);
-int vector_get_at(const vector_context_t *v, size_t index);
+vector_context_t* vector_create(void);  
+void vector_destroy(vector_context_t *v);  
+bool vector_push_back(vector_context_t *v, int value);  
+int vector_get_at(const vector_context_t *v, size_t index);  
 
 // Constantes/Macros : VECTOR_XXX
 #define VECTOR_DEFAULT_CAPACITY 16
@@ -296,22 +296,22 @@ int vector_get_at(const vector_context_t *v, size_t index);
 // Format : prefix_verbe_complément
 
 // Création/Destruction
-mylib_create()
-mylib_destroy()
+mylib_create()  
+mylib_destroy()  
 
 // Opérations de lecture (get/is/has)
-mylib_get_value()
-mylib_is_empty()
-mylib_has_data()
+mylib_get_value()  
+mylib_is_empty()  
+mylib_has_data()  
 
 // Opérations d'écriture (set/add/remove)
-mylib_set_value()
-mylib_add_item()
-mylib_remove_item()
+mylib_set_value()  
+mylib_add_item()  
+mylib_remove_item()  
 
 // Opérations complexes
-mylib_process_data()
-mylib_compute_result()
+mylib_process_data()  
+mylib_compute_result()  
 ```
 
 ---
@@ -340,10 +340,10 @@ Un **type opaque** est une structure dont la définition complète n'est **pas v
 typedef struct database database_t;
 
 // L'utilisateur ne peut pas accéder directement aux champs
-database_t* db_open(const char *filename);
-void db_close(database_t *db);
-bool db_insert(database_t *db, int key, const char *value);
-bool db_query(database_t *db, int key, char *buffer, size_t buf_size);
+database_t* db_open(const char *filename);  
+void db_close(database_t *db);  
+bool db_insert(database_t *db, int key, const char *value);  
+bool db_query(database_t *db, int key, char *buffer, size_t buf_size);  
 
 #endif
 ```
@@ -418,9 +418,9 @@ typedef struct {
 } vector_t;
 
 // L'utilisateur peut faire :
-vector_t v;
-v.data = NULL;  // ❌ Bypass de l'initialisation
-v.size = 9999;  // ❌ État incohérent
+vector_t v;  
+v.data = NULL;  // ❌ Bypass de l'initialisation  
+v.size = 9999;  // ❌ État incohérent  
 ```
 
 ❌ **Problème** : Aucun contrôle sur l'état interne
@@ -433,12 +433,12 @@ v.size = 9999;  // ❌ État incohérent
 // vector.h
 typedef struct vector vector_t;
 
-vector_t* vector_create(void);
-size_t vector_size(const vector_t *v);
+vector_t* vector_create(void);  
+size_t vector_size(const vector_t *v);  
 
 // L'utilisateur NE PEUT PAS faire :
-vector_t *v = vector_create();
-v->size = 9999;  // ❌ Erreur de compilation : type incomplet
+vector_t *v = vector_create();  
+v->size = 9999;  // ❌ Erreur de compilation : type incomplet  
 ```
 
 ✅ **Avantage** : Contrôle total sur l'état interne
@@ -460,25 +460,25 @@ typedef enum {
 } mylib_error_t;
 
 // Toutes les fonctions retournent un code d'erreur
-mylib_error_t mylib_init(mylib_context_t **ctx);
-mylib_error_t mylib_process(mylib_context_t *ctx, const char *data);
-mylib_error_t mylib_cleanup(mylib_context_t **ctx);
+mylib_error_t mylib_init(mylib_context_t **ctx);  
+mylib_error_t mylib_process(mylib_context_t *ctx, const char *data);  
+mylib_error_t mylib_cleanup(mylib_context_t **ctx);  
 ```
 
 **Utilisation** :
 
 ```c
-mylib_context_t *ctx;
-mylib_error_t err;
+mylib_context_t *ctx;  
+mylib_error_t err;  
 
-err = mylib_init(&ctx);
-if (err != MYLIB_SUCCESS) {
+err = mylib_init(&ctx);  
+if (err != MYLIB_SUCCESS) {  
     fprintf(stderr, "Init failed: %d\n", err);
     return 1;
 }
 
-err = mylib_process(ctx, "hello");
-if (err != MYLIB_SUCCESS) {
+err = mylib_process(ctx, "hello");  
+if (err != MYLIB_SUCCESS) {  
     fprintf(stderr, "Process failed: %d\n", err);
     mylib_cleanup(&ctx);
     return 1;
@@ -535,8 +535,8 @@ typedef enum {
 bool mylib_process(mylib_context_t *ctx, const char *data);
 
 // Fonction séparée pour récupérer l'erreur détaillée
-mylib_error_t mylib_get_last_error(mylib_context_t *ctx);
-const char* mylib_error_string(mylib_error_t error);
+mylib_error_t mylib_get_last_error(mylib_context_t *ctx);  
+const char* mylib_error_string(mylib_error_t error);  
 ```
 
 **Utilisation** :
@@ -655,14 +655,14 @@ mylib_error_t mylib_process(mylib_context_t *ctx,
 
 ```c
 // Bonne pratique : paires create/destroy
-vector_t* vector_create(void);        // Alloue
-void vector_destroy(vector_t *v);      // Libère
+vector_t* vector_create(void);        // Alloue  
+void vector_destroy(vector_t *v);      // Libère  
 
-database_t* db_open(const char *path); // Alloue
-void db_close(database_t *db);         // Libère
+database_t* db_open(const char *path); // Alloue  
+void db_close(database_t *db);         // Libère  
 
-mylib_context_t* mylib_init(void);     // Alloue
-void mylib_cleanup(mylib_context_t *ctx); // Libère
+mylib_context_t* mylib_init(void);     // Alloue  
+void mylib_cleanup(mylib_context_t *ctx); // Libère  
 ```
 
 ---
@@ -685,8 +685,8 @@ void mylib_destroy(mylib_context_t **ctx) {
 }
 
 // Utilisation
-mylib_context_t *ctx = mylib_create();
-mylib_destroy(&ctx);  // ctx est automatiquement mis à NULL
+mylib_context_t *ctx = mylib_create();  
+mylib_destroy(&ctx);  // ctx est automatiquement mis à NULL  
 // ctx == NULL ici, pas de dangling pointer
 ```
 
@@ -726,9 +726,9 @@ char* mylib_copy_buffer(mylib_context_t *ctx);
 
 ```c
 // ✅ BON : const pour les paramètres non modifiés
-size_t vector_size(const vector_t *v);
-bool vector_find(const vector_t *v, int value);
-void vector_print(const vector_t *v);
+size_t vector_size(const vector_t *v);  
+bool vector_find(const vector_t *v, int value);  
+void vector_print(const vector_t *v);  
 
 // ✅ BON : const pour les chaînes de caractères
 mylib_error_t mylib_set_name(mylib_context_t *ctx, const char *name);
@@ -743,8 +743,8 @@ size_t vector_size(vector_t *v);  // L'appelant pourrait penser que v est modifi
 
 ```c
 // Retourner un pointeur constant vers des données internes
-const char* mylib_get_version(void);
-const int* vector_data(const vector_t *v);  // Accès en lecture seule
+const char* mylib_get_version(void);  
+const int* vector_data(const vector_t *v);  // Accès en lecture seule  
 
 // Retourner une copie (pas const car l'appelant en est propriétaire)
 char* mylib_copy_string(const mylib_context_t *ctx);
@@ -806,8 +806,8 @@ mylib_error_t mylib_process(mylib_context_t *ctx, const char *data) {
 #endif
 
 // Ancienne API (obsolète)
-MYLIB_DEPRECATED
-mylib_error_t mylib_old_function(int param);
+MYLIB_DEPRECATED  
+mylib_error_t mylib_old_function(int param);  
 
 // Nouvelle API (recommandée)
 mylib_error_t mylib_new_function(const mylib_params_t *params);
@@ -1096,8 +1096,8 @@ typedef struct {
 } mylib_context_t;
 
 // L'utilisateur peut faire n'importe quoi :
-mylib_context_t ctx;
-ctx.internal_buffer = NULL;  // Cassé !
+mylib_context_t ctx;  
+ctx.internal_buffer = NULL;  // Cassé !  
 ```
 
 ---
@@ -1106,9 +1106,9 @@ ctx.internal_buffer = NULL;  // Cassé !
 
 ```c
 // MAUVAIS - Noms trop génériques
-void init(void);
-int process(void *data);
-typedef struct context context_t;
+void init(void);  
+int process(void *data);  
+typedef struct context context_t;  
 
 // Collision garantie avec d'autres bibliothèques !
 ```
@@ -1119,8 +1119,8 @@ typedef struct context context_t;
 
 ```c
 // mylib.c - MAUVAIS
-static FILE *global_log_file = NULL;
-static int global_counter = 0;
+static FILE *global_log_file = NULL;  
+static int global_counter = 0;  
 
 void mylib_init(void) {
     global_log_file = fopen("log.txt", "w");
@@ -1240,23 +1240,23 @@ $ ./test_api
 
 ```c
 // API SQLite - Exemple de clarté
-sqlite3 *db;
-int rc;
+sqlite3 *db;  
+int rc;  
 
 // Ouverture
-rc = sqlite3_open("database.db", &db);
-if (rc != SQLITE_OK) {
+rc = sqlite3_open("database.db", &db);  
+if (rc != SQLITE_OK) {  
     fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
     return 1;
 }
 
 // Utilisation
-sqlite3_stmt *stmt;
-rc = sqlite3_prepare_v2(db, "SELECT * FROM users", -1, &stmt, NULL);
+sqlite3_stmt *stmt;  
+rc = sqlite3_prepare_v2(db, "SELECT * FROM users", -1, &stmt, NULL);  
 
 // Fermeture
-sqlite3_finalize(stmt);
-sqlite3_close(db);
+sqlite3_finalize(stmt);  
+sqlite3_close(db);  
 ```
 
 **Ce qui est bien** :

@@ -94,8 +94,8 @@ Compilation :                        Compilation :
 Exécution :                             Exécution :     │
 ./programme                             ./programme     │
     ▼                                       │           │
-Fonctionne                                  ▼           ▼
-immédiatement                           ┌─────────────┐
+Fonctionne                                  ▼           ▼  
+immédiatement                           ┌─────────────┐  
                                         │ libmath.so  │
                                         │ (en mémoire)│
                                         │             │
@@ -263,10 +263,10 @@ Vos projets deviennent plus lisibles et maintenables :
 main.c (2000 lignes)  😱
 
 // Avec des bibliothèques
-main.c          (100 lignes)   😊
-libmath.a       (500 lignes)
-libnetwork.a    (800 lignes)
-libutils.a      (600 lignes)
+main.c          (100 lignes)   😊  
+libmath.a       (500 lignes)  
+libnetwork.a    (800 lignes)  
+libutils.a      (600 lignes)  
 ```
 
 #### 3. **Distribution facilitée**
@@ -275,8 +275,8 @@ Vous pouvez distribuer votre code sans révéler les sources :
 
 ```
 # Vous donnez :
-mylib.h           ← Interface publique
-libmylib.a        ← Code compilé (binaire)
+mylib.h           ← Interface publique  
+libmylib.a        ← Code compilé (binaire)  
 
 # Vous gardez secret :
 mylib_internal.c  ← Implémentation
@@ -313,19 +313,19 @@ scp programme serveur:/usr/local/bin/
 Le code de la bibliothèque est copié dans chaque programme :
 
 ```
-programme1 (5 MB) ← libutils.a (2 MB)
-programme2 (6 MB) ← libutils.a (2 MB)
-programme3 (4 MB) ← libutils.a (2 MB)
-Total disque : 15 MB
+programme1 (5 MB) ← libutils.a (2 MB)  
+programme2 (6 MB) ← libutils.a (2 MB)  
+programme3 (4 MB) ← libutils.a (2 MB)  
+Total disque : 15 MB  
 ```
 
 Avec une bibliothèque dynamique (`.so`), le code est partagé :
 
 ```
-programme1 (3 MB) ─┐
-programme2 (4 MB) ─┼─→ libutils.so (2 MB)
-programme3 (2 MB) ─┘
-Total disque : 11 MB
+programme1 (3 MB) ─┐  
+programme2 (4 MB) ─┼─→ libutils.so (2 MB)  
+programme3 (2 MB) ─┘  
+Total disque : 11 MB  
 ```
 
 #### 2. **Mises à jour**
@@ -339,11 +339,11 @@ Avec une bibliothèque dynamique, vous remplacez juste le fichier `.so`.
 Si plusieurs programmes utilisent la même bibliothèque statique, le code est dupliqué en RAM :
 
 ```
-RAM :
-Programme 1 : Code app (3 MB) + libutils (2 MB) = 5 MB
-Programme 2 : Code app (4 MB) + libutils (2 MB) = 6 MB
-Programme 3 : Code app (2 MB) + libutils (2 MB) = 4 MB
-Total RAM : 15 MB
+RAM :  
+Programme 1 : Code app (3 MB) + libutils (2 MB) = 5 MB  
+Programme 2 : Code app (4 MB) + libutils (2 MB) = 6 MB  
+Programme 3 : Code app (2 MB) + libutils (2 MB) = 4 MB  
+Total RAM : 15 MB  
 ```
 
 Avec `.so`, le code est chargé une seule fois et partagé.
@@ -416,8 +416,8 @@ int multiplication(int a, int b) {
 #ifndef MATH_UTILS_H
 #define MATH_UTILS_H
 
-int addition(int a, int b);
-int multiplication(int a, int b);
+int addition(int a, int b);  
+int multiplication(int a, int b);  
 
 #endif
 ```
@@ -425,8 +425,8 @@ int multiplication(int a, int b);
 ### Étape 2 : Compiler en fichiers objets
 
 ```bash
-gcc -c addition.c -o addition.o
-gcc -c multiplication.c -o multiplication.o
+gcc -c addition.c -o addition.o  
+gcc -c multiplication.c -o multiplication.o  
 ```
 
 Résultat : deux fichiers `.o` contenant le code machine.
@@ -481,8 +481,8 @@ Le terme "archive" est utilisé car une bibliothèque statique est littéralemen
 
 ```bash
 # Similitude conceptuelle
-tar -cvf archive.tar file1.txt file2.txt    # Archive tar
-ar rcs libmath.a addition.o multiplication.o # Archive .a
+tar -cvf archive.tar file1.txt file2.txt    # Archive tar  
+ar rcs libmath.a addition.o multiplication.o # Archive .a  
 ```
 
 ### 2. **Linking (édition de liens)**
@@ -616,8 +616,8 @@ ar rcs libmoncode.a fichier1.o fichier2.o
 gcc main.c -lmoncode -o programme
 
 # Inspecter une bibliothèque
-ar -t libmoncode.a    # Lister le contenu
-nm libmoncode.a       # Lister les symboles
+ar -t libmoncode.a    # Lister le contenu  
+nm libmoncode.a       # Lister les symboles  
 ```
 
 ---

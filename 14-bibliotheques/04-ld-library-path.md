@@ -40,7 +40,7 @@ $ ./mon_programme
 
 Lorsque vous lancez un programme, le **dynamic linker** suit un ordre de recherche précis pour localiser les bibliothèques `.so` :
 
-### 1. Les chemins codés en dur (RPATH/RUNPATH)
+### 1. Les chemins codés en dur (RPATH)
 ```bash
 # Intégrés dans l'exécutable lors de la compilation
 gcc main.c -L./lib -lmylib -Wl,-rpath,./lib -o mon_programme
@@ -51,20 +51,22 @@ gcc main.c -L./lib -lmylib -Wl,-rpath,./lib -o mon_programme
 export LD_LIBRARY_PATH=/home/user/mylibs:$LD_LIBRARY_PATH
 ```
 
-### 3. Les chemins système standards
-```
-/lib
-/lib64
-/usr/lib
-/usr/lib64
-/usr/local/lib
-```
+### 3. Les chemins codés en dur (RUNPATH)
+
+Si l'exécutable contient un RUNPATH (variante moderne de RPATH), il est consulté ici, **après** `LD_LIBRARY_PATH`.
 
 ### 4. Le cache système (/etc/ld.so.cache)
 ```bash
-# Mis à jour avec ldconfig
+# Mis à jour avec ldconfig (inclut /usr/lib, /usr/local/lib, etc.)
 sudo ldconfig
 ```
+
+### 5. Les répertoires par défaut
+```
+/lib
+/usr/lib
+```
+Ces chemins sont utilisés en dernier recours si le cache ne contient pas la bibliothèque.
 
 ---
 

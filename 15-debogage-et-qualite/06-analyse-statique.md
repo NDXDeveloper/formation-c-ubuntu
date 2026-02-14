@@ -400,8 +400,8 @@ peut devenir complexe.
 **Pre-commit hooks :**
 ```bash
 # .git/hooks/pre-commit
-cppcheck --enable=warning src/
-clang-tidy changed_files.c
+cppcheck --enable=warning src/  
+clang-tidy changed_files.c  
 ```
 
 **Avantages :**

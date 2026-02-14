@@ -30,9 +30,9 @@ Dans cette section, nous allons comparer ces deux types de liaison en détail, a
 
 #### Bibliothèque Statique
 ```
-Programme 1 → 500 Ko (inclut libmath)
-Programme 2 → 450 Ko (inclut libmath)
-Programme 3 → 480 Ko (inclut libmath)
+Programme 1 → 500 Ko (inclut libmath)  
+Programme 2 → 450 Ko (inclut libmath)  
+Programme 3 → 480 Ko (inclut libmath)  
 ───────────────────────────────────
 Total : 1430 Ko
 ```
@@ -42,10 +42,10 @@ Total : 1430 Ko
 
 #### Bibliothèque Dynamique
 ```
-Programme 1 → 50 Ko
-Programme 2 → 40 Ko
-Programme 3 → 45 Ko
-libmath.so  → 200 Ko (partagée)
+Programme 1 → 50 Ko  
+Programme 2 → 40 Ko  
+Programme 3 → 45 Ko  
+libmath.so  → 200 Ko (partagée)  
 ───────────────────────────────────
 Total : 335 Ko
 ```
@@ -61,9 +61,9 @@ Total : 335 Ko
 Chaque processus charge **sa propre copie** du code de la bibliothèque en mémoire :
 
 ```
-Processus A : [Code du programme A + libmath]
-Processus B : [Code du programme B + libmath]
-Processus C : [Code du programme C + libmath]
+Processus A : [Code du programme A + libmath]  
+Processus B : [Code du programme B + libmath]  
+Processus C : [Code du programme C + libmath]  
 ```
 
 **Mémoire totale** : Code dupliqué pour chaque processus actif.
@@ -72,9 +72,9 @@ Processus C : [Code du programme C + libmath]
 Le système charge **une seule copie** de la bibliothèque en mémoire, partagée entre tous les processus :
 
 ```
-Processus A : [Code du programme A] ───┐
-Processus B : [Code du programme B] ───┼──→ [libmath.so en mémoire]
-Processus C : [Code du programme C] ───┘
+Processus A : [Code du programme A] ───┐  
+Processus B : [Code du programme B] ───┼──→ [libmath.so en mémoire]  
+Processus C : [Code du programme C] ───┘  
 ```
 
 **Mémoire totale** : Une seule copie de `libmath.so` même avec 10 programmes qui l'utilisent.

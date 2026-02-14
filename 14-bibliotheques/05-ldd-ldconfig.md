@@ -258,8 +258,8 @@ $ ldd mon_programme
 Sans cache, le dynamic linker devrait parcourir tous les répertoires système à chaque lancement de programme. Le cache accélère considérablement cette recherche.
 
 ```
-Sans cache : Parcourir /lib, /usr/lib, /usr/local/lib... à chaque fois
-Avec cache : Consulter /etc/ld.so.cache (fichier binaire optimisé)
+Sans cache : Parcourir /lib, /usr/lib, /usr/local/lib... à chaque fois  
+Avec cache : Consulter /etc/ld.so.cache (fichier binaire optimisé)  
 ```
 
 ---
@@ -305,9 +305,9 @@ Répertoire contenant des fichiers de configuration modulaires :
 
 ```bash
 $ ls /etc/ld.so.conf.d/
-fakeroot-x86_64-linux-gnu.conf
-libc.conf
-x86_64-linux-gnu.conf
+fakeroot-x86_64-linux-gnu.conf  
+libc.conf  
+x86_64-linux-gnu.conf  
 
 $ cat /etc/ld.so.conf.d/x86_64-linux-gnu.conf
 # Multiarch support
@@ -449,9 +449,9 @@ $ sudo ldconfig -v
 Les bibliothèques utilisent un système de versioning :
 
 ```bash
-libmylib.so.1.2.3  ← Fichier réel (version complète)
-libmylib.so.1      ← SONAME (version majeure)
-libmylib.so        ← Lien pour la compilation
+libmylib.so.1.2.3  ← Fichier réel (version complète)  
+libmylib.so.1      ← SONAME (version majeure)  
+libmylib.so        ← Lien pour la compilation  
 ```
 
 **ldconfig** crée automatiquement ces liens :
@@ -459,8 +459,8 @@ libmylib.so        ← Lien pour la compilation
 ```bash
 $ ls -l /usr/local/lib/
 -rwxr-xr-x 1 root root 245K libmylib.so.1.2.3
-lrwxrwxrwx 1 root root   17 libmylib.so.1 -> libmylib.so.1.2.3  ← Créé par ldconfig
-lrwxrwxrwx 1 root root   13 libmylib.so -> libmylib.so.1        ← Créé manuellement
+lrwxrwxrwx 1 root root   17 libmylib.so.1 -> libmylib.so.1.2.3  ← Créé par ldconfig  
+lrwxrwxrwx 1 root root   13 libmylib.so -> libmylib.so.1        ← Créé manuellement  
 ```
 
 ---
@@ -489,8 +489,8 @@ $ sudo ln -s libmylib.so.2 /usr/local/lib/libmylib.so
 # Résultat final
 $ ls -l /usr/local/lib/libmylib*
 -rwxr-xr-x 1 root root 245K libmylib.so.2.0.0
-lrwxrwxrwx 1 root root   17 libmylib.so.2 -> libmylib.so.2.0.0
-lrwxrwxrwx 1 root root   13 libmylib.so -> libmylib.so.2
+lrwxrwxrwx 1 root root   17 libmylib.so.2 -> libmylib.so.2.0.0  
+lrwxrwxrwx 1 root root   13 libmylib.so -> libmylib.so.2  
 ```
 
 ---
@@ -849,8 +849,8 @@ $ sudo nano /etc/ld.so.conf.d/myapp.conf
 ### Scénario : Installer une bibliothèque personnalisée
 
 ```bash
-# 1. Compiler la bibliothèque
-$ gcc -shared -fPIC -o libmylib.so.2.0.0 mylib.c
+# 1. Compiler la bibliothèque (avec SONAME)
+$ gcc -shared -fPIC -Wl,-soname,libmylib.so.2 -o libmylib.so.2.0.0 mylib.c
 
 # 2. Installer dans /usr/local/lib
 $ sudo cp libmylib.so.2.0.0 /usr/local/lib/
