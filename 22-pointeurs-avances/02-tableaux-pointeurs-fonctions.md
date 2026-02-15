@@ -95,10 +95,10 @@ int main(void) {
 
 **Sortie** :
 ```
-Addition : 20 + 5 = 25
-Soustraction : 20 - 5 = 15
-Multiplication : 20 * 5 = 100
-Division : 20 / 5 = 4
+Addition : 20 + 5 = 25  
+Soustraction : 20 - 5 = 15  
+Multiplication : 20 * 5 = 100  
+Division : 20 / 5 = 4  
 ```
 
 **Points clés** :
@@ -118,10 +118,10 @@ Comme pour les pointeurs de fonctions simples, on peut utiliser `typedef` pour r
 // Définition d'un type pour simplifier
 typedef int (*OperationMath)(int, int);
 
-int addition(int a, int b) { return a + b; }
-int soustraction(int a, int b) { return a - b; }
-int multiplication(int a, int b) { return a * b; }
-int division(int a, int b) {
+int addition(int a, int b) { return a + b; }  
+int soustraction(int a, int b) { return a - b; }  
+int multiplication(int a, int b) { return a * b; }  
+int division(int a, int b) {  
     return (b != 0) ? a / b : 0;
 }
 
@@ -188,10 +188,10 @@ int calculer_avec_switch(int a, int b, char operateur) {
 
 typedef int (*Operation)(int, int);
 
-int addition(int a, int b) { return a + b; }
-int soustraction(int a, int b) { return a - b; }
-int multiplication(int a, int b) { return a * b; }
-int division(int a, int b) { return (b != 0) ? a / b : 0; }
+int addition(int a, int b) { return a + b; }  
+int soustraction(int a, int b) { return a - b; }  
+int multiplication(int a, int b) { return a * b; }  
+int division(int a, int b) { return (b != 0) ? a / b : 0; }  
 
 // Structure pour associer un symbole à une fonction
 typedef struct {
@@ -250,10 +250,10 @@ Voici un exemple complet d'une calculatrice interactive utilisant un tableau de 
 typedef double (*OperationCalc)(double, double);
 
 // Fonctions d'opérations
-double add(double a, double b) { return a + b; }
-double sub(double a, double b) { return a - b; }
-double mul(double a, double b) { return a * b; }
-double div_safe(double a, double b) {
+double add(double a, double b) { return a + b; }  
+double sub(double a, double b) { return a - b; }  
+double mul(double a, double b) { return a * b; }  
+double div_safe(double a, double b) {  
     if (b == 0.0) {
         printf("Erreur : division par zéro\n");
         return 0.0;
@@ -377,10 +377,10 @@ typedef struct {
 } Porte;
 
 // Prototypes des fonctions d'état
-void etat_fermee(Porte *p, Evenement evt);
-void etat_ouverture(Porte *p, Evenement evt);
-void etat_ouverte(Porte *p, Evenement evt);
-void etat_fermeture(Porte *p, Evenement evt);
+void etat_fermee(Porte *p, Evenement evt);  
+void etat_ouverture(Porte *p, Evenement evt);  
+void etat_ouverte(Porte *p, Evenement evt);  
+void etat_fermeture(Porte *p, Evenement evt);  
 
 // Type pour les fonctions d'état
 typedef void (*FonctionEtat)(Porte *, Evenement);
@@ -403,6 +403,7 @@ void etat_fermee(Porte *p, Evenement evt) {
 }
 
 void etat_ouverture(Porte *p, Evenement evt) {
+    (void)evt;  // Non utilisé dans cet état
     printf("État : OUVERTURE EN COURS\n");
     printf("  → Moteur activé...\n");
     sleep(1);  // Simulation du temps d'ouverture
@@ -588,9 +589,9 @@ Vous pouvez initialiser partiellement un tableau de pointeurs de fonctions et v�
 
 typedef void (*Handler)(int);
 
-void handler_0(int code) { printf("Handler 0 : code %d\n", code); }
-void handler_2(int code) { printf("Handler 2 : code %d\n", code); }
-void handler_5(int code) { printf("Handler 5 : code %d\n", code); }
+void handler_0(int code) { printf("Handler 0 : code %d\n", code); }  
+void handler_2(int code) { printf("Handler 2 : code %d\n", code); }  
+void handler_5(int code) { printf("Handler 5 : code %d\n", code); }  
 
 int main(void) {
     // Tableau avec initialisation partielle
@@ -617,16 +618,16 @@ int main(void) {
 
 **Sortie** :
 ```
-Appel du handler 0 : Handler 0 : code 0
-Handler 1 : non défini
-Appel du handler 2 : Handler 2 : code 200
-Handler 3 : non défini
-Handler 4 : non défini
-Appel du handler 5 : Handler 5 : code 500
-Handler 6 : non défini
-Handler 7 : non défini
-Handler 8 : non défini
-Handler 9 : non défini
+Appel du handler 0 : Handler 0 : code 0  
+Handler 1 : non défini  
+Appel du handler 2 : Handler 2 : code 200  
+Handler 3 : non défini  
+Handler 4 : non défini  
+Appel du handler 5 : Handler 5 : code 500  
+Handler 6 : non défini  
+Handler 7 : non défini  
+Handler 8 : non défini  
+Handler 9 : non défini  
 ```
 
 **Important** : Toujours vérifier qu'un pointeur n'est pas NULL avant de l'appeler !
@@ -642,12 +643,12 @@ Pour des cas complexes, vous pouvez créer des tableaux à plusieurs dimensions 
 
 typedef int (*Operation)(int, int);
 
-int add(int a, int b) { return a + b; }
-int sub(int a, int b) { return a - b; }
-int mul(int a, int b) { return a * b; }
-int div_safe(int a, int b) { return (b != 0) ? a / b : 0; }
-int mod(int a, int b) { return (b != 0) ? a % b : 0; }
-int max(int a, int b) { return (a > b) ? a : b; }
+int add(int a, int b) { return a + b; }  
+int sub(int a, int b) { return a - b; }  
+int mul(int a, int b) { return a * b; }  
+int div_safe(int a, int b) { return (b != 0) ? a / b : 0; }  
+int mod(int a, int b) { return (b != 0) ? a % b : 0; }  
+int max(int a, int b) { return (a > b) ? a : b; }  
 
 int main(void) {
     // Tableau 2D : catégories d'opérations
@@ -682,8 +683,8 @@ Vous pouvez passer des tableaux de pointeurs de fonctions à d'autres fonctions 
 
 typedef int (*OperationBinaire)(int, int);
 
-int addition(int a, int b) { return a + b; }
-int multiplication(int a, int b) { return a * b; }
+int addition(int a, int b) { return a + b; }  
+int multiplication(int a, int b) { return a * b; }  
 
 // Fonction qui reçoit un tableau de pointeurs de fonctions
 void appliquer_operations(int x, int y,
@@ -737,8 +738,8 @@ void uart_interrupt(void) {
 }
 
 // Configuration
-vecteurs_interruptions[TIMER_IRQ] = timer_interrupt;
-vecteurs_interruptions[UART_IRQ] = uart_interrupt;
+vecteurs_interruptions[TIMER_IRQ] = timer_interrupt;  
+vecteurs_interruptions[UART_IRQ] = uart_interrupt;  
 
 // Quand une interruption survient :
 void dispatcher_interruption(int numero_irq) {
@@ -755,11 +756,11 @@ Les machines virtuelles (JVM, Python VM) utilisent des tables de dispatch pour e
 ```c
 typedef void (*InstructionHandler)(void);
 
-void op_add(void) { /* Addition */ }
-void op_sub(void) { /* Soustraction */ }
-void op_mul(void) { /* Multiplication */ }
-void op_load(void) { /* Charger une valeur */ }
-void op_store(void) { /* Stocker une valeur */ }
+void op_add(void) { /* Addition */ }  
+void op_sub(void) { /* Soustraction */ }  
+void op_mul(void) { /* Multiplication */ }  
+void op_load(void) { /* Charger une valeur */ }  
+void op_store(void) { /* Stocker une valeur */ }  
 
 InstructionHandler opcodes[256] = {
     [0x01] = op_add,
@@ -825,8 +826,8 @@ if (operations[index] != NULL) {
 ### 2. Signatures incompatibles
 
 ```c
-int func_int(int a, int b) { return a + b; }
-float func_float(float a, float b) { return a + b; }
+int func_int(int a, int b) { return a + b; }  
+float func_float(float a, float b) { return a + b; }  
 
 int (*ops[2])(int, int) = {
     func_int,      // ✅ OK
@@ -840,8 +841,8 @@ int (*ops[2])(int, int) = {
 int (*operations[4])(int, int) = { /* ... */ };
 
 // ❌ DANGEREUX : pas de vérification de limite
-int index = 10;
-operations[index](5, 3);  // Comportement indéfini !
+int index = 10;  
+operations[index](5, 3);  // Comportement indéfini !  
 
 // ✅ CORRECT : vérifier les limites
 if (index >= 0 && index < 4 && operations[index] != NULL) {
@@ -891,8 +892,8 @@ int (*operations[10])(int, int) = {
 
 1. **Utiliser typedef pour la lisibilité**
 ```c
-typedef void (*EventHandler)(int);
-EventHandler handlers[MAX_EVENTS];
+typedef void (*EventHandler)(int);  
+EventHandler handlers[MAX_EVENTS];  
 ```
 
 2. **Toujours vérifier les pointeurs NULL**
@@ -944,8 +945,8 @@ Handler handlers[10000];
 3. **Pas de documentation**
 ```c
 // ❌ Quel handler fait quoi ?
-handlers[0] = func1;
-handlers[1] = func2;
+handlers[0] = func1;  
+handlers[1] = func2;  
 ```
 
 ---
@@ -956,7 +957,7 @@ handlers[1] = func2;
 |-----------|--------|------------|------|
 | `int (*ops[4])(int, int)` | `ops = [add, sub, mul, div]` | `const ops = [add, sub, mul, div]` | `let ops: [fn(i32, i32) -> i32; 4]` |
 | Appel : `ops[0](5, 3)` | `ops[0](5, 3)` | `ops[0](5, 3)` | `ops[0](5, 3)` |
-| Typage | Statique strict | Dynamique | Dynamique | Statique strict |
+| Typage : Statique strict | Dynamique | Dynamique | Statique strict |
 
 **Note** : En C, contrairement aux langages de plus haut niveau, vous devez gérer manuellement la sécurité (vérification NULL, limites de tableau).
 

@@ -44,6 +44,8 @@ Ce code est dans le fichier : main.c
 **Utilisation pratique** : Logging avec le nom du fichier
 
 ```c
+#include <stdio.h>
+
 #define LOG(msg) \
     printf("[%s] %s\n", __FILE__, msg)
 
@@ -73,9 +75,9 @@ int main(void) {
 
 **Sortie** :
 ```
-Ligne actuelle : 4
-Ligne actuelle : 5
-Ligne actuelle : 6
+Ligne actuelle : 4  
+Ligne actuelle : 5  
+Ligne actuelle : 6  
 ```
 
 **Utilisation pratique** : Traçage précis des erreurs
@@ -188,8 +190,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Dans la fonction : main
-Dans la fonction : fonction_exemple
+Dans la fonction : main  
+Dans la fonction : fonction_exemple  
 ```
 
 **Note** : Avant C99, certains compilateurs utilisaient `__FUNCTION__` (GCC, MSVC).
@@ -482,10 +484,14 @@ int main(void) {
 **Utilisation** : Générer des identifiants uniques automatiquement.
 
 ```c
-#define UNIQUE_ID __COUNTER__
+#include <stdio.h>
+
+// Macros d'indirection nécessaires : ## empêche l'expansion de ses opérandes
+#define CONCAT_IMPL(a, b) a##b
+#define CONCAT(a, b) CONCAT_IMPL(a, b)
 
 #define DECLARE_VAR(prefix) \
-    int prefix##UNIQUE_ID
+    int CONCAT(prefix, __COUNTER__)
 
 int main(void) {
     DECLARE_VAR(var);  // int var0
@@ -863,9 +869,9 @@ int main(void) {
 Informations de Build
 ========================================
 
-Date de compilation : Dec 25 2024
-Heure de compilation : 14:42:18
-Fichier : main.c
+Date de compilation : Dec 25 2024  
+Heure de compilation : 14:42:18  
+Fichier : main.c  
 
 Standard C : C11
 
@@ -873,8 +879,8 @@ Compilateur : GCC 11.4.0
 
 OS cible : Linux
 
-Architecture : x86_64
-Taille du pointeur : 8 octets
+Architecture : x86_64  
+Taille du pointeur : 8 octets  
 
 Configuration : Debug
 ========================================
@@ -985,12 +991,12 @@ int main(void) {
 
 **Sortie** :
 ```
-Programme version 2.5.3
-Build: v2.5.3 (compilé le Dec 25 2024 à 14:45:30)
-Version numérique: 20503
+Programme version 2.5.3  
+Build: v2.5.3 (compilé le Dec 25 2024 à 14:45:30)  
+Version numérique: 20503  
 
-Version 2.5.0 ou supérieure
-Version inférieure à 3.0.0
+Version 2.5.0 ou supérieure  
+Version inférieure à 3.0.0  
 ```
 
 ---
@@ -1136,6 +1142,7 @@ int main(void) {
 
 ```c
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 
 // ========== Configuration ==========

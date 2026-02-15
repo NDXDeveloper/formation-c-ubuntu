@@ -43,19 +43,21 @@ int main(void) {
 
 On pourrait s'attendre à :
 ```
-Compteur initial : 5
-Résultat : 25
-Compteur final : 6
+Compteur initial : 5  
+Résultat : 25  
+Compteur final : 6  
 ```
 
-**Mais le résultat réel est** :
+> ⚠️ **Attention** : L'expression `((compteur++) * (compteur++))` modifie `compteur` deux fois sans point de séquence. C'est un **comportement indéfini** (*undefined behavior*). Le résultat varie selon le compilateur et le niveau d'optimisation.
+
+**Un résultat fréquemment observé** :
 ```
-Compteur initial : 5
-Résultat : 30
+Compteur initial : 5  
+Résultat : 30  
 Compteur final : 7
 ```
 
-**Explication** :
+**Explication d'un scénario possible** :
 
 Le préprocesseur transforme `CARRE(compteur++)` en :
 ```c
@@ -64,7 +66,7 @@ Le préprocesseur transforme `CARRE(compteur++)` en :
 
 Le `compteur` est incrémenté **deux fois** : une fois pour chaque occurrence dans la macro !
 
-Détail de l'évaluation :
+Détail d'une évaluation possible :
 1. Premier `compteur++` : utilise 5, puis incrémente → compteur = 6
 2. Deuxième `compteur++` : utilise 6, puis incrémente → compteur = 7
 3. Résultat : 5 × 6 = 30
@@ -83,7 +85,7 @@ int fonction_avec_effet(void) {
 }
 
 int main(void) {
-    printf("Résultat : %d\n", MAX(fonction_avec_effet(), 5));
+    printf("Résultat : %d\n", MAX(fonction_avec_effet(), 0));
 
     return 0;
 }
@@ -91,9 +93,9 @@ int main(void) {
 
 **Sortie** :
 ```
-Fonction appelée 1 fois
-Fonction appelée 2 fois
-Résultat : 2
+Fonction appelée 1 fois  
+Fonction appelée 2 fois  
+Résultat : 2  
 ```
 
 La fonction est appelée **deux fois** ! Une fois pour la comparaison, et une autre pour retourner le résultat.
@@ -107,8 +109,8 @@ La fonction est appelée **deux fois** ! Une fois pour la comparaison, et une au
 int resultat = CARRE(compteur++);
 
 // ✅ Bon
-int temp = compteur++;
-int resultat = CARRE(temp);
+int temp = compteur++;  
+int resultat = CARRE(temp);  
 ```
 
 **✅ Solution 2** : Utiliser une fonction à la place
@@ -655,6 +657,8 @@ int main(void) {
 ### Guillemets dans les macros
 
 ```c
+#include <stdio.h>
+
 #define PRINT(x) printf("x = %d\n", x)
 
 int main(void) {
@@ -716,8 +720,8 @@ enum Jour {
 #define POINTEUR_ENTIER int*
 
 // ✅ Meilleur
-typedef int entier_t;
-typedef int* pointeur_entier_t;
+typedef int entier_t;  
+typedef int* pointeur_entier_t;  
 ```
 
 **4. Code complexe difficile à lire**
@@ -788,6 +792,8 @@ const int BUFFER_SIZE = 1024;
 - ✅ Peut être débogué
 - ✅ Respecte les règles de portée
 
+> ⚠️ **Attention en C** : Contrairement au C++, `const int` en C n'est **pas** une constante de compilation. On ne peut pas l'utiliser comme taille de tableau statique (`static int arr[BUFFER_SIZE];`), dans un `case`, ni comme largeur de champ de bits. Pour ces cas, `#define` ou `enum` restent nécessaires.
+
 ### Alternative 3 : Enum pour les constantes liées
 
 ```c
@@ -814,8 +820,8 @@ Pour la généricité typée :
 #include <stdio.h>
 
 // Fonctions spécialisées
-int max_int(int a, int b) { return (a > b) ? a : b; }
-double max_double(double a, double b) { return (a > b) ? a : b; }
+int max_int(int a, int b) { return (a > b) ? a : b; }  
+double max_double(double a, double b) { return (a > b) ? a : b; }  
 
 // Macro générique avec vérification de type (C11)
 #define max(a, b) _Generic((a), \
@@ -873,7 +879,7 @@ gcc -E fichier.c > fichier_expanded.c
  * @warning Arguments évalués potentiellement deux fois
  *
  * Exemple DANGEREUX:
- *   MAX(x++, y++)  // x et y seront incrémentés deux fois !
+ *   MAX(x++, y++)  // le plus grand sera incrémenté deux fois !
  *
  * Exemple SÛR:
  *   MAX(5, 10)
@@ -922,10 +928,10 @@ int resultat = TEMP_MACRO(5);
 })
 
 int main(void) {
-    int x = 5;
+    int x = 15;
 
     // Dangereux
-    int r1 = UNSAFE_MAX(x++, 10);  // x incrémenté deux fois
+    int r1 = UNSAFE_MAX(x++, 10);  // x incrémenté deux fois (15 > 10)
 
     // Safe
     int r2 = SAFE_MAX(x++, 10);  // x incrémenté une seule fois

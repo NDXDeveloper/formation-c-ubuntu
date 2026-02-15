@@ -88,8 +88,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Premier parcours : 10 20 30 40
-Deuxième parcours : 10 20 30 40
+Premier parcours : 10 20 30 40  
+Deuxième parcours : 10 20 30 40  
 ```
 
 **Points clés** :
@@ -145,8 +145,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Somme : 60
-Somme doublée : 120
+Somme : 60  
+Somme doublée : 120  
 ```
 
 **Avantage** : Réutilisation du code de traitement.
@@ -240,8 +240,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Erreur 404 : Not Found
-Utilisateur: Alice, ID: 1001
+Erreur 404 : Not Found  
+Utilisateur: Alice, ID: 1001  
 ```
 
 ---
@@ -278,9 +278,9 @@ int main(void) {
 
 **Sortie** :
 ```
-Bonjour
-x = 42
-x = 10, y = 20
+Bonjour  
+x = 42  
+x = 10, y = 20  
 ```
 
 **Explication** :
@@ -397,6 +397,8 @@ int main(void) {
 Pourquoi utiliser `do { ... } while(0)` dans les macros ?
 
 ```c
+#include <stdio.h>
+
 // ❌ Sans do-while : problème avec if-else
 #define BAD_LOG(msg) printf(msg); printf("\n")
 
@@ -478,7 +480,7 @@ void assert_impl(int condition, const char *file, int line,
         fprintf(stderr, "Assertion échouée : %s\n", expr);
         fprintf(stderr, "  Fichier : %s:%d\n", file, line);
 
-        if (format) {
+        if (format != NULL && format[0] != '\0') {
             fprintf(stderr, "  Message : ");
             va_list args;
             va_start(args, format);
@@ -492,7 +494,7 @@ void assert_impl(int condition, const char *file, int line,
 }
 
 #define ASSERT(expr, ...) \
-    assert_impl(!!(expr), __FILE__, __LINE__, #expr, ##__VA_ARGS__)
+    assert_impl(!!(expr), __FILE__, __LINE__, #expr, "" __VA_ARGS__)
 
 int main(void) {
     int x = 10;
@@ -586,7 +588,7 @@ int main(void) {
 }
 ```
 
-**Note** : Utilise des extensions GNU (`{...}` pour créer une expression).
+**Note** : Utilise des extensions GNU (`({...})` statement expressions pour créer une expression).
 
 ### Macro de formatage conditionnel
 
@@ -613,8 +615,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Mode debug activé
-Valeur : 42
+Mode debug activé  
+Valeur : 42  
 ```
 
 ---
@@ -644,9 +646,9 @@ int main(void) {
 
 **Sortie** :
 ```
-Nombre d'arguments : 1
-Nombre d'arguments : 2
-Nombre d'arguments : 5
+Nombre d'arguments : 1  
+Nombre d'arguments : 2  
+Nombre d'arguments : 5  
 ```
 
 **Comment ça marche ?** :
@@ -714,11 +716,11 @@ MACRO(arg1, arg2, ..., arg200);
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 int main(void) {
-    int x = 5;
+    int x = 15;
 
     // ❌ PROBLÈME : x++ évalué deux fois !
     int m = MAX(x++, 10);
-    printf("x = %d, m = %d\n", x, m);  // x = 7 (incrémenté 2 fois !)
+    printf("x = %d, m = %d\n", x, m);  // x = 17 (incrémenté 2 fois !), m = 16
 
     return 0;
 }

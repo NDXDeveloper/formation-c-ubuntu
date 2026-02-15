@@ -130,12 +130,12 @@ int main(void) {
 
 **Sortie** :
 ```
-Calcul de 10 et 5...
-Addition : 15
-Calcul de 10 et 5...
-Multiplication : 50
-Calcul de 10 et 5...
-Division : 2
+Calcul de 10 et 5...  
+Addition : 15  
+Calcul de 10 et 5...  
+Multiplication : 50  
+Calcul de 10 et 5...  
+Division : 2  
 ```
 
 ### Pourquoi est-ce utile ?
@@ -204,6 +204,15 @@ int main(void) {
   - Un nombre **négatif** si `a < b`
   - **Zéro** si `a == b`
   - Un nombre **positif** si `a > b`
+
+> ⚠️ **Attention** : La technique `return a - b` utilisée ci-dessus est simple mais dangereuse. Si les valeurs sont extrêmes (par exemple `INT_MAX` et `-1`), la soustraction provoque un **dépassement d'entier** (overflow), ce qui est un comportement indéfini. Une version sûre utilise des comparaisons :
+> ```c
+> int comparer_safe(const void *a, const void *b) {
+>     int va = *(const int *)a;
+>     int vb = *(const int *)b;
+>     return (va > vb) - (va < vb);
+> }
+> ```
 
 ---
 
@@ -384,8 +393,8 @@ int (*bonne_declaration)(int, int);
 ### 2. Types incompatibles
 
 ```c
-int addition(int a, int b) { return a + b; }
-float addition_float(float a, float b) { return a + b; }
+int addition(int a, int b) { return a + b; }  
+float addition_float(float a, float b) { return a + b; }  
 
 int main(void) {
     int (*operation)(int, int);

@@ -69,8 +69,8 @@ int traiter_fichier(const char *chemin) {
 ```
 
 **Comptez les problèmes :**
-- 5 points de sortie différents (5 `return`)
-- 15 lignes dédiées uniquement au nettoyage
+- 6 points de sortie différents (6 `return`)
+- 12 lignes dédiées uniquement au nettoyage
 - Code de nettoyage répété 5 fois
 - Ordre de nettoyage à maintenir manuellement
 - Risque élevé d'oublier une libération lors d'une modification
@@ -381,7 +381,7 @@ int traiter_fichier(const char *chemin) {
 ```
 
 **Comptez les améliorations :**
-- ✅ Toujours 5 points de sortie, mais...
+- ✅ Toujours 6 points de sortie, mais...
 - ✅ **0 ligne** de code de nettoyage explicite
 - ✅ Code de nettoyage **non répété**
 - ✅ Impossible d'oublier une libération

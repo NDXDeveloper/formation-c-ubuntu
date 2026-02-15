@@ -56,6 +56,8 @@ C'est une règle **cruciale** : toujours entourer les paramètres et le corps de
 ### Exemple du problème sans parenthèses
 
 ```c
+#include <stdio.h>
+
 // ❌ MAUVAIS : Sans parenthèses
 #define MAUVAIS_CARRE(x) x * x
 
@@ -120,6 +122,8 @@ int main(void) {
 ### Exemple : Macro de conversion
 
 ```c
+#include <stdio.h>
+
 // Conversion Celsius vers Fahrenheit
 #define C_VERS_F(celsius) (((celsius) * 9.0 / 5.0) + 32.0)
 
@@ -142,6 +146,8 @@ int main(void) {
 Pour créer des macros qui s'étendent sur plusieurs lignes, on utilise le caractère de continuation `\` à la fin de chaque ligne (sauf la dernière).
 
 ```c
+#include <stdio.h>
+
 #define AFFICHER_INFOS(nom, age) \
     do { \
         printf("Nom : %s\n", nom); \
@@ -223,6 +229,8 @@ int carre_fonction(int x) {
 Les macros fonctionnent avec n'importe quel type compatible :
 
 ```c
+#include <stdio.h>
+
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 int main(void) {
@@ -257,14 +265,14 @@ char buffer[TAILLE_BUFFER];  // Taille connue à la compilation
 ```c
 #define CARRE(x) ((x) * (x))
 
-int compteur = 5;
+int compteur = 5;  
 int resultat = CARRE(compteur++);
 // Devient : ((compteur++) * (compteur++))
-// compteur est incrémenté DEUX fois !
+// compteur est modifié DEUX fois sans point de séquence !
+// C'est un COMPORTEMENT INDÉFINI (undefined behavior)
 
 printf("Résultat : %d, Compteur : %d\n", resultat, compteur);
-// Affiche : Résultat : 30, Compteur : 7
-// Au lieu de : Résultat : 25, Compteur : 6
+// Résultat imprévisible ! Le compilateur peut produire n'importe quoi.
 ```
 
 **Explication** : Le paramètre `compteur++` apparaît deux fois dans la macro, donc il est évalué deux fois.
@@ -273,9 +281,9 @@ printf("Résultat : %d, Compteur : %d\n", resultat, compteur);
 
 ```c
 // ✅ Bon usage
-int compteur = 5;
-int temp = compteur++;
-int resultat = CARRE(temp);
+int compteur = 5;  
+int temp = compteur++;  
+int resultat = CARRE(temp);  
 ```
 
 ### 2. Problèmes de précédence d'opérateurs
@@ -415,8 +423,8 @@ DEBUG_PRINT("Valeur de x: %d", x);
     } while(0)
 
 // Utilisation
-int* data = malloc(sizeof(int) * 100);
-CHECK_NULL(data);
+int* data = malloc(sizeof(int) * 100);  
+CHECK_NULL(data);  
 ```
 
 ### 4. Abstraction de code répétitif
@@ -427,8 +435,8 @@ CHECK_NULL(data);
     void set_##nom(type valeur) { nom = valeur; }
 
 // Génère automatiquement les getters/setters
-static int age;
-DECLARER_GETTER_SETTER(int, age)
+static int age;  
+DECLARER_GETTER_SETTER(int, age)  
 
 // Équivalent à :
 // int get_age(void) { return age; }

@@ -250,12 +250,12 @@ int main(void) {
     }
 
 // Variables globales (pour l'exemple)
-static int age = 30;
-static double salaire = 45000.50;
+static int age = 30;  
+static double salaire = 45000.50;  
 
 // Génération automatique des getters
-DEFINE_GETTER(int, age)
-DEFINE_GETTER(double, salaire)
+DEFINE_GETTER(int, age)  
+DEFINE_GETTER(double, salaire)  
 
 // Équivalent à écrire :
 // int get_age(void) { return age; }
@@ -283,8 +283,8 @@ int main(void) {
 // - Une variable privée _id
 // - Un getter get_id()
 // - Un setter set_id()
-DEFINE_PROPERTY(int, id)
-DEFINE_PROPERTY(double, prix)
+DEFINE_PROPERTY(int, id)  
+DEFINE_PROPERTY(double, prix)  
 
 int main(void) {
     set_id(12345);
@@ -411,8 +411,8 @@ int main(void) {
 
 **Sortie** :
 ```
-OK: resultat == 5
-OK: resultat == 20
+OK: resultat == 5  
+OK: resultat == 20  
 ```
 
 ### Exemple : Génération de tableaux de structures
@@ -432,8 +432,8 @@ OK: resultat == 20
     }
 
 // Génération automatique
-DEFINE_STRUCT(Personne)
-DEFINE_STRUCT(Produit)
+DEFINE_STRUCT(Personne)  
+DEFINE_STRUCT(Produit)  
 
 // Équivalent à :
 // typedef struct { int id; char nom[50]; } Personne_t;
@@ -455,8 +455,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Personne { id=1, nom=Alice }
-Produit { id=100, nom=Laptop }
+Personne { id=1, nom=Alice }  
+Produit { id=100, nom=Laptop }  
 ```
 
 ---
@@ -506,9 +506,9 @@ int main(void) {
         return value; /* Conversion simplifiée */ \
     }
 
-DEFINE_CONVERTER(celsius, fahrenheit)
-DEFINE_CONVERTER(metres, kilometres)
-DEFINE_CONVERTER(euros, dollars)
+DEFINE_CONVERTER(celsius, fahrenheit)  
+DEFINE_CONVERTER(metres, kilometres)  
+DEFINE_CONVERTER(euros, dollars)  
 
 int main(void) {
     celsius_to_fahrenheit(25.0);
@@ -538,8 +538,8 @@ typedef struct {
         printf("Configuration mise à jour: " #field " = %d\n", value); \
     }
 
-CONFIG_SETTER(port, int)
-CONFIG_SETTER(timeout, int)
+CONFIG_SETTER(port, int)  
+CONFIG_SETTER(timeout, int)  
 
 int main(void) {
     Config cfg = {0};
@@ -649,10 +649,10 @@ Toutes les couleurs:
    CONCAT(/, *)   // ❌ Erreur : /* n'est pas un token valide seul
    ```
 
-3. **Pas d'espaces autour de ##** :
+3. **Les espaces autour de ## sont ignorés** :
    ```c
-   #define CONCAT(a, b) a ## b  // ❌ Mauvaise pratique
-   #define CONCAT(a, b) a##b    // ✅ Bon
+   #define CONCAT(a, b) a ## b  // ✅ Équivalent
+   #define CONCAT(a, b) a##b    // ✅ Équivalent (style plus courant)
    ```
 
 ---
@@ -693,13 +693,14 @@ CONCAT(/, /)  // Erreur : // n'est pas un token, c'est un commentaire !
 **Problème** :
 ```c
 #define MAKE_POINTER(type) type##*
-MAKE_POINTER(int) ptr;  // Erreur : devient int* (espace nécessaire)
+MAKE_POINTER(int) ptr;  // Erreur : int* n'est pas un preprocessing token valide
+// ## exige que le résultat de la concaténation soit un token unique valide
 ```
 
-**Solution** :
+**Solution** : Ne pas utiliser `##` quand ce n'est pas nécessaire :
 ```c
 #define MAKE_POINTER(type) type *
-MAKE_POINTER(int) ptr;  // OK : devient int *ptr
+MAKE_POINTER(int) ptr;  // OK : devient int * ptr (pas de concaténation)
 ```
 
 ---
@@ -814,8 +815,8 @@ Voici un exemple complet qui combine # et ## pour créer un mini-framework de te
 #include <string.h>
 
 // Compteurs de tests
-static int tests_total = 0;
-static int tests_reussis = 0;
+static int tests_total = 0;  
+static int tests_reussis = 0;  
 
 // Macro de test qui génère automatiquement le nom de fonction
 #define TEST(name) \

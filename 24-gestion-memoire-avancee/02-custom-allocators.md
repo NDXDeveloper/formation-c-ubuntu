@@ -60,7 +60,7 @@ Après plusieurs allocations :
       Trous qui ne peuvent pas être utilisés efficacement
 ```
 
-**Problème :** Même si vous avez assez de mémoire totale, vous ne pouvez peut-être pas allouer un gros bloc continu.
+**Problème :** Même si vous avez assez de mémoire totale, vous ne pouvez peut-être pas allouer un gros bloc contigu.
 
 #### 3. **Overhead mémoire**
 
@@ -861,8 +861,10 @@ char *parser_alloc_string(Parser *parser, size_t length) {
 
 // Parser un token
 Token *parser_next_token(Parser *parser) {
-    // Sauter les espaces
-    while (isspace(parser->input[parser->pos])) {
+    // Sauter les espaces et séparateurs JSON (: et ,)
+    while (isspace(parser->input[parser->pos]) ||
+           parser->input[parser->pos] == ':' ||
+           parser->input[parser->pos] == ',') {
         parser->pos++;
     }
 
@@ -1193,9 +1195,9 @@ Voici des résultats typiques de benchmarks (ordre de grandeur) :
 
 Les **custom allocators** sont un outil puissant pour optimiser la gestion mémoire en C :
 
-✅ **Performance** : 10x à 100x plus rapides que malloc/free dans certains cas
-✅ **Contrôle** : Vous décidez comment gérer la mémoire
-✅ **Simplicité** : Code plus simple sans free() partout
+✅ **Performance** : 10x à 100x plus rapides que malloc/free dans certains cas  
+✅ **Contrôle** : Vous décidez comment gérer la mémoire  
+✅ **Simplicité** : Code plus simple sans free() partout  
 ✅ **Debugging** : Plus facile à tracer et profiler
 
 **Points clés à retenir :**

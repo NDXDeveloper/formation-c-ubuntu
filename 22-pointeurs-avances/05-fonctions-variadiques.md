@@ -21,10 +21,10 @@ La machine s'adapte au nombre d'ingrédients que vous lui donnez. C'est exacteme
 
 ```c
 // printf peut prendre un nombre variable d'arguments
-printf("Bonjour");                           // 1 argument
-printf("x = %d", 10);                        // 2 arguments
-printf("x = %d, y = %d", 10, 20);           // 3 arguments
-printf("%s a %d ans et vit à %s", "Paul", 25, "Paris");  // 4 arguments
+printf("Bonjour");                           // 1 argument  
+printf("x = %d", 10);                        // 2 arguments  
+printf("x = %d, y = %d", 10, 20);           // 3 arguments  
+printf("%s a %d ans et vit à %s", "Paul", 25, "Paris");  // 4 arguments  
 ```
 
 **Pourquoi sont-elles utiles ?**
@@ -73,9 +73,9 @@ int somme(int count, ...) {
 }
 
 // Utilisation
-int s1 = somme(2, 10, 20);              // Somme de 2 nombres
-int s2 = somme(3, 10, 20, 30);          // Somme de 3 nombres
-int s3 = somme(5, 1, 2, 3, 4, 5);       // Somme de 5 nombres
+int s1 = somme(2, 10, 20);              // Somme de 2 nombres  
+int s2 = somme(3, 10, 20, 30);          // Somme de 3 nombres  
+int s3 = somme(5, 1, 2, 3, 4, 5);       // Somme de 5 nombres  
 ```
 
 **Avantages** :
@@ -165,9 +165,9 @@ int main(void) {
 
 **Sortie** :
 ```
-Somme de 2 nombres : 30
-Somme de 4 nombres : 10
-Somme de 6 nombres : 105
+Somme de 2 nombres : 30  
+Somme de 4 nombres : 10  
+Somme de 6 nombres : 105  
 ```
 
 **Explication ligne par ligne** :
@@ -352,8 +352,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Max(3, 7, 2) = 7
-Max(5, 15, 8, 23, 12, 19) = 23
+Max(3, 7, 2) = 7  
+Max(5, 15, 8, 23, 12, 19) = 23  
 ```
 
 ---
@@ -431,7 +431,7 @@ size_t concatener(char *dest, size_t size, int count, ...) {
 
         if (str != NULL) {
             size_t len = strlen(str);
-            if (total + len < size - 1) {
+            if (total + len < size) {
                 strcat(dest, str);
                 total += len;
             } else {
@@ -462,8 +462,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Bonjour le monde !
-C est génial
+Bonjour le monde !  
+C est génial  
 ```
 
 ---
@@ -480,8 +480,8 @@ int somme(int count, ...) {
 }
 ```
 
-**Avantages** : Simple, clair, sûr
-**Inconvénient** : L'utilisateur doit compter manuellement
+**Avantages** : Simple, clair, sûr  
+**Inconvénient** : L'utilisateur doit compter manuellement  
 
 ### Approche 2 : Valeur sentinelle
 
@@ -511,8 +511,8 @@ int main(void) {
 }
 ```
 
-**Avantages** : Pas besoin de compter
-**Inconvénients** : La valeur sentinelle ne peut pas être une valeur valide, risque d'oubli
+**Avantages** : Pas besoin de compter  
+**Inconvénients** : La valeur sentinelle ne peut pas être une valeur valide, risque d'oubli  
 
 ### Approche 3 : Format string (comme printf)
 
@@ -538,8 +538,8 @@ void print_all(const char *format, ...) {
 print_all("isi", 42, "hello", 100);  // Format indique les types
 ```
 
-**Avantages** : Flexible, permet différents types
-**Inconvénient** : Plus complexe
+**Avantages** : Flexible, permet différents types  
+**Inconvénient** : Plus complexe  
 
 ---
 
@@ -579,8 +579,8 @@ char c = va_arg(args, char);  // char est promu en int
 char c = (char)va_arg(args, int);
 
 // Même chose pour short, float
-short s = (short)va_arg(args, int);
-float f = (float)va_arg(args, double);
+short s = (short)va_arg(args, int);  
+float f = (float)va_arg(args, double);  
 ```
 
 **Règle** :
@@ -622,7 +622,7 @@ void mauvaise_fonction(int count, ...) {
 
 **Conséquence** : Fuite de ressources potentielle, comportement imprévisible.
 
-### 5. Réutiliser va_list sans reinitialisation
+### 5. Réutiliser va_list sans réinitialisation
 
 ```c
 void fonction(int count, ...) {
@@ -679,8 +679,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Première passe : 10 20 30
-Deuxième passe : 10 20 30
+Première passe : 10 20 30  
+Deuxième passe : 10 20 30  
 ```
 
 **Important** : Appeler `va_end()` sur chaque `va_list`, y compris les copies.
@@ -754,12 +754,12 @@ int somme(...);  // Impossible en C de toute façon
 2. **Passer des types non promus**
 ```c
 // ❌ ERREUR
-char c = va_arg(args, char);    // char → int
-float f = va_arg(args, float);  // float → double
+char c = va_arg(args, char);    // char → int  
+float f = va_arg(args, float);  // float → double  
 
 // ✅ CORRECT
-char c = (char)va_arg(args, int);
-float f = (float)va_arg(args, double);
+char c = (char)va_arg(args, int);  
+float f = (float)va_arg(args, double);  
 ```
 
 3. **Supposer un ordre d'évaluation**
@@ -770,10 +770,10 @@ fonction(va_arg(args, int), va_arg(args, int));
 
 4. **Utiliser après va_end()**
 ```c
-va_list args;
-va_start(args, count);
-va_end(args);
-int x = va_arg(args, int);  // ❌ Comportement indéfini
+va_list args;  
+va_start(args, count);  
+va_end(args);  
+int x = va_arg(args, int);  // ❌ Comportement indéfini  
 ```
 
 ---
@@ -792,12 +792,12 @@ Utiliser :
 int somme(int tableau[], int taille);
 
 // Utilisation
-int nombres[] = {1, 2, 3, 4, 5};
-int s = somme(nombres, 5);
+int nombres[] = {1, 2, 3, 4, 5};  
+int s = somme(nombres, 5);  
 ```
 
-**Avantages** : Plus sûr, vérification de types, peut passer le tableau
-**Inconvénient** : Moins flexible pour l'utilisateur
+**Avantages** : Plus sûr, vérification de types, peut passer le tableau  
+**Inconvénient** : Moins flexible pour l'utilisateur  
 
 ### 2. Structures
 
@@ -814,9 +814,9 @@ int somme_liste(IntList *liste);
 
 ```cpp
 // C++ permet la surcharge
-int somme(int a, int b);
-int somme(int a, int b, int c);
-int somme(int a, int b, int c, int d);
+int somme(int a, int b);  
+int somme(int a, int b, int c);  
+int somme(int a, int b, int c, int d);  
 ```
 
 ---
@@ -827,8 +827,8 @@ int somme(int a, int b, int c, int d);
 
 1. **Fonctions de logging/debugging**
 ```c
-void log_debug(const char *format, ...);
-void log_error(const char *format, ...);
+void log_debug(const char *format, ...);  
+void log_error(const char *format, ...);  
 ```
 
 2. **Fonctions de formatage**
@@ -838,9 +838,9 @@ char* format_string(const char *format, ...);
 
 3. **Fonctions mathématiques simples**
 ```c
-int min(int count, ...);
-int max(int count, ...);
-double moyenne(int count, ...);
+int min(int count, ...);  
+int max(int count, ...);  
+double moyenne(int count, ...);  
 ```
 
 4. **Construction de structures**

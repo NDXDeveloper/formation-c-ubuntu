@@ -144,9 +144,9 @@ Il est normal de trouver ces concepts difficiles au début. Voici pourquoi :
 
 ```c
 // Qu'est-ce que c'est ?
-int (*ptr)(int, int);
-int (*tableau[10])(void);
-int (**pptr)(float);
+int (*ptr)(int, int);  
+int (*tableau[10])(void);  
+int (**pptr)(float);  
 ```
 
 À première vue, ces déclarations ressemblent à du charabia. Mais avec de la pratique et une méthodologie de lecture (que nous allons vous enseigner), elles deviennent claires.
@@ -164,9 +164,9 @@ Notre cerveau doit jongler avec ces niveaux d'abstraction, ce qui demande de l'e
 
 ```c
 // Quel est le problème ici ?
-int **mat = malloc(10 * sizeof(int*));
-mat[5] = malloc(20 * sizeof(int));
-printf("%d\n", mat[3][2]);  // Segmentation fault !
+int **mat = malloc(10 * sizeof(int*));  
+mat[5] = malloc(20 * sizeof(int));  
+printf("%d\n", mat[3][2]);  // Segmentation fault !  
 ```
 
 Les erreurs avec les pointeurs avancés peuvent être subtiles et difficiles à tracer.
@@ -305,16 +305,16 @@ void process_data(int *data, int size, void (*callback)(int)) {
 
 ### Pattern Strategy (via tableaux de pointeurs de fonctions)
 ```c
-typedef int (*Operation)(int, int);
-Operation operations[] = {add, subtract, multiply, divide};
-int result = operations[choice](a, b);
+typedef int (*Operation)(int, int);  
+Operation operations[] = {add, subtract, multiply, divide};  
+int result = operations[choice](a, b);  
 ```
 
 ### Pattern Opaque Pointer (Encapsulation)
 ```c
 // Header public
-typedef struct Handle Handle;
-Handle* create_handle(void);
+typedef struct Handle Handle;  
+Handle* create_handle(void);  
 
 // Implémentation privée
 struct Handle {
@@ -324,15 +324,15 @@ struct Handle {
 
 ### Pattern Factory (avec pointeurs de fonctions)
 ```c
-typedef struct Object* (*Constructor)(void);
-Constructor constructors[] = {create_typeA, create_typeB};
-Object *obj = constructors[type]();
+typedef struct Object* (*Constructor)(void);  
+Constructor constructors[] = {create_typeA, create_typeB};  
+Object *obj = constructors[type]();  
 ```
 
 ### Pattern Observer (callbacks)
 ```c
-typedef void (*EventHandler)(Event*);
-void register_handler(EventHandler handler);
+typedef void (*EventHandler)(Event*);  
+void register_handler(EventHandler handler);  
 ```
 
 ---
@@ -348,7 +348,7 @@ void register_handler(EventHandler handler);
 **Outils de développement** :
 ```bash
 # Compiler avec warnings maximum
-gcc -Wall -Wextra -Wpedantic -std=c11 -g programme.c
+gcc -Wall -Wextra -Wpedantic -std=c17 -g programme.c
 
 # Vérifier la mémoire
 valgrind --leak-check=full --show-leak-kinds=all ./programme
@@ -446,7 +446,7 @@ Chaque section contient :
 
 ### Pour ceux qui ont déjà de l'expérience
 
-1. **Approfondi vos connaissances** : Vous découvrirez des subtilités que vous ne connaissiez peut-être pas
+1. **Approfondissez vos connaissances** : Vous découvrirez des subtilités que vous ne connaissiez peut-être pas
 2. **Améliorez vos pratiques** : Les sections sur les pièges et bonnes pratiques sont précieuses
 3. **Explorez les patterns** : Voyez comment ces techniques forment des patterns réutilisables
 4. **Préparez-vous pour le code réel** : Ces techniques sont partout dans le code professionnel

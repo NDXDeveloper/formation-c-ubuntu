@@ -175,6 +175,7 @@ ptr2 = NULL (libération dernière référence) :
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>   // offsetof
 
 // Structure de base avec compteur de références
 typedef struct {
@@ -289,16 +290,16 @@ void exemple_reference_counting(void) {
 === Exemple Reference Counting ===
 
 🆕 Objet alloué (100 bytes), ref_count=1
-Buffer: Hello, Reference Counting!
-Références: 1
+Buffer: Hello, Reference Counting!  
+Références: 1  
 
 ➕ ref_count++ = 2
-buffer2 pointe vers le même objet
-Références: 2
+buffer2 pointe vers le même objet  
+Références: 2  
 
 ➕ ref_count++ = 3
-buffer3 pointe vers le même objet
-Références: 3
+buffer3 pointe vers le même objet  
+Références: 3  
 
 Libération de buffer...
 ➖ ref_count-- = 2
@@ -417,15 +418,15 @@ typedef struct Node {
 } Node;
 
 // Créer deux nœuds qui se référencent mutuellement
-Node *a = rc_alloc(sizeof(Node));  // ref_count = 1
-Node *b = rc_alloc(sizeof(Node));  // ref_count = 1
+Node *a = rc_alloc(sizeof(Node));  // ref_count = 1  
+Node *b = rc_alloc(sizeof(Node));  // ref_count = 1  
 
-a->next = rc_retain(b);  // b->ref_count = 2
-b->next = rc_retain(a);  // a->ref_count = 2
+a->next = rc_retain(b);  // b->ref_count = 2  
+b->next = rc_retain(a);  // a->ref_count = 2  
 
 // Libérer nos références
-rc_release(a);  // a->ref_count = 1 (toujours référencé par b)
-rc_release(b);  // b->ref_count = 1 (toujours référencé par a)
+rc_release(a);  // a->ref_count = 1 (toujours référencé par b)  
+rc_release(b);  // b->ref_count = 1 (toujours référencé par a)  
 
 // ⚠️ PROBLÈME : a et b se référencent mutuellement
 // Leurs ref_count ne tomberont jamais à 0
@@ -477,8 +478,8 @@ Phase 1 - MARK (marquer depuis les racines) :
    |       |                          |
    └─→ [Obj F]✓                       └─→ [Obj G]✓
 
-Objets marqués : A, B, E, F, G
-Objets non marqués : C, D (non accessibles → garbage)
+Objets marqués : A, B, E, F, G  
+Objets non marqués : C, D (non accessibles → garbage)  
 
 Phase 2 - SWEEP (balayer) :
 [Obj A]✓ [Obj B]✓ ♻️C ♻️D [Obj E]✓
@@ -518,6 +519,9 @@ typedef struct {
     size_t num_roots;
     size_t capacity_roots;
 } GarbageCollector;
+
+// Déclaration anticipée (gc_collect est appelé dans gc_alloc)
+void gc_collect(GarbageCollector *gc);
 
 // Créer un garbage collector
 GarbageCollector *gc_create(void) {
@@ -814,8 +818,8 @@ ptr = GC_REALLOC(ptr, new_size);
 GC_gcollect();
 
 // Obtenir des statistiques
-size_t heap_size = GC_get_heap_size();
-size_t free_bytes = GC_get_free_bytes();
+size_t heap_size = GC_get_heap_size();  
+size_t free_bytes = GC_get_free_bytes();  
 
 printf("Heap: %zu bytes, Free: %zu bytes\n", heap_size, free_bytes);
 ```

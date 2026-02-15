@@ -150,11 +150,11 @@ int main(void) {
 
 **Sortie** :
 ```
-Il y a 4 fruits
-Fruit 0: POMME
-Fruit 1: BANANE
-Fruit 2: ORANGE
-Fruit 3: RAISIN
+Il y a 4 fruits  
+Fruit 0: POMME  
+Fruit 1: BANANE  
+Fruit 2: ORANGE  
+Fruit 3: RAISIN  
 ```
 
 ---
@@ -221,10 +221,10 @@ int main(void) {
 ```
 Test des codes d'erreur:
 
-Code 0: Succès
-Code 1: Erreur d'allocation mémoire
-Code 2: Erreur de fichier
-Code 3: Erreur réseau
+Code 0: Succès  
+Code 1: Erreur d'allocation mémoire  
+Code 2: Erreur de fichier  
+Code 3: Erreur réseau  
 ```
 
 ### Exemple 2 : États d'une machine à états
@@ -366,21 +366,21 @@ int main(void) {
 ```
 Configuration:
 ==============
-MAX_CONNECTIONS      =   100  (Nombre maximum de connexions)
-TIMEOUT_MS           =  5000  (Délai d'attente en millisecondes)
-BUFFER_SIZE          =  1024  (Taille du tampon)
-RETRY_COUNT          =     3  (Nombre de tentatives)
-PORT                 =  8080  (Port d'écoute)
+MAX_CONNECTIONS      =   100  (Nombre maximum de connexions)  
+TIMEOUT_MS           =  5000  (Délai d'attente en millisecondes)  
+BUFFER_SIZE          =  1024  (Taille du tampon)  
+RETRY_COUNT          =     3  (Nombre de tentatives)  
+PORT                 =  8080  (Port d'écoute)  
 
 Modification de MAX_CONNECTIONS...
 
 Configuration:
 ==============
-MAX_CONNECTIONS      =   200  (Nombre maximum de connexions)
-TIMEOUT_MS           =  5000  (Délai d'attente en millisecondes)
-BUFFER_SIZE          =  1024  (Taille du tampon)
-RETRY_COUNT          =     3  (Nombre de tentatives)
-PORT                 =  8080  (Port d'écoute)
+MAX_CONNECTIONS      =   200  (Nombre maximum de connexions)  
+TIMEOUT_MS           =  5000  (Délai d'attente en millisecondes)  
+BUFFER_SIZE          =  1024  (Taille du tampon)  
+RETRY_COUNT          =     3  (Nombre de tentatives)  
+PORT                 =  8080  (Port d'écoute)  
 ```
 
 ---
@@ -395,11 +395,11 @@ PORT                 =  8080  (Port d'écoute)
 
 // Liste des commandes
 #define COMMAND_LIST \
-    X(CMD_HELP,   "help",   "Affiche l'aide") \
-    X(CMD_QUIT,   "quit",   "Quitte le programme") \
-    X(CMD_SAVE,   "save",   "Sauvegarde les données") \
-    X(CMD_LOAD,   "load",   "Charge les données") \
-    X(CMD_STATUS, "status", "Affiche le statut")
+    X(CMD_HELP,   help,   "Affiche l'aide") \
+    X(CMD_QUIT,   quit,   "Quitte le programme") \
+    X(CMD_SAVE,   save,   "Sauvegarde les données") \
+    X(CMD_LOAD,   load,   "Charge les données") \
+    X(CMD_STATUS, status, "Affiche le statut")
 
 // Génération de l'enum
 #define X(id, cmd, desc) id,
@@ -411,7 +411,7 @@ typedef enum {
 #undef X
 
 // Génération du tableau de commandes
-#define X(id, cmd, desc) cmd,
+#define X(id, cmd, desc) #cmd,
 const char* command_strings[] = {
     COMMAND_LIST
 };
@@ -425,16 +425,16 @@ const char* command_descriptions[] = {
 #undef X
 
 // Prototypes des fonctions de traitement
-void handle_help(void);
-void handle_quit(void);
-void handle_save(void);
-void handle_load(void);
-void handle_status(void);
+void handle_help(void);  
+void handle_quit(void);  
+void handle_save(void);  
+void handle_load(void);  
+void handle_status(void);  
 
 // Génération de la table de dispatch
 #define X(id, cmd, desc) handle_##cmd,
-typedef void (*CommandHandler)(void);
-CommandHandler command_handlers[] = {
+typedef void (*CommandHandler)(void);  
+CommandHandler command_handlers[] = {  
     COMMAND_LIST
 };
 #undef X
@@ -471,10 +471,10 @@ void handle_help(void) {
     }
 }
 
-void handle_quit(void)   { printf("  → Fermeture du programme\n"); }
-void handle_save(void)   { printf("  → Sauvegarde effectuée\n"); }
-void handle_load(void)   { printf("  → Chargement effectué\n"); }
-void handle_status(void) { printf("  → Statut: OK\n"); }
+void handle_quit(void)   { printf("  → Fermeture du programme\n"); }  
+void handle_save(void)   { printf("  → Sauvegarde effectuée\n"); }  
+void handle_load(void)   { printf("  → Chargement effectué\n"); }  
+void handle_status(void) { printf("  → Statut: OK\n"); }  
 
 int main(void) {
     printf("Système de commandes\n\n");
@@ -499,14 +499,15 @@ int main(void) {
 
 ```c
 #include <stdio.h>
-#include <string.h>
 
 // Liste des champs d'une structure Personne
+// Note : les types tableau (char[50]) ne fonctionnent pas bien ici
+// car le paramètre "name" recevrait "name[50]", ce qui casse p->name
 #define PERSON_FIELDS \
-    X(int,    id,      "%d") \
-    X(char,   name[50], "%s") \
-    X(int,    age,     "%d") \
-    X(double, salary,  "%.2f")
+    X(int,          id,     "%d") \
+    X(const char*,  name,   "%s") \
+    X(int,          age,    "%d") \
+    X(double,       salary, "%.2f")
 
 // Génération de la structure
 #define X(type, name, fmt) type name;
@@ -525,22 +526,14 @@ void person_print(const Person* p) {
     printf("}\n");
 }
 
-// Génération de la fonction d'initialisation par défaut
-void person_init(Person* p) {
-#define X(type, name, fmt) memset(&p->name, 0, sizeof(p->name));
-    PERSON_FIELDS
-#undef X
-}
-
 int main(void) {
-    Person p;
-    person_init(&p);
-
     // Remplir la structure
-    p.id = 12345;
-    strcpy(p.name, "Alice Dupont");
-    p.age = 30;
-    p.salary = 45000.50;
+    Person p = {
+        .id = 12345,
+        .name = "Alice Dupont",
+        .age = 30,
+        .salary = 45000.50
+    };
 
     // Afficher
     person_print(&p);
@@ -590,8 +583,8 @@ struct TestCase tests[] = {
 #undef X
 
 // Compteur de tests
-static int tests_passed = 0;
-static int tests_failed = 0;
+static int tests_passed = 0;  
+static int tests_failed = 0;  
 
 // Macro d'assertion simple
 #define ASSERT_EQUAL(actual, expected) \
@@ -862,9 +855,9 @@ const char* color_names[] = {
 **error_codes.def** :
 ```c
 // Fichier de définition
-X(ERR_SUCCESS,  0, "Succès")
-X(ERR_MEMORY,   1, "Erreur mémoire")
-X(ERR_FILE,     2, "Erreur fichier")
+X(ERR_SUCCESS,  0, "Succès")  
+X(ERR_MEMORY,   1, "Erreur mémoire")  
+X(ERR_FILE,     2, "Erreur fichier")  
 ```
 
 **error_codes.h** :
@@ -964,8 +957,8 @@ typedef enum { RED, GREEN, BLUE, } Color;
 
 ```c
 // ❌ Sans X-Macros - Duplication
-typedef enum { RED, GREEN, BLUE } Color;
-const char* names[] = {"RED", "GREEN", "BLUE"};
+typedef enum { RED, GREEN, BLUE } Color;  
+const char* names[] = {"RED", "GREEN", "BLUE"};  
 // Risque d'incohérence si on ajoute/supprime une couleur
 ```
 
@@ -982,8 +975,8 @@ const char* names[] = {"RED", "GREEN", "BLUE"};
 
 ```c++
 // C++ uniquement
-template<typename T>
-const char* to_string(T value);
+template<typename T>  
+const char* to_string(T value);  
 ```
 
 **Verdict** : Les X-Macros sont la solution la plus portable et intégrée pour le C pur.
@@ -1143,6 +1136,6 @@ Les X-Macros sont une technique puissante qui, bien utilisée, peut grandement a
 
 **Fin du chapitre 23 : Macros et Préprocesseur avancé**
 
-Ce module a chapitre l'ensemble des techniques de macros en C, des plus simples aux plus avancées. Vous disposez maintenant des outils pour écrire du code maintenable, portable et efficace.
+Ce chapitre a couvert l'ensemble des techniques de macros en C, des plus simples aux plus avancées. Vous disposez maintenant des outils pour écrire du code maintenable, portable et efficace.
 
 ⏭️ [Gestion avancée de la mémoire](/24-gestion-memoire-avancee/README.md)

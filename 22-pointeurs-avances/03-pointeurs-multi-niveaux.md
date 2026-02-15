@@ -99,8 +99,8 @@ Mémoire :
 └──────────┴──────────┴──────────┘
    0x1000    0x2000     0x3000
 
-Chaîne de pointage :
-pptr → ptr → valeur
+Chaîne de pointage :  
+pptr → ptr → valeur  
       (2x)   (1x)    (0x)
 ```
 
@@ -112,17 +112,17 @@ pptr → ptr → valeur
 ### Syntaxe et déclaration
 
 ```c
-int valeur = 42;
-int *ptr = &valeur;      // Pointeur simple
-int **pptr = &ptr;       // Pointeur double
-int ***ppptr = &pptr;    // Pointeur triple
+int valeur = 42;  
+int *ptr = &valeur;      // Pointeur simple  
+int **pptr = &ptr;       // Pointeur double  
+int ***ppptr = &pptr;    // Pointeur triple  
 
 // Déclaration multiple
 int **p1, **p2, **p3;    // Trois pointeurs doubles
 
 // Avec typedef (plus lisible)
-typedef int* IntPtr;
-typedef IntPtr* IntPtrPtr;
+typedef int* IntPtr;  
+typedef IntPtr* IntPtrPtr;  
 
 IntPtrPtr pptr2 = &ptr;  // Équivalent à int **pptr2
 ```
@@ -408,10 +408,10 @@ int main(int argc, char **argv) {
 
 **Sortie** :
 ```
-Nombre d'arguments : 3
-argv[0] = ./programme
-argv[1] = hello
-argv[2] = world
+Nombre d'arguments : 3  
+argv[0] = ./programme  
+argv[1] = hello  
+argv[2] = world  
 
 Premier caractère du 1er argument : h
 ```
@@ -429,10 +429,10 @@ argv (char**) :
 │ NULL │    ← Terminateur
 └──────┘
 
-Accès :
-argv[1]     → pointeur vers "hello"
-argv[1][0]  → 'h'
-argv[1][1]  → 'e'
+Accès :  
+argv[1]     → pointeur vers "hello"  
+argv[1][0]  → 'h'  
+argv[1][1]  → 'e'  
 ```
 
 ### Création d'un tableau de chaînes dynamique
@@ -534,7 +534,7 @@ int main(void) {
   0x100    0x200    0x300    0x400
 
 p3 ──→ p2 ──→ p1 ──→ valeur
-(***) (***) (***) (***)
+         ***p3 = **p2 = *p1 = 42
 ```
 
 ### Cas d'usage : Tableau 3D dynamique
@@ -594,13 +594,13 @@ int main(void) {
 
 **Visualisation d'un cube 2x3x4** :
 ```
-cube[0][0] → [0][1][2][3]
-cube[0][1] → [0][1][2][3]
-cube[0][2] → [0][1][2][3]
+cube[0][0] → [0][1][2][3]  
+cube[0][1] → [0][1][2][3]  
+cube[0][2] → [0][1][2][3]  
 
-cube[1][0] → [0][1][2][3]
-cube[1][1] → [0][1][2][3]
-cube[1][2] → [0][1][2][3]
+cube[1][0] → [0][1][2][3]  
+cube[1][1] → [0][1][2][3]  
+cube[1][2] → [0][1][2][3]  
 ```
 
 ---
@@ -725,9 +725,9 @@ Après tri :
 ### 1. Confusion entre niveaux de déréférencement
 
 ```c
-int valeur = 42;
-int *p1 = &valeur;
-int **p2 = &p1;
+int valeur = 42;  
+int *p1 = &valeur;  
+int **p2 = &p1;  
 
 // ❌ ERREUR : trop de déréférencements
 printf("%d\n", ***p2);  // p2 n'est qu'un double pointeur !
@@ -761,8 +761,8 @@ int main(void) {
 
 ```c
 // ❌ ERREUR : on libère d'abord le tableau principal
-int **mat = creer_matrice(3, 4);
-free(mat);           // Les lignes sont perdues (fuite mémoire) !
+int **mat = creer_matrice(3, 4);  
+free(mat);           // Les lignes sont perdues (fuite mémoire) !  
 // On ne peut plus accéder à mat[i] pour les libérer
 
 // ✅ CORRECT : libérer dans l'ordre inverse de l'allocation
@@ -775,8 +775,8 @@ free(mat);           // Puis le tableau principal
 ### 4. Pointeurs pendants après libération
 
 ```c
-int **pptr;
-int *ptr = malloc(sizeof(int));
+int **pptr;  
+int *ptr = malloc(sizeof(int));  
 *ptr = 42;
 pptr = &ptr;
 
@@ -811,17 +811,17 @@ for (int i = 0; i < 10; i++) {
 
 ```c
 // Ces déclarations sont équivalentes pour les paramètres de fonction :
-void fonction1(char **argv);
-void fonction1(char *argv[]);
+void fonction1(char **argv);  
+void fonction1(char *argv[]);  
 
 // Mais PAS pour les variables locales :
-char **argv;     // Pointeur double non initialisé
-char *argv[10];  // Tableau de 10 pointeurs
+char **argv;     // Pointeur double non initialisé  
+char *argv[10];  // Tableau de 10 pointeurs  
 
 // Pour les matrices :
-void traiter1(int **mat);           // Pointeur double
-void traiter2(int *mat[]);          // Tableau de pointeurs
-void traiter3(int mat[][4]);        // Tableau 2D avec taille fixe colonne
+void traiter1(int **mat);           // Pointeur double  
+void traiter2(int *mat[]);          // Tableau de pointeurs  
+void traiter3(int mat[][4]);        // Tableau 2D avec taille fixe colonne  
 ```
 
 ### Syntaxes de déréférencement
@@ -850,19 +850,19 @@ Les pointeurs multi-niveaux peuvent rendre le code illisible. Utilisez `typedef`
 
 ```c
 // Sans typedef (difficile à lire)
-int*** creer_cube(int d, int l, int c);
-void traiter(int ***cube);
+int*** creer_cube(int d, int l, int c);  
+void traiter(int ***cube);  
 
 // Avec typedef (plus clair)
-typedef int** Matrice;
-typedef Matrice* Cube;
+typedef int** Matrice;  
+typedef Matrice* Cube;  
 
-Cube creer_cube(int d, int l, int c);
-void traiter(Cube cube);
+Cube creer_cube(int d, int l, int c);  
+void traiter(Cube cube);  
 
 // Ou pour les chaînes :
-typedef char* String;
-typedef String* StringArray;
+typedef char* String;  
+typedef String* StringArray;  
 
 StringArray creer_tableau(int taille);
 ```
@@ -908,8 +908,8 @@ typedef struct Entry {
 } Entry;
 
 // Tableau de listes chaînées
-Entry **table = malloc(TABLE_SIZE * sizeof(Entry*));
-for (int i = 0; i < TABLE_SIZE; i++) {
+Entry **table = malloc(TABLE_SIZE * sizeof(Entry*));  
+for (int i = 0; i < TABLE_SIZE; i++) {  
     table[i] = NULL;  // Initialisation
 }
 
@@ -955,9 +955,9 @@ $3 = 42
 ```c
 int **pptr;
 
-printf("pptr = %p\n", (void*)pptr);           // Adresse du pointeur double
-printf("*pptr = %p\n", (void*)*pptr);         // Adresse du pointeur simple
-printf("**pptr = %d\n", **pptr);              // Valeur finale
+printf("pptr = %p\n", (void*)pptr);           // Adresse du pointeur double  
+printf("*pptr = %p\n", (void*)*pptr);         // Adresse du pointeur simple  
+printf("**pptr = %d\n", **pptr);              // Valeur finale  
 
 // Pour les tableaux 2D
 for (int i = 0; i < lignes; i++) {
@@ -983,8 +983,8 @@ void process_matrix(int **matrix, int rows, int cols);
 
 2. **Toujours initialiser à NULL**
 ```c
-int **pptr = NULL;
-char **argv = NULL;
+int **pptr = NULL;  
+char **argv = NULL;  
 ```
 
 3. **Vérifier avant déréférencement**
@@ -1006,8 +1006,8 @@ free(tab);
 
 5. **Utiliser typedef pour la clarté**
 ```c
-typedef int** Matrix;
-Matrix mat = create_matrix(3, 4);
+typedef int** Matrix;  
+Matrix mat = create_matrix(3, 4);  
 ```
 
 ### ❌ À ÉVITER
@@ -1029,8 +1029,8 @@ int **pptr = (int**)&double_value;
 3. **Oublier la gestion d'erreurs**
 ```c
 // ❌ Pas de vérification
-int **mat = malloc(n * sizeof(int*));
-mat[0] = malloc(m * sizeof(int));  // Et si malloc échoue ?
+int **mat = malloc(n * sizeof(int*));  
+mat[0] = malloc(m * sizeof(int));  // Et si malloc échoue ?  
 ```
 
 ---

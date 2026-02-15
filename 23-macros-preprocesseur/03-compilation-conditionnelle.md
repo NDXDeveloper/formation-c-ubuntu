@@ -52,9 +52,9 @@ int main(void) {
 
 **Sortie (avec DEBUG défini)** :
 ```
-Mode debug activé
-Valeur de x: 42
-Programme en cours d'exécution
+Mode debug activé  
+Valeur de x: 42  
+Programme en cours d'exécution  
 ```
 
 **Si on commente `#define DEBUG`** :
@@ -90,8 +90,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Version non définie, utilisation de la version par défaut
-Version du programme: 1.0.0
+Version non définie, utilisation de la version par défaut  
+Version du programme: 1.0.0  
 ```
 
 ### #else - "Sinon"
@@ -417,12 +417,13 @@ int main(void) {
 #include <stdio.h>
 
 int main(void) {
-#ifdef __GNUC__
-    printf("Compilateur: GCC version %d.%d.%d\n",
-           __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
-#elif defined(__clang__)
+#if defined(__clang__)
+    // Attention : Clang définit aussi __GNUC__, donc tester __clang__ EN PREMIER
     printf("Compilateur: Clang version %d.%d.%d\n",
            __clang_major__, __clang_minor__, __clang_patchlevel__);
+#elif defined(__GNUC__)
+    printf("Compilateur: GCC version %d.%d.%d\n",
+           __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
 #elif defined(_MSC_VER)
     printf("Compilateur: Microsoft Visual C++ version %d\n", _MSC_VER);
 #else
@@ -501,8 +502,8 @@ Somme: 30
 
 **Sans DEBUG** :
 ```
-Début du programme
-Somme: 30
+Début du programme  
+Somme: 30  
 ```
 
 ### Niveaux de débogage
@@ -755,13 +756,13 @@ int main(void) {
 
 **Sortie exemple** :
 ```
-Fichier: main.c
-Ligne: 5
-Date de compilation: Dec 25 2024
-Heure de compilation: 14:30:15
-Fonction: main
-Compilateur conforme au standard C
-Version du standard: 201112
+Fichier: main.c  
+Ligne: 5  
+Date de compilation: Dec 25 2024  
+Heure de compilation: 14:30:15  
+Fonction: main  
+Compilateur conforme au standard C  
+Version du standard: 201112  
 ```
 
 ### Utilisation dans les assertions
@@ -850,15 +851,15 @@ Version: 1
 # Avec DEBUG
 $ gcc -DDEBUG main.c -o main
 $ ./main
-Mode DEBUG activé
-Version: 1
+Mode DEBUG activé  
+Version: 1  
 
 # Avec DEBUG et FEATURE_A
 $ gcc -DDEBUG -DFEATURE_A main.c -o main
 $ ./main
-Mode DEBUG activé
-Feature A activée
-Version: 1
+Mode DEBUG activé  
+Feature A activée  
+Version: 1  
 
 # Avec une version spécifique
 $ gcc -DVERSION=5 main.c -o main
@@ -877,8 +878,8 @@ Voici un exemple réaliste montrant comment gérer différentes configurations d
 #ifndef CONFIG_H
 #define CONFIG_H
 
-// Configuration par défaut si non spécifiée à la compilation
-#ifndef BUILD_TYPE
+// Configuration par défaut si aucun type de build n'est spécifié
+#if !defined(BUILD_TYPE_DEBUG) && !defined(BUILD_TYPE_RELEASE) && !defined(BUILD_TYPE_TEST)
     #define BUILD_TYPE_DEBUG
 #endif
 
@@ -987,10 +988,10 @@ int main(void) {
 $ gcc main.c -o main_debug
 $ ./main_debug
 === Configuration du build ===
-Mode: DEBUG
-Niveau de logging: 4
-Optimisation: 0
-Assertions: Oui
+Mode: DEBUG  
+Niveau de logging: 4  
+Optimisation: 0  
+Assertions: Oui  
 
 [INFO] Démarrage du programme
 [DEBUG] main.c:8 - Entrée dans fonction_critique
@@ -1002,10 +1003,10 @@ Valeur finale: 42
 $ gcc -DBUILD_TYPE_RELEASE main.c -o main_release -O3
 $ ./main_release
 === Configuration du build ===
-Mode: RELEASE
-Niveau de logging: 1
-Optimisation: 3
-Assertions: Non
+Mode: RELEASE  
+Niveau de logging: 1  
+Optimisation: 3  
+Assertions: Non  
 
 Valeur finale: 42
 
@@ -1013,10 +1014,10 @@ Valeur finale: 42
 $ gcc -DBUILD_TYPE_TEST main.c -o main_test
 $ ./main_test
 === Configuration du build ===
-Mode: DEBUG
-Niveau de logging: 3
-Optimisation: 0
-Assertions: Oui
+Mode: DEBUG  
+Niveau de logging: 3  
+Optimisation: 0  
+Assertions: Oui  
 
 [INFO] Démarrage du programme
 [INFO] Valeur assignée

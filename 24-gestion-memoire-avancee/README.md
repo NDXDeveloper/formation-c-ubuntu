@@ -320,14 +320,14 @@ typedef struct Node {
     int value;
 } Node;
 
-Node *a = malloc(sizeof(Node));
-Node *b = malloc(sizeof(Node));
+Node *a = malloc(sizeof(Node));  
+Node *b = malloc(sizeof(Node));  
 
-a->next = b;  // a → b
-b->prev = a;  // b → a
+a->next = b;  // a → b  
+b->prev = a;  // b → a  
 
-free(a);  // ⚠️ Mais b référence toujours a !
-free(b);  // ⚠️ Et a référençait b !
+free(a);  // ⚠️ Mais b référence toujours a !  
+free(b);  // ⚠️ Et a référençait b !  
 
 // Qui doit libérer qui ?
 // Risque de use-after-free ou fuite !
@@ -335,11 +335,11 @@ free(b);  // ⚠️ Et a référençait b !
 
 **Avec Garbage Collection :**
 ```c
-Node *a = gc_malloc(gc, sizeof(Node));
-Node *b = gc_malloc(gc, sizeof(Node));
+Node *a = gc_malloc(gc, sizeof(Node));  
+Node *b = gc_malloc(gc, sizeof(Node));  
 
-a->next = b;
-b->prev = a;
+a->next = b;  
+b->prev = a;  
 
 // Pas besoin de free !
 // Le GC détecte automatiquement quand a et b

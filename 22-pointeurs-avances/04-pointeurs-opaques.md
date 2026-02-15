@@ -46,9 +46,9 @@ typedef struct {
 } Personne;
 
 // Fonctions publiques
-Personne* creer_personne(const char *nom, const char *prenom, int age);
-void afficher_personne(Personne *p);
-void liberer_personne(Personne *p);
+Personne* creer_personne(const char *nom, const char *prenom, int age);  
+void afficher_personne(Personne *p);  
+void liberer_personne(Personne *p);  
 
 #endif
 ```
@@ -95,12 +95,12 @@ La technique des pointeurs opaques repose sur la **déclaration forward** :
 typedef struct Personne Personne;
 
 // Fonctions publiques (API)
-Personne* creer_personne(const char *nom, const char *prenom, int age);
-void definir_salaire(Personne *p, float salaire);
-float obtenir_salaire(const Personne *p);
-int obtenir_age(const Personne *p);
-void afficher_personne(const Personne *p);
-void liberer_personne(Personne *p);
+Personne* creer_personne(const char *nom, const char *prenom, int age);  
+void definir_salaire(Personne *p, float salaire);  
+float obtenir_salaire(const Personne *p);  
+int obtenir_age(const Personne *p);  
+void afficher_personne(const Personne *p);  
+void liberer_personne(Personne *p);  
 
 #endif
 ```
@@ -211,9 +211,9 @@ int main(void) {
 
 **Compilation** :
 ```bash
-gcc -c personne.c -o personne.o
-gcc -c main.c -o main.o
-gcc personne.o main.o -o programme
+gcc -c personne.c -o personne.o  
+gcc -c main.c -o main.o  
+gcc personne.o main.o -o programme  
 ```
 
 **Avantages observés** :
@@ -297,13 +297,13 @@ Créons une bibliothèque complète pour gérer une pile (stack) avec un pointeu
 typedef struct Stack Stack;
 
 // API publique
-Stack* stack_create(void);
-void stack_destroy(Stack *s);
-bool stack_push(Stack *s, int value);
-bool stack_pop(Stack *s, int *value);
-bool stack_peek(const Stack *s, int *value);
-bool stack_is_empty(const Stack *s);
-int stack_size(const Stack *s);
+Stack* stack_create(void);  
+void stack_destroy(Stack *s);  
+bool stack_push(Stack *s, int value);  
+bool stack_pop(Stack *s, int *value);  
+bool stack_peek(const Stack *s, int *value);  
+bool stack_is_empty(const Stack *s);  
+int stack_size(const Stack *s);  
 
 #endif
 ```
@@ -447,11 +447,11 @@ int main(void) {
 
 **Sortie** :
 ```
-Taille : 3
-Sommet : 30
-Dépilé : 30
-Dépilé : 20
-Dépilé : 10
+Taille : 3  
+Sommet : 30  
+Dépilé : 30  
+Dépilé : 20  
+Dépilé : 10  
 ```
 
 ---
@@ -532,8 +532,8 @@ Les clients ne voient aucune différence, l'API reste identique !
 
 ```c
 // Différentes implémentations de "Base de données"
-struct DatabaseSQLite { /* ... */ };
-struct DatabasePostgres { /* ... */ };
+struct DatabaseSQLite { /* ... */ };  
+struct DatabasePostgres { /* ... */ };  
 
 // Le client voit juste :
 typedef struct Database Database;
@@ -582,25 +582,30 @@ Pour du code **très** critique en performance, cela peut être un problème.
 
 ```c
 // Sans opacité
-p.x = 10;
-p.y = 20;
+p.x = 10;  
+p.y = 20;  
 
 // Avec opacité
-point_set_x(p, 10);
-point_set_y(p, 20);
+point_set_x(p, 10);  
+point_set_y(p, 20);  
 ```
 
 ### 4. Debugging plus difficile
 
-Dans GDB, vous ne pouvez pas inspecter directement la structure :
+Sans symboles de debug, GDB ne peut pas inspecter la structure :
 
 ```bash
+# Si compilé SANS -g : type incomplet
 (gdb) print *p
-# Erreur : type incomplet
+# Erreur : incomplete type
 
-# Solution : charger le fichier source d'implémentation
-(gdb) file personne.c
+# Solution : compiler TOUS les fichiers avec -g
+# gcc -g -c personne.c -o personne.o
+# gcc -g -c main.c -o main.o
+# gcc personne.o main.o -o programme
+# GDB aura accès à la définition complète via les symboles DWARF
 (gdb) print *p
+$1 = {nom = "Dupont", prenom = "Jean", age = 30, salaire = 45000, id_employe = 0}
 ```
 
 ---
@@ -625,9 +630,9 @@ typedef struct {
 Certaines API anciennes utilisent `void*` comme handle opaque :
 
 ```c
-void* contexte_creer(void);
-void contexte_utiliser(void *contexte);
-void contexte_detruire(void *contexte);
+void* contexte_creer(void);  
+void contexte_utiliser(void *contexte);  
+void contexte_detruire(void *contexte);  
 ```
 
 **Inconvénient** : Perte de type-safety (aucune vérification de type).
@@ -661,9 +666,9 @@ Le pattern PIMPL (ou "compilation firewall") est très proche des pointeurs opaq
 
 ```c
 // public.h
-typedef struct Widget Widget;
-Widget* widget_create(void);
-void widget_do_something(Widget *w);
+typedef struct Widget Widget;  
+Widget* widget_create(void);  
+void widget_do_something(Widget *w);  
 
 // private_impl.h (optionnel, pour l'implémentation)
 struct WidgetImpl {
@@ -695,9 +700,9 @@ Widget* widget_create(void) {
 1. **Conventions de nommage cohérentes**
 ```c
 // Préfixe pour toutes les fonctions liées au type
-Stack* stack_create(void);
-void stack_destroy(Stack *s);
-bool stack_push(Stack *s, int value);
+Stack* stack_create(void);  
+void stack_destroy(Stack *s);  
+bool stack_push(Stack *s, int value);  
 ```
 
 2. **Toujours valider les paramètres**
@@ -713,8 +718,8 @@ int stack_size(const Stack *s) {
 3. **Utiliser const pour les fonctions de lecture**
 ```c
 // ✅ const : la fonction ne modifie pas la structure
-int stack_size(const Stack *s);
-bool stack_peek(const Stack *s, int *value);
+int stack_size(const Stack *s);  
+bool stack_peek(const Stack *s, int *value);  
 
 // ✅ Sans const : la fonction peut modifier
 bool stack_push(Stack *s, int value);
@@ -733,8 +738,8 @@ Stack* stack_create(void);
 
 5. **Fonctions de création/destruction symétriques**
 ```c
-Type* type_create(void);   // Allocation
-void type_destroy(Type *t); // Libération
+Type* type_create(void);   // Allocation  
+void type_destroy(Type *t); // Libération  
 ```
 
 ### ❌ À ÉVITER
@@ -781,8 +786,8 @@ Les pointeurs opaques sont la façon du C de faire de l'**encapsulation** :
 **Exemple équivalent en C++** :
 ```cpp
 // personne.h
-class Personne {
-public:
+class Personne {  
+public:  
     Personne(const char *nom, int age);
     ~Personne();
     int getAge() const;
@@ -844,9 +849,9 @@ private:  // ← Équivalent à l'opacité en C
 #include <gtk/gtk.h>
 
 // GtkWidget est un type opaque
-GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-gtk_window_set_title(GTK_WINDOW(window), "Ma fenêtre");
-gtk_widget_show(window);
+GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);  
+gtk_window_set_title(GTK_WINDOW(window), "Ma fenêtre");  
+gtk_widget_show(window);  
 ```
 
 ### OpenSSL (Cryptographie)
@@ -866,8 +871,8 @@ SSL_CTX_free(ctx);
 #include <sqlite3.h>
 
 // sqlite3 est opaque
-sqlite3 *db;
-sqlite3_open("database.db", &db);
+sqlite3 *db;  
+sqlite3_open("database.db", &db);  
 // ...
 sqlite3_close(db);
 ```
@@ -916,9 +921,9 @@ Les **pointeurs opaques** sont une technique fondamentale pour créer des API ro
 **Pattern clé** :
 ```c
 // header.h
-typedef struct Type Type;
-Type* type_create(void);
-void type_destroy(Type *t);
+typedef struct Type Type;  
+Type* type_create(void);  
+void type_destroy(Type *t);  
 
 // source.c
 struct Type {

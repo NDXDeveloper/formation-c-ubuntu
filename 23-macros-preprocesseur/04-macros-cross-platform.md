@@ -388,11 +388,13 @@ API_EXPORT int ma_fonction(int x);
 
 // ❌ Problème : int peut être 16, 32 ou 64 bits selon la plateforme
 void fonction_non_portable(int valeur) {
+    (void)valeur;
     printf("Taille de int : %zu octets\n", sizeof(int));
 }
 
 // ✅ Solution : utiliser des types de taille fixe
 void fonction_portable(int32_t valeur) {
+    (void)valeur;
     printf("Taille de int32_t : %zu octets (toujours 4)\n", sizeof(int32_t));
 }
 
@@ -507,7 +509,7 @@ Créons une petite bibliothèque qui abstrait les différences de plateformes :
 #endif
 
 // ============ Attributs de fonction ============
-#ifdef COMPILER_GCC
+#if defined(COMPILER_GCC) || defined(COMPILER_CLANG)
     #define UNUSED __attribute__((unused))
     #define NORETURN __attribute__((noreturn))
 #elif defined(COMPILER_MSVC)
@@ -1083,8 +1085,8 @@ Plutôt que réinventer la roue, utilisez des bibliothèques éprouvées :
 
 **Exemple CMakeLists.txt** :
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(MonProjet C)
+cmake_minimum_required(VERSION 3.10)  
+project(MonProjet C)  
 
 # Options selon la plateforme
 if(WIN32)
@@ -1095,8 +1097,8 @@ elseif(UNIX)
     set(PLATFORM_LIBS pthread m)  # Threads et math
 endif()
 
-add_executable(monapp main.c)
-target_link_libraries(monapp ${PLATFORM_LIBS})
+add_executable(monapp main.c)  
+target_link_libraries(monapp ${PLATFORM_LIBS})  
 ```
 
 ---

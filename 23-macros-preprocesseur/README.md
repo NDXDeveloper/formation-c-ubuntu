@@ -277,7 +277,7 @@ static inline int max_inline(int a, int b) {
 int x = 5, y = 10;
 
 // ❌ Dangereux avec macro
-int result1 = MAX_MACRO(x++, y++);  // x et y incrémentés DEUX FOIS !
+int result1 = MAX_MACRO(x++, y++);  // y incrémenté DEUX FOIS (le plus grand) !
 
 // ✅ Safe avec fonction
 int result2 = max_fonction(x++, y++);  // x et y incrémentés UNE FOIS
@@ -309,11 +309,11 @@ int main(void) {
 
 **Sortie exemple** :
 ```
-Fichier: main.c
-Ligne: 5
-Date: Dec 25 2024
-Heure: 14:32:18
-Fonction: main
+Fichier: main.c  
+Ligne: 5  
+Date: Dec 25 2024  
+Heure: 14:32:18  
+Fonction: main  
 ```
 
 ### Macros de détection de plateforme
@@ -389,7 +389,7 @@ Fonction: main
 2. **Noms de macros génériques**
    ```c
    #define MAX 100                 // ❌ Peut entrer en conflit
-   #define MY_APP_MAX_SIZE 100     // ✅ Préfixé, évite les conflisions
+   #define MY_APP_MAX_SIZE 100     // ✅ Préfixé, évite les conflits
    ```
 
 3. **Macros avec effets de bord**
