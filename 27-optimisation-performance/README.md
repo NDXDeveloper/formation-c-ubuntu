@@ -264,12 +264,12 @@ gcc --version  # Minimum 7.0, recommandé 11+
 time
 
 # Profiler système (Linux)
-perf --version
-sudo apt install linux-tools-common linux-tools-generic
+perf --version  
+sudo apt install linux-tools-common linux-tools-generic  
 
 # Valgrind pour profiling et analyse mémoire
-valgrind --version
-sudo apt install valgrind
+valgrind --version  
+sudo apt install valgrind  
 ```
 
 ### Outils avancés (optionnels)
@@ -351,13 +351,13 @@ Ce chapitre privilégie :
 ### Hiérarchie des latences (ordres de grandeur)
 
 ```
-Registre CPU        : 1 cycle    (0.3 ns @ 3 GHz)
-Cache L1            : 4 cycles   (1.3 ns)
-Cache L2            : 12 cycles  (4 ns)
-Cache L3            : 40 cycles  (13 ns)
-RAM                 : 200 cycles (67 ns)  ← 200x plus lent que L1 !
-SSD                 : 150 µs              ← 150,000 ns
-Disque dur          : 10 ms               ← 10,000,000 ns
+Registre CPU        : 1 cycle    (0.3 ns @ 3 GHz)  
+Cache L1            : 4 cycles   (1.3 ns)  
+Cache L2            : 12 cycles  (4 ns)  
+Cache L3            : 40 cycles  (13 ns)  
+RAM                 : 200 cycles (67 ns)  ← 200x plus lent que L1 !  
+SSD                 : 150 µs              ← 150,000 ns  
+Disque dur          : 10 ms               ← 10,000,000 ns  
 ```
 
 **Morale :** Aujourd'hui, optimiser = **exploiter le cache** et **minimiser les accès RAM**.
@@ -410,9 +410,9 @@ Performance counter stats for './programme':
 ### Résultat final
 
 ```
-Temps initial  : 15.0 secondes
-Temps final    : 0.3 secondes
-Amélioration   : 50x plus rapide ! 🎉
+Temps initial  : 15.0 secondes  
+Temps final    : 0.3 secondes  
+Amélioration   : 50x plus rapide ! 🎉  
 ```
 
 **Gains par optimisation :**
@@ -440,7 +440,7 @@ Avant d'optimiser, demandez-vous :
    - Est-ce un problème pour les utilisateurs ?
 
 2. **Où est le goulot d'étranglement ?**
-   - Ai-je profileé le code ?
+   - Ai-je profilé le code ?
    - Quelle fonction/partie prend le plus de temps ?
    - Est-ce CPU, mémoire, I/O, ou réseau ?
 

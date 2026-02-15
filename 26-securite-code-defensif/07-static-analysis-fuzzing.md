@@ -108,8 +108,8 @@ int main(void) {
 **Compilation** :
 ```bash
 $ gcc -Wall -Wextra -Wconversion bug.c -o bug
-bug.c: In function 'main':
-bug.c:6:20: warning: 'x' is used uninitialized in this function [-Wuninitialized]
+bug.c: In function 'main':  
+bug.c:6:20: warning: 'x' is used uninitialized in this function [-Wuninitialized]  
      printf("%d\n", x);
                     ^
 bug.c:9:13: warning: conversion from 'unsigned int' to 'int' may change value [-Wconversion]
@@ -261,10 +261,10 @@ use_after_free.c:18:41: warning: Use of memory after it is freed
 **Rapport détaillé** :
 ```bash
 $ scan-build clang use_after_free.c
-scan-build: Using '/usr/bin/clang' for static analysis
-scan-build: Analysis run complete.
-scan-build: 1 bug found.
-scan-build: Run 'scan-view /tmp/scan-build-xxx' to examine bug reports.
+scan-build: Using '/usr/bin/clang' for static analysis  
+scan-build: Analysis run complete.  
+scan-build: 1 bug found.  
+scan-build: Run 'scan-view /tmp/scan-build-xxx' to examine bug reports.  
 ```
 
 ### 4. clang-tidy (Niveau 3 - Très complet)
@@ -362,9 +362,9 @@ problemes.c:20:9: warning: narrowing conversion from 'size_t' to 'int' [bugprone
 
 ```bash
 # Via le binaire précompilé
-wget https://github.com/facebook/infer/releases/download/v1.1.0/infer-linux64-v1.1.0.tar.xz
-tar xf infer-linux64-v1.1.0.tar.xz
-export PATH=$PATH:$(pwd)/infer-linux64-v1.1.0/bin
+wget https://github.com/facebook/infer/releases/download/v1.1.0/infer-linux64-v1.1.0.tar.xz  
+tar xf infer-linux64-v1.1.0.tar.xz  
+export PATH=$PATH:$(pwd)/infer-linux64-v1.1.0/bin  
 
 # Ou via package manager
 # Ubuntu (nécessite ajout du PPA)
@@ -443,11 +443,11 @@ CheckOptions:
 ### Makefile avec analyse statique
 
 ```makefile
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Wformat-security -O2
-SOURCES = main.c utils.c
-OBJECTS = $(SOURCES:.c=.o)
-TARGET = monprogramme
+CC = gcc  
+CFLAGS = -Wall -Wextra -Werror -Wformat-security -O2  
+SOURCES = main.c utils.c  
+OBJECTS = $(SOURCES:.c=.o)  
+TARGET = monprogramme  
 
 # Build normal
 all: $(TARGET)
@@ -556,10 +556,10 @@ Couverture maximale du code
 sudo apt install afl++
 
 # Ou depuis les sources
-git clone https://github.com/AFLplusplus/AFLplusplus
-cd AFLplusplus
-make
-sudo make install
+git clone https://github.com/AFLplusplus/AFLplusplus  
+cd AFLplusplus  
+make  
+sudo make install  
 ```
 
 #### Utilisation basique
@@ -577,17 +577,17 @@ afl-clang-fast mon_programme.c -o mon_programme
 **Étape 2 : Créer des cas de test initiaux**
 
 ```bash
-mkdir testcases
-echo "Hello" > testcases/input1.txt
-echo "World" > testcases/input2.txt
-echo "Test123" > testcases/input3.txt
+mkdir testcases  
+echo "Hello" > testcases/input1.txt  
+echo "World" > testcases/input2.txt  
+echo "Test123" > testcases/input3.txt  
 ```
 
 **Étape 3 : Lancer AFL**
 
 ```bash
-mkdir findings
-afl-fuzz -i testcases -o findings ./mon_programme @@
+mkdir findings  
+afl-fuzz -i testcases -o findings ./mon_programme @@  
 # @@ sera remplacé par le chemin du fichier de test
 ```
 
@@ -660,12 +660,12 @@ int main(int argc, char *argv[]) {
 afl-clang-fast vulnerable.c -o vulnerable
 
 # Créer testcases
-mkdir in
-echo "Hello" > in/test1.txt
+mkdir in  
+echo "Hello" > in/test1.txt  
 
 # Lancer AFL
-mkdir out
-afl-fuzz -i in -o out ./vulnerable @@
+mkdir out  
+afl-fuzz -i in -o out ./vulnerable @@  
 
 # Après quelques minutes, AFL trouve des crashes
 # Les cas qui causent des crashes sont dans out/crashes/
@@ -738,9 +738,9 @@ clang -g -O1 -fsanitize=fuzzer,address fuzz_target.c -o fuzz_target
 
 ```bash
 # Installation
-git clone https://github.com/google/honggfuzz
-cd honggfuzz
-make
+git clone https://github.com/google/honggfuzz  
+cd honggfuzz  
+make  
 ```
 
 **Utilisation** :
@@ -1080,8 +1080,8 @@ valgrind --leak-check=full --show-leak-kinds=all ./programme
 ### 2. Callgrind (performance)
 
 ```bash
-valgrind --tool=callgrind ./programme
-kcachegrind callgrind.out.*
+valgrind --tool=callgrind ./programme  
+kcachegrind callgrind.out.*  
 ```
 
 ### 3. gcov/lcov (couverture)
@@ -1094,8 +1094,8 @@ gcc -fprofile-arcs -ftest-coverage programme.c -o programme
 ./programme
 
 # Générer rapport
-lcov --capture --directory . --output-file coverage.info
-genhtml coverage.info --output-directory out
+lcov --capture --directory . --output-file coverage.info  
+genhtml coverage.info --output-directory out  
 ```
 
 ### 4. SonarQube (plateforme complète)

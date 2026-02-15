@@ -140,8 +140,8 @@ int x = tableau[0];  // Le CPU charge tableau[0] à tableau[15] en une fois !
 
 **Exemple :**
 ```c
-int somme = 0;
-for (int i = 0; i < 1000; i++) {
+int somme = 0;  
+for (int i = 0; i < 1000; i++) {  
     somme += i;  // 'somme' est réutilisée à chaque itération
 }
 ```
@@ -191,8 +191,8 @@ int matrice[TAILLE][TAILLE];  // 1000x1000 = 1 million d'entiers
 **En mémoire**, C stocke les tableaux 2D en **row-major order** (par ligne) :
 
 ```
-matrice[0][0], matrice[0][1], matrice[0][2], ..., matrice[0][999],
-matrice[1][0], matrice[1][1], ...
+matrice[0][0], matrice[0][1], matrice[0][2], ..., matrice[0][999],  
+matrice[1][0], matrice[1][1], ...  
 ```
 
 #### Parcours cache-friendly (par ligne)
@@ -277,8 +277,8 @@ gcc -O2 test_cache.c -o test_cache
 
 **Résultats typiques :**
 ```
-Parcours ligne:   1.2 ms
-Parcours colonne: 8.5 ms  ← 7x plus lent !
+Parcours ligne:   1.2 ms  
+Parcours colonne: 8.5 ms  ← 7x plus lent !  
 ```
 
 **Conclusion :** Le parcours par colonne est **7 fois plus lent** à cause des cache misses !
@@ -612,13 +612,13 @@ valgrind --tool=cachegrind ./test_cache
 
 ```bash
 # Version cache-hostile
-valgrind --tool=cachegrind ./test_cache_bad > rapport_bad.txt
+valgrind --tool=cachegrind --cachegrind-out-file=bad.cg ./test_cache_bad
 
 # Version cache-friendly
-valgrind --tool=cachegrind ./test_cache_good > rapport_good.txt
+valgrind --tool=cachegrind --cachegrind-out-file=good.cg ./test_cache_good
 
-# Comparer
-cg_diff rapport_bad.txt rapport_good.txt
+# Comparer les fichiers de profil cachegrind
+cg_diff bad.cg good.cg | cg_annotate -
 ```
 
 ---
@@ -670,8 +670,8 @@ gcc -O2 sum_naive.c -o sum_naive
 
 ```c
 // sum_unroll.c
-long long somme = 0;
-int i;
+long long somme = 0;  
+int i;  
 
 // Traiter 4 éléments à la fois
 for (i = 0; i < TAILLE - 3; i += 4) {
@@ -700,8 +700,8 @@ gcc -O2 sum_unroll.c -o sum_unroll
 
 ```c
 // sum_multi_acc.c
-long long somme1 = 0, somme2 = 0, somme3 = 0, somme4 = 0;
-int i;
+long long somme1 = 0, somme2 = 0, somme3 = 0, somme4 = 0;  
+int i;  
 
 // 4 accumulateurs indépendants
 for (i = 0; i < TAILLE - 3; i += 4) {
@@ -730,8 +730,8 @@ gcc -O2 sum_multi_acc.c -o sum_multi_acc
 
 **Mesure des cache misses :**
 ```bash
-perf stat -e cache-references,cache-misses ./sum_naive
-perf stat -e cache-references,cache-misses ./sum_multi_acc
+perf stat -e cache-references,cache-misses ./sum_naive  
+perf stat -e cache-references,cache-misses ./sum_multi_acc  
 
 # Les deux versions ont le même taux de cache misses (accès séquentiel)
 # Mais la version multi-accumulateurs est plus rapide grâce au parallélisme
@@ -769,8 +769,8 @@ Si vous devez absolument utiliser des listes chaînées, allouez les nœuds dans
 ```c
 #define POOL_SIZE 10000
 
-struct Node pool[POOL_SIZE];  // Nœuds contigus !
-int pool_index = 0;
+struct Node pool[POOL_SIZE];  // Nœuds contigus !  
+int pool_index = 0;  
 
 struct Node* allouer_node() {
     if (pool_index < POOL_SIZE) {
@@ -841,8 +841,8 @@ perf stat -e L1-dcache-loads,L1-dcache-load-misses \
           -e LLC-loads,LLC-load-misses ./programme
 
 # Profiler les cache misses par fonction
-perf record -e cache-misses ./programme
-perf report
+perf record -e cache-misses ./programme  
+perf report  
 ```
 
 ### Valgrind Cachegrind
@@ -906,9 +906,9 @@ Pour les processeurs Intel, VTune offre une analyse très détaillée du cache, 
 lstopo        # Nécessite hwloc : sudo apt install hwloc
 
 # Infos détaillées CPU
-cat /sys/devices/system/cpu/cpu0/cache/index*/size
-cat /sys/devices/system/cpu/cpu0/cache/index*/level
-cat /sys/devices/system/cpu/cpu0/cache/index*/type
+cat /sys/devices/system/cpu/cpu0/cache/index*/size  
+cat /sys/devices/system/cpu/cpu0/cache/index*/level  
+cat /sys/devices/system/cpu/cpu0/cache/index*/type  
 
 # Benchmark mémoire
 sysbench memory run

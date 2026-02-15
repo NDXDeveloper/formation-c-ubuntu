@@ -29,8 +29,8 @@ int addition(int a, int b) { return a + b; }
 
 **En C++ :** Mangling complexe nécessaire
 ```cpp
-int addition(int a, int b) { return a + b; }
-double addition(double a, double b) { return a + b; }
+int addition(int a, int b) { return a + b; }  
+double addition(double a, double b) { return a + b; }  
 ```
 **Symboles générés :**
 - `_Z8additionii` (version avec int)
@@ -75,8 +75,8 @@ void afficher(const char* message) {
 
 **Symboles générés :**
 ```bash
-gcc -c exemple.c -o exemple.o
-nm exemple.o
+gcc -c exemple.c -o exemple.o  
+nm exemple.o  
 
 # Sortie (Linux) :
 # 0000000000000000 T addition
@@ -151,8 +151,8 @@ int addition(int a, int b, int c) {
 
 **Symboles générés (g++) :**
 ```bash
-g++ -c exemple.cpp -o exemple.o
-nm exemple.o
+g++ -c exemple.cpp -o exemple.o  
+nm exemple.o  
 
 # Sortie :
 # _Z8additionii      # addition(int, int)
@@ -203,15 +203,15 @@ namespace calcul {
 
 **Code C++ :**
 ```cpp
-class Rectangle {
-public:
+class Rectangle {  
+public:  
     int calculer_aire(int largeur, int hauteur) {
         return largeur * hauteur;
     }
 };
 
-class Cercle {
-public:
+class Cercle {  
+public:  
     double calculer_aire(double rayon) {
         return 3.14159 * rayon * rayon;
     }
@@ -228,14 +228,14 @@ public:
 
 **Code C++ :**
 ```cpp
-template <typename T>
-T maximum(T a, T b) {
+template <typename T>  
+T maximum(T a, T b) {  
     return (a > b) ? a : b;
 }
 
 // Utilisations
-int x = maximum<int>(5, 10);
-double y = maximum<double>(3.14, 2.71);
+int x = maximum<int>(5, 10);  
+double y = maximum<double>(3.14, 2.71);  
 ```
 
 **Symboles générés :**
@@ -385,13 +385,16 @@ void fonction(const int* p);
 - `K` : const
 - `i` : vers `int`
 
-**Tableaux :**
+**Référence vers tableau :**
 ```cpp
-void fonction(int tableau[10]);
+void fonction(int (&tableau)[10]);
 ```
-**Mangled :** `_Z8fonctionA10_i`
+**Mangled :** `_Z8fonctionRA10_i`
+- `R` : Référence
 - `A10_` : Tableau de 10
 - `i` : éléments `int`
+
+> **Note :** Un paramètre `int tableau[10]` (sans référence) décaye en pointeur et produit le symbole `_Z8fonctionPi`.
 
 ---
 
@@ -584,8 +587,8 @@ g++ demangle.cpp -o demangle
 
 **Code C++ :**
 ```cpp
-class Point {
-public:
+class Point {  
+public:  
     Point operator+(const Point& other);
     bool operator==(const Point& other);
 };
@@ -619,8 +622,8 @@ public:
 
 **Code C++ :**
 ```cpp
-class MaClasse {
-public:
+class MaClasse {  
+public:  
     MaClasse();           // Constructeur par défaut
     MaClasse(int x);      // Constructeur avec paramètre
     ~MaClasse();          // Destructeur
@@ -645,8 +648,8 @@ public:
 
 **Code C++ :**
 ```cpp
-template <typename T, typename U>
-T convertir(U valeur);
+template <typename T, typename U>  
+T convertir(U valeur);  
 
 // Utilisation
 int x = convertir<int, double>(3.14);
@@ -672,14 +675,14 @@ int x = convertir<int, double>(3.14);
 
 **Code C++ :**
 ```cpp
-template <typename T>
-class Container {
+template <typename T>  
+class Container {  
     void add(T item);
 };
 
 // Spécialisation pour int
-template <>
-class Container<int> {
+template <>  
+class Container<int> {  
     void add(int item);
 };
 ```
@@ -699,13 +702,13 @@ La spécialisation produit le même symbole car c'est la même signature finale.
 
 **Code C++ :**
 ```cpp
-class Base {
-public:
+class Base {  
+public:  
     virtual void methode();
 };
 
-class Derivee : public Base {
-public:
+class Derivee : public Base {  
+public:  
     void methode() override;
 };
 ```
@@ -935,8 +938,8 @@ file programme
 extern "C" {
 #endif
 
-int addition(int a, int b);
-void traiter(const char* data);
+int addition(int a, int b);  
+void traiter(const char* data);  
 
 #ifdef __cplusplus
 }
@@ -958,8 +961,8 @@ int addition(int a, int b) {
 
 ```cpp
 // ❌ Mauvais : Template dans l'API publique
-template <typename T>
-class Container {
+template <typename T>  
+class Container {  
     // ...
 };
 
@@ -1005,9 +1008,9 @@ namespace utils {
 nm -D --demangle libmylib.so
 
 # Comparer deux versions
-nm -D --demangle libmylib.so.1.0 > v1.txt
-nm -D --demangle libmylib.so.1.1 > v2.txt
-diff v1.txt v2.txt
+nm -D --demangle libmylib.so.1.0 > v1.txt  
+nm -D --demangle libmylib.so.1.1 > v2.txt  
+diff v1.txt v2.txt  
 
 # Utiliser abidiff pour analyse détaillée
 abidiff libmylib.so.1.0 libmylib.so.1.1
@@ -1024,8 +1027,8 @@ abidiff libmylib.so.1.0 libmylib.so.1.1
 cat > example.cpp << 'EOF'
 #include <iostream>
 
-class Calculator {
-public:
+class Calculator {  
+public:  
     int add(int a, int b) {
         return a + b;
     }

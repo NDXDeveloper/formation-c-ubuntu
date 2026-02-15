@@ -64,9 +64,9 @@ int main(void) {
 
 **Sortie possible :**
 ```
-Erreur lors de l'ouverture du fichier
-Code errno : 2
-Signification : No such file or directory
+Erreur lors de l'ouverture du fichier  
+Code errno : 2  
+Signification : No such file or directory  
 ```
 
 ---
@@ -166,9 +166,9 @@ int main(void) {
 
 **Sortie :**
 ```
-ENOENT : No such file or directory
-EACCES : Permission denied
-ENOMEM : Cannot allocate memory
+ENOENT : No such file or directory  
+EACCES : Permission denied  
+ENOMEM : Cannot allocate memory  
 ```
 
 ### 2. perror() : Afficher l'erreur directement
@@ -233,8 +233,8 @@ int main(void) {
 
 **Sortie identique :**
 ```
-Erreur : No such file or directory
-Erreur: No such file or directory
+Erreur : No such file or directory  
+Erreur: No such file or directory  
 ```
 
 **💡 Conseil :** Utilisez `perror()` pour un code plus concis, `strerror()` si vous avez besoin de formatter le message autrement.
@@ -300,9 +300,9 @@ int main(void) {
 
 **Sortie :**
 ```
-Erreur 1 : No such file or directory
-Fichier ouvert avec succès
-errno vaut : 2 (No such file or directory)
+Erreur 1 : No such file or directory  
+Fichier ouvert avec succès  
+errno vaut : 2 (No such file or directory)  
 ```
 
 **💡 Leçon** : Ne consultez errno que **immédiatement après** avoir détecté un échec.
@@ -496,8 +496,8 @@ if (errno == ENOENT) {
 }
 
 // ✅ CORRECT
-FILE *f = fopen("data.txt", "r");
-if (f == NULL && errno == ENOENT) {
+FILE *f = fopen("data.txt", "r");  
+if (f == NULL && errno == ENOENT) {  
     printf("Fichier inexistant\n");
 }
 ```
@@ -523,8 +523,8 @@ if (fopen("test.txt", "r") == NULL) {
 
 ```c
 // ❌ FAUX
-FILE *f1 = fopen("inexistant.txt", "r");  // errno = ENOENT
-FILE *f2 = fopen("/etc/hosts", "r");      // Succès, errno inchangé
+FILE *f1 = fopen("inexistant.txt", "r");  // errno = ENOENT  
+FILE *f2 = fopen("/etc/hosts", "r");      // Succès, errno inchangé  
 
 if (f2 != NULL) {
     // errno contient TOUJOURS ENOENT !
@@ -532,13 +532,13 @@ if (f2 != NULL) {
 }
 
 // ✅ CORRECT
-FILE *f1 = fopen("inexistant.txt", "r");
-if (f1 == NULL) {
+FILE *f1 = fopen("inexistant.txt", "r");  
+if (f1 == NULL) {  
     printf("Erreur : %s\n", strerror(errno));
 }
 
-FILE *f2 = fopen("/etc/hosts", "r");
-if (f2 == NULL) {  // Vérifier l'échec PUIS consulter errno
+FILE *f2 = fopen("/etc/hosts", "r");  
+if (f2 == NULL) {  // Vérifier l'échec PUIS consulter errno  
     printf("Erreur : %s\n", strerror(errno));
 } else {
     printf("Succès\n");  // Ne pas consulter errno
@@ -575,10 +575,10 @@ if (ptr == NULL) {
 Presque **tous** les appels système définissent errno en cas d'erreur :
 
 ```c
-open(), read(), write(), close()
-fork(), exec(), wait()
-socket(), bind(), connect(), accept()
-pipe(), mmap(), munmap()
+open(), read(), write(), close()  
+fork(), exec(), wait()  
+socket(), bind(), connect(), accept()  
+pipe(), mmap(), munmap()  
 ```
 
 ### Fonctions de la bibliothèque standard (man section 3)
@@ -586,9 +586,9 @@ pipe(), mmap(), munmap()
 De nombreuses fonctions de la **libc** définissent errno :
 
 ```c
-fopen(), fread(), fwrite(), fclose()
-malloc(), calloc(), realloc()  // Parfois seulement
-strtol(), strtod()              // Pour détecter les overflows
+fopen(), fread(), fwrite(), fclose()  
+malloc(), calloc(), realloc()  // Parfois seulement  
+strtol(), strtod()              // Pour détecter les overflows  
 ```
 
 ### Vérifier dans la documentation
@@ -662,7 +662,7 @@ int copier_fichier(const char *source, const char *destination) {
 
     // Copie des données
     while ((octets_lus = read(fd_src, buffer, sizeof(buffer))) > 0) {
-        octets_ecrits = write(fd_dest, buffer, octets_lus);
+        octets_ecrits = write(fd_dest, buffer, (size_t)octets_lus);
 
         if (octets_ecrits == -1) {
             afficher_erreur("write", destination);
@@ -747,8 +747,8 @@ Les fonctions réseau comme `getaddrinfo()` ont leur propre système d'erreurs :
 ```c
 #include <netdb.h>
 
-struct addrinfo *result;
-int code = getaddrinfo("example.com", "80", NULL, &result);
+struct addrinfo *result;  
+int code = getaddrinfo("example.com", "80", NULL, &result);  
 
 if (code != 0) {
     // N'utilisez PAS errno, mais gai_strerror

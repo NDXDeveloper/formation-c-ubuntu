@@ -54,9 +54,9 @@ int main(void) {
 
 **Sortie :**
 ```
-Age valide : 25
-main.c:12: main: Assertion `age >= 0' failed.
-Aborted (core dumped)
+Age valide : 25  
+main.c:12: main: Assertion `age >= 0' failed.  
+Aborted (core dumped)  
 ```
 
 Le programme s'arrête brutalement avec un message indiquant :
@@ -217,12 +217,12 @@ int traiter_age(int age) {
 
 ```c
 // ❌ FAUX : L'ouverture de fichier peut légitimement échouer
-FILE *f = fopen("data.txt", "r");
-assert(f != NULL);  // Mauvais !
+FILE *f = fopen("data.txt", "r");  
+assert(f != NULL);  // Mauvais !  
 
 // ✅ CORRECT : Gestion d'erreur classique
-FILE *f = fopen("data.txt", "r");
-if (f == NULL) {
+FILE *f = fopen("data.txt", "r");  
+if (f == NULL) {  
     perror("fopen");
     return -1;
 }
@@ -232,12 +232,12 @@ if (f == NULL) {
 
 ```c
 // ❌ FAUX : Le réseau peut être indisponible
-int sock = socket(AF_INET, SOCK_STREAM, 0);
-assert(sock >= 0);  // Mauvais !
+int sock = socket(AF_INET, SOCK_STREAM, 0);  
+assert(sock >= 0);  // Mauvais !  
 
 // ✅ CORRECT
-int sock = socket(AF_INET, SOCK_STREAM, 0);
-if (sock < 0) {
+int sock = socket(AF_INET, SOCK_STREAM, 0);  
+if (sock < 0) {  
     perror("socket");
     return -1;
 }
@@ -247,12 +247,12 @@ if (sock < 0) {
 
 ```c
 // ❌ FAUX : malloc peut échouer légitimement (mémoire insuffisante)
-void *ptr = malloc(1000000000);
-assert(ptr != NULL);  // Mauvais !
+void *ptr = malloc(1000000000);  
+assert(ptr != NULL);  // Mauvais !  
 
 // ✅ CORRECT
-void *ptr = malloc(1000000000);
-if (ptr == NULL) {
+void *ptr = malloc(1000000000);  
+if (ptr == NULL) {  
     fprintf(stderr, "Erreur : allocation échouée\n");
     return -1;
 }
@@ -334,8 +334,8 @@ set(CMAKE_C_FLAGS_DEBUG "-g -Wall")
 set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG -Wall")
 
 # Sélection du mode
-cmake -DCMAKE_BUILD_TYPE=Debug ..   # Avec assertions
-cmake -DCMAKE_BUILD_TYPE=Release .. # Sans assertions
+cmake -DCMAKE_BUILD_TYPE=Debug ..   # Avec assertions  
+cmake -DCMAKE_BUILD_TYPE=Release .. # Sans assertions  
 ```
 
 ### Impact sur le code
@@ -353,10 +353,10 @@ void fonction(int *ptr) {
 **Avec assertions (Debug) :**
 ```asm
 ; Pseudocode assembleur
-cmp ptr, 0
-jne continue
-call abort
-continue:
+cmp ptr, 0  
+jne continue  
+call abort  
+continue:  
   mov [ptr], 42
 ```
 
@@ -372,13 +372,13 @@ mov [ptr], 42  ; L'assertion a complètement disparu
 
 ```c
 // ❌ DANGER : Comportement différent debug vs release
-int compteur = 0;
-assert(++compteur > 0);  // Mauvais ! compteur n'est pas incrémenté en release
+int compteur = 0;  
+assert(++compteur > 0);  // Mauvais ! compteur n'est pas incrémenté en release  
 
 // ✅ CORRECT
-int compteur = 0;
-compteur++;
-assert(compteur > 0);  // Bon : pas d'effet de bord dans l'assertion
+int compteur = 0;  
+compteur++;  
+assert(compteur > 0);  // Bon : pas d'effet de bord dans l'assertion  
 ```
 
 **Autre exemple dangereux :**
@@ -388,8 +388,8 @@ assert(compteur > 0);  // Bon : pas d'effet de bord dans l'assertion
 assert((ptr = malloc(100)) != NULL);
 
 // ✅ CORRECT
-ptr = malloc(100);
-assert(ptr != NULL);
+ptr = malloc(100);  
+assert(ptr != NULL);  
 ```
 
 ---
@@ -415,8 +415,8 @@ int main(void) {
 
 **Sortie :**
 ```
-main.c:6: main: Assertion `valeur >= 0 && "La valeur doit être positive"' failed.
-Aborted
+main.c:6: main: Assertion `valeur >= 0 && "La valeur doit être positive"' failed.  
+Aborted  
 ```
 
 Le message apparaît dans l'assertion !
@@ -509,7 +509,7 @@ error: static assertion failed: "int doit faire 4 octets"
 
 ```c
 #include <assert.h>
-#include <stddef.h>
+#include <stdint.h>
 
 typedef struct {
     uint8_t type;
@@ -901,10 +901,11 @@ Voici un exemple combinant tous les concepts :
 #include <stdlib.h>
 #include <assert.h>
 #include <stdint.h>
+#include <string.h>
 
 // Vérifications statiques
-static_assert(sizeof(void*) == 8, "Ce code nécessite un système 64 bits");
-static_assert(sizeof(size_t) >= 4, "size_t doit faire au moins 4 octets");
+static_assert(sizeof(void*) == 8, "Ce code nécessite un système 64 bits");  
+static_assert(sizeof(size_t) >= 4, "size_t doit faire au moins 4 octets");  
 
 typedef struct {
     void *donnees;
@@ -1039,11 +1040,11 @@ int main(void) {
 ### Quand utiliser quoi ?
 
 ```
-Condition impossible (bug) → assert()
-Condition rare mais possible → if + gestion erreur
-Vérification de type/taille → static_assert()
-Entrée utilisateur → if + validation
-Erreur système → if + errno
+Condition impossible (bug) → assert()  
+Condition rare mais possible → if + gestion erreur  
+Vérification de type/taille → static_assert()  
+Entrée utilisateur → if + validation  
+Erreur système → if + errno  
 ```
 
 Les assertions sont un outil **essentiel** pour écrire du code C robuste et maintenable. Utilisées correctement, elles vous permettent de détecter les bugs **avant** qu'ils ne causent des problèmes en production.

@@ -25,8 +25,8 @@ Avant de comprendre la vulnérabilité, il faut comprendre comment fonctionne `p
 ### Utilisation normale
 
 ```c
-int age = 25;
-char nom[] = "Alice";
+int age = 25;  
+char nom[] = "Alice";  
 
 printf("Bonjour %s, vous avez %d ans\n", nom, age);
 // Affiche : Bonjour Alice, vous avez 25 ans
@@ -132,8 +132,8 @@ int main(void) {
 **Test 1 - Utilisation normale** :
 ```bash
 $ ./programme
-Alice
-Alice
+Alice  
+Alice  
 ```
 
 **Test 2 - Lecture de la pile** :
@@ -200,8 +200,8 @@ Le spécificateur **`%n`** est particulièrement dangereux car il écrit en mém
 #### Comment fonctionne %n
 
 ```c
-int count;
-printf("Hello%n World\n", &count);
+int count;  
+printf("Hello%n World\n", &count);  
 // count contiendra 5 (nombre de caractères avant %n : "Hello")
 ```
 
@@ -252,8 +252,8 @@ int main(void) {
 **Test avec marqueur** :
 ```bash
 $ ./programme
-AAAA%x.%x.%x.%x.%x.%x
-AAAA bffff760.8048480.bffff758.41414141.2e78252e.78252e78
+AAAA%x.%x.%x.%x.%x.%x  
+AAAA bffff760.8048480.bffff758.41414141.2e78252e.78252e78  
                                 ^^^^^^^^
                                 "AAAA" en hexa !
 ```
@@ -333,16 +333,16 @@ void log_error(char *error_msg) {
 
 ```c
 // ❌ DANGEREUX
-printf(user_input);
-fprintf(file, user_input);
-syslog(LOG_INFO, user_input);
+printf(user_input);  
+fprintf(file, user_input);  
+syslog(LOG_INFO, user_input);  
 ```
 
 ```c
 // ✅ SÛR
-printf("%s", user_input);
-fprintf(file, "%s", user_input);
-syslog(LOG_INFO, "%s", user_input);
+printf("%s", user_input);  
+fprintf(file, "%s", user_input);  
+syslog(LOG_INFO, "%s", user_input);  
 ```
 
 **Explication** : En utilisant `"%s"` comme format, vous dites explicitement à `printf` que l'argument est une chaîne à afficher. Même si `user_input` contient des `%x` ou `%n`, ils seront affichés littéralement, pas interprétés.
@@ -437,9 +437,9 @@ int main(void) {
 **Test d'exploitation** :
 ```bash
 $ ./log
-Entrez un événement à logger : %x %x %x %x
-Wed Nov 27 10:30:45 2024
-bffff760 8048480 bffff758 80484a0
+Entrez un événement à logger : %x %x %x %x  
+Wed Nov 27 10:30:45 2024  
+bffff760 8048480 bffff758 80484a0  
 ```
 
 ```c
@@ -663,11 +663,11 @@ Recherchez ces patterns dans votre code :
 
 ```bash
 # Recherche de patterns suspects
-grep -n "printf(" *.c
-grep -n "fprintf(" *.c
-grep -n "sprintf(" *.c
-grep -n "snprintf(" *.c
-grep -n "syslog(" *.c
+grep -n "printf(" *.c  
+grep -n "fprintf(" *.c  
+grep -n "sprintf(" *.c  
+grep -n "snprintf(" *.c  
+grep -n "syslog(" *.c  
 ```
 
 Pour chaque occurrence, vérifiez si le premier argument (format) est :
@@ -730,9 +730,9 @@ clang-tidy mon_programme.c -checks='cert-*,clang-analyzer-*' --
 afl-gcc mon_programme.c -o mon_programme
 
 # Créer des cas de test
-mkdir test_cases
-echo "Hello" > test_cases/normal.txt
-echo "%x %x %x" > test_cases/format.txt
+mkdir test_cases  
+echo "Hello" > test_cases/normal.txt  
+echo "%x %x %x" > test_cases/format.txt  
 
 # Lancer le fuzzer
 afl-fuzz -i test_cases -o findings ./mon_programme

@@ -169,9 +169,9 @@ Pour N langages : N bridges nécessaires
 **Exemple conceptuel :**
 ```python
 # Python
-import ctypes
-lib = ctypes.CDLL('./libmath.so')
-result = lib.addition(5, 7)  # Appelle une fonction C
+import ctypes  
+lib = ctypes.CDLL('./libmath.so')  
+result = lib.addition(5, 7)  # Appelle une fonction C  
 ```
 
 **Caractéristiques :**
@@ -180,7 +180,7 @@ result = lib.addition(5, 7)  # Appelle une fonction C
 - ⚠️ Gestion manuelle des types
 - ⚠️ Overhead léger à chaque appel
 
-### 2. Extension natives
+### 2. Extensions natives
 
 **Définition :** Module écrit dans un langage bas niveau (C) qui s'intègre comme module natif dans un langage haut niveau.
 
@@ -394,9 +394,9 @@ Implémentation complexe (C++, Rust)
 // API C publique
 typedef struct Database Database;
 
-Database* db_open(const char* path);
-void db_close(Database* db);
-int db_query(Database* db, const char* sql);
+Database* db_open(const char* path);  
+void db_close(Database* db);  
+int db_query(Database* db, const char* sql);  
 ```
 
 ```cpp
@@ -422,9 +422,9 @@ extern "C" Database* db_open(const char* path) {
 // Header public : Juste une déclaration forward
 typedef struct MaStructure MaStructure;
 
-MaStructure* creer();
-void detruire(MaStructure* s);
-void utiliser(MaStructure* s);
+MaStructure* creer();  
+void detruire(MaStructure* s);  
+void utiliser(MaStructure* s);  
 ```
 
 ```c
@@ -447,9 +447,9 @@ struct MaStructure {
 **Approche :** Laisser des outils générer le code de liaison.
 
 ```
-Headers C → [bindgen] → Code Rust
-Code Rust → [cbindgen] → Headers C
-IDL → [SWIG] → Bindings Python/Java/...
+Headers C → [bindgen] → Code Rust  
+Code Rust → [cbindgen] → Headers C  
+IDL → [SWIG] → Bindings Python/Java/...  
 ```
 
 **Avantages :**
@@ -627,13 +627,13 @@ Ce chapitre couvre en détail tous les aspects de l'interopérabilité avec C :
 **Installation de base (Ubuntu) :**
 ```bash
 # Compilateurs
-sudo apt-get update
-sudo apt-get install build-essential  # GCC, make, etc.
-sudo apt-get install clang            # Compilateur Clang
+sudo apt-get update  
+sudo apt-get install build-essential  # GCC, make, etc.  
+sudo apt-get install clang            # Compilateur Clang  
 
 # Outils d'analyse
-sudo apt-get install binutils         # nm, objdump, etc.
-sudo apt-get install gdb               # Débogueur
+sudo apt-get install binutils         # nm, objdump, etc.  
+sudo apt-get install gdb               # Débogueur  
 
 # Python (pour section 28.1)
 sudo apt-get install python3-dev
@@ -645,9 +645,9 @@ sudo apt-get install golang-go
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # Outils d'interopérabilité
-pip install cffi                      # Python CFFI
-cargo install bindgen-cli             # Rust bindgen
-cargo install cbindgen                # Rust cbindgen
+pip install cffi                      # Python CFFI  
+cargo install bindgen-cli             # Rust bindgen  
+cargo install cbindgen                # Rust cbindgen  
 ```
 
 ### Vérification de l'installation
@@ -657,20 +657,20 @@ cargo install cbindgen                # Rust cbindgen
 gcc --version
 
 # Vérifier les outils binutils
-nm --version
-objdump --version
-c++filt --version
+nm --version  
+objdump --version  
+c++filt --version  
 
 # Vérifier Python
-python3 --version
-python3 -c "import ctypes; print('ctypes OK')"
+python3 --version  
+python3 -c "import ctypes; print('ctypes OK')"  
 
 # Vérifier Go
 go version
 
 # Vérifier Rust
-rustc --version
-cargo --version
+rustc --version  
+cargo --version  
 ```
 
 ---

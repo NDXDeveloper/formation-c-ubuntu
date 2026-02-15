@@ -28,8 +28,8 @@ int main() {
 
 **Compilation :**
 ```bash
-g++ -c math.cpp -o math.o
-gcc main.c math.o -o programme
+g++ -c math.cpp -o math.o  
+gcc main.c math.o -o programme  
 
 # Erreur du linker :
 # undefined reference to `addition'
@@ -111,8 +111,8 @@ int addition(int a, int b) {
 
 **Compilation :**
 ```bash
-gcc -c math.c -o math_c.o
-g++ -c math.cpp -o math_cpp.o
+gcc -c math.c -o math_c.o  
+g++ -c math.cpp -o math_cpp.o  
 ```
 
 **Symboles générés :**
@@ -217,9 +217,9 @@ Vous voulez créer un header qui fonctionne :
 extern "C" {
 #endif
 
-int addition(int a, int b);
-int soustraction(int a, int b);
-double multiplication(double a, double b);
+int addition(int a, int b);  
+int soustraction(int a, int b);  
+double multiplication(double a, double b);  
 
 #ifdef __cplusplus
 }
@@ -256,8 +256,8 @@ double multiplication(double a, double b);
 extern "C" {
 #endif
 
-int addition(int a, int b);
-int soustraction(int a, int b);
+int addition(int a, int b);  
+int soustraction(int a, int b);  
 
 #ifdef __cplusplus
 }
@@ -358,8 +358,8 @@ extern "C" std::string obtenir_nom();
 extern "C" void traiter(std::vector<int>& vec);
 
 // ✅ OK : Types C compatibles
-extern "C" const char* obtenir_nom();
-extern "C" void traiter(int* data, int size);
+extern "C" const char* obtenir_nom();  
+extern "C" void traiter(int* data, int size);  
 ```
 
 ---
@@ -386,11 +386,11 @@ extern "C" {
 typedef struct Image Image;
 
 // API C
-Image* image_create(int width, int height);
-void image_destroy(Image* img);
-void image_set_pixel(Image* img, int x, int y, uint32_t color);
-uint32_t image_get_pixel(Image* img, int x, int y);
-void image_apply_filter(Image* img, const char* filter_name);
+Image* image_create(int width, int height);  
+void image_destroy(Image* img);  
+void image_set_pixel(Image* img, int x, int y, uint32_t color);  
+uint32_t image_get_pixel(Image* img, int x, int y);  
+void image_apply_filter(Image* img, const char* filter_name);  
 
 #ifdef __cplusplus
 }
@@ -407,8 +407,8 @@ void image_apply_filter(Image* img, const char* filter_name);
 #include <algorithm>
 
 // Classe C++ interne (pas visible depuis C)
-class ImageImpl {
-public:
+class ImageImpl {  
+public:  
     int width, height;
     std::vector<uint32_t> pixels;
 
@@ -493,8 +493,8 @@ int main() {
 
 **Compilation :**
 ```bash
-g++ -c image_lib.cpp -o image_lib.o
-gcc main.c image_lib.o -lstdc++ -o programme
+g++ -c image_lib.cpp -o image_lib.o  
+gcc main.c image_lib.o -lstdc++ -o programme  
 ./programme
 ```
 
@@ -528,8 +528,8 @@ int calcul_complexe(int a, int b) {
 extern "C" {
 #endif
 
-void ancienne_fonction(int x);
-int calcul_complexe(int a, int b);
+void ancienne_fonction(int x);  
+int calcul_complexe(int a, int b);  
 
 #ifdef __cplusplus
 }
@@ -543,8 +543,8 @@ int calcul_complexe(int a, int b);
 #include <iostream>
 #include "legacy.h"
 
-class Calculator {
-public:
+class Calculator {  
+public:  
     void compute(int a, int b) {
         // Appeler du code C depuis du code C++ !
         int resultat = calcul_complexe(a, b);
@@ -563,8 +563,8 @@ int main() {
 
 **Compilation :**
 ```bash
-gcc -c legacy.c -o legacy.o
-g++ modern.cpp legacy.o -o programme
+gcc -c legacy.c -o legacy.o  
+g++ modern.cpp legacy.o -o programme  
 ./programme
 ```
 
@@ -587,10 +587,10 @@ typedef struct {
 } PluginInfo;
 
 // Fonctions que chaque plugin doit exporter
-PluginInfo get_plugin_info();
-int plugin_init();
-void plugin_cleanup();
-int plugin_process(const char* input, char* output, int output_size);
+PluginInfo get_plugin_info();  
+int plugin_init();  
+void plugin_cleanup();  
+int plugin_process(const char* input, char* output, int output_size);  
 
 #ifdef __cplusplus
 }
@@ -630,7 +630,8 @@ int plugin_process(const char* input, char* output, int output_size) {
 #include "plugin_api.h"
 #include <string>
 #include <algorithm>
-#include <cstring>
+#include <iostream>
+#include <cstdio>
 
 extern "C" {
 
@@ -707,8 +708,8 @@ int main() {
 **Compilation :**
 ```bash
 # Plugins
-gcc -shared -fPIC plugin_c.c -o plugin_c.so
-g++ -shared -fPIC plugin_cpp.cpp -o plugin_cpp.so
+gcc -shared -fPIC plugin_c.c -o plugin_c.so  
+g++ -shared -fPIC plugin_cpp.cpp -o plugin_cpp.so  
 
 # Hôte
 g++ host.cpp -ldl -o host
@@ -746,8 +747,8 @@ extern "C" {
 ### 2. Pas de fonctions membres de classes
 
 ```cpp
-class MaClasse {
-public:
+class MaClasse {  
+public:  
     // ❌ ERREUR : extern "C" impossible pour méthode
     extern "C" void methode();
 };
@@ -761,16 +762,16 @@ public:
 
 ```cpp
 // ❌ ERREUR : Templates incompatibles avec extern "C"
-extern "C" template <typename T>
-T addition(T a, T b) {
+extern "C" template <typename T>  
+T addition(T a, T b) {  
     return a + b;
 }
 ```
 
 **Solution :** Instancier les templates puis exposer avec extern "C"
 ```cpp
-template <typename T>
-T addition_impl(T a, T b) {
+template <typename T>  
+T addition_impl(T a, T b) {  
     return a + b;
 }
 

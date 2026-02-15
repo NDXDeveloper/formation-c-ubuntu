@@ -85,18 +85,19 @@ Minimiser les interférences externes :
 # ✅ Bon : Environnement contrôlé
 # Fermer tous les programmes inutiles
 # Désactiver les services non essentiels
-sudo systemctl stop bluetooth
-sudo systemctl stop cups
+sudo systemctl stop bluetooth  
+sudo systemctl stop cups  
 # Etc.
 ```
 
 **Encore mieux : Isoler un CPU**
 
 ```bash
-# Réserver le CPU 3 uniquement pour le benchmark
-sudo isolcpus=3
+# Réserver le CPU 3 (paramètre kernel dans /etc/default/grub)
+# GRUB_CMDLINE_LINUX="isolcpus=3"
+# Puis : sudo update-grub && reboot
 
-# Lancer le programme sur ce CPU
+# Lancer le programme sur ce CPU isolé
 taskset -c 3 ./benchmark
 ```
 
@@ -126,18 +127,18 @@ La première exécution est souvent plus lente (cache froid).
 
 ```c
 // ❌ Mauvais : Mesurer la première exécution
-clock_t start = clock();
-fonction_a_benchmarker();
-clock_t end = clock();
-printf("Temps: %f\n", (double)(end - start) / CLOCKS_PER_SEC);
+clock_t start = clock();  
+fonction_a_benchmarker();  
+clock_t end = clock();  
+printf("Temps: %f\n", (double)(end - start) / CLOCKS_PER_SEC);  
 
 // ✅ Bon : Réchauffer d'abord
-fonction_a_benchmarker();  // Warm-up (non mesuré)
-fonction_a_benchmarker();  // Warm-up
+fonction_a_benchmarker();  // Warm-up (non mesuré)  
+fonction_a_benchmarker();  // Warm-up  
 
-clock_t start = clock();
-fonction_a_benchmarker();  // Mesure avec cache chaud
-clock_t end = clock();
+clock_t start = clock();  
+fonction_a_benchmarker();  // Mesure avec cache chaud  
+clock_t end = clock();  
 ```
 
 ### 4. Exécuter suffisamment longtemps
@@ -146,18 +147,18 @@ Si votre fonction s'exécute en 1 microseconde, la précision de `clock()` n'est
 
 ```c
 // ❌ Mauvais : Fonction trop rapide
-clock_t start = clock();
-fonction_rapide();  // 1 microseconde
-clock_t end = clock();
+clock_t start = clock();  
+fonction_rapide();  // 1 microseconde  
+clock_t end = clock();  
 // Précision insuffisante, mesure = 0 !
 
 // ✅ Bon : Boucler pour obtenir un temps mesurable
-clock_t start = clock();
-for (int i = 0; i < 1000000; i++) {
+clock_t start = clock();  
+for (int i = 0; i < 1000000; i++) {  
     fonction_rapide();
 }
-clock_t end = clock();
-double temps_moyen = (double)(end - start) / CLOCKS_PER_SEC / 1000000;
+clock_t end = clock();  
+double temps_moyen = (double)(end - start) / CLOCKS_PER_SEC / 1000000;  
 ```
 
 ### 5. Empêcher les optimisations indésirables du compilateur
@@ -170,8 +171,8 @@ int resultat = calcul_complexe();
 // resultat n'est jamais utilisé → tout le calcul peut être éliminé !
 
 // ✅ Bon : Utiliser le résultat
-int resultat = calcul_complexe();
-printf("%d\n", resultat);  // Force le calcul
+int resultat = calcul_complexe();  
+printf("%d\n", resultat);  // Force le calcul  
 
 // ✅ Encore mieux : volatile ou __asm__
 volatile int resultat = calcul_complexe();
@@ -204,8 +205,8 @@ clock_t start = clock();
 // Code à mesurer
 clock_t end = clock();
 
-double temps_cpu = (double)(end - start) / CLOCKS_PER_SEC;
-printf("Temps CPU: %.6f secondes\n", temps_cpu);
+double temps_cpu = (double)(end - start) / CLOCKS_PER_SEC;  
+printf("Temps CPU: %.6f secondes\n", temps_cpu);  
 ```
 
 ### 2. gettimeofday() (Temps réel)
@@ -283,8 +284,8 @@ unsigned long long start = __rdtsc();
 // Code à mesurer (très court)
 unsigned long long end = __rdtsc();
 
-unsigned long long cycles = end - start;
-printf("Cycles CPU: %llu\n", cycles);
+unsigned long long cycles = end - start;  
+printf("Cycles CPU: %llu\n", cycles);  
 ```
 
 **Note :** Utilisez `__rdtscp()` pour un ordonnancement correct des instructions.
@@ -320,10 +321,12 @@ perf stat ./programme
 
 ```c
 // benchmark_simple.c
+#define _POSIX_C_SOURCE 199309L
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define ITERATIONS 1000000
 #define WARMUP_RUNS 3
@@ -339,7 +342,7 @@ int fonction_a_tester(int n) {
 }
 
 // Empêcher l'optimisation
-void escape(void *p) {
+void escape(volatile void *p) {
     __asm__ __volatile__("" : : "g"(p) : "memory");
 }
 
@@ -415,13 +418,13 @@ gcc -O2 -o benchmark benchmark_simple.c -lm
 
 ```
 === Résultats du benchmark ===
-Itérations: 1000000
-Runs: 10
+Itérations: 1000000  
+Runs: 10  
 
 Temps moyen:  523.456 ns
 Écart-type:   12.345 ns (2.4%)
-Min:          510.123 ns
-Max:          545.678 ns
+Min:          510.123 ns  
+Max:          545.678 ns  
 ```
 
 **Analyse :** Écart-type de 2.4% → Résultats stables ✅
@@ -443,12 +446,19 @@ Pour comparer deux implémentations (baseline vs optimisée) :
 
 ```c
 // compare_versions.c
+#define _POSIX_C_SOURCE 199309L
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include <math.h>
 
 #define ITERATIONS 1000000
 #define RUNS 20
+
+int compare_double(const void *a, const void *b) {
+    double diff = *(double*)a - *(double*)b;
+    return (diff > 0) - (diff < 0);
+}
 
 // Version 1 : Baseline
 int version_baseline(int n) {
@@ -471,6 +481,7 @@ double benchmark_function(int (*func)(int), int n) {
     // Warm-up
     for (int i = 0; i < 3; i++) {
         volatile int r = func(n);
+        (void)r;
     }
 
     // Mesures
@@ -479,6 +490,7 @@ double benchmark_function(int (*func)(int), int n) {
 
         for (int i = 0; i < ITERATIONS; i++) {
             volatile int result = func(n);
+            (void)result;
         }
 
         clock_gettime(CLOCK_MONOTONIC, &end);
@@ -490,11 +502,6 @@ double benchmark_function(int (*func)(int), int n) {
     // Calculer la médiane (plus robuste que la moyenne)
     qsort(times, RUNS, sizeof(double), compare_double);
     return times[RUNS / 2];
-}
-
-int compare_double(const void *a, const void *b) {
-    double diff = *(double*)a - *(double*)b;
-    return (diff > 0) - (diff < 0);
 }
 
 int main() {
@@ -534,11 +541,11 @@ int main() {
 === Comparaison de performances ===
 Taille: 10000, Itérations: 1000000, Runs: 20
 
-Baseline:   245.678 ms
-Optimisée:  12.345 ms
+Baseline:   245.678 ms  
+Optimisée:  12.345 ms  
 
-Speedup:       19.89x
-Amélioration:  95.0%
+Speedup:       19.89x  
+Amélioration:  95.0%  
 ✅ Optimisation significative !
 ```
 
@@ -552,16 +559,16 @@ Amélioration:  95.0%
 
 ```c
 // ❌ Mauvais
-clock_t start = clock();
-int result = calcul_lourd();
+clock_t start = clock();  
+int result = calcul_lourd();  
 // result n'est jamais utilisé → tout éliminé par -O2 !
 clock_t end = clock();
 
 // ✅ Bon
-clock_t start = clock();
-int result = calcul_lourd();
-printf("%d\n", result);  // Ou volatile, ou escape()
-clock_t end = clock();
+clock_t start = clock();  
+int result = calcul_lourd();  
+printf("%d\n", result);  // Ou volatile, ou escape()  
+clock_t end = clock();  
 ```
 
 ### Piège 2 : Constant Folding
@@ -570,17 +577,17 @@ clock_t end = clock();
 
 ```c
 // ❌ Mauvais
-clock_t start = clock();
-int result = fibonacci(10);  // Calculé à la compilation !
-clock_t end = clock();
+clock_t start = clock();  
+int result = fibonacci(10);  // Calculé à la compilation !  
+clock_t end = clock();  
 // Temps mesuré ≈ 0
 
 // ✅ Bon
-int n;
-scanf("%d", &n);  // Valeur inconnue à la compilation
-clock_t start = clock();
-int result = fibonacci(n);
-clock_t end = clock();
+int n;  
+scanf("%d", &n);  // Valeur inconnue à la compilation  
+clock_t start = clock();  
+int result = fibonacci(n);  
+clock_t end = clock();  
 ```
 
 ### Piège 3 : Loop Unrolling et Vectorization
@@ -607,12 +614,12 @@ for (int i = 0; i < n; i++) {  // n inconnu
 
 ```c
 // ❌ Mauvais : Données en cache
-int data[1000];
-for (int i = 0; i < 1000; i++) data[i] = i;
+int data[1000];  
+for (int i = 0; i < 1000; i++) data[i] = i;  
 
 // Benchmark (cache chaud)
-clock_t start = clock();
-for (int i = 0; i < 1000; i++) {
+clock_t start = clock();  
+for (int i = 0; i < 1000; i++) {  
     process(data[i]);
 }
 clock_t end = clock();
@@ -650,18 +657,18 @@ echo 1 | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo
 
 ```c
 // ❌ Mauvais
-start = clock();
-x = a + b;  // Quelques nanosecondes
-end = clock();
+start = clock();  
+x = a + b;  // Quelques nanosecondes  
+end = clock();  
 // Résultat = 0 ou très imprécis
 
 // ✅ Bon
-start = clock();
-for (int i = 0; i < 1000000; i++) {
+start = clock();  
+for (int i = 0; i < 1000000; i++) {  
     x = a + b;
 }
-end = clock();
-double temps_par_operation = elapsed / 1000000.0;
+end = clock();  
+double temps_par_operation = elapsed / 1000000.0;  
 ```
 
 ---
@@ -695,8 +702,8 @@ static void BM_MonAlgorithme(benchmark::State& state) {
     delete[] data;
 }
 
-BENCHMARK(BM_MonAlgorithme)->Range(8, 8<<10);
-BENCHMARK_MAIN();
+BENCHMARK(BM_MonAlgorithme)->Range(8, 8<<10);  
+BENCHMARK_MAIN();  
 ```
 
 ### Criterion (Pour C uniquement)
@@ -864,10 +871,10 @@ time ./programme
 ### ❌ Erreur 2 : Ignorer la variabilité
 
 ```
-Run 1: 100 ms
-Run 2: 150 ms
-Run 3: 98 ms
-Moyenne: 116 ms
+Run 1: 100 ms  
+Run 2: 150 ms  
+Run 3: 98 ms  
+Moyenne: 116 ms  
 ```
 
 **Problème :** Écart-type de 30 ms (26% !) → Résultats instables !
@@ -878,8 +885,8 @@ Moyenne: 116 ms
 
 ```bash
 # Mauvais : Compilations différentes
-gcc -O0 version1.c -o v1
-gcc -O3 version2.c -o v2
+gcc -O0 version1.c -o v1  
+gcc -O3 version2.c -o v2  
 # Comparer v1 et v2 → Non significatif !
 ```
 
@@ -900,8 +907,8 @@ int somme(int *tableau, int n) {
 
 ```bash
 # Mauvais
-gcc -O0 -g programme.c -o programme_debug
-time ./programme_debug
+gcc -O0 -g programme.c -o programme_debug  
+time ./programme_debug  
 ```
 
 **Solution :** Benchmarker du code **optimisé pour la production** (`-O2` ou `-O3`).
@@ -947,7 +954,9 @@ time ./programme_debug
 
 ```c
 // hash_benchmark.c
+#define _POSIX_C_SOURCE 199309L
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
 #include <string.h>
@@ -982,12 +991,14 @@ double benchmark_hash(uint32_t (*hash_func)(const char*),
     // Warm-up
     for (int i = 0; i < count / 10; i++) {
         volatile uint32_t h = hash_func(data[i % count]);
+        (void)h;
     }
 
     // Mesure
     clock_gettime(CLOCK_MONOTONIC, &start);
     for (int i = 0; i < count; i++) {
         volatile uint32_t h = hash_func(data[i]);
+        (void)h;
     }
     clock_gettime(CLOCK_MONOTONIC, &end);
 

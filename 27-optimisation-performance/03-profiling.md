@@ -236,7 +236,7 @@ index % time    self  children    called     name
                                                  <spontaneous>
 [1]    100.0    0.00    0.70                 main [1]
                 0.01    0.61       5/5           fonction_intermediaire [2]
-                0.09    0.00       6/6           fonction_rapide [4]
+                0.02    0.00       1/6           fonction_rapide [4]
 -----------------------------------------------
                 0.01    0.61       5/5           main [1]
 [2]     88.6    0.01    0.61       5         fonction_intermediaire [2]
@@ -246,8 +246,8 @@ index % time    self  children    called     name
                 0.60    0.00       5/5           fonction_intermediaire [2]
 [3]     85.7    0.60    0.00       5         fonction_lente [3]
 -----------------------------------------------
-                0.09    0.00       6/6           main [1]
-                0.00    0.00       5/6           fonction_intermediaire [2]
+                0.02    0.00       1/6           main [1]
+                0.07    0.00       5/6           fonction_intermediaire [2]
 [4]     12.9    0.09    0.00       6         fonction_rapide [4]
 -----------------------------------------------
 ```
@@ -401,8 +401,8 @@ perf report
 **Exemple de sortie `perf report` :**
 
 ```
-Samples: 5K of event 'cycles', Event count (approx.): 4521349087
-Overhead  Command     Shared Object       Symbol
+Samples: 5K of event 'cycles', Event count (approx.): 4521349087  
+Overhead  Command     Shared Object       Symbol  
   78.45%  test_perf2  test_perf2          [.] calcul_intensif
   19.23%  test_perf2  test_perf2          [.] allocation_intensive
    1.89%  test_perf2  libc.so.6           [.] malloc
@@ -420,8 +420,8 @@ Overhead  Command     Shared Object       Symbol
 
 ```bash
 # Profiler les défauts de cache L1
-perf record -e cache-misses ./mon_programme
-perf report
+perf record -e cache-misses ./mon_programme  
+perf report  
 ```
 
 **Interprétation :** Si une fonction a beaucoup de cache misses, cela signifie qu'elle accède à la mémoire de manière inefficace (accès non séquentiels, stride trop grand, etc.).
@@ -429,8 +429,8 @@ perf report
 #### b) Profiler les branch misses (prédictions de branchement)
 
 ```bash
-perf record -e branch-misses ./mon_programme
-perf report
+perf record -e branch-misses ./mon_programme  
+perf report  
 ```
 
 **Interprétation :** Beaucoup de branch misses indiquent que le CPU a du mal à prédire les conditions (`if`, boucles). Réorganiser le code peut aider.
@@ -479,8 +479,8 @@ Les **Flame Graphs** sont une visualisation très populaire du profiling.
 **Installation :**
 
 ```bash
-git clone https://github.com/brendangregg/FlameGraph
-cd FlameGraph
+git clone https://github.com/brendangregg/FlameGraph  
+cd FlameGraph  
 ```
 
 **Génération :**
@@ -561,18 +561,18 @@ callgrind_annotate callgrind.out.12345 | head -30
 --------------------------------------------------------------------------------
 Profile data file 'callgrind.out.12345' (creator: callgrind-3.15.0)
 --------------------------------------------------------------------------------
-I1 cache:         32768 B, 64 B, 8-way associative
-D1 cache:         32768 B, 64 B, 8-way associative
-LL cache:         8388608 B, 64 B, 16-way associative
-Command:          ./test_perf2
-Data file:        callgrind.out.12345
-Events recorded:  Ir
-Events shown:     Ir
-Event sort order: Ir
-Thresholds:       99
-Include dirs:
-User annotated:
-Auto-annotation:  off
+I1 cache:         32768 B, 64 B, 8-way associative  
+D1 cache:         32768 B, 64 B, 8-way associative  
+LL cache:         8388608 B, 64 B, 16-way associative  
+Command:          ./test_perf2  
+Data file:        callgrind.out.12345  
+Events recorded:  Ir  
+Events shown:     Ir  
+Event sort order: Ir  
+Thresholds:       99  
+Include dirs:  
+User annotated:  
+Auto-annotation:  off  
 
 --------------------------------------------------------------------------------
       Ir
@@ -614,8 +614,8 @@ valgrind --tool=massif ./mon_programme
 ### Analyser avec ms_print
 
 ```bash
-ms_print massif.out.12345 > rapport_memoire.txt
-less rapport_memoire.txt
+ms_print massif.out.12345 > rapport_memoire.txt  
+less rapport_memoire.txt  
 ```
 
 **Exemple de graphique dans le rapport :**
@@ -710,12 +710,12 @@ Interface graphique élégante avec graphiques interactifs.
 
 ```bash
 # ✅ BON : Profiler le code optimisé
-gcc -O2 -g test.c -o test
-perf record ./test
+gcc -O2 -g test.c -o test  
+perf record ./test  
 
 # ❌ MAUVAIS : Profiler sans optimisation
-gcc -O0 -g test.c -o test
-perf record ./test
+gcc -O0 -g test.c -o test  
+perf record ./test  
 ```
 
 **Pourquoi ?** Le code non optimisé ne représente pas les performances réelles.
@@ -781,12 +781,12 @@ Gardez une trace de vos mesures :
 
 ```bash
 # Créer un fichier de benchmark
-echo "Version 1.0 - $(date)" > benchmark.txt
-perf stat ./mon_programme 2>> benchmark.txt
+echo "Version 1.0 - $(date)" > benchmark.txt  
+perf stat ./mon_programme 2>> benchmark.txt  
 
 # Après modification
-echo "Version 1.1 - $(date)" >> benchmark.txt
-perf stat ./mon_programme 2>> benchmark.txt
+echo "Version 1.1 - $(date)" >> benchmark.txt  
+perf stat ./mon_programme 2>> benchmark.txt  
 ```
 
 ---
@@ -847,8 +847,8 @@ time ./sort_benchmark
 ### Étape 2 : Profiler avec perf
 
 ```bash
-perf record ./sort_benchmark
-perf report
+perf record ./sort_benchmark  
+perf report  
 ```
 
 **Résultat :**
@@ -903,8 +903,8 @@ time ./sort_benchmark_v2
 ### Étape 6 : Profiler à nouveau
 
 ```bash
-perf record ./sort_benchmark_v2
-perf report
+perf record ./sort_benchmark_v2  
+perf report  
 ```
 
 **Résultat :**
@@ -944,8 +944,8 @@ perf report --sort comm,dso
 Si les threads passent beaucoup de temps à attendre des mutex :
 
 ```bash
-perf record -e syscalls:sys_enter_futex ./mon_programme_multithread
-perf report
+perf record -e syscalls:sys_enter_futex ./mon_programme_multithread  
+perf report  
 ```
 
 **Interprétation :** Beaucoup d'appels à `futex` (Fast Userspace Mutex) indiquent que les threads se bloquent mutuellement.
@@ -1073,15 +1073,15 @@ Après le profiling :
 
 ```bash
 # Manuel de perf
-man perf
-man perf-record
-man perf-report
-man perf-stat
+man perf  
+man perf-record  
+man perf-report  
+man perf-stat  
 
 # Valgrind
-man valgrind
-man callgrind
-man massif
+man valgrind  
+man callgrind  
+man massif  
 ```
 
 ### Ressources en ligne

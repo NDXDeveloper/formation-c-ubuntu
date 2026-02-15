@@ -216,8 +216,8 @@ gcc -O2 -march=native mon_programme.c -o mon_programme
 
 ```bash
 # Compilation
-gcc -O2 -flto -c fichier1.c -o fichier1.o
-gcc -O2 -flto -c fichier2.c -o fichier2.o
+gcc -O2 -flto -c fichier1.c -o fichier1.o  
+gcc -O2 -flto -c fichier2.c -o fichier2.o  
 
 # Linkage
 gcc -O2 -flto fichier1.o fichier2.o -o programme
@@ -272,10 +272,10 @@ for (int i = 0; i < 4; i++) {
 }
 
 // Après déroulage
-tableau[0] = 0;
-tableau[1] = 0;
-tableau[2] = 0;
-tableau[3] = 0;
+tableau[0] = 0;  
+tableau[1] = 0;  
+tableau[2] = 0;  
+tableau[3] = 0;  
 ```
 
 ---
@@ -351,17 +351,17 @@ gcc -Wall -Wextra -O2 -march=native mon_programme.c -o mon_programme
 gcc -O2 -Q --help=optimizers
 
 # Comparer deux niveaux
-gcc -O1 -Q --help=optimizers > o1.txt
-gcc -O2 -Q --help=optimizers > o2.txt
-diff o1.txt o2.txt
+gcc -O1 -Q --help=optimizers > o1.txt  
+gcc -O2 -Q --help=optimizers > o2.txt  
+diff o1.txt o2.txt  
 ```
 
 ### Inspecter le code assembleur généré
 
 ```bash
 # Générer l'assembleur
-gcc -O0 -S mon_programme.c -o mon_programme_O0.s
-gcc -O2 -S mon_programme.c -o mon_programme_O2.s
+gcc -O0 -S mon_programme.c -o mon_programme_O0.s  
+gcc -O2 -S mon_programme.c -o mon_programme_O2.s  
 
 # Comparer
 diff mon_programme_O0.s mon_programme_O2.s

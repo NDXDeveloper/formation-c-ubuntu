@@ -192,8 +192,8 @@ int main() {
 
 **Résultats typiques :**
 ```
-Recherche linéaire: 3250.5 ms
-Recherche dichotomique: 0.8 ms  ← 4000x plus rapide !
+Recherche linéaire: 3250.5 ms  
+Recherche dichotomique: 0.8 ms  ← 4000x plus rapide !  
 ```
 
 **Conclusion :** Si vous faites beaucoup de recherches, **triez d'abord** le tableau, puis utilisez la recherche dichotomique.
@@ -320,8 +320,8 @@ int main() {
 
 **Résultats typiques :**
 ```
-Tri à bulles: 485.3 ms
-Quicksort: 1.2 ms  ← 400x plus rapide !
+Tri à bulles: 485.3 ms  
+Quicksort: 1.2 ms  ← 400x plus rapide !  
 ```
 
 **Conclusion :** Pour trier, utilisez toujours `qsort()` de la stdlib (ou un algorithme O(n log n)). Jamais de tri à bulles en production !

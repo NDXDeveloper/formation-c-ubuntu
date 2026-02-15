@@ -220,18 +220,18 @@ PIE permet à l'exécutable d'être chargé à une **adresse mémoire aléatoire
 
 **Sans PIE** (adresses fixes) :
 ```
-Exécution 1 : Programme chargé à 0x08048000
-Exécution 2 : Programme chargé à 0x08048000  ← Toujours pareil !
-Exécution 3 : Programme chargé à 0x08048000
+Exécution 1 : Programme chargé à 0x08048000  
+Exécution 2 : Programme chargé à 0x08048000  ← Toujours pareil !  
+Exécution 3 : Programme chargé à 0x08048000  
 
 Un attaquant peut prédire les adresses mémoire
 ```
 
 **Avec PIE** (ASLR activé) :
 ```
-Exécution 1 : Programme chargé à 0x55555555000
-Exécution 2 : Programme chargé à 0x7fff8821000  ← Aléatoire !
-Exécution 3 : Programme chargé à 0x7f1234ab000
+Exécution 1 : Programme chargé à 0x55555555000  
+Exécution 2 : Programme chargé à 0x7fff8821000  ← Aléatoire !  
+Exécution 3 : Programme chargé à 0x7f1234ab000  
 
 L'attaquant ne peut pas deviner les adresses
 ```
@@ -418,7 +418,6 @@ gcc -fstack-protector-all \
     -Wstrict-overflow=5 \
     -fstack-clash-protection \
     -fcf-protection=full \
-    -mcet \
     programme.c -o programme
 ```
 
@@ -486,8 +485,8 @@ clang -fsanitize=shadow-call-stack programme.c
 ### Makefile simple
 
 ```makefile
-CC = gcc
-CFLAGS = -std=c11 -Wall -Wextra -Werror
+CC = gcc  
+CFLAGS = -std=c11 -Wall -Wextra -Werror  
 
 # Flags de hardening
 HARDENING = -fstack-protector-strong \
@@ -508,9 +507,9 @@ else
     CFLAGS += -O2 $(HARDENING)
 endif
 
-SOURCES = main.c utils.c
-OBJECTS = $(SOURCES:.c=.o)
-TARGET = monprogramme
+SOURCES = main.c utils.c  
+OBJECTS = $(SOURCES:.c=.o)  
+TARGET = monprogramme  
 
 all: $(TARGET)
 
@@ -546,8 +545,8 @@ make debug
 ### Makefile avancé avec vérification
 
 ```makefile
-CC = gcc
-CFLAGS = -std=c11 -Wall -Wextra -Werror
+CC = gcc  
+CFLAGS = -std=c11 -Wall -Wextra -Werror  
 
 # Hardening flags
 HARDENING = -fstack-protector-strong \
@@ -563,8 +562,8 @@ LDFLAGS = -pie \
           -Wl,-z,noexecstack
 
 # Vérifier si Control Flow Guard est supporté
-CFG_SUPPORT := $(shell $(CC) -fcf-protection=full -x c -c /dev/null -o /dev/null 2>/dev/null && echo yes)
-ifeq ($(CFG_SUPPORT),yes)
+CFG_SUPPORT := $(shell $(CC) -fcf-protection=full -x c -c /dev/null -o /dev/null 2>/dev/null && echo yes)  
+ifeq ($(CFG_SUPPORT),yes)  
     HARDENING += -fcf-protection=full
 endif
 
@@ -574,9 +573,9 @@ else
     CFLAGS += -O2 $(HARDENING)
 endif
 
-SOURCES = main.c utils.c
-OBJECTS = $(SOURCES:.c=.o)
-TARGET = monprogramme
+SOURCES = main.c utils.c  
+OBJECTS = $(SOURCES:.c=.o)  
+TARGET = monprogramme  
 
 all: $(TARGET)
 
@@ -621,8 +620,8 @@ sudo apt install checksec
 pip install checksec.py
 
 # Ou le script shell
-wget https://github.com/slimm609/checksec.sh/raw/master/checksec
-chmod +x checksec
+wget https://github.com/slimm609/checksec.sh/raw/master/checksec  
+chmod +x checksec  
 ```
 
 **Utilisation** :
@@ -632,8 +631,8 @@ checksec --file=./monprogramme
 
 **Exemple de sortie** :
 ```
-RELRO           STACK CANARY      NX            PIE             FORTIFY
-Full RELRO      Canary found      NX enabled    PIE enabled     Yes
+RELRO           STACK CANARY      NX            PIE             FORTIFY  
+Full RELRO      Canary found      NX enabled    PIE enabled     Yes  
 ```
 
 ### 2. Vérification manuelle avec readelf
@@ -683,11 +682,11 @@ programme:
 ### CMakeLists.txt avec hardening
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(MonProjet C)
+cmake_minimum_required(VERSION 3.10)  
+project(MonProjet C)  
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 11)  
+set(CMAKE_C_STANDARD_REQUIRED ON)  
 
 # Sources
 set(SOURCES
@@ -709,7 +708,6 @@ target_compile_options(monprogramme PRIVATE
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     target_compile_options(monprogramme PRIVATE
         -fstack-protector-strong
-        -D_FORTIFY_SOURCE=2
         -fPIE
         -Wformat=2
         -Wformat-security
@@ -743,12 +741,12 @@ add_custom_command(TARGET monprogramme POST_BUILD
 **Build** :
 ```bash
 # Release avec hardening
-cmake -DCMAKE_BUILD_TYPE=Release -B build
-cmake --build build
+cmake -DCMAKE_BUILD_TYPE=Release -B build  
+cmake --build build  
 
 # Debug sans hardening
-cmake -DCMAKE_BUILD_TYPE=Debug -B build-debug
-cmake --build build-debug
+cmake -DCMAKE_BUILD_TYPE=Debug -B build-debug  
+cmake --build build-debug  
 ```
 
 ---
@@ -805,8 +803,8 @@ int main(void) {
 **Test** :
 ```bash
 # Sans hardening
-gcc -O2 benchmark.c -o bench_normal
-time ./bench_normal
+gcc -O2 benchmark.c -o bench_normal  
+time ./bench_normal  
 
 # Avec hardening
 gcc -O2 -fstack-protector-strong -D_FORTIFY_SOURCE=2 -fPIE -pie \
@@ -955,8 +953,8 @@ if [ ! -f "$BINARY" ]; then
     exit 1
 fi
 
-echo "=== Vérification du hardening pour $BINARY ==="
-echo
+echo "=== Vérification du hardening pour $BINARY ==="  
+echo  
 
 # Vérifier avec checksec si disponible
 if command -v checksec >/dev/null 2>&1; then
@@ -965,23 +963,23 @@ if command -v checksec >/dev/null 2>&1; then
 fi
 
 # Sinon, vérification manuelle
-echo "PIE:"
-file "$BINARY" | grep -q "pie executable" && echo "  ✓ Activé" || echo "  ✗ Désactivé"
+echo "PIE:"  
+file "$BINARY" | grep -q "pie executable" && echo "  ✓ Activé" || echo "  ✗ Désactivé"  
 
-echo "NX:"
-readelf -l "$BINARY" | grep "GNU_STACK" | grep -q " RW " && echo "  ✓ Activé (pas d'exécution)" || echo "  ✗ Désactivé"
+echo "NX:"  
+readelf -l "$BINARY" | grep "GNU_STACK" | grep -q " RW " && echo "  ✓ Activé (pas d'exécution)" || echo "  ✗ Désactivé"  
 
-echo "Stack Canary:"
-readelf -s "$BINARY" | grep -q "__stack_chk_fail" && echo "  ✓ Détecté" || echo "  ✗ Non détecté"
+echo "Stack Canary:"  
+readelf -s "$BINARY" | grep -q "__stack_chk_fail" && echo "  ✓ Détecté" || echo "  ✗ Non détecté"  
 
-echo "RELRO:"
-readelf -l "$BINARY" | grep -q "GNU_RELRO" && echo "  ✓ Activé" || echo "  ✗ Désactivé"
+echo "RELRO:"  
+readelf -l "$BINARY" | grep -q "GNU_RELRO" && echo "  ✓ Activé" || echo "  ✗ Désactivé"  
 
-echo "BIND_NOW (Full RELRO):"
-readelf -d "$BINARY" | grep -q "BIND_NOW" && echo "  ✓ Activé" || echo "  ✗ Désactivé"
+echo "BIND_NOW (Full RELRO):"  
+readelf -d "$BINARY" | grep -q "BIND_NOW" && echo "  ✓ Activé" || echo "  ✗ Désactivé"  
 
-echo "FORTIFY:"
-readelf -s "$BINARY" | grep -q "__.*_chk" && echo "  ✓ Détecté" || echo "  ✗ Non détecté"
+echo "FORTIFY:"  
+readelf -s "$BINARY" | grep -q "__.*_chk" && echo "  ✓ Détecté" || echo "  ✗ Non détecté"  
 ```
 
 **Utilisation** :

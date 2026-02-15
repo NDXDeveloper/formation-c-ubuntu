@@ -109,11 +109,11 @@ Le bit de signe bascule, transformant le plus grand nombre positif en plus petit
 ### 3. Underflow (débordement vers le bas)
 
 ```c
-unsigned int u = 0;
-u = u - 1;  // Underflow : devient UINT_MAX (4,294,967,295)
+unsigned int u = 0;  
+u = u - 1;  // Underflow : devient UINT_MAX (4,294,967,295)  
 
-int i = INT_MIN;
-i = i - 1;  // Comportement indéfini
+int i = INT_MIN;  
+i = i - 1;  // Comportement indéfini  
 ```
 
 ---
@@ -225,16 +225,16 @@ int calculer_prix_total(int prix_unitaire, int quantite) {
 
 ```c
 // ❌ Vulnérable
-size_t taille = largeur * hauteur * sizeof(pixel);
-void *buffer = malloc(taille);
+size_t taille = largeur * hauteur * sizeof(pixel);  
+void *buffer = malloc(taille);  
 ```
 
 ### 2. Overflow dans les indices de tableau
 
 ```c
 // ❌ Vulnérable
-unsigned int index = user_input + offset;
-if (index < array_size) {  // Peut être contourné par overflow
+unsigned int index = user_input + offset;  
+if (index < array_size) {  // Peut être contourné par overflow  
     array[index] = value;
 }
 ```
@@ -252,8 +252,8 @@ if (a + b < a) {  // Détection d'overflow ? Pas toujours !
 
 ```c
 // ❌ Vulnérable : conversion avec perte
-long long big_number = 3000000000LL;
-int small_number = (int)big_number;  // Overflow dans la conversion
+long long big_number = 3000000000LL;  
+int small_number = (int)big_number;  // Overflow dans la conversion  
 ```
 
 ---
@@ -272,12 +272,12 @@ size_t taille = longueur * largeur;
 
 ```c
 // ❌ Mauvais : unsigned pour des compteurs qui peuvent devenir négatifs
-unsigned int compteur = 10;
-compteur -= 20;  // Underflow → très grand nombre positif
+unsigned int compteur = 10;  
+compteur -= 20;  // Underflow → très grand nombre positif  
 
 // ✅ Bon : signed si des valeurs négatives sont possibles
-int compteur = 10;
-compteur -= 20;  // -10 (comportement attendu)
+int compteur = 10;  
+compteur -= 20;  // -10 (comportement attendu)  
 ```
 
 ### 2. Vérifier avant l'opération
@@ -296,8 +296,8 @@ bool addition_secure_unsigned(unsigned int a, unsigned int b, unsigned int *resu
 }
 
 // Utilisation
-unsigned int somme;
-if (addition_secure_unsigned(a, b, &somme)) {
+unsigned int somme;  
+if (addition_secure_unsigned(a, b, &somme)) {  
     printf("Somme : %u\n", somme);
 }
 ```
@@ -384,6 +384,7 @@ GCC fournit des fonctions intégrées qui détectent automatiquement les overflo
 ```c
 #include <stdio.h>
 #include <stdbool.h>
+#include <limits.h>
 
 bool addition_builtin(int a, int b, int *result) {
     if (__builtin_add_overflow(a, b, result)) {
@@ -433,7 +434,7 @@ int main(void) {
 C23 introduit `<stdckdint.h>` avec des fonctions standardisées :
 
 ```c
-#ifdef __STDC_VERSION__ >= 202311L
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L
 #include <stdckdint.h>
 
 bool addition_c23(int a, int b, int *result) {
@@ -809,7 +810,7 @@ test.c:10:15: runtime error: signed integer overflow: 2147483647 + 1 cannot be r
 Pour une détection plus complète (signés ET non signés) :
 
 ```bash
-gcc -fsanitize=integer -g test.c -o test
+clang -fsanitize=integer -g test.c -o test  # Clang uniquement
 ```
 
 ### 3. Flags de compilation
@@ -863,16 +864,16 @@ Créez une bibliothèque réutilisable :
 #include <stdint.h>
 
 // Addition sécurisée
-bool safe_add_size(size_t a, size_t b, size_t *result);
-bool safe_add_int(int a, int b, int *result);
+bool safe_add_size(size_t a, size_t b, size_t *result);  
+bool safe_add_int(int a, int b, int *result);  
 
 // Multiplication sécurisée
-bool safe_mul_size(size_t a, size_t b, size_t *result);
-bool safe_mul_int(int a, int b, int *result);
+bool safe_mul_size(size_t a, size_t b, size_t *result);  
+bool safe_mul_int(int a, int b, int *result);  
 
 // Soustraction sécurisée
-bool safe_sub_size(size_t a, size_t b, size_t *result);
-bool safe_sub_int(int a, int b, int *result);
+bool safe_sub_size(size_t a, size_t b, size_t *result);  
+bool safe_sub_int(int a, int b, int *result);  
 
 #endif
 ```
@@ -984,11 +985,11 @@ bool division_securisee(int dividende, int diviseur, int *resultat) {
 
 ```c
 // ❌ Comportement indéfini
-int a = 1;
-int b = a << 32;  // UB si int est 32 bits (décalage >= largeur du type)
+int a = 1;  
+int b = a << 32;  // UB si int est 32 bits (décalage >= largeur du type)  
 
-int c = -1;
-int d = c << 5;   // UB (décalage d'un nombre négatif)
+int c = -1;  
+int d = c << 5;   // UB (décalage d'un nombre négatif)  
 
 // ✅ Sécurisé
 bool shift_left_secure(unsigned int valeur, unsigned int decalage, unsigned int *result) {
@@ -1011,9 +1012,9 @@ bool shift_left_secure(unsigned int valeur, unsigned int decalage, unsigned int 
 
 ```c
 // Comportement défini mais peut surprendre
-int a = -10;
-int b = 3;
-int c = a % b;  // c = -1 (pas 2 !)
+int a = -10;  
+int b = 3;  
+int c = a % b;  // c = -1 (pas 2 !)  
 
 // Pour un modulo toujours positif :
 int modulo_positif(int a, int b) {

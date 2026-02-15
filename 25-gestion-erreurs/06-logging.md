@@ -95,8 +95,8 @@ Niveau minimum = INFO
 → On ne voit pas : TRACE, DEBUG
 ```
 
-**En développement** : Niveau DEBUG ou TRACE (tout voir)
-**En production** : Niveau INFO ou WARNING (seulement l'essentiel)
+**En développement** : Niveau DEBUG ou TRACE (tout voir)  
+**En production** : Niveau INFO ou WARNING (seulement l'essentiel)  
 
 ---
 
@@ -218,6 +218,17 @@ static const char *niveau_noms[] = {
     "DEBUG", "INFO", "WARNING", "ERROR", "FATAL"
 };
 
+// Déclaration anticipée
+void log_message(LogLevel niveau, const char *fichier_source, int ligne,
+                 const char *format, ...);
+
+// Macros avec informations de fichier et ligne
+#define LOG_DEBUG(...)   log_message(LOG_DEBUG, __FILE__, __LINE__, __VA_ARGS__)
+#define LOG_INFO(...)    log_message(LOG_INFO, __FILE__, __LINE__, __VA_ARGS__)
+#define LOG_WARNING(...) log_message(LOG_WARNING, __FILE__, __LINE__, __VA_ARGS__)
+#define LOG_ERROR(...)   log_message(LOG_ERROR, __FILE__, __LINE__, __VA_ARGS__)
+#define LOG_FATAL(...)   log_message(LOG_FATAL, __FILE__, __LINE__, __VA_ARGS__)
+
 // Initialiser le logger
 bool log_init(const char *nom_fichier, LogLevel niveau) {
     logger.fichier = fopen(nom_fichier, "a");  // Mode append
@@ -289,13 +300,6 @@ void log_message(LogLevel niveau, const char *fichier_source, int ligne,
         fputs(log_line, stderr);
     }
 }
-
-// Macros avec informations de fichier et ligne
-#define LOG_DEBUG(...)   log_message(LOG_DEBUG, __FILE__, __LINE__, __VA_ARGS__)
-#define LOG_INFO(...)    log_message(LOG_INFO, __FILE__, __LINE__, __VA_ARGS__)
-#define LOG_WARNING(...) log_message(LOG_WARNING, __FILE__, __LINE__, __VA_ARGS__)
-#define LOG_ERROR(...)   log_message(LOG_ERROR, __FILE__, __LINE__, __VA_ARGS__)
-#define LOG_FATAL(...)   log_message(LOG_FATAL, __FILE__, __LINE__, __VA_ARGS__)
 
 int main(void) {
     // Initialiser le logger
@@ -412,8 +416,8 @@ void log_module(const char *module, LogLevel niveau, const char *format, ...) {
 }
 
 // Utilisation
-log_module("reseau", LOG_INFO, "Connexion établie");
-log_module("base_donnees", LOG_DEBUG, "Requête SQL");  // Ignoré
+log_module("reseau", LOG_INFO, "Connexion établie");  
+log_module("base_donnees", LOG_DEBUG, "Requête SQL");  // Ignoré  
 ```
 
 ### 3. Rotation des logs
@@ -600,11 +604,11 @@ typedef enum {
 } LogLevel;
 
 // API publique
-bool logger_init(const char *fichier, LogLevel niveau_min);
-void logger_close(void);
-void logger_set_level(LogLevel niveau);
-void logger_set_console(bool actif);
-void logger_log(LogLevel niveau, const char *fichier, int ligne,
+bool logger_init(const char *fichier, LogLevel niveau_min);  
+void logger_close(void);  
+void logger_set_level(LogLevel niveau);  
+void logger_set_console(bool actif);  
+void logger_log(LogLevel niveau, const char *fichier, int ligne,  
                 const char *format, ...);
 
 // Macros conviviales
@@ -652,15 +656,15 @@ int main(void) {
 
 ```c
 // ✅ BON
-LOG_DEBUG("Variable x vaut %d", x);           // Debug
-LOG_INFO("Serveur démarré sur le port %d", port);  // Info
-LOG_WARNING("Fichier de config manquant, utilisation des valeurs par défaut");  // Warning
-LOG_ERROR("Impossible de se connecter à la base de données");  // Error
-LOG_FATAL("Mémoire insuffisante, arrêt");     // Fatal
+LOG_DEBUG("Variable x vaut %d", x);           // Debug  
+LOG_INFO("Serveur démarré sur le port %d", port);  // Info  
+LOG_WARNING("Fichier de config manquant, utilisation des valeurs par défaut");  // Warning  
+LOG_ERROR("Impossible de se connecter à la base de données");  // Error  
+LOG_FATAL("Mémoire insuffisante, arrêt");     // Fatal  
 
 // ❌ MAUVAIS
-LOG_ERROR("Variable x vaut %d", x);           // Pas une erreur
-LOG_INFO("Échec de connexion réseau");        // C'est une erreur
+LOG_ERROR("Variable x vaut %d", x);           // Pas une erreur  
+LOG_INFO("Échec de connexion réseau");        // C'est une erreur  
 ```
 
 ### 2. Messages informatifs
@@ -746,8 +750,8 @@ void log_flush(void) {
 }
 
 // Utiliser après les logs importants
-LOG_FATAL("Erreur critique détectée");
-log_flush();  // S'assurer que le message est écrit avant un crash
+LOG_FATAL("Erreur critique détectée");  
+log_flush();  // S'assurer que le message est écrit avant un crash  
 ```
 
 ---
@@ -984,8 +988,8 @@ int main(void) {
 **Contenu du fichier `serveur.log` :**
 ```
 ========================================
-Logging démarré : Wed Jan 15 15:30:00 2025
-Niveau minimum : DEBUG
+Logging démarré : Wed Jan 15 15:30:00 2025  
+Niveau minimum : DEBUG  
 ========================================
 
 [15:30:00] [INFO] [main.c:145] ===== DÉMARRAGE DU SERVEUR =====
@@ -1014,7 +1018,7 @@ Niveau minimum : DEBUG
 
 ========================================
 Statistiques de logging:
-  Messages totaux: 24
+  Messages totaux: 23
   Erreurs: 2
 ========================================
 ```
@@ -1031,6 +1035,8 @@ Système de logging standard UNIX/Linux :
 
 ```c
 #include <syslog.h>
+#include <errno.h>
+#include <string.h>
 
 int main(void) {
     // Ouvrir la connexion syslog
@@ -1045,8 +1051,8 @@ int main(void) {
 }
 ```
 
-**Avantages :** Standard, centralisé, rotation automatique
-**Inconvénients :** Configuration système, moins de contrôle
+**Avantages :** Standard, centralisé, rotation automatique  
+**Inconvénients :** Configuration système, moins de contrôle  
 
 ### 2. log.c
 
@@ -1054,8 +1060,8 @@ Bibliothèque C simple et légère :
 
 ```bash
 # Installation
-wget https://raw.githubusercontent.com/rxi/log.c/master/src/log.c
-wget https://raw.githubusercontent.com/rxi/log.c/master/src/log.h
+wget https://raw.githubusercontent.com/rxi/log.c/master/src/log.c  
+wget https://raw.githubusercontent.com/rxi/log.c/master/src/log.h  
 ```
 
 ```c
@@ -1137,11 +1143,11 @@ Votre système de logging devrait :
 ### Quand logger ?
 
 ```
-DEBUG    → Détails d'implémentation, valeurs de variables
-INFO     → Événements importants (démarrage, arrêt, connexion)
-WARNING  → Situation anormale mais gérable
-ERROR    → Erreur qui empêche une opération
-FATAL    → Erreur critique qui termine le programme
+DEBUG    → Détails d'implémentation, valeurs de variables  
+INFO     → Événements importants (démarrage, arrêt, connexion)  
+WARNING  → Situation anormale mais gérable  
+ERROR    → Erreur qui empêche une opération  
+FATAL    → Erreur critique qui termine le programme  
 ```
 
 Le logging est un outil **indispensable** pour comprendre, déboguer et surveiller vos applications C en production. Un bon système de logging peut vous faire gagner des heures de débogage !

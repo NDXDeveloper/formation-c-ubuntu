@@ -61,8 +61,8 @@ Règles concernant l'utilisation du préprocesseur C (`#define`, `#include`, etc
 // ❌ Mauvais : effet de bord dans une macro
 #define CARRE(x) ((x) * (x))
 
-int i = 5;
-int resultat = CARRE(i++);  // Danger ! i est incrémenté deux fois
+int i = 5;  
+int resultat = CARRE(i++);  // Danger ! i est incrémenté deux fois  
 // Expansion : ((i++) * (i++))
 ```
 
@@ -75,8 +75,8 @@ static inline int carre(int x) {
     return x * x;
 }
 
-int i = 5;
-int resultat = carre(i++);  // i est incrémenté une seule fois
+int i = 5;  
+int resultat = carre(i++);  // i est incrémenté une seule fois  
 ```
 
 ---
@@ -237,8 +237,8 @@ Règles pour éviter les erreurs courantes avec les tableaux.
 
 ```c
 // ❌ Mauvais
-int tableau[10];
-int *ptr = tableau + 15;  // Pointe au-delà du tableau !
+int tableau[10];  
+int *ptr = tableau + 15;  // Pointe au-delà du tableau !  
 
 if (condition) {
     *ptr = 42;  // Écriture hors limites = corruption mémoire
@@ -248,8 +248,8 @@ if (condition) {
 **Solution** :
 ```c
 // ✅ Bon : rester dans les limites
-int tableau[10];
-size_t index = obtenir_index();
+int tableau[10];  
+size_t index = obtenir_index();  
 
 if (index < 10) {  // Vérification des limites
     tableau[index] = 42;
@@ -316,21 +316,21 @@ int *ptr = malloc(sizeof(int) * 10);
 *ptr = 42;
 free(ptr);
 
-printf("%d\n", *ptr);  // ❌ Accès à mémoire libérée !
-ptr[5] = 100;          // ❌ Encore plus dangereux
+printf("%d\n", *ptr);  // ❌ Accès à mémoire libérée !  
+ptr[5] = 100;          // ❌ Encore plus dangereux  
 ```
 
 **Solution** :
 ```c
 // ✅ Bon : mise à NULL après free
-int *ptr = malloc(sizeof(int) * 10);
-if (ptr == NULL) {
+int *ptr = malloc(sizeof(int) * 10);  
+if (ptr == NULL) {  
     return;  // Gestion d'erreur
 }
 
 *ptr = 42;
-free(ptr);
-ptr = NULL;  // Évite les accès accidentels
+free(ptr);  
+ptr = NULL;  // Évite les accès accidentels  
 
 // Si on essaie d'accéder :
 if (ptr != NULL) {
@@ -465,7 +465,7 @@ Utilisez des outils qui détectent automatiquement les violations CERT C :
 sudo apt install cppcheck
 
 # Analyse avec règles CERT
-cppcheck --enable=all --cert=all --suppress=missingIncludeSystem mon_code.c
+cppcheck --enable=all --addon=cert --suppress=missingIncludeSystem mon_code.c
 ```
 
 ```bash
@@ -499,8 +499,8 @@ Testez votre code avec des entrées malveillantes :
 
 ```bash
 # Fuzzing avec AFL (American Fuzzy Lop)
-afl-gcc mon_programme.c -o mon_programme
-afl-fuzz -i entrees_test -o resultats ./mon_programme @@
+afl-gcc mon_programme.c -o mon_programme  
+afl-fuzz -i entrees_test -o resultats ./mon_programme @@  
 ```
 
 ---

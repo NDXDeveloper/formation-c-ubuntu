@@ -19,8 +19,8 @@ Ce chapitre vous enseignera comment écrire du code C **défensif** et **sécuri
 Contrairement à des langages modernes comme Python, Java ou Rust, le C **ne vérifie pas** automatiquement :
 
 ```c
-int tableau[10];
-tableau[100] = 42;  // ❌ Pas d'erreur au compile-time !
+int tableau[10];  
+tableau[100] = 42;  // ❌ Pas d'erreur au compile-time !  
                     // ❌ Pas d'erreur au runtime (comportement indéfini)
                     // ✅ En Rust : erreur de compilation
                     // ✅ En Python : exception IndexError
@@ -48,10 +48,10 @@ tableau[100] = 42;  // ❌ Pas d'erreur au compile-time !
 ### 3. Exemples historiques de vulnérabilités
 
 #### Heartbleed (2014)
-**Langage** : C
-**Type** : Buffer over-read dans OpenSSL
-**Impact** : 500 000+ serveurs compromis, millions de mots de passe exposés
-**Cause** : Validation insuffisante de la longueur d'un buffer
+**Langage** : C  
+**Type** : Buffer over-read dans OpenSSL  
+**Impact** : 500 000+ serveurs compromis, millions de mots de passe exposés  
+**Cause** : Validation insuffisante de la longueur d'un buffer  
 
 ```c
 // Code vulnérable (simplifié)
@@ -66,26 +66,26 @@ void traiter_heartbeat(char *payload, int longueur_declaree) {
 **Coût estimé** : > 500 millions de dollars
 
 #### WannaCry (2017)
-**Langage** : Exploite une faille dans du code C (Windows SMB)
-**Type** : Buffer overflow
-**Impact** : 230 000+ ordinateurs dans 150 pays, hôpitaux paralysés
-**Cause** : Buffer overflow non patché
+**Langage** : Exploite une faille dans du code C (Windows SMB)  
+**Type** : Buffer overflow  
+**Impact** : 230 000+ ordinateurs dans 150 pays, hôpitaux paralysés  
+**Cause** : Buffer overflow non patché  
 
 **Coût estimé** : > 4 milliards de dollars
 
 #### Shellshock (2014)
-**Langage** : C (Bash)
-**Type** : Command injection
-**Impact** : Millions de serveurs Linux/Unix vulnérables
-**Cause** : Parsing incorrect des variables d'environnement
+**Langage** : C (Bash)  
+**Type** : Command injection  
+**Impact** : Millions de serveurs Linux/Unix vulnérables  
+**Cause** : Parsing incorrect des variables d'environnement  
 
 **Coût estimé** : > 100 millions de dollars
 
 #### Stuxnet (2010)
-**Langage** : Exploite des failles C dans Windows
-**Type** : Multiple zero-days
-**Impact** : Sabotage de centrifugeuses nucléaires iraniennes
-**Sophistication** : Considéré comme l'attaque cyber la plus avancée de l'histoire
+**Langage** : Exploite des failles C dans Windows  
+**Type** : Multiple zero-days  
+**Impact** : Sabotage de centrifugeuses nucléaires iraniennes  
+**Sophistication** : Considéré comme l'attaque cyber la plus avancée de l'histoire  
 
 ---
 
@@ -104,26 +104,26 @@ Le **code défensif** est une approche de programmation où vous :
 
 **Code non défensif** (conduite agressive) :
 ```
-Rouler sans ceinture
-Ne pas vérifier les angles morts
-Ignorer les feux
-Conduire en état d'ivresse
+Rouler sans ceinture  
+Ne pas vérifier les angles morts  
+Ignorer les feux  
+Conduire en état d'ivresse  
 → Accident presque garanti
 ```
 
 **Code défensif** (conduite défensive) :
 ```
-Boucler sa ceinture
-Vérifier les rétroviseurs
-Respecter le code de la route
-Anticiper les erreurs des autres conducteurs
+Boucler sa ceinture  
+Vérifier les rétroviseurs  
+Respecter le code de la route  
+Anticiper les erreurs des autres conducteurs  
 → Probabilité d'accident minimisée
 ```
 
 De même en programmation :
 ```
-Code non défensif : Supposer que tout va bien
-Code défensif : Vérifier que tout va bien
+Code non défensif : Supposer que tout va bien  
+Code défensif : Vérifier que tout va bien  
 ```
 
 ### Les 5 piliers du code défensif
@@ -166,19 +166,19 @@ void traiter_age(char *input) {
 
 ```c
 // ❌ Code non défensif
-FILE *f = fopen("config.txt", "r");
-char buffer[256];
-fgets(buffer, sizeof(buffer), f);  // Crash si f == NULL !
+FILE *f = fopen("config.txt", "r");  
+char buffer[256];  
+fgets(buffer, sizeof(buffer), f);  // Crash si f == NULL !  
 
 // ✅ Code défensif
-FILE *f = fopen("config.txt", "r");
-if (f == NULL) {
+FILE *f = fopen("config.txt", "r");  
+if (f == NULL) {  
     perror("Impossible d'ouvrir config.txt");
     return -1;
 }
 
-char buffer[256];
-if (fgets(buffer, sizeof(buffer), f) == NULL) {
+char buffer[256];  
+if (fgets(buffer, sizeof(buffer), f) == NULL) {  
     fprintf(stderr, "Erreur de lecture\n");
     fclose(f);
     return -1;
@@ -193,14 +193,14 @@ fclose(f);
 // ❌ Variables globales accessibles partout
 int compteur_global = 0;
 
-void fonction1(void) { compteur_global++; }
-void fonction2(void) { compteur_global = 0; }  // Modification accidentelle
+void fonction1(void) { compteur_global++; }  
+void fonction2(void) { compteur_global = 0; }  // Modification accidentelle  
 
 // ✅ Portée limitée
 static int compteur = 0;  // Visible uniquement dans ce fichier
 
-int obtenir_compteur(void) { return compteur; }
-void incrementer_compteur(void) { compteur++; }
+int obtenir_compteur(void) { return compteur; }  
+void incrementer_compteur(void) { compteur++; }  
 ```
 
 #### 4. Fail securely (échouer de manière sécurisée)
@@ -247,8 +247,8 @@ Couche 5 : Monitoring et alertes
 
 #### Buffer Overflow
 ```c
-char buffer[10];
-strcpy(buffer, "Une chaîne beaucoup trop longue");  // ❌ Débordement
+char buffer[10];  
+strcpy(buffer, "Une chaîne beaucoup trop longue");  // ❌ Débordement  
 ```
 
 **Conséquences** :
@@ -258,8 +258,8 @@ strcpy(buffer, "Une chaîne beaucoup trop longue");  // ❌ Débordement
 
 #### Use-After-Free
 ```c
-int *ptr = malloc(sizeof(int));
-free(ptr);
+int *ptr = malloc(sizeof(int));  
+free(ptr);  
 *ptr = 42;  // ❌ Accès à mémoire libérée
 ```
 
@@ -270,9 +270,9 @@ free(ptr);
 
 #### Double Free
 ```c
-int *ptr = malloc(sizeof(int));
-free(ptr);
-free(ptr);  // ❌ Double libération
+int *ptr = malloc(sizeof(int));  
+free(ptr);  
+free(ptr);  // ❌ Double libération  
 ```
 
 **Conséquences** :
@@ -294,9 +294,9 @@ bffff760 8048480 bffff758 80484a0  # Fuite de mémoire !
 
 #### Command Injection
 ```c
-char cmd[256];
-sprintf(cmd, "cat %s", filename);
-system(cmd);  // ❌ Si filename = "file.txt; rm -rf /"
+char cmd[256];  
+sprintf(cmd, "cat %s", filename);  
+system(cmd);  // ❌ Si filename = "file.txt; rm -rf /"  
 ```
 
 **Conséquences** : Exécution de commandes arbitraires
@@ -305,8 +305,8 @@ system(cmd);  // ❌ Si filename = "file.txt; rm -rf /"
 
 #### Integer Overflow
 ```c
-size_t taille = nb_elements * sizeof(int);  // Peut overflow !
-void *buffer = malloc(taille);  // Alloue trop peu de mémoire
+size_t taille = nb_elements * sizeof(int);  // Peut overflow !  
+void *buffer = malloc(taille);  // Alloue trop peu de mémoire  
 ```
 
 **Conséquences** :
@@ -315,8 +315,8 @@ void *buffer = malloc(taille);  // Alloue trop peu de mémoire
 
 #### Integer Underflow
 ```c
-unsigned int compteur = 0;
-compteur--;  // Devient UINT_MAX (4 294 967 295)
+unsigned int compteur = 0;  
+compteur--;  // Devient UINT_MAX (4 294 967 295)  
 ```
 
 ### 4. Vulnérabilités de logique
@@ -506,12 +506,12 @@ Au fur et à mesure, construisez votre propre checklist de sécurité :
 Gardez un **journal de vos bugs** :
 
 ```
-Date : 2025-01-15
-Bug : Buffer overflow dans parse_config()
-Cause : Utilisation de strcpy() sans vérification
-Impact : Crash du programme
-Leçon : Toujours utiliser strncpy() avec terminaison null
-Fix : Remplacé par validation + strncpy()
+Date : 2025-01-15  
+Bug : Buffer overflow dans parse_config()  
+Cause : Utilisation de strcpy() sans vérification  
+Impact : Crash du programme  
+Leçon : Toujours utiliser strncpy() avec terminaison null  
+Fix : Remplacé par validation + strncpy()  
 ```
 
 ---
@@ -615,17 +615,17 @@ Tout au long de ce chapitre, nous utiliserons ces symboles :
 
 ```c
 // ❌ Code vulnérable ou incorrect
-char buffer[10];
-strcpy(buffer, user_input);
+char buffer[10];  
+strcpy(buffer, user_input);  
 
 // ✅ Code sécurisé et correct
-char buffer[10];
-strncpy(buffer, user_input, sizeof(buffer) - 1);
-buffer[sizeof(buffer) - 1] = '\0';
+char buffer[10];  
+strncpy(buffer, user_input, sizeof(buffer) - 1);  
+buffer[sizeof(buffer) - 1] = '\0';  
 
 // ⚠️ Code ambigu ou partiellement sécurisé
-char buffer[10];
-strncpy(buffer, user_input, 10);  // Oubli de la terminaison null
+char buffer[10];  
+strncpy(buffer, user_input, 10);  // Oubli de la terminaison null  
 
 // 💡 Conseil ou astuce
 // Conseil : Toujours initialiser vos variables

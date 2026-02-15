@@ -147,8 +147,8 @@ En C, **tout est manuel** :
 
 ```c
 // C : Gestion manuelle à chaque étape
-FILE *f = fopen("data.txt", "r");
-if (f == NULL) {
+FILE *f = fopen("data.txt", "r");  
+if (f == NULL) {  
     fprintf(stderr, "Fichier introuvable\n");
     return -1;
 }
@@ -163,8 +163,8 @@ fclose(f);  // Ne pas oublier !
 Le compilateur C ne vous force **pas** à vérifier les codes de retour :
 
 ```c
-malloc(1024);         // Compilateur : OK ! (mais très dangereux)
-fopen("file.txt", "r");  // Compilateur : OK ! (mais peut crasher)
+malloc(1024);         // Compilateur : OK ! (mais très dangereux)  
+fopen("file.txt", "r");  // Compilateur : OK ! (mais peut crasher)  
 ```
 
 **C'est votre responsabilité de penser à TOUS les cas d'erreur.**
@@ -250,12 +250,12 @@ cleanup:
 
 ```c
 // ❌ DANGEREUX
-char *ptr = malloc(1024);
-ptr[0] = 'A';  // Et si malloc a échoué ?
+char *ptr = malloc(1024);  
+ptr[0] = 'A';  // Et si malloc a échoué ?  
 
 // ✅ SÛR
-char *ptr = malloc(1024);
-if (ptr == NULL) {
+char *ptr = malloc(1024);  
+if (ptr == NULL) {  
     fprintf(stderr, "Erreur : allocation échouée\n");
     return -1;
 }

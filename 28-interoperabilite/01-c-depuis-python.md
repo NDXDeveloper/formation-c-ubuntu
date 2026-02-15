@@ -78,12 +78,12 @@ import ctypes
 lib = ctypes.CDLL('./libaddition.so')
 
 # Spécifier les types des arguments et du retour (optionnel mais recommandé)
-lib.addition.argtypes = [ctypes.c_int, ctypes.c_int]
-lib.addition.restype = ctypes.c_int
+lib.addition.argtypes = [ctypes.c_int, ctypes.c_int]  
+lib.addition.restype = ctypes.c_int  
 
 # Appeler la fonction
-resultat = lib.addition(5, 7)
-print(f"5 + 7 = {resultat}")  # Affiche : 5 + 7 = 12
+resultat = lib.addition(5, 7)  
+print(f"5 + 7 = {resultat}")  # Affiche : 5 + 7 = 12  
 ```
 
 **Explication étape par étape :**
@@ -143,8 +143,8 @@ nombres = [10, 20, 30, 40, 50]
 tableau_c = (ctypes.c_int * len(nombres))(*nombres)
 
 # Appeler la fonction
-resultat = lib.somme_tableau(tableau_c, len(nombres))
-print(f"Somme : {resultat}")  # Affiche : Somme : 150
+resultat = lib.somme_tableau(tableau_c, len(nombres))  
+print(f"Somme : {resultat}")  # Affiche : Somme : 150  
 ```
 
 **Points clés :**
@@ -189,22 +189,22 @@ import ctypes
 lib = ctypes.CDLL('./libstrings.so')
 
 # Configuration pour longueur_chaine
-lib.longueur_chaine.argtypes = [ctypes.c_char_p]
-lib.longueur_chaine.restype = ctypes.c_int
+lib.longueur_chaine.argtypes = [ctypes.c_char_p]  
+lib.longueur_chaine.restype = ctypes.c_int  
 
 # Configuration pour mettre_en_majuscules
-lib.mettre_en_majuscules.argtypes = [ctypes.c_char_p]
-lib.mettre_en_majuscules.restype = None  # void en C
+lib.mettre_en_majuscules.argtypes = [ctypes.c_char_p]  
+lib.mettre_en_majuscules.restype = None  # void en C  
 
 # Exemple 1 : Calculer la longueur
-texte = b"Bonjour Python"  # Notez le 'b' pour bytes
-longueur = lib.longueur_chaine(texte)
-print(f"Longueur : {longueur}")  # Affiche : Longueur : 14
+texte = b"Bonjour Python"  # Notez le 'b' pour bytes  
+longueur = lib.longueur_chaine(texte)  
+print(f"Longueur : {longueur}")  # Affiche : Longueur : 14  
 
 # Exemple 2 : Modifier une chaîne (attention : doit être mutable)
-texte_mutable = ctypes.create_string_buffer(b"hello world")
-lib.mettre_en_majuscules(texte_mutable)
-print(f"Majuscules : {texte_mutable.value.decode()}")  # HELLO WORLD
+texte_mutable = ctypes.create_string_buffer(b"hello world")  
+lib.mettre_en_majuscules(texte_mutable)  
+print(f"Majuscules : {texte_mutable.value.decode()}")  # HELLO WORLD  
 ```
 
 **Points d'attention :**
@@ -268,8 +268,8 @@ ffi.cdef("""
 lib = ffi.dlopen('./libaddition.so')
 
 # Appeler la fonction (syntaxe plus naturelle !)
-resultat = lib.addition(5, 7)
-print(f"5 + 7 = {resultat}")
+resultat = lib.addition(5, 7)  
+print(f"5 + 7 = {resultat}")  
 ```
 
 **Comparaison avec ctypes :**
@@ -315,8 +315,8 @@ ffi.compile(verbose=True)
 # Utiliser le module compilé
 from _math_operations import lib
 
-print(f"3 * 4 = {lib.multiplication(3, 4)}")
-print(f"2.5^3 = {lib.puissance(2.5, 3)}")
+print(f"3 * 4 = {lib.multiplication(3, 4)}")  
+print(f"2.5^3 = {lib.puissance(2.5, 3)}")  
 ```
 
 **Workflow :**
@@ -375,16 +375,16 @@ ffi.compile(verbose=True)
 from _personne import ffi, lib
 
 # Créer une structure depuis Python
-personne = ffi.new("Personne *")
-personne.nom = b"Alice Dupont"
-personne.age = 30
-personne.salaire = 45000.0
+personne = ffi.new("Personne *")  
+personne.nom = b"Alice Dupont"  
+personne.age = 30  
+personne.salaire = 45000.0  
 
 # Appeler les fonctions C
-lib.afficher_personne(personne)
-nouveau_salaire = lib.augmenter_salaire(personne, 10.0)
-print(f"Nouveau salaire après augmentation : {nouveau_salaire:.2f}€")
-lib.afficher_personne(personne)
+lib.afficher_personne(personne)  
+nouveau_salaire = lib.augmenter_salaire(personne, 10.0)  
+print(f"Nouveau salaire après augmentation : {nouveau_salaire:.2f}€")  
+lib.afficher_personne(personne)  
 ```
 
 **Points clés :**
@@ -417,6 +417,7 @@ L'API C de Python permet de créer des modules d'extension natifs. C'est la mét
 
 // Fonction C qui sera exposée à Python
 static PyObject* addition_py(PyObject* self, PyObject* args) {
+    (void)self;
     int a, b;
 
     // Parser les arguments Python
@@ -443,7 +444,8 @@ static struct PyModuleDef moduleexemple = {
     "module_exemple",      // Nom du module
     "Module d'exemple",    // Documentation
     -1,
-    ModuleMethods
+    ModuleMethods,
+    NULL, NULL, NULL, NULL
 };
 
 // Fonction d'initialisation
@@ -474,16 +476,16 @@ setup(
 
 **Installation :**
 ```bash
-python setup.py build
-python setup.py install --user
+python setup.py build  
+python setup.py install --user  
 ```
 
 **Utilisation :**
 ```python
 import module_exemple
 
-resultat = module_exemple.addition(10, 20)
-print(f"10 + 20 = {resultat}")
+resultat = module_exemple.addition(10, 20)  
+print(f"10 + 20 = {resultat}")  
 ```
 
 ### Anatomie d'une fonction d'extension
@@ -615,9 +617,9 @@ Toujours spécifier explicitement les types avec ctypes :
 lib.ma_fonction(valeur)
 
 # ✅ Sûr
-lib.ma_fonction.argtypes = [ctypes.c_int]
-lib.ma_fonction.restype = ctypes.c_int
-lib.ma_fonction(valeur)
+lib.ma_fonction.argtypes = [ctypes.c_int]  
+lib.ma_fonction.restype = ctypes.c_int  
+lib.ma_fonction(valeur)  
 ```
 
 ### 3. Gestion des erreurs
@@ -636,8 +638,8 @@ int operation_risquee(int valeur) {
 
 ```python
 # En Python
-resultat = lib.operation_risquee(-5)
-if resultat == -1:
+resultat = lib.operation_risquee(-5)  
+if resultat == -1:  
     print("Erreur : valeur négative non supportée")
 ```
 
@@ -715,8 +717,8 @@ lib.ma_fonction("Bonjour".encode('utf-8'))
 def obtenir_buffer():
     return ctypes.create_string_buffer(b"temporaire")
 
-buffer = obtenir_buffer()
-lib.utiliser_buffer(buffer)  # Peut crasher !
+buffer = obtenir_buffer()  
+lib.utiliser_buffer(buffer)  # Peut crasher !  
 ```
 
 **Solution :**
@@ -735,15 +737,15 @@ class GestionnaireChaineC:
 **Problème :**
 ```python
 # ❌ Tenter de modifier une chaîne littérale
-texte = b"constante"
-lib.modifier_chaine(texte)  # Peut crasher sur certains systèmes !
+texte = b"constante"  
+lib.modifier_chaine(texte)  # Peut crasher sur certains systèmes !  
 ```
 
 **Solution :**
 ```python
 # ✅ Utiliser un buffer mutable
-texte = ctypes.create_string_buffer(b"modifiable")
-lib.modifier_chaine(texte)
+texte = ctypes.create_string_buffer(b"modifiable")  
+lib.modifier_chaine(texte)  
 ```
 
 ### Piège 4 : Oubli du GIL (Global Interpreter Lock)
@@ -810,11 +812,11 @@ gcc -shared -O3 -o libimageops.so -fPIC image_ops.c
 
 **Utilisation avec ctypes :**
 ```python
-import ctypes
-import numpy as np
+import ctypes  
+import numpy as np  
 
-lib = ctypes.CDLL('./libimageops.so')
-lib.inverser_couleurs_c.argtypes = [
+lib = ctypes.CDLL('./libimageops.so')  
+lib.inverser_couleurs_c.argtypes = [  
     ctypes.POINTER(ctypes.c_ubyte),
     ctypes.c_size_t
 ]

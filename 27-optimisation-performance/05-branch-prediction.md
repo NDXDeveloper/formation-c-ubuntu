@@ -55,11 +55,11 @@ Un processeur moderne exécute les instructions en plusieurs étapes (pipeline) 
 **Exemple (sans branchement) :**
 
 ```
-Cycle 1:  [Instr1 Fetch]
-Cycle 2:  [Instr1 Decode] [Instr2 Fetch]
-Cycle 3:  [Instr1 Exec]   [Instr2 Decode] [Instr3 Fetch]
-Cycle 4:  [Instr1 Mem]    [Instr2 Exec]   [Instr3 Decode] [Instr4 Fetch]
-Cycle 5:  [Instr1 WB]     [Instr2 Mem]    [Instr3 Exec]   [Instr4 Decode] [Instr5 Fetch]
+Cycle 1:  [Instr1 Fetch]  
+Cycle 2:  [Instr1 Decode] [Instr2 Fetch]  
+Cycle 3:  [Instr1 Exec]   [Instr2 Decode] [Instr3 Fetch]  
+Cycle 4:  [Instr1 Mem]    [Instr2 Exec]   [Instr3 Decode] [Instr4 Fetch]  
+Cycle 5:  [Instr1 WB]     [Instr2 Mem]    [Instr3 Exec]   [Instr4 Decode] [Instr5 Fetch]  
 ```
 
 **Débit :** 1 instruction complétée par cycle (après le remplissage du pipeline).
@@ -77,17 +77,17 @@ if (condition) {  // ← Branchement
 **Si prédiction fausse :**
 
 ```
-Cycle 1:  [IF Fetch]
-Cycle 2:  [IF Decode]
-Cycle 3:  [IF Exec] → Prédiction : condition vraie, on précharge A
-Cycle 4:  [A Fetch]
-Cycle 5:  [A Decode]
-Cycle 6:  [A Exec] → On découvre que la condition est FAUSSE !
-Cycle 7:  [FLUSH] ← Annuler A
-Cycle 8:  [FLUSH]
-Cycle 9:  [B Fetch] → Recommencer avec B
-Cycle 10: [B Decode]
-Cycle 11: [B Exec]
+Cycle 1:  [IF Fetch]  
+Cycle 2:  [IF Decode]  
+Cycle 3:  [IF Exec] → Prédiction : condition vraie, on précharge A  
+Cycle 4:  [A Fetch]  
+Cycle 5:  [A Decode]  
+Cycle 6:  [A Exec] → On découvre que la condition est FAUSSE !  
+Cycle 7:  [FLUSH] ← Annuler A  
+Cycle 8:  [FLUSH]  
+Cycle 9:  [B Fetch] → Recommencer avec B  
+Cycle 10: [B Decode]  
+Cycle 11: [B Exec]  
 ```
 
 **Pénalité :** ~10-20 cycles perdus à cause du misprediction !
@@ -126,8 +126,8 @@ Les processeurs modernes utilisent des **prédicteurs adaptatifs** qui apprennen
 Mémorise le **dernier résultat** de chaque branchement :
 
 ```
-Branchement pris     → Prochaine fois : prédit PRIS
-Branchement non pris → Prochaine fois : prédit NON PRIS
+Branchement pris     → Prochaine fois : prédit PRIS  
+Branchement non pris → Prochaine fois : prédit NON PRIS  
 ```
 
 **Problème :** Mauvais pour les patterns alternés (vrai, faux, vrai, faux...).
@@ -255,8 +255,8 @@ cg_annotate cachegrind.out.<pid>
 **Exemple de sortie :**
 
 ```
-Branches:        123,456,789  (  100.0% of all Branches)
-Mispredicts:       6,789,012  (    5.5% of all Branches)
+Branches:        123,456,789  (  100.0% of all Branches)  
+Mispredicts:       6,789,012  (    5.5% of all Branches)  
 ```
 
 ---
@@ -274,6 +274,10 @@ Mispredicts:       6,789,012  (    5.5% of all Branches)
 #include <time.h>
 
 #define TAILLE 10000000
+
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
 
 int main() {
     int *tableau = malloc(TAILLE * sizeof(int));
@@ -328,10 +332,6 @@ int main() {
 
     free(tableau);
     return 0;
-}
-
-int compare(const void *a, const void *b) {
-    return (*(int*)a - *(int*)b);
 }
 ```
 
@@ -405,8 +405,8 @@ int max_branchfree(int a, int b) {
 **Vérification :**
 
 ```bash
-gcc -O2 -S test_max.c -o test_max.s
-cat test_max.s
+gcc -O2 -S test_max.c -o test_max.s  
+cat test_max.s  
 ```
 
 Vous devriez voir une instruction `cmovg` ou `cmovl` (conditional move) au lieu d'un `jmp` (jump).
@@ -658,8 +658,8 @@ int main() {
 qsort(input, TAILLE, sizeof(int), compare);
 
 // Filtrer (maintenant prévisible)
-int count = 0;
-for (int i = 0; i < TAILLE; i++) {
+int count = 0;  
+for (int i = 0; i < TAILLE; i++) {  
     if (input[i] > 128) {
         output[count++] = input[i];
     }
@@ -671,8 +671,8 @@ for (int i = 0; i < TAILLE; i++) {
 ### Solution 2 : Branch-free avec masque
 
 ```c
-int count = 0;
-for (int i = 0; i < TAILLE; i++) {
+int count = 0;  
+for (int i = 0; i < TAILLE; i++) {  
     int condition = input[i] > 128;  // 0 ou 1
     output[count] = input[i];
     count += condition;  // Incrémente seulement si condition vraie
@@ -826,15 +826,15 @@ GCC peut remplacer des `if` simples par des instructions conditionnelles :
 int max = (a > b) ? a : b;
 
 // Assembleur généré (x86 avec -O2)
-cmp    eax, edx
-cmovl  eax, edx    // Conditional move, pas de branch !
+cmp    eax, edx  
+cmovl  eax, edx    // Conditional move, pas de branch !  
 ```
 
 **Vérifier :**
 
 ```bash
-gcc -O2 -S test.c -o test.s
-grep "cmov\|jmp" test.s
+gcc -O2 -S test.c -o test.s  
+grep "cmov\|jmp" test.s  
 ```
 
 Si vous voyez des `cmov` au lieu de `jmp`, c'est bon signe !
@@ -917,8 +917,8 @@ perf stat -e branches,branch-misses ./programme
 perf stat -e branches,branch-misses,branch-instructions,branch-misses ./programme
 
 # Profiler par fonction
-perf record -e branch-misses ./programme
-perf report
+perf record -e branch-misses ./programme  
+perf report  
 
 # Avec Valgrind
 valgrind --tool=cachegrind --branch-sim=yes ./programme
@@ -928,12 +928,12 @@ valgrind --tool=cachegrind --branch-sim=yes ./programme
 
 ```bash
 # Voir les instructions de branchement
-gcc -O2 -S test.c -o test.s
-grep -E "jmp|je|jne|jg|jl|cmov" test.s
+gcc -O2 -S test.c -o test.s  
+grep -E "jmp|je|jne|jg|jl|cmov" test.s  
 
 # Avec objdump
-gcc -O2 test.c -o test
-objdump -d test | grep -E "jmp|je|jne|jg|jl|cmov"
+gcc -O2 test.c -o test  
+objdump -d test | grep -E "jmp|je|jne|jg|jl|cmov"  
 ```
 
 ---

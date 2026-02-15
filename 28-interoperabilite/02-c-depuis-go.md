@@ -130,8 +130,8 @@ int multiplication(int a, int b) {
     return a * b;
 }
 */
-import "C"
-import "fmt"
+import "C"  
+import "fmt"  
 
 func main() {
     // Appeler les fonctions C
@@ -161,6 +161,7 @@ func main() {
 package main
 
 /*
+#cgo LDFLAGS: -lm
 #include <math.h>
 
 double puissance(double base, int exposant) {
@@ -171,7 +172,7 @@ float moyenne(float a, float b) {
     return (a + b) / 2.0f;
 }
 */
-import "C"
+import "C"  
 import "fmt"
 
 func main() {
@@ -224,8 +225,8 @@ int32_t traiter_entier(int32_t valeur) {
     return valeur * 2;
 }
 */
-import "C"
-import "fmt"
+import "C"  
+import "fmt"  
 
 func main() {
     // Variable Go
@@ -266,7 +267,8 @@ void afficher_chaine(const char *chaine) {
     printf("Longueur : %zu\n", strlen(chaine));
 }
 */
-import "C"
+import "C"  
+import "unsafe"
 
 func main() {
     // String Go
@@ -318,8 +320,8 @@ const char* obtenir_message_const() {
     return "Message constant depuis C";
 }
 */
-import "C"
-import (
+import "C"  
+import (  
     "fmt"
     "unsafe"
 )
@@ -376,8 +378,8 @@ void doubler_valeurs(int *tableau, size_t taille) {
     }
 }
 */
-import "C"
-import (
+import "C"  
+import (  
     "fmt"
     "unsafe"
 )
@@ -402,8 +404,8 @@ func main() {
 
 **Sortie :**
 ```
-Somme : 150
-Après doublement : [20 40 60 80 100]
+Somme : 150  
+Après doublement : [20 40 60 80 100]  
 ```
 
 **Explication :**
@@ -433,8 +435,8 @@ int* creer_tableau(int taille) {
     return tableau;
 }
 */
-import "C"
-import (
+import "C"  
+import (  
     "fmt"
     "unsafe"
 )
@@ -481,6 +483,8 @@ func main() {
 package main
 
 /*
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 typedef struct {
@@ -504,8 +508,8 @@ void augmenter_salaire(Personne *p, double pourcentage) {
     p->salaire *= (1.0 + pourcentage / 100.0);
 }
 */
-import "C"
-import (
+import "C"  
+import (  
     "fmt"
     "unsafe"
 )
@@ -533,20 +537,20 @@ func main() {
 
 **Sortie :**
 ```
-Nom: Alice Dupont, Age: 30, Salaire: 45000.00€
-Nouveau salaire (lu depuis Go) : 49500.00€
+Nom: Alice Dupont, Age: 30, Salaire: 45000.00€  
+Nouveau salaire (lu depuis Go) : 49500.00€  
 ```
 
 **Accès aux champs :**
 
 ```go
 // Lecture
-age := personne.age
-salaire := float64(personne.salaire)
+age := personne.age  
+salaire := float64(personne.salaire)  
 
 // Écriture
-personne.age = 31
-personne.salaire = C.double(50000.0)
+personne.age = 31  
+personne.salaire = C.double(50000.0)  
 
 // Chaînes fixes : tableau de caractères
 // Accès avec C.GoString
@@ -581,8 +585,8 @@ void liberer_element(Element *e) {
     }
 }
 */
-import "C"
-import (
+import "C"  
+import (  
     "fmt"
     "unsafe"
 )
@@ -621,8 +625,8 @@ Jusqu'ici nous avons écrit du C inline. Utilisons maintenant une vraie biblioth
 #ifndef MATHLIB_H
 #define MATHLIB_H
 
-int factorielle(int n);
-double racine_cubique(double x);
+int factorielle(int n);  
+double racine_cubique(double x);  
 
 #endif
 ```
@@ -645,8 +649,8 @@ double racine_cubique(double x) {
 **Compilation :**
 ```bash
 # Créer une bibliothèque statique
-gcc -c mathlib.c -o mathlib.o
-ar rcs libmathlib.a mathlib.o
+gcc -c mathlib.c -o mathlib.o  
+ar rcs libmathlib.a mathlib.o  
 
 # Ou une bibliothèque dynamique
 gcc -shared -o libmathlib.so -fPIC mathlib.c -lm
@@ -664,8 +668,8 @@ package main
 
 #include "mathlib.h"
 */
-import "C"
-import "fmt"
+import "C"  
+import "fmt"  
 
 func main() {
     // Utiliser la bibliothèque
@@ -759,8 +763,8 @@ void tri_avec_comparateur(int *tableau, int taille, comparateur_t cmp) {
     }
 }
 */
-import "C"
-import (
+import "C"  
+import (  
     "fmt"
     "unsafe"
 )
@@ -827,6 +831,7 @@ package main
 
 /*
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 #include <string.h>
 
@@ -838,10 +843,9 @@ int ouvrir_fichier_simulation(const char *nom) {
     return 0;  // Succès
 }
 */
-import "C"
+import "C"  
 import (
     "fmt"
-    "syscall"
     "unsafe"
 )
 
@@ -849,12 +853,11 @@ func ouvrirFichier(nom string) error {
     cNom := C.CString(nom)
     defer C.free(unsafe.Pointer(cNom))
 
-    resultat := C.ouvrir_fichier_simulation(cNom)
+    resultat, err := C.ouvrir_fichier_simulation(cNom)
 
     if resultat == -1 {
-        // Récupérer errno
-        errno := syscall.Errno(C.errno)
-        return fmt.Errorf("erreur lors de l'ouverture : %v", errno)
+        // Récupérer errno via le retour à deux valeurs de cgo
+        return fmt.Errorf("erreur lors de l'ouverture : %v", err)
     }
 
     return nil
@@ -948,11 +951,11 @@ GOOS=linux GOARCH=amd64 go build    # ❌ Échec sans cross-compiler C
 sudo apt-get install gcc-arm-linux-gnueabihf
 
 # Compiler pour ARM
-CGO_ENABLED=1 \
-GOOS=linux \
-GOARCH=arm \
-CC=arm-linux-gnueabihf-gcc \
-go build
+CGO_ENABLED=1 \  
+GOOS=linux \  
+GOARCH=arm \  
+CC=arm-linux-gnueabihf-gcc \  
+go build  
 ```
 
 ### Build tags pour gérer cgo
@@ -1032,8 +1035,8 @@ func BenchmarkAdditionC(b *testing.B) {
 
 **Résultats typiques :**
 ```
-BenchmarkAdditionGo-8    1000000000    0.3 ns/op
-BenchmarkAdditionC-8      30000000     40 ns/op
+BenchmarkAdditionGo-8    1000000000    0.3 ns/op  
+BenchmarkAdditionC-8      30000000     40 ns/op  
 ```
 
 **Conclusion :** L'appel cgo est ~100x plus lent qu'un appel Go natif !
@@ -1166,8 +1169,8 @@ CGO_ENABLED=0 go test
 
 ```bash
 # Avec Valgrind
-go test -c
-valgrind --leak-check=full ./package.test
+go test -c  
+valgrind --leak-check=full ./package.test  
 
 # Avec Address Sanitizer
 CGO_CFLAGS="-fsanitize=address" go test
@@ -1178,8 +1181,8 @@ CGO_CFLAGS="-fsanitize=address" go test
 **Utilisez des modules Go :**
 
 ```bash
-go mod init monprojet
-go mod tidy
+go mod init monprojet  
+go mod tidy  
 ```
 
 **Vendoring des dépendances C :**
@@ -1352,8 +1355,8 @@ package main
 #include <sqlite3.h>
 #include <stdlib.h>
 */
-import "C"
-import (
+import "C"  
+import (  
     "fmt"
     "unsafe"
 )

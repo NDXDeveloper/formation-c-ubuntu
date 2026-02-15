@@ -135,14 +135,14 @@ int main() {
 ### Sans PGO
 
 ```bash
-gcc -O2 branch_test.c -o branch_test_O2
-time ./branch_test_O2
+gcc -O2 branch_test.c -o branch_test_O2  
+time ./branch_test_O2  
 ```
 
 **Résultat typique :**
 ```
-Résultat: 48510000000
-real    0m0.035s
+Résultat: 48510000000  
+real    0m0.035s  
 ```
 
 Le compilateur ne sait pas quelle branche est la plus fréquente, donc il fait une supposition générique.
@@ -166,8 +166,8 @@ time ./branch_test_pgo
 
 **Résultat typique :**
 ```
-Résultat: 48510000000
-real    0m0.028s  ← 20% plus rapide !
+Résultat: 48510000000  
+real    0m0.028s  ← 20% plus rapide !  
 ```
 
 **Explication :** Le compilateur sait maintenant que `i < 9900000` est vrai 99% du temps, donc il :
@@ -179,9 +179,9 @@ real    0m0.028s  ← 20% plus rapide !
 
 ```bash
 # Comparer l'assembleur
-gcc -O2 -S branch_test.c -o branch_test_O2.s
-gcc -O2 -fprofile-use -S branch_test.c -o branch_test_pgo.s
-diff branch_test_O2.s branch_test_pgo.s
+gcc -O2 -S branch_test.c -o branch_test_O2.s  
+gcc -O2 -fprofile-use -S branch_test.c -o branch_test_pgo.s  
+diff branch_test_O2.s branch_test_pgo.s  
 ```
 
 Vous verrez que l'organisation du code est différente, avec le chemin chaud optimisé.
@@ -363,7 +363,7 @@ int compare(const void *a, const void *b) {
     return (*(int*)a - *(int*)b);
 }
 
-int main(int argc, char *argv[]) {
+int main(void) {
     int *data = malloc(SIZE * sizeof(int));
 
     // Générer des données selon un pattern réel
@@ -571,8 +571,8 @@ time ./programme_pgo < test.txt
 
 ```bash
 # Compter les branch mispredictions
-perf stat -e branch-misses ./programme_O2
-perf stat -e branch-misses ./programme_pgo
+perf stat -e branch-misses ./programme_O2  
+perf stat -e branch-misses ./programme_pgo  
 ```
 
 **Résultat attendu :** Moins de branch misses avec PGO.
@@ -581,9 +581,9 @@ perf stat -e branch-misses ./programme_pgo
 
 ```bash
 # Voir l'ordre des fonctions dans le binaire
-nm -n programme_O2 > ordre_O2.txt
-nm -n programme_pgo > ordre_pgo.txt
-diff ordre_O2.txt ordre_pgo.txt
+nm -n programme_O2 > ordre_O2.txt  
+nm -n programme_pgo > ordre_pgo.txt  
+diff ordre_O2.txt ordre_pgo.txt  
 ```
 
 Avec PGO, les fonctions chaudes sont regroupées ensemble.
@@ -717,12 +717,11 @@ pgo:
 ## Exemple avec CMake
 
 ```cmake
-cmake_minimum_required(VERSION 3.13)
-project(MonProjet C)
+cmake_minimum_required(VERSION 3.13)  
+project(MonProjet C)  
 
 # Options
-option(ENABLE_PGO "Enable Profile-Guided Optimization" OFF)
-option(PGO_GENERATE "Generate PGO profile" OFF)
+option(PGO_GENERATE "Generate PGO profile" OFF)  
 option(PGO_USE "Use PGO profile" OFF)
 
 add_executable(programme main.c utils.c)
@@ -746,13 +745,13 @@ target_compile_options(programme PRIVATE -O3)
 
 ```bash
 # Étape 1 : Build instrumenté
-cmake -DPGO_GENERATE=ON ..
-make
+cmake -DPGO_GENERATE=ON ..  
+make  
 ./programme < donnees.txt
 
 # Étape 2 : Build optimisé
-cmake -DPGO_USE=ON ..
-make
+cmake -DPGO_USE=ON ..  
+make  
 ```
 
 ---
@@ -771,9 +770,9 @@ make
 
 ```bash
 # Télécharger les sources
-wget https://www.python.org/ftp/python/3.11.0/Python-3.11.0.tgz
-tar xzf Python-3.11.0.tgz
-cd Python-3.11.0
+wget https://www.python.org/ftp/python/3.11.0/Python-3.11.0.tgz  
+tar xzf Python-3.11.0.tgz  
+cd Python-3.11.0  
 
 # Configure avec PGO
 ./configure --enable-optimizations
@@ -783,8 +782,8 @@ cd Python-3.11.0
 # 2. Exécute la suite de tests (profiling)
 # 3. Recompile avec le profil
 
-make -j$(nproc)
-sudo make install
+make -j$(nproc)  
+sudo make install  
 
 # Résultat : Python 10-20% plus rapide
 ```

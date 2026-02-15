@@ -36,8 +36,8 @@ Une entrée est toute donnée qui vient de l'extérieur de votre programme. Voic
 ### 1. **Entrées utilisateur directes**
 ```c
 // Via stdin
-char nom[50];
-scanf("%s", nom);  // ⚠️ Entrée utilisateur
+char nom[50];  
+scanf("%s", nom);  // ⚠️ Entrée utilisateur  
 
 // Via arguments de ligne de commande
 int main(int argc, char *argv[]) {
@@ -47,15 +47,15 @@ int main(int argc, char *argv[]) {
 
 ### 2. **Fichiers**
 ```c
-FILE *fichier = fopen("config.txt", "r");
-char ligne[256];
-fgets(ligne, sizeof(ligne), fichier);  // ⚠️ Contenu du fichier
+FILE *fichier = fopen("config.txt", "r");  
+char ligne[256];  
+fgets(ligne, sizeof(ligne), fichier);  // ⚠️ Contenu du fichier  
 ```
 
 ### 3. **Réseau**
 ```c
-char buffer[1024];
-recv(socket_fd, buffer, sizeof(buffer), 0);  // ⚠️ Données réseau
+char buffer[1024];  
+recv(socket_fd, buffer, sizeof(buffer), 0);  // ⚠️ Données réseau  
 ```
 
 ### 4. **Variables d'environnement**
@@ -93,7 +93,9 @@ void traiter_age(const char *entree) {
 
 ```c
 // ✅ Bon : validation avec strtol
+#include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <errno.h>
 #include <limits.h>
 
@@ -177,16 +179,16 @@ bool definir_volume(int volume) {
 
 ```c
 // ❌ Mauvais
-int tableau[10];
-void acceder_element(int index) {
+int tableau[10];  
+void acceder_element(int index) {  
     printf("%d\n", tableau[index]);  // Danger !
 }
 ```
 
 ```c
 // ✅ Bon
-int tableau[10];
-bool acceder_element(int index) {
+int tableau[10];  
+bool acceder_element(int index) {  
     if (index < 0 || index >= 10) {
         fprintf(stderr, "Erreur : index hors limites\n");
         return false;
@@ -410,8 +412,8 @@ bool valider_date(const Date *date) {
 }
 
 // Utilisation
-Date ma_date = {29, 2, 2024};  // 29 février 2024 (année bissextile)
-if (valider_date(&ma_date)) {
+Date ma_date = {29, 2, 2024};  // 29 février 2024 (année bissextile)  
+if (valider_date(&ma_date)) {  
     printf("Date valide\n");
 } else {
     printf("Date invalide\n");
@@ -428,28 +430,28 @@ if (valider_date(&ma_date)) {
 
 ```c
 // ❌ TRÈS DANGEREUX
-char nom[20];
-printf("Entrez votre nom : ");
-scanf("%s", nom);  // Buffer overflow si > 19 caractères !
+char nom[20];  
+printf("Entrez votre nom : ");  
+scanf("%s", nom);  // Buffer overflow si > 19 caractères !  
 ```
 
 ### Solutions sécurisées
 
 ```c
 // ✅ Solution 1 : Limiter la longueur
-char nom[20];
-printf("Entrez votre nom : ");
-scanf("%19s", nom);  // Limite à 19 caractères (+ '\0')
+char nom[20];  
+printf("Entrez votre nom : ");  
+scanf("%19s", nom);  // Limite à 19 caractères (+ '\0')  
 
 // Vider le buffer si nécessaire
-int c;
-while ((c = getchar()) != '\n' && c != EOF);
+int c;  
+while ((c = getchar()) != '\n' && c != EOF);  
 ```
 
 ```c
 // ✅ Solution 2 (préférable) : Utiliser fgets
-char nom[20];
-printf("Entrez votre nom : ");
+char nom[20];  
+printf("Entrez votre nom : ");  
 
 if (fgets(nom, sizeof(nom), stdin) != NULL) {
     // Retirer le '\n' final si présent
@@ -466,15 +468,15 @@ if (fgets(nom, sizeof(nom), stdin) != NULL) {
 
 ```c
 // ❌ Mauvais : pas de vérification d'erreur
-int age;
-printf("Entrez votre âge : ");
-scanf("%d", &age);  // Que se passe-t-il si l'utilisateur tape "abc" ?
+int age;  
+printf("Entrez votre âge : ");  
+scanf("%d", &age);  // Que se passe-t-il si l'utilisateur tape "abc" ?  
 ```
 
 ```c
 // ✅ Bon : vérification complète
-int age;
-printf("Entrez votre âge : ");
+int age;  
+printf("Entrez votre âge : ");  
 
 int resultat = scanf("%d", &age);
 
@@ -570,7 +572,9 @@ void lire_config(const char *fichier) {
 ```c
 // ✅ Bon
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
+#include <errno.h>
 
 typedef struct {
     int valeur1;
@@ -807,8 +811,8 @@ const char *messages[] = {
     "Erreur : valeur hors limites"
 };
 
-CodeValidation resultat = valider_nom_utilisateur("User_123");
-if (resultat != VALIDATION_OK) {
+CodeValidation resultat = valider_nom_utilisateur("User_123");  
+if (resultat != VALIDATION_OK) {  
     fprintf(stderr, "%s\n", messages[resultat]);
 }
 ```

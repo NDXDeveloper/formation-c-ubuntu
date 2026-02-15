@@ -217,9 +217,9 @@ int main(void) {
 
 **Compilation et test** :
 ```bash
-gcc -o drop_privileges drop_privileges.c
-sudo chown root:root drop_privileges
-sudo chmod u+s drop_privileges  # Setuid bit
+gcc -o drop_privileges drop_privileges.c  
+sudo chown root:root drop_privileges  
+sudo chmod u+s drop_privileges  # Setuid bit  
 ./drop_privileges
 ```
 
@@ -232,14 +232,14 @@ Créez des utilisateurs système dédiés pour vos applications :
 sudo useradd -r -s /bin/false monappli
 
 # Créer des répertoires dédiés
-sudo mkdir -p /var/lib/monappli
-sudo mkdir -p /var/log/monappli
+sudo mkdir -p /var/lib/monappli  
+sudo mkdir -p /var/log/monappli  
 
 # Définir les permissions
-sudo chown -R monappli:monappli /var/lib/monappli
-sudo chown -R monappli:monappli /var/log/monappli
-sudo chmod 750 /var/lib/monappli
-sudo chmod 750 /var/log/monappli
+sudo chown -R monappli:monappli /var/lib/monappli  
+sudo chown -R monappli:monappli /var/log/monappli  
+sudo chmod 750 /var/lib/monappli  
+sudo chmod 750 /var/log/monappli  
 ```
 
 Le programme peut alors être lancé :
@@ -294,6 +294,8 @@ mkdir("/tmp/monappli", 0700);  // rwx------
 
 ```c
 #include <stdio.h>
+#include <stdbool.h>
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -469,9 +471,11 @@ gcc -o check_caps check_caps.c -lcap
 `chroot` change la racine du système de fichiers pour un processus.
 
 ```c
+#define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
 int main(void) {
     // Nécessite privilèges root
@@ -525,6 +529,7 @@ Les namespaces Linux isolent différentes ressources système.
 #include <sys/wait.h>
 
 int fonction_enfant(void *arg) {
+    (void)arg;
     printf("Dans le namespace isolé\n");
     printf("PID : %d\n", getpid());  // Devrait être 1 dans le nouveau namespace
 
@@ -617,8 +622,10 @@ int main(void) {
 
 ```c
 // serveur_securise.c
+#define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/socket.h>
@@ -749,16 +756,18 @@ int main(void) {
 
 **Lancement** :
 ```bash
-gcc serveur_securise.c -o serveur_securise
-sudo ./serveur_securise
+gcc serveur_securise.c -o serveur_securise  
+sudo ./serveur_securise  
 ```
 
 ### Exemple 2 : Programme de traitement de fichiers
 
 ```c
 // traiter_fichier.c
+#define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -860,8 +869,11 @@ int main(int argc, char *argv[]) {
 
 ```c
 // daemon_securise.c
+#define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -1125,14 +1137,14 @@ sudo aa-enforce /usr/bin/monprogramme
 
 ```c
 // ❌ MAUVAIS : abandonner UID avant GID
-setuid(user_uid);
-setgid(user_gid);  // Peut échouer car déjà plus de privilèges
+setuid(user_uid);  
+setgid(user_gid);  // Peut échouer car déjà plus de privilèges  
 ```
 
 ```c
 // ✅ BON : GID d'abord, puis UID
-setgid(user_gid);  // OK car on a encore root
-setuid(user_uid);  // Abandonne complètement root
+setgid(user_gid);  // OK car on a encore root  
+setuid(user_uid);  // Abandonne complètement root  
 ```
 
 ### 2. Oublier de vérifier qu'on ne peut plus reprendre root
@@ -1143,8 +1155,8 @@ setuid(user_uid);
 // Pas de vérification
 
 // ✅ Complet
-setuid(user_uid);
-if (setuid(0) == 0) {
+setuid(user_uid);  
+if (setuid(0) == 0) {  
     fprintf(stderr, "ERREUR : Peut encore obtenir root !\n");
     abort();
 }

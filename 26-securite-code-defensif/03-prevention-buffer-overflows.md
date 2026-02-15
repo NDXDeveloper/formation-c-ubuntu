@@ -73,11 +73,11 @@ int main(void) {
 **Que se passe-t-il ?**
 
 ```
-Si l'utilisateur entre "Alice" (5 caractères + '\0') → OK
-Buffer : ['A']['l']['i']['c']['e']['\0'][?][?]
+Si l'utilisateur entre "Alice" (5 caractères + '\0') → OK  
+Buffer : ['A']['l']['i']['c']['e']['\0'][?][?]  
 
-Si l'utilisateur entre "AlexandreDumas" (14 caractères + '\0') → OVERFLOW !
-Buffer : ['A']['l']['e']['x']['a']['n']['d']['r']
+Si l'utilisateur entre "AlexandreDumas" (14 caractères + '\0') → OVERFLOW !  
+Buffer : ['A']['l']['e']['x']['a']['n']['d']['r']  
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
          déborde de 7 caractères !
 ```
@@ -135,16 +135,16 @@ void copier_nom(const char *source) {
 
 ```c
 // ❌ EXTRÊMEMENT DANGEREUX
-char buffer[50];
-gets(buffer);  // Fonction dépréciée et dangereuse !
+char buffer[50];  
+gets(buffer);  // Fonction dépréciée et dangereuse !  
 ```
 
 **Pourquoi ?** `gets()` n'a aucun moyen de connaître la taille du buffer et lit jusqu'à trouver un '\n', peu importe la taille.
 
 ```c
 // ✅ Alternative sécurisée
-char buffer[50];
-if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+char buffer[50];  
+if (fgets(buffer, sizeof(buffer), stdin) != NULL) {  
     // Retirer le '\n' final si présent
     size_t len = strlen(buffer);
     if (len > 0 && buffer[len - 1] == '\n') {
@@ -157,24 +157,24 @@ if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
 
 ```c
 // ❌ Dangereux
-char nom[20];
-scanf("%s", nom);  // Pas de limite !
+char nom[20];  
+scanf("%s", nom);  // Pas de limite !  
 ```
 
 ```c
 // ✅ Mieux : spécifier une largeur maximale
-char nom[20];
-scanf("%19s", nom);  // Lit au maximum 19 caractères (+ '\0')
+char nom[20];  
+scanf("%19s", nom);  // Lit au maximum 19 caractères (+ '\0')  
 
 // Vider le buffer si nécessaire
-int c;
-while ((c = getchar()) != '\n' && c != EOF);
+int c;  
+while ((c = getchar()) != '\n' && c != EOF);  
 ```
 
 ```c
 // ✅ Encore mieux : utiliser fgets
-char nom[20];
-if (fgets(nom, sizeof(nom), stdin) != NULL) {
+char nom[20];  
+if (fgets(nom, sizeof(nom), stdin) != NULL) {  
     size_t len = strlen(nom);
     if (len > 0 && nom[len - 1] == '\n') {
         nom[len - 1] = '\0';
@@ -204,9 +204,9 @@ void copier(const char *source) {
 **⚠️ Piège de strncpy** : Elle ne garantit PAS la terminaison null si la source est trop longue !
 
 ```c
-char dest[5];
-strncpy(dest, "Bonjour", 5);  // dest = ['B']['o']['n']['j']['o'] (PAS de '\0')
-printf("%s", dest);  // ❌ Comportement indéfini !
+char dest[5];  
+strncpy(dest, "Bonjour", 5);  // dest = ['B']['o']['n']['j']['o'] (PAS de '\0')  
+printf("%s", dest);  // ❌ Comportement indéfini !  
 ```
 
 ```c
@@ -251,16 +251,16 @@ void copier_c11(const char *source) {
 
 ```c
 // ❌ Dangereux
-char buffer[20] = "Hello ";
-strcat(buffer, "World!");  // OK
-strcat(buffer, " This is a very long string");  // ❌ Overflow !
+char buffer[20] = "Hello ";  
+strcat(buffer, "World!");  // OK  
+strcat(buffer, " This is a very long string");  // ❌ Overflow !  
 ```
 
 ```c
 // ✅ Solution : strncat
-char buffer[20] = "Hello ";
-size_t espace_restant = sizeof(buffer) - strlen(buffer) - 1;
-strncat(buffer, "World", espace_restant);
+char buffer[20] = "Hello ";  
+size_t espace_restant = sizeof(buffer) - strlen(buffer) - 1;  
+strncat(buffer, "World", espace_restant);  
 ```
 
 **⚠️ Attention** : `strncat` prend en troisième paramètre le nombre de caractères à ajouter, pas la taille totale !
@@ -284,17 +284,17 @@ void concatener_secure(char *dest, size_t dest_size, const char *source) {
 
 ```c
 // ❌ Dangereux
-char buffer[20];
-int age = 25;
-sprintf(buffer, "L'utilisateur a %d ans et habite à %s", age, ville);
+char buffer[20];  
+int age = 25;  
+sprintf(buffer, "L'utilisateur a %d ans et habite à %s", age, ville);  
 // Si la chaîne résultante > 19 caractères → overflow !
 ```
 
 ```c
 // ✅ Solution : snprintf
-char buffer[20];
-int age = 25;
-int resultat = snprintf(buffer, sizeof(buffer),
+char buffer[20];  
+int age = 25;  
+int resultat = snprintf(buffer, sizeof(buffer),  
                         "L'utilisateur a %d ans et habite à %s",
                         age, ville);
 
@@ -319,8 +319,8 @@ void traiter_chaine(char *buffer, size_t buffer_size) {
 }
 
 // Utilisation
-char mon_buffer[100];
-traiter_chaine(mon_buffer, sizeof(mon_buffer));
+char mon_buffer[100];  
+traiter_chaine(mon_buffer, sizeof(mon_buffer));  
 ```
 
 ### 2. Utiliser sizeof() systématiquement
@@ -342,14 +342,14 @@ fgets(buffer, sizeof(buffer), stdin);
 
 ```c
 // ✅ Vérification systématique
-char buffer[100];
-if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+char buffer[100];  
+if (fgets(buffer, sizeof(buffer), stdin) == NULL) {  
     fprintf(stderr, "Erreur de lecture\n");
     return -1;
 }
 
-int result = snprintf(buffer, sizeof(buffer), "Format %s", data);
-if (result < 0) {
+int result = snprintf(buffer, sizeof(buffer), "Format %s", data);  
+if (result < 0) {  
     fprintf(stderr, "Erreur de formatage\n");
     return -1;
 }
@@ -473,8 +473,8 @@ bool initialiser_personne(Personne *p, const char *nom, const char *prenom) {
 
 ```c
 // ❌ Erreur classique
-char buffer[10];
-for (int i = 0; i <= 10; i++) {  // ← BUG : devrait être i < 10
+char buffer[10];  
+for (int i = 0; i <= 10; i++) {  // ← BUG : devrait être i < 10  
     buffer[i] = 'A';
 }
 // buffer[10] est hors limites !
@@ -482,8 +482,8 @@ for (int i = 0; i <= 10; i++) {  // ← BUG : devrait être i < 10
 
 ```c
 // ✅ Correct
-char buffer[10];
-for (int i = 0; i < 10; i++) {  // ou i < sizeof(buffer)
+char buffer[10];  
+for (int i = 0; i < 10; i++) {  // ou i < sizeof(buffer)  
     buffer[i] = 'A';
 }
 ```
@@ -492,17 +492,17 @@ for (int i = 0; i < 10; i++) {  // ou i < sizeof(buffer)
 
 ```c
 // ❌ Dangereux
-char buffer[10];
-strncpy(buffer, "UnTexeTresLong", 10);  // Pas de '\0' !
-printf("%s", buffer);  // Comportement indéfini
+char buffer[10];  
+strncpy(buffer, "UnTexeTresLong", 10);  // Pas de '\0' !  
+printf("%s", buffer);  // Comportement indéfini  
 ```
 
 ```c
 // ✅ Correct
-char buffer[10];
-strncpy(buffer, "UnTexeTresLong", sizeof(buffer) - 1);
-buffer[sizeof(buffer) - 1] = '\0';  // Garantir '\0'
-printf("%s", buffer);
+char buffer[10];  
+strncpy(buffer, "UnTexeTresLong", sizeof(buffer) - 1);  
+buffer[sizeof(buffer) - 1] = '\0';  // Garantir '\0'  
+printf("%s", buffer);  
 ```
 
 ---
@@ -616,8 +616,8 @@ Tester avec des entrées aléatoires pour trouver des crashs.
 
 ```bash
 # AFL (American Fuzzy Lop)
-afl-gcc mon_programme.c -o mon_programme
-afl-fuzz -i entrees_test -o resultats ./mon_programme @@
+afl-gcc mon_programme.c -o mon_programme  
+afl-fuzz -i entrees_test -o resultats ./mon_programme @@  
 ```
 
 Le fuzzer génère des entrées malformées pour provoquer des overflows.
@@ -786,6 +786,7 @@ int main(void) {
 // ✅ VERSION SÉCURISÉE
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 // Fonction helper pour lire une ligne
 bool lire_ligne(const char *prompt, char *buffer, size_t buffer_size) {
@@ -829,7 +830,7 @@ int main(void) {
                           "%s %s habite à %s",
                           prenom, nom, adresse);
 
-    if (result < 0 || result >= sizeof(complet)) {
+    if (result < 0 || (size_t)result >= sizeof(complet)) {
         fprintf(stderr, "Erreur : informations trop longues\n");
         return 1;
     }

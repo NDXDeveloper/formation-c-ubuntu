@@ -413,6 +413,7 @@ Resultat effectuer_operation(void);
 
 ```c
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 typedef enum {
@@ -509,9 +510,9 @@ CodeErreur parser_entier(const char *texte, int *resultat, char *msg, size_t msg
 }
 
 // Utilisation
-int valeur;
-char message[256];
-CodeErreur code = parser_entier("42", &valeur, message, sizeof(message));
+int valeur;  
+char message[256];  
+CodeErreur code = parser_entier("42", &valeur, message, sizeof(message));  
 
 if (code != SUCCES) {
     fprintf(stderr, "Erreur : %s\n", message);
@@ -792,8 +793,8 @@ int main(void) {
 Test 1 : Utilisateur invalide
 
 === Rapport de validation ===
-Erreurs : 2
-Avertissements : 1
+Erreurs : 2  
+Avertissements : 1  
 
 Détails :
   [WARN] Le nom est très court
@@ -805,8 +806,8 @@ Résultat : INVALIDE
 Test 2 : Utilisateur mineur
 
 === Rapport de validation ===
-Erreurs : 0
-Avertissements : 1
+Erreurs : 0  
+Avertissements : 1  
 
 Détails :
   [WARN] L'utilisateur est mineur
@@ -1068,8 +1069,8 @@ int ouvrir_config(const char *chemin);
 malloc(1024);  // Résultat ignoré
 
 // ✅ Correct
-void *ptr = malloc(1024);
-if (ptr == NULL) {
+void *ptr = malloc(1024);  
+if (ptr == NULL) {  
     // Gérer l'erreur
 }
 ```
@@ -1156,8 +1157,8 @@ typedef struct {
 } Resultat;
 
 // Pattern 7 : Callback d'erreur
-typedef void (*LogCallback)(const char *message);
-static LogCallback log_callback = NULL;
+typedef void (*LogCallback)(const char *message);  
+static LogCallback log_callback = NULL;  
 
 void set_log_callback(LogCallback cb) {
     log_callback = cb;

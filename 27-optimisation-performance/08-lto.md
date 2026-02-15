@@ -11,9 +11,9 @@ Le **Link-Time Optimization** (LTO) ou **Optimisation lors de l'édition de lien
 Normalement, le compilateur optimise chaque fichier `.c` **séparément**, sans connaître les autres fichiers du projet :
 
 ```
-fichier1.c → [Compilation] → fichier1.o
-fichier2.c → [Compilation] → fichier2.o
-fichier3.c → [Compilation] → fichier3.o
+fichier1.c → [Compilation] → fichier1.o  
+fichier2.c → [Compilation] → fichier2.o  
+fichier3.c → [Compilation] → fichier3.o  
                 ↓
     [Linkage] → programme final
 ```
@@ -29,9 +29,9 @@ fichier3.c → [Compilation] → fichier3.o
 Avec LTO, le compilateur conserve une **représentation intermédiaire** du code dans les fichiers `.o`, puis effectue des optimisations **sur l'ensemble du programme** lors du linkage :
 
 ```
-fichier1.c → [Compilation + IR] → fichier1.o (contient IR)
-fichier2.c → [Compilation + IR] → fichier2.o (contient IR)
-fichier3.c → [Compilation + IR] → fichier3.o (contient IR)
+fichier1.c → [Compilation + IR] → fichier1.o (contient IR)  
+fichier2.c → [Compilation + IR] → fichier2.o (contient IR)  
+fichier3.c → [Compilation + IR] → fichier3.o (contient IR)  
                 ↓
     [Linkage + Optimisation globale (LTO)] → programme final optimisé
 ```
@@ -122,9 +122,9 @@ gcc -O2 -flto programme.c -o programme
 
 ```bash
 # Étape 1 : Compiler chaque fichier avec -flto
-gcc -O2 -flto -c fichier1.c -o fichier1.o
-gcc -O2 -flto -c fichier2.c -o fichier2.o
-gcc -O2 -flto -c fichier3.c -o fichier3.o
+gcc -O2 -flto -c fichier1.c -o fichier1.o  
+gcc -O2 -flto -c fichier2.c -o fichier2.o  
+gcc -O2 -flto -c fichier3.c -o fichier3.o  
 
 # Étape 2 : Linker avec -flto
 gcc -O2 -flto fichier1.o fichier2.o fichier3.o -o programme
@@ -133,14 +133,14 @@ gcc -O2 -flto fichier1.o fichier2.o fichier3.o -o programme
 ### Avec Make
 
 ```makefile
-CC = gcc
-CFLAGS = -O2 -flto
-LDFLAGS = -flto
+CC = gcc  
+CFLAGS = -O2 -flto  
+LDFLAGS = -flto  
 
 OBJECTS = fichier1.o fichier2.o fichier3.o
 
 programme: $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o programme
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) -o programme
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -152,15 +152,15 @@ clean:
 ### Avec CMake
 
 ```cmake
-cmake_minimum_required(VERSION 3.9)
-project(MonProjet C)
+cmake_minimum_required(VERSION 3.9)  
+project(MonProjet C)  
 
 # Activer LTO pour tout le projet
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 # Ou pour une cible spécifique
-add_executable(programme fichier1.c fichier2.c fichier3.c)
-set_property(TARGET programme PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+add_executable(programme fichier1.c fichier2.c fichier3.c)  
+set_property(TARGET programme PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)  
 
 # Niveau d'optimisation
 target_compile_options(programme PRIVATE -O2)
@@ -258,8 +258,8 @@ int main() {
 
 ### 4. Optimisation des appels de fonction
 
-**Devirtualization :** Transformer des appels indirects en appels directs
-**Cloning :** Créer des versions spécialisées d'une fonction selon les contextes d'appel
+**Devirtualization :** Transformer des appels indirects en appels directs  
+**Cloning :** Créer des versions spécialisées d'une fonction selon les contextes d'appel  
 
 ### 5. Meilleure analyse des alias
 
@@ -276,9 +276,9 @@ LTO peut mieux déterminer si deux pointeurs peuvent pointer vers la même mémo
 #ifndef MATH_UTILS_H
 #define MATH_UTILS_H
 
-int square(int x);
-int cube(int x);
-int power_of_two(int x);
+int square(int x);  
+int cube(int x);  
+int power_of_two(int x);  
 
 #endif
 ```
@@ -326,9 +326,9 @@ int main() {
 ### Compilation sans LTO
 
 ```bash
-gcc -O2 -c math_utils.c -o math_utils.o
-gcc -O2 -c main.c -o main.o
-gcc -O2 math_utils.o main.o -o programme_sans_lto
+gcc -O2 -c math_utils.c -o math_utils.o  
+gcc -O2 -c main.c -o main.o  
+gcc -O2 math_utils.o main.o -o programme_sans_lto  
 
 # Voir la taille du binaire
 size programme_sans_lto
@@ -351,12 +351,12 @@ Symboles :
 ### Compilation avec LTO
 
 ```bash
-gcc -O2 -flto -c math_utils.c -o math_utils.o
-gcc -O2 -flto -c main.c -o main.o
-gcc -O2 -flto math_utils.o main.o -o programme_avec_lto
+gcc -O2 -flto -c math_utils.c -o math_utils.o  
+gcc -O2 -flto -c main.c -o main.o  
+gcc -O2 -flto math_utils.o main.o -o programme_avec_lto  
 
-size programme_avec_lto
-nm programme_avec_lto | grep -E "square|cube|power_of_two"
+size programme_avec_lto  
+nm programme_avec_lto | grep -E "square|cube|power_of_two"  
 ```
 
 **Résultats typiques :**
@@ -391,9 +391,9 @@ Vous devriez voir le calcul de `square(10)` et `cube(10)` directement dans `main
 
 ```c
 // functions.c (répété 10 fois avec différents noms)
-int func1(int x) { return x + 1; }
-int func2(int x) { return x * 2; }
-int func3(int x) { return x - 1; }
+int func1(int x) { return x + 1; }  
+int func2(int x) { return x * 2; }  
+int func3(int x) { return x - 1; }  
 // ... 50 fonctions par fichier
 
 // main.c
@@ -433,8 +433,8 @@ int main() {
 
 ```bash
 # Compiler les fichiers avec -flto
-gcc -O2 -flto -c lib_func1.c -o lib_func1.o
-gcc -O2 -flto -c lib_func2.c -o lib_func2.o
+gcc -O2 -flto -c lib_func1.c -o lib_func1.o  
+gcc -O2 -flto -c lib_func2.c -o lib_func2.o  
 
 # Créer l'archive (bibliothèque statique)
 ar rcs libmonlib.a lib_func1.o lib_func2.o
@@ -447,11 +447,11 @@ gcc -O2 -flto main.c -L. -lmonlib -o programme
 
 ```bash
 # Utiliser les versions LTO-aware
-AR=gcc-ar
-RANLIB=gcc-ranlib
+AR=gcc-ar  
+RANLIB=gcc-ranlib  
 
-gcc-ar rcs libmonlib.a lib_func1.o lib_func2.o
-gcc-ranlib libmonlib.a
+gcc-ar rcs libmonlib.a lib_func1.o lib_func2.o  
+gcc-ranlib libmonlib.a  
 ```
 
 ### Bibliothèques dynamiques (.so)
@@ -480,12 +480,12 @@ Par défaut, LTO utilise un seul thread, ce qui peut être lent sur de gros proj
 
 ```bash
 # Utiliser N threads (par exemple, 4)
-gcc -O2 -flto=4 -c *.c
-gcc -O2 -flto=4 *.o -o programme
+gcc -O2 -flto=4 -c *.c  
+gcc -O2 -flto=4 *.o -o programme  
 
 # Ou auto-detect du nombre de CPUs
-gcc -O2 -flto=auto -c *.c
-gcc -O2 -flto=auto *.o -o programme
+gcc -O2 -flto=auto -c *.c  
+gcc -O2 -flto=auto *.o -o programme  
 ```
 
 **Impact :** Réduction du temps de linkage de 50-80% sur les gros projets.
@@ -502,7 +502,7 @@ gcc -O2 -flto -flto-partition=balanced *.o -o programme
 Options :
 - `balanced` : Équilibre temps de compilation et qualité (défaut)
 - `one` : Une seule partition (optimisation maximale, mais lent)
-- `none` : Pas de partitionnement (chaque fichier séparément)
+- `1to1` : Une partition par fichier source original
 
 ---
 
@@ -636,14 +636,14 @@ Pour un programme de 100 lignes, LTO est overkill. Le gain est négligeable et l
 
 ```bash
 # Compiler sans LTO
-gcc -O2 *.c -o programme_sans_lto
-strip programme_sans_lto  # Enlever les symboles
-ls -lh programme_sans_lto
+gcc -O2 *.c -o programme_sans_lto  
+strip programme_sans_lto  # Enlever les symboles  
+ls -lh programme_sans_lto  
 
 # Compiler avec LTO
-gcc -O2 -flto *.c -o programme_avec_lto
-strip programme_avec_lto
-ls -lh programme_avec_lto
+gcc -O2 -flto *.c -o programme_avec_lto  
+strip programme_avec_lto  
+ls -lh programme_avec_lto  
 
 # Comparer
 du -h programme_*
@@ -667,8 +667,8 @@ time ./programme_avec_lto
 
 ```bash
 # Compter les fonctions dans le binaire
-nm programme_sans_lto | grep " T " | wc -l
-nm programme_avec_lto | grep " T " | wc -l
+nm programme_sans_lto | grep " T " | wc -l  
+nm programme_avec_lto | grep " T " | wc -l  
 ```
 
 Moins de symboles avec LTO = plus de fonctions inline/éliminées.
@@ -765,16 +765,16 @@ Si vous êtes en phase de développement actif avec compilation fréquente → *
 ```bash
 # Compiler Python avec LTO (10-15% plus rapide)
 ./configure --with-lto
-make
-sudo make install
+make  
+sudo make install  
 ```
 
 ### Configuration pour le kernel Linux
 
 ```bash
 # Dans .config
-CONFIG_LTO_CLANG=y
-CONFIG_LTO_CLANG_THIN=y
+CONFIG_LTO_CLANG=y  
+CONFIG_LTO_CLANG_THIN=y  
 
 make -j$(nproc)
 ```

@@ -61,10 +61,10 @@ L'**optimiseur principal** travaille sur une représentation intermédiaire (GIM
 
 ```c
 // Code original
-int a = 5;
-int b = 3;
-int c = a + b;
-printf("%d\n", c);
+int a = 5;  
+int b = 3;  
+int c = a + b;  
+printf("%d\n", c);  
 
 // L'optimiseur peut remplacer par
 printf("%d\n", 8);
@@ -79,9 +79,9 @@ Si votre programme produit le résultat `8`, l'optimiseur peut remplacer tous le
 L'optimiseur analyse comment les données circulent dans votre programme :
 
 ```c
-int x = 10;      // x vaut 10
-int y = x + 5;   // y vaut 15, x est lu
-x = 20;          // x vaut maintenant 20
+int x = 10;      // x vaut 10  
+int y = x + 5;   // y vaut 15, x est lu  
+x = 20;          // x vaut maintenant 20  
 // Si x n'est plus utilisé après, cette ligne peut être supprimée !
 ```
 
@@ -117,14 +117,14 @@ Un **bloc de base** est une séquence d'instructions sans branchement (pas de `i
 
 **Avant :**
 ```c
-int a = b + c;
-int d = b + c;  // On recalcule la même chose !
+int a = b + c;  
+int d = b + c;  // On recalcule la même chose !  
 ```
 
 **Après :**
 ```c
-int a = b + c;
-int d = a;      // Réutilisation du résultat
+int a = b + c;  
+int d = a;      // Réutilisation du résultat  
 ```
 
 L'optimiseur détecte que `b + c` est calculé deux fois avec les mêmes valeurs.
@@ -133,9 +133,9 @@ L'optimiseur détecte que `b + c` est calculé deux fois avec les mêmes valeurs
 
 **Avant :**
 ```c
-int x = 5;
-int y = x + 3;
-int z = y * 2;
+int x = 5;  
+int y = x + 3;  
+int z = y * 2;  
 ```
 
 **Après :**
@@ -149,18 +149,18 @@ Si toutes les valeurs sont connues à la compilation, l'optimiseur effectue les 
 
 **Avant :**
 ```c
-int x = a * 1;        // Multiplication par 1
-int y = b + 0;        // Addition de 0
-int z = c - c;        // Soustraction identique
-int w = d / 1;        // Division par 1
+int x = a * 1;        // Multiplication par 1  
+int y = b + 0;        // Addition de 0  
+int z = c - c;        // Soustraction identique  
+int w = d / 1;        // Division par 1  
 ```
 
 **Après :**
 ```c
-int x = a;
-int y = b;
-int z = 0;
-int w = d;
+int x = a;  
+int y = b;  
+int z = 0;  
+int w = d;  
 ```
 
 L'optimiseur connaît les propriétés mathématiques de base.
@@ -251,8 +251,8 @@ for (int i = 0; i < 1000; i++) {
 
 **Après :**
 ```c
-int limite = calcul_complexe();  // Sorti de la boucle !
-for (int i = 0; i < 1000; i++) {
+int limite = calcul_complexe();  // Sorti de la boucle !  
+for (int i = 0; i < 1000; i++) {  
     tableau[i] = i * limite;
 }
 ```
@@ -270,10 +270,10 @@ for (int i = 0; i < 4; i++) {
 
 **Après :**
 ```c
-tableau[0] = 0;
-tableau[1] = 1;
-tableau[2] = 2;
-tableau[3] = 3;
+tableau[0] = 0;  
+tableau[1] = 1;  
+tableau[2] = 2;  
+tableau[3] = 3;  
 ```
 
 **Avantages :**
@@ -338,9 +338,9 @@ int resultat = (a + b) * (c + d);
 
 **Représentation GIMPLE (simplifiée) :**
 ```
-t1 = a + b
-t2 = c + d
-resultat = t1 * t2
+t1 = a + b  
+t2 = c + d  
+resultat = t1 * t2  
 ```
 
 Chaque opération complexe est décomposée en opérations élémentaires sur des **variables temporaires** (t1, t2...).
@@ -471,8 +471,8 @@ gcc -O2 -fopt-info-vec test.c -o test
 
 **Exemple de sortie :**
 ```
-test.c:5:5: optimized: loop vectorized using 16 byte vectors
-test.c:12:9: optimized: Inlining calcul into main
+test.c:5:5: optimized: loop vectorized using 16 byte vectors  
+test.c:12:9: optimized: Inlining calcul into main  
 ```
 
 ---
@@ -622,8 +622,8 @@ Les variables globales peuvent être modifiées par n'importe quelle fonction, c
 int valeur = (x & 1) ? ((x >> 1) + 1) : (x >> 1);
 
 // Code clair et facile à optimiser
-int valeur = x / 2;
-if (x % 2 == 1) {
+int valeur = x / 2;  
+if (x % 2 == 1) {  
     valeur++;
 }
 ```
@@ -691,8 +691,8 @@ Avec `-O2 -march=native`, le code peut être réduit à quelques instructions ve
 
 **Vérification :**
 ```bash
-gcc -O2 -march=native -S somme_carres.c
-cat somme_carres.s
+gcc -O2 -march=native -S somme_carres.c  
+cat somme_carres.s  
 ```
 
 ---
@@ -741,8 +741,8 @@ Utile pour voir le code machine final.
 gcc -O2 -g test.c -o test
 
 # Profiler
-perf record ./test
-perf report
+perf record ./test  
+perf report  
 ```
 
 `perf` montre quelles parties du code consomment le plus de temps CPU.
@@ -763,8 +763,8 @@ gprof test gmon.out > rapport.txt
 ### 4. `valgrind --tool=cachegrind` : Analyser le cache
 
 ```bash
-valgrind --tool=cachegrind ./test
-cg_annotate cachegrind.out.<pid>
+valgrind --tool=cachegrind ./test  
+cg_annotate cachegrind.out.<pid>  
 ```
 
 Montre les miss de cache (accès mémoire lents).
@@ -796,8 +796,8 @@ gcc -O2 -fsanitize=address,undefined test.c -o test
 
 **Solution :** Compiler avec `-Og` (optimisations compatibles avec le débogage) :
 ```bash
-gcc -Og -g test.c -o test
-gdb ./test
+gcc -Og -g test.c -o test  
+gdb ./test  
 ```
 
 ### 3. Le code optimisé est plus lent !

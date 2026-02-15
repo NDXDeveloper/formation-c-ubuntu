@@ -241,8 +241,8 @@ struct Exemple2 {
 **Visualisation du padding :**
 ```bash
 # Afficher la taille et l'alignement
-gcc -c exemple.c
-objdump -h exemple.o
+gcc -c exemple.c  
+objdump -h exemple.o  
 
 # Ou en C :
 printf("sizeof(Exemple1) = %zu\n", sizeof(struct Exemple1));
@@ -386,8 +386,8 @@ int fonction() {
 **ABI x86-64 :** Retour dans le registre `%rax`.
 
 ```assembly
-movl    $42, %eax
-ret
+movl    $42, %eax  
+ret  
 ```
 
 #### Grandes valeurs (structures)
@@ -435,9 +435,9 @@ struct Point {
 
 **En mémoire :**
 ```
-Offset 0 : x (4 bytes)
-Offset 4 : y (4 bytes)
-Total : 8 bytes
+Offset 0 : x (4 bytes)  
+Offset 4 : y (4 bytes)  
+Total : 8 bytes  
 ```
 
 **Accès :**
@@ -472,13 +472,13 @@ Programme (compilé avec lib v1.0) + lib v1.1 = ✅ Fonctionne
 **Exemple :**
 ```c
 // Version 1.0 de libmath.so
-int addition(int a, int b);
-int soustraction(int a, int b);
+int addition(int a, int b);  
+int soustraction(int a, int b);  
 
 // Version 1.1 de libmath.so (ajout d'une fonction)
-int addition(int a, int b);
-int soustraction(int a, int b);
-int multiplication(int a, int b);  // ← NOUVELLE
+int addition(int a, int b);  
+int soustraction(int a, int b);  
+int multiplication(int a, int b);  // ← NOUVELLE  
 ```
 
 Un programme compilé avec v1.0 fonctionne avec v1.1 car les fonctions existantes n'ont pas changé.
@@ -563,8 +563,8 @@ struct Stats {
 
 ```c
 // Version 1.0
-void fonction_a();
-void fonction_b();
+void fonction_a();  
+void fonction_b();  
 
 // Version 2.0 - ❌ CASSE L'ABI
 void fonction_a();
@@ -580,8 +580,8 @@ void fonction_a();
 int addition(int a, int b);
 
 // Version 1.1 - ✅ ABI préservée
-int addition(int a, int b);
-int multiplication(int a, int b);  // Nouvelle fonction
+int addition(int a, int b);  
+int multiplication(int a, int b);  // Nouvelle fonction  
 ```
 
 Les anciens binaires n'utilisent pas `multiplication`, donc pas de problème.
@@ -647,8 +647,8 @@ Sur Linux, les bibliothèques utilisent un système de versioning sophistiqué.
 ```bash
 ls -l /usr/lib/x86_64-linux-gnu/libm.so*
 
-lrwxrwxrwx libm.so -> libm.so.6               # Lien pour la compilation
-lrwxrwxrwx libm.so.6 -> libm.so.6.2.29        # SONAME
+lrwxrwxrwx libm.so -> libm.so.6               # Lien pour la compilation  
+lrwxrwxrwx libm.so.6 -> libm.so.6.2.29        # SONAME  
 -rwxr-xr-x libm.so.6.2.29                     # Fichier réel
 ```
 
@@ -666,8 +666,8 @@ gcc -shared -fPIC -Wl,-soname,libmath.so.1 -o libmath.so.1.0.0 math.c
 # -Wl,-soname,libmath.so.1 : Définit le SONAME
 
 # Créer les liens symboliques
-ln -s libmath.so.1.0.0 libmath.so.1
-ln -s libmath.so.1 libmath.so
+ln -s libmath.so.1.0.0 libmath.so.1  
+ln -s libmath.so.1 libmath.so  
 ```
 
 **Utilisation :**
@@ -697,11 +697,11 @@ ldd main
 
 **Exemple de cycle de vie :**
 ```
-libmath.so.1.0.0   # Version initiale
-libmath.so.1.0.1   # Correction de bug
-libmath.so.1.1.0   # Nouvelle fonction addition_rapide()
-libmath.so.1.1.1   # Correction de bug
-libmath.so.2.0.0   # Changement : int→long (incompatible ABI)
+libmath.so.1.0.0   # Version initiale  
+libmath.so.1.0.1   # Correction de bug  
+libmath.so.1.1.0   # Nouvelle fonction addition_rapide()  
+libmath.so.1.1.1   # Correction de bug  
+libmath.so.2.0.0   # Changement : int→long (incompatible ABI)  
 ```
 
 ---
@@ -795,8 +795,8 @@ g++ prog.cpp -o prog -L. -lmylib
 **Solution :**
 ```bash
 # Recompiler la bibliothèque avec le même compilateur
-gcc --version  # Vérifier la version
-gcc -shared -o libmylib.so mylib.c
+gcc --version  # Vérifier la version  
+gcc -shared -o libmylib.so mylib.c  
 ```
 
 **Meilleure solution :** Distribuer les bibliothèques avec une ABI stable (C, pas C++).
@@ -1021,9 +1021,9 @@ extern "C" {
 
 typedef struct MonObjet MonObjet;  // Pointeur opaque
 
-MonObjet* creer_objet();
-void detruire_objet(MonObjet* obj);
-int obtenir_valeur(MonObjet* obj);
+MonObjet* creer_objet();  
+void detruire_objet(MonObjet* obj);  
+int obtenir_valeur(MonObjet* obj);  
 
 #ifdef __cplusplus
 }
@@ -1062,9 +1062,9 @@ int obtenir_valeur(MonObjet* obj) {
 // Public API (stable)
 typedef struct MaBiblio MaBiblio;
 
-MaBiblio* biblio_create();
-void biblio_destroy(MaBiblio* b);
-int biblio_operation(MaBiblio* b, int param);
+MaBiblio* biblio_create();  
+void biblio_destroy(MaBiblio* b);  
+int biblio_operation(MaBiblio* b, int param);  
 ```
 
 ```c
@@ -1091,8 +1091,8 @@ int api_get_version(int* major, int* minor);
 
 **Utilisation :**
 ```c
-int major, minor;
-api_get_version(&major, &minor);
+int major, minor;  
+api_get_version(&major, &minor);  
 
 if (major != 1) {
     fprintf(stderr, "Version incompatible!\n");
@@ -1135,8 +1135,8 @@ int utiliser_config(const Config* cfg) {
 ```cpp
 // ❌ Problématique
 // fichier.h (public)
-class MaClasse {
-public:
+class MaClasse {  
+public:  
     inline int getValeur() { return valeur_; }
 private:
     int valeur_;
@@ -1148,8 +1148,8 @@ private:
 ```cpp
 // ✅ Meilleur
 // fichier.h (public)
-class MaClasse {
-public:
+class MaClasse {  
+public:  
     int getValeur();  // Pas inline
 private:
     class Impl;
@@ -1188,23 +1188,23 @@ private:
 **Version actuelle : 1.5.0**
 ```c
 // libcalcul.h
-int addition(int a, int b);
-int soustraction(int a, int b);
+int addition(int a, int b);  
+int soustraction(int a, int b);  
 ```
 
 **Changement souhaité : Ajouter multiplication**
 
 ```c
 // Version 1.6.0 - ✅ ABI compatible
-int addition(int a, int b);
-int soustraction(int a, int b);
-int multiplication(int a, int b);  // Nouvelle
+int addition(int a, int b);  
+int soustraction(int a, int b);  
+int multiplication(int a, int b);  // Nouvelle  
 ```
 
 **Versioning :**
 ```bash
-gcc -shared -Wl,-soname,libcalcul.so.1 -o libcalcul.so.1.6.0 calcul.c
-ln -sf libcalcul.so.1.6.0 libcalcul.so.1
+gcc -shared -Wl,-soname,libcalcul.so.1 -o libcalcul.so.1.6.0 calcul.c  
+ln -sf libcalcul.so.1.6.0 libcalcul.so.1  
 ```
 
 **Résultat :** Les anciens programmes fonctionnent toujours !
@@ -1263,9 +1263,9 @@ PluginInterface* get_plugin_interface();
 // mon_plugin.c
 #include "plugin_api.h"
 
-static int mon_init() { /* ... */ }
-static void mon_cleanup() { /* ... */ }
-static int mon_process(void* data) { /* ... */ }
+static int mon_init() { /* ... */ }  
+static void mon_cleanup() { /* ... */ }  
+static int mon_process(void* data) { /* ... */ }  
 
 static PluginInterface interface = {
     .version = PLUGIN_API_VERSION,

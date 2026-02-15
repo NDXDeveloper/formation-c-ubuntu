@@ -75,6 +75,9 @@ bool initialiser_systeme(void) {
 #### 2. Codes d'erreur typés (énumérations)
 
 ```c
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef enum {
     SUCCES = 0,
     ERREUR_MEMOIRE = 1,
@@ -123,6 +126,10 @@ int main(void) {
 #### 3. Retour de pointeur NULL
 
 ```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 // Convention : NULL = erreur, pointeur valide = succès
 char* allouer_buffer(size_t taille) {
     char *buffer = malloc(taille);
@@ -170,6 +177,9 @@ int main(void) {
 Pour contourner l'ambiguïté, on peut retourner la valeur via un pointeur et le code d'erreur comme valeur de retour :
 
 ```c
+#include <stdio.h>
+#include <stdlib.h>
+
 int calculer_division(int a, int b, int *resultat) {
     if (b == 0) {
         return -1;  // Erreur : division par zéro
@@ -282,12 +292,12 @@ int main(void) {
 
 **Sortie du programme :**
 ```
-Début du programme
-Exécution du code protégé
-Entrée dans fonction_intermediaire
-Erreur détectée, déclenchement de l'exception...
-Exception capturée !
-Erreur : allocation mémoire échouée
+Début du programme  
+Exécution du code protégé  
+Entrée dans fonction_intermediaire  
+Erreur détectée, déclenchement de l'exception...  
+Exception capturée !  
+Erreur : allocation mémoire échouée  
 ```
 
 #### Fonctionnement de setjmp/longjmp
@@ -325,14 +335,23 @@ Erreur : allocation mémoire échouée
 
 jmp_buf point_retour;
 
-void fonction_dangereuse(void) {
-    char *buffer = malloc(1024);  // Allocation
-
-    if (buffer == NULL) {
+void traitement(const char *buffer) {
+    // Simuler une erreur pendant le traitement
+    if (buffer[0] == '\0') {
         longjmp(point_retour, 1);  // Saut ! Le buffer n'est JAMAIS libéré !
     }
+}
 
-    // ... utilisation du buffer ...
+void fonction_dangereuse(void) {
+    char *buffer = malloc(1024);  // Allocation réussie
+
+    if (buffer == NULL) {
+        longjmp(point_retour, 2);
+    }
+
+    buffer[0] = '\0';  // Donnée qui déclenchera l'erreur
+    traitement(buffer);  // longjmp ici → buffer fuite !
+
     free(buffer);  // Cette ligne ne sera jamais exécutée
 }
 
@@ -347,7 +366,7 @@ int main(void) {
 }
 ```
 
-**🚨 FUITE MÉMOIRE** : Le `malloc` n'est jamais accompagné de son `free`.
+**🚨 FUITE MÉMOIRE** : Le `buffer` est alloué avec succès, mais le `longjmp` saute avant le `free(buffer)`. La mémoire est perdue.
 
 #### Règles d'utilisation sûre de setjmp/longjmp
 

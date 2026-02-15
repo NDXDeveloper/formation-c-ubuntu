@@ -74,8 +74,8 @@ int multiplication(int a, int b) {
 
 **Compiler en bibliothèque statique :**
 ```bash
-gcc -c mathlib.c -o mathlib.o
-ar rcs libmathlib.a mathlib.o
+gcc -c mathlib.c -o mathlib.o  
+ar rcs libmathlib.a mathlib.o  
 ```
 
 **Fichier Rust : `src/main.rs`**
@@ -118,8 +118,8 @@ mon_projet/
 
 **Compilation et exécution :**
 ```bash
-cargo build
-cargo run
+cargo build  
+cargo run  
 ```
 
 ### Anatomie du code FFI
@@ -148,8 +148,8 @@ unsafe {
 
 **3. Le fichier `build.rs`**
 ```rust
-println!("cargo:rustc-link-search=native=.");
-println!("cargo:rustc-link-lib=static=mathlib");
+println!("cargo:rustc-link-search=native=.");  
+println!("cargo:rustc-link-lib=static=mathlib");  
 ```
 
 - Script exécuté avant la compilation
@@ -242,9 +242,9 @@ pub extern "C" fn fibonacci_rust(n: u32) -> u64 {
 **`Cargo.toml`**
 ```toml
 [package]
-name = "rustlib"
-version = "0.1.0"
-edition = "2021"
+name = "rustlib"  
+version = "0.1.0"  
+edition = "2021"  
 
 [lib]
 crate-type = ["cdylib"]  # Pour bibliothèque dynamique
@@ -268,8 +268,8 @@ cargo build --release
 #include <stdint.h>
 
 // Déclarer les fonctions Rust
-uint64_t factorielle_rust(uint32_t n);
-uint64_t fibonacci_rust(uint32_t n);
+uint64_t factorielle_rust(uint32_t n);  
+uint64_t fibonacci_rust(uint32_t n);  
 
 #endif
 ```
@@ -353,12 +353,12 @@ Les chaînes sont un des aspects les plus délicats de l'interopérabilité.
 
 ### Rust String → C String
 
-**En C :** Les chaînes sont des `char*` terminées par `\0` (null-terminated).
-**En Rust :** Les `String` et `&str` ne sont PAS null-terminated et encodées en UTF-8.
+**En C :** Les chaînes sont des `char*` terminées par `\0` (null-terminated).  
+**En Rust :** Les `String` et `&str` ne sont PAS null-terminated et encodées en UTF-8.  
 
 ```rust
-use std::ffi::CString;
-use std::os::raw::c_char;
+use std::ffi::CString;  
+use std::os::raw::c_char;  
 
 extern "C" {
     fn afficher_chaine_c(s: *const c_char);
@@ -405,8 +405,8 @@ void afficher_chaine_c(const char *s) {
 
 **Rust :**
 ```rust
-use std::ffi::CString;
-use std::os::raw::c_char;
+use std::ffi::CString;  
+use std::os::raw::c_char;  
 
 extern "C" {
     fn afficher_chaine_c(s: *const c_char);
@@ -424,8 +424,8 @@ fn main() {
 ### C String → Rust String
 
 ```rust
-use std::ffi::CStr;
-use std::os::raw::c_char;
+use std::ffi::CStr;  
+use std::os::raw::c_char;  
 
 extern "C" {
     fn obtenir_message_c() -> *const c_char;
@@ -490,8 +490,8 @@ unsafe {
 }
 
 // Cas 3 : Rust alloue, C utilise temporairement
-let rust_string = CString::new("temporary").unwrap();
-unsafe {
+let rust_string = CString::new("temporary").unwrap();  
+unsafe {  
     fonction_c(rust_string.as_ptr());
     // Rust libère automatiquement
 }
@@ -624,9 +624,9 @@ typedef struct {
     double salaire;
 } Personne;
 
-Personne creer_personne(int32_t age, double salaire);
-void augmenter_salaire(Personne *p, double pourcentage);
-void afficher_personne(const Personne *p);
+Personne creer_personne(int32_t age, double salaire);  
+void augmenter_salaire(Personne *p, double pourcentage);  
+void afficher_personne(const Personne *p);  
 
 #endif
 ```
@@ -650,9 +650,9 @@ int main() {
 ### Structures avec chaînes
 
 ```rust
-use std::os::raw::c_char;
-use std::ffi::CString;
-use std::ptr;
+use std::os::raw::c_char;  
+use std::ffi::CString;  
+use std::ptr;  
 
 #[repr(C)]
 pub struct Utilisateur {
@@ -707,9 +707,9 @@ C utilise typiquement des codes de retour pour les erreurs.
 ```rust
 use std::os::raw::c_int;
 
-const SUCCESS: c_int = 0;
-const ERROR_INVALID_INPUT: c_int = -1;
-const ERROR_NOT_FOUND: c_int = -2;
+const SUCCESS: c_int = 0;  
+const ERROR_INVALID_INPUT: c_int = -1;  
+const ERROR_NOT_FOUND: c_int = -2;  
 
 #[no_mangle]
 pub extern "C" fn diviser_entiers(a: c_int, b: c_int, resultat: *mut c_int) -> c_int {
@@ -731,8 +731,8 @@ pub extern "C" fn diviser_entiers(a: c_int, b: c_int, resultat: *mut c_int) -> c
 
 **Utilisation depuis C :**
 ```c
-int resultat;
-int code = diviser_entiers(10, 2, &resultat);
+int resultat;  
+int code = diviser_entiers(10, 2, &resultat);  
 
 if (code == 0) {
     printf("Résultat : %d\n", resultat);
@@ -790,16 +790,16 @@ cargo install bindgen-cli
 #ifndef MATHLIB_H
 #define MATHLIB_H
 
-int addition(int a, int b);
-int multiplication(int a, int b);
+int addition(int a, int b);  
+int multiplication(int a, int b);  
 
 typedef struct {
     int x;
     int y;
 } Point;
 
-Point creer_point(int x, int y);
-int distance_carree(Point p1, Point p2);
+Point creer_point(int x, int y);  
+int distance_carree(Point p1, Point p2);  
 
 #endif
 ```
@@ -839,8 +839,8 @@ extern "C" {
 
 **Utilisation :**
 ```rust
-mod bindings;
-use bindings::*;
+mod bindings;  
+use bindings::*;  
 
 fn main() {
     unsafe {
@@ -861,8 +861,8 @@ Pour automatiser la génération lors du build :
 ```rust
 extern crate bindgen;
 
-use std::env;
-use std::path::PathBuf;
+use std::env;  
+use std::path::PathBuf;  
 
 fn main() {
     // Indiquer à Cargo de relancer si le header change
@@ -989,10 +989,10 @@ include = ["Rectangle"]
 
 **Rust : `src/lib.rs`**
 ```rust
-use serde_json::{Value, Error};
-use std::ffi::{CString, CStr};
-use std::os::raw::c_char;
-use std::ptr;
+use serde_json::{Value, Error};  
+use std::ffi::{CString, CStr};  
+use std::os::raw::c_char;  
+use std::ptr;  
 
 #[no_mangle]
 pub extern "C" fn json_get_field(
@@ -1110,8 +1110,8 @@ pub extern "C" fn traiter_parallele(
 int data[1000000];
 // ... remplir data ...
 
-ResultatParallele res = traiter_parallele(data, 1000000);
-printf("Somme: %ld, Max: %d\n", res.somme, res.max);
+ResultatParallele res = traiter_parallele(data, 1000000);  
+printf("Somme: %ld, Max: %d\n", res.somme, res.max);  
 ```
 
 ---
@@ -1347,9 +1347,9 @@ mon_projet/
 
 ```toml
 [package]
-name = "rustlib"
-version = "0.1.0"
-edition = "2021"
+name = "rustlib"  
+version = "0.1.0"  
+edition = "2021"  
 
 [lib]
 crate-type = ["cdylib", "staticlib"]  # Bibliothèques dynamique et statique
@@ -1361,8 +1361,8 @@ libc = "0.2"
 cbindgen = "0.26"
 
 [profile.release]
-lto = true              # Link-Time Optimization
-opt-level = 3           # Optimisation maximale
+lto = true              # Link-Time Optimization  
+opt-level = 3           # Optimisation maximale  
 ```
 
 ### Makefile pour compilation combinée
@@ -1419,8 +1419,8 @@ for i in 0..1_000_000 {
 }
 
 // ✅ RAPIDE : batching
-let data: Vec<i32> = (0..1_000_000).collect();
-unsafe {
+let data: Vec<i32> = (0..1_000_000).collect();  
+unsafe {  
     traiter_tableau_c(data.as_ptr(), data.len());
 }
 ```
@@ -1524,8 +1524,8 @@ unsafe {
 }
 
 // ✅ CORRECT : CString vit assez longtemps
-let cstring = CString::new("hello").unwrap();
-unsafe {
+let cstring = CString::new("hello").unwrap();  
+unsafe {  
     fonction_c(cstring.as_ptr());
 }
 ```
@@ -1561,12 +1561,12 @@ Créons une bibliothèque Rust de compression accessible depuis C.
 
 **Rust : `src/lib.rs`**
 ```rust
-use flate2::Compression;
-use flate2::write::{GzEncoder, GzDecoder};
-use std::io::Write;
-use std::os::raw::{c_uchar, c_int};
-use std::ptr;
-use std::slice;
+use flate2::Compression;  
+use flate2::write::GzEncoder;  
+use std::io::Write;  
+use std::os::raw::{c_uchar, c_int};  
+use std::ptr;  
+use std::slice;  
 
 #[no_mangle]
 pub extern "C" fn compresser(
@@ -1631,11 +1631,19 @@ int compresser(
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "compress.h"
 
 int main() {
-    const char *texte = "Hello World! " * 100;  // Texte répétitif
-    size_t input_len = strlen(texte);
+    // Créer un texte répétitif
+    const char *motif = "Hello World! ";
+    size_t motif_len = strlen(motif);
+    size_t input_len = motif_len * 100;
+    char *texte = malloc(input_len + 1);
+    for (int i = 0; i < 100; i++) {
+        memcpy(texte + i * motif_len, motif, motif_len);
+    }
+    texte[input_len] = '\0';
 
     uint8_t *output = malloc(input_len);
     size_t output_len = input_len;
@@ -1655,6 +1663,7 @@ int main() {
         fprintf(stderr, "Erreur : %d\n", result);
     }
 
+    free(texte);
     free(output);
     return 0;
 }

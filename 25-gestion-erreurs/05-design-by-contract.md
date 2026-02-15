@@ -100,7 +100,8 @@ Appliquons le DbC à une simple fonction de division :
  *
  * Postconditions :
  *   - résultat * diviseur + reste == dividende
- *   - 0 <= reste < diviseur (pour diviseur positif)
+ *   - |reste| < |diviseur|
+ *   - reste a le même signe que dividende (ou est nul)
  */
 int diviser(int dividende, int diviseur, int *reste) {
     // Préconditions
@@ -505,8 +506,8 @@ int main(void) {
 
 Pile créée (capacité: 5)
 
-Empilage de 10, 20, 30
-Sommet : 30
+Empilage de 10, 20, 30  
+Sommet : 30  
 
 Dépilage :
   Dépilé : 30
@@ -589,8 +590,8 @@ int somme_tableau(const int *tableau, size_t taille) {
         somme += tableau[i];
     }
 
-    // Si taille > 0, la somme a été calculée
-    POSTCONDITION(taille == 0 || somme != 0 || tableau[0] == 0);
+    // Postcondition : la somme a été calculée correctement
+    // (Difficile à exprimer formellement sans recalculer)
 
     return somme;
 }
@@ -1097,10 +1098,10 @@ Lors de l'écriture d'une fonction, demandez-vous :
 ### Quand appliquer le DbC ?
 
 ```
-Bibliothèques et APIs → Contrat strict
-Code système critique → Contrat rigoureux
-Structures de données → Invariants systématiques
-Prototypes rapides → Contrat léger
+Bibliothèques et APIs → Contrat strict  
+Code système critique → Contrat rigoureux  
+Structures de données → Invariants systématiques  
+Prototypes rapides → Contrat léger  
 ```
 
 Le Design by Contract transforme votre code en un système où chaque composant respecte un **contrat clair et vérifiable**. C'est un outil puissant pour écrire du code C **robuste**, **maintenable** et **autodocumenté**.

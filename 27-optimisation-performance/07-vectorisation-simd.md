@@ -92,15 +92,15 @@ cat /proc/cpuinfo | grep flags | head -1
 
 ```c
 // Additionner deux tableaux
-float a[4] = {1.0, 2.0, 3.0, 4.0};
-float b[4] = {5.0, 6.0, 7.0, 8.0};
-float c[4];
+float a[4] = {1.0, 2.0, 3.0, 4.0};  
+float b[4] = {5.0, 6.0, 7.0, 8.0};  
+float c[4];  
 
 // Version scalaire : 4 opérations distinctes
-c[0] = a[0] + b[0];  // Instruction 1
-c[1] = a[1] + b[1];  // Instruction 2
-c[2] = a[2] + b[2];  // Instruction 3
-c[3] = a[3] + b[3];  // Instruction 4
+c[0] = a[0] + b[0];  // Instruction 1  
+c[1] = a[1] + b[1];  // Instruction 2  
+c[2] = a[2] + b[2];  // Instruction 3  
+c[3] = a[3] + b[3];  // Instruction 4  
 ```
 
 **Nombre d'instructions CPU :** 4
@@ -218,8 +218,8 @@ gcc -O3 -march=native -fopt-info-vec-optimized add_arrays.c
 ### Voir le code assembleur généré
 
 ```bash
-gcc -O3 -march=native -S add_arrays.c -o add_arrays.s
-cat add_arrays.s | grep -A 10 "add_arrays:"
+gcc -O3 -march=native -S add_arrays.c -o add_arrays.s  
+cat add_arrays.s | grep -A 10 "add_arrays:"  
 ```
 
 Vous devriez voir des instructions comme `vaddps` (AVX) ou `addps` (SSE) au lieu de `addss` (scalaire).
@@ -414,8 +414,8 @@ gcc -O2 -msse add_sse.c -o add_sse
 
 **Résultats typiques :**
 ```
-Scalaire: 45.2 ms
-SSE:      12.8 ms  ← 3.5x plus rapide
+Scalaire: 45.2 ms  
+SSE:      12.8 ms  ← 3.5x plus rapide  
 ```
 
 ### Exemple 2 : Addition de floats (AVX)
@@ -672,8 +672,8 @@ int main() {
 
 **Résultats typiques :**
 ```
-Scalaire: 52.3 ms (résultat: 49999995000000.00)
-SSE:      14.2 ms (résultat: 49999995000000.00)  ← 3.7x plus rapide
+Scalaire: 52.3 ms (résultat: 49999995000000.00)  
+SSE:      14.2 ms (résultat: 49999995000000.00)  ← 3.7x plus rapide  
 ```
 
 ---
@@ -789,8 +789,8 @@ for (int i = 0; i < n; i += 4) {  // Si n=10, les éléments 8 et 9 sont ignoré
 }
 
 // Correct
-int i;
-for (i = 0; i <= n - 4; i += 4) {
+int i;  
+for (i = 0; i <= n - 4; i += 4) {  
     // Traitement vectoriel
 }
 for (; i < n; i++) {
@@ -853,16 +853,16 @@ gcc -O3 -ftree-vectorize -fopt-info-vec-all test.c
 **Exemple de sortie :**
 
 ```
-test.c:10:5: optimized: loop vectorized using 256 bit vectors
-test.c:25:5: missed: couldn't vectorize loop
-test.c:25:5: missed: not vectorized: data ref analysis failed
+test.c:10:5: optimized: loop vectorized using 256 bit vectors  
+test.c:25:5: missed: couldn't vectorize loop  
+test.c:25:5: missed: not vectorized: data ref analysis failed  
 ```
 
 ### Avec objdump (code assembleur)
 
 ```bash
-gcc -O3 -march=native test.c -o test
-objdump -d test | grep -E "addps|vaddps|addpd|vaddpd"
+gcc -O3 -march=native test.c -o test  
+objdump -d test | grep -E "addps|vaddps|addpd|vaddpd"  
 ```
 
 **Instructions à chercher :**
@@ -941,7 +941,7 @@ OpenBLAS utilisera automatiquement AVX2 ou AVX-512 si disponible.
 
 Avant de vectoriser manuellement :
 
-- ✅ Ai-je **profileé** et identifié un goulot CPU ?
+- ✅ Ai-je **profilé** et identifié un goulot CPU ?
 - ✅ Ce goulot est-il dans **une boucle de calcul** ?
 - ✅ Ai-je essayé `-O3 -march=native` ? Quel gain ?
 - ✅ La vectorisation automatique échoue-t-elle ?
@@ -1005,7 +1005,7 @@ SIMD est un outil puissant pour accélérer le code de calcul :
 
 > "The best SIMD code is the code you didn't have to write yourself" — Anonyme
 
-**Règle d'or :** Laissez le compilateur vectoriser automatiquement (`-O3 -march=native`). N'écrivez du SIMD manuel qu'en dernier recours, après avoir profileé et confirmé le gain !
+**Règle d'or :** Laissez le compilateur vectoriser automatiquement (`-O3 -march=native`). N'écrivez du SIMD manuel qu'en dernier recours, après avoir profilé et confirmé le gain !
 
 ---
 
