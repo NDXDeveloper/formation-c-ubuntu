@@ -39,8 +39,8 @@ void *incrementer(void *arg) {
 
 **Solution avec mutex** :
 ```c
-int compteur = 0;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+int compteur = 0;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
 
 void *incrementer(void *arg) {
     for (int i = 0; i < 1000000; i++) {
@@ -72,11 +72,11 @@ Un **mutex** (Mutual Exclusion = Exclusion Mutuelle) est un mécanisme de synchr
 ```
 Thread 1                Thread 2                Thread 3
 ========                ========                ========
-Prend la clé 🔑         Attend...               Attend...
-Entre 🚪                Attend...               Attend...
-Utilise 🚽              Attend...               Attend...
-Sort et rend clé        Prend la clé 🔑         Attend...
-Continue                Entre 🚪                Attend...
+Prend la clé 🔑         Attend...               Attend...  
+Entre 🚪                Attend...               Attend...  
+Utilise 🚽              Attend...               Attend...  
+Sort et rend clé        Prend la clé 🔑         Attend...  
+Continue                Entre 🚪                Attend...  
                         Utilise 🚽              Attend...
                         Sort et rend clé        Prend la clé 🔑
                         Continue                Entre 🚪
@@ -225,8 +225,8 @@ pthread_mutex_t mon_mutex = PTHREAD_MUTEX_INITIALIZER;
 #include <stdio.h>
 #include <pthread.h>
 
-int compteur = 0;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  // ← Initialisation statique
+int compteur = 0;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  // ← Initialisation statique  
 
 void *incrementer(void *arg) {
     for (int i = 0; i < 100000; i++) {
@@ -254,8 +254,8 @@ int main(void) {
 ### Méthode 2 : Initialisation dynamique
 
 ```c
-pthread_mutex_t mon_mutex;
-int result = pthread_mutex_init(&mon_mutex, NULL);
+pthread_mutex_t mon_mutex;  
+int result = pthread_mutex_init(&mon_mutex, NULL);  
 ```
 
 **Signature** :
@@ -363,16 +363,16 @@ int pthread_mutex_lock(pthread_mutex_t *mutex);
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void *thread_func(void *arg) {
-    printf("Thread %ld essaie de prendre le mutex...\n", pthread_self());
+    printf("Thread %lu essaie de prendre le mutex...\n", pthread_self());
 
     pthread_mutex_lock(&mutex);  // Peut bloquer ici
 
-    printf("Thread %ld A le mutex !\n", pthread_self());
+    printf("Thread %lu A le mutex !\n", pthread_self());
 
     // Section critique
     sleep(2);  // Simule du travail
 
-    printf("Thread %ld libère le mutex\n", pthread_self());
+    printf("Thread %lu libère le mutex\n", pthread_self());
     pthread_mutex_unlock(&mutex);
 
     return NULL;
@@ -492,8 +492,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Attendu : 2000000
-Obtenu  : 1847392  ← Incorrect !
+Attendu : 2000000  
+Obtenu  : 1847392  ← Incorrect !  
 ```
 
 ### Code AVEC mutex (corrigé)
@@ -505,8 +505,8 @@ Obtenu  : 1847392  ← Incorrect !
 #define NUM_THREADS 2
 #define ITERATIONS 1000000
 
-int compteur = 0;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  // ✅ Mutex
+int compteur = 0;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  // ✅ Mutex  
 
 void *incrementer(void *arg) {
     for (int i = 0; i < ITERATIONS; i++) {
@@ -537,8 +537,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Attendu : 2000000
-Obtenu  : 2000000  ← Correct !
+Attendu : 2000000  
+Obtenu  : 2000000  ← Correct !  
 ```
 
 **Compilation et test** :
@@ -557,8 +557,8 @@ gcc -fsanitize=thread -pthread compteur.c -o compteur_tsan
 ```
 SANS MUTEX :
 ============
-Thread 1:  LIRE(0) ── INCR(1) ── ÉCRIRE(1)
-Thread 2:        LIRE(0) ── INCR(1) ── ÉCRIRE(1)
+Thread 1:  LIRE(0) ── INCR(1) ── ÉCRIRE(1)  
+Thread 2:        LIRE(0) ── INCR(1) ── ÉCRIRE(1)  
                  ↑                      ↑
             Lit l'ancienne           Écrase T1
             valeur (0)
@@ -568,8 +568,8 @@ Résultat : 1 au lieu de 2
 
 AVEC MUTEX :
 ===========
-Thread 1:  LOCK ── LIRE(0) ── INCR(1) ── ÉCRIRE(1) ── UNLOCK
-Thread 2:         [BLOQUÉ................................] LOCK ── LIRE(1) ── ...
+Thread 1:  LOCK ── LIRE(0) ── INCR(1) ── ÉCRIRE(1) ── UNLOCK  
+Thread 2:         [BLOQUÉ................................] LOCK ── LIRE(1) ── ...  
                                                           ↑
                                                     Lit la bonne valeur
 
@@ -700,10 +700,10 @@ int main(void) {
 
 **Sortie** :
 ```
-Thread essaie de prendre le mutex (max 2s)...
-Thread essaie de prendre le mutex (max 2s)...
-Timeout : mutex non disponible après 2s
-Timeout : mutex non disponible après 2s
+Thread essaie de prendre le mutex (max 2s)...  
+Thread essaie de prendre le mutex (max 2s)...  
+Timeout : mutex non disponible après 2s  
+Timeout : mutex non disponible après 2s  
 ```
 
 ---
@@ -787,8 +787,8 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
-Node *head = NULL;
-pthread_mutex_t mutex_liste = PTHREAD_MUTEX_INITIALIZER;  // ✅ Mutex
+Node *head = NULL;  
+pthread_mutex_t mutex_liste = PTHREAD_MUTEX_INITIALIZER;  // ✅ Mutex  
 
 void *ajouter_element(void *arg) {
     int valeur = *(int *)arg;
@@ -842,8 +842,8 @@ int main(void) {
 #include <pthread.h>
 #include <unistd.h>
 
-double solde = 1000.0;
-pthread_mutex_t mutex_compte = PTHREAD_MUTEX_INITIALIZER;  // ✅ Mutex
+double solde = 1000.0;  
+pthread_mutex_t mutex_compte = PTHREAD_MUTEX_INITIALIZER;  // ✅ Mutex  
 
 void *retirer(void *arg) {
     double montant = *(double *)arg;
@@ -883,10 +883,10 @@ int main(void) {
 
 **Sortie** :
 ```
-Vérification OK pour 600.00€
-Retrait de 600.00€ effectué
-Solde insuffisant pour 600.00€
-Solde final : 400.00€
+Vérification OK pour 600.00€  
+Retrait de 600.00€ effectué  
+Solde insuffisant pour 600.00€  
+Solde final : 400.00€  
 ```
 
 ### Exemple 3 : Statistiques (CORRIGÉ)
@@ -967,16 +967,16 @@ Plus la section critique est courte, plus la concurrence est élevée.
 
 ```c
 // ❌ MAUVAIS : Section critique trop grande
-pthread_mutex_lock(&mutex);
-int result = calcul_complexe();  // Prend 1 seconde
-variable_partagee = result;
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+int result = calcul_complexe();  // Prend 1 seconde  
+variable_partagee = result;  
+pthread_mutex_unlock(&mutex);  
 
 // ✅ BON : Calcul en dehors de la section critique
-int result = calcul_complexe();  // Calcul local
-pthread_mutex_lock(&mutex);
-variable_partagee = result;  // Seulement l'écriture protégée
-pthread_mutex_unlock(&mutex);
+int result = calcul_complexe();  // Calcul local  
+pthread_mutex_lock(&mutex);  
+variable_partagee = result;  // Seulement l'écriture protégée  
+pthread_mutex_unlock(&mutex);  
 ```
 
 ### 2. Toujours déverrouiller
@@ -985,23 +985,23 @@ Chaque `lock()` doit avoir son `unlock()`.
 
 ```c
 // ❌ DANGEREUX
-pthread_mutex_lock(&mutex);
-if (erreur) {
+pthread_mutex_lock(&mutex);  
+if (erreur) {  
     return NULL;  // ← Oubli de unlock !
 }
 pthread_mutex_unlock(&mutex);
 
 // ✅ BON : Unlock dans tous les chemins
-pthread_mutex_lock(&mutex);
-if (erreur) {
+pthread_mutex_lock(&mutex);  
+if (erreur) {  
     pthread_mutex_unlock(&mutex);
     return NULL;
 }
 pthread_mutex_unlock(&mutex);
 
 // ✅ MEILLEUR : Goto cleanup
-pthread_mutex_lock(&mutex);
-if (erreur) {
+pthread_mutex_lock(&mutex);  
+if (erreur) {  
     goto cleanup;
 }
 // ...
@@ -1016,11 +1016,11 @@ Chaque ressource (ou groupe logique) doit avoir son propre mutex.
 
 ```c
 // ✅ BON : Mutex séparés pour ressources indépendantes
-int compteur_a = 0;
-pthread_mutex_t mutex_a = PTHREAD_MUTEX_INITIALIZER;
+int compteur_a = 0;  
+pthread_mutex_t mutex_a = PTHREAD_MUTEX_INITIALIZER;  
 
-int compteur_b = 0;
-pthread_mutex_t mutex_b = PTHREAD_MUTEX_INITIALIZER;
+int compteur_b = 0;  
+pthread_mutex_t mutex_b = PTHREAD_MUTEX_INITIALIZER;  
 
 void *modifier_a(void *arg) {
     pthread_mutex_lock(&mutex_a);
@@ -1043,8 +1043,8 @@ void *modifier_b(void *arg) {
 // Compteur global
 // Invariant : Toujours >= 0
 // Protection : mutex_compteur
-int compteur = 0;
-pthread_mutex_t mutex_compteur = PTHREAD_MUTEX_INITIALIZER;
+int compteur = 0;  
+pthread_mutex_t mutex_compteur = PTHREAD_MUTEX_INITIALIZER;  
 
 void incrementer(void) {
     pthread_mutex_lock(&mutex_compteur);
@@ -1058,8 +1058,8 @@ void incrementer(void) {
 Quand vous devez prendre plusieurs mutex, utilisez **toujours le même ordre**.
 
 ```c
-pthread_mutex_t mutex_a = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mutex_b = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_a = PTHREAD_MUTEX_INITIALIZER;  
+pthread_mutex_t mutex_b = PTHREAD_MUTEX_INITIALIZER;  
 
 // ✅ BON : Toujours A puis B
 void *thread1(void *arg) {
@@ -1109,10 +1109,10 @@ void *thread_func(void *arg) {
 
 ```c
 // ❌ DEADLOCK : Le thread se bloque lui-même
-pthread_mutex_lock(&mutex);
-pthread_mutex_lock(&mutex);  // ← Bloque indéfiniment
-pthread_mutex_unlock(&mutex);
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+pthread_mutex_lock(&mutex);  // ← Bloque indéfiniment  
+pthread_mutex_unlock(&mutex);  
+pthread_mutex_unlock(&mutex);  
 ```
 
 ### 3. Déverrouiller un mutex non verrouillé
@@ -1144,8 +1144,8 @@ void *thread2(void *arg) {
 
 ```c
 // ❌ RACE CONDITION : Lecture non protégée
-int valeur;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+int valeur;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
 
 void *writer(void *arg) {
     pthread_mutex_lock(&mutex);
@@ -1172,18 +1172,18 @@ void *reader_correct(void *arg) {
 
 ```c
 // ❌ MAUVAIS : Tout est dans la section critique
-pthread_mutex_lock(&mutex);
-sleep(5);              // Bloque les autres threads 5 secondes !
-variable = calcul();   // Calcul long
-ecrire_fichier();      // I/O lente
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+sleep(5);              // Bloque les autres threads 5 secondes !  
+variable = calcul();   // Calcul long  
+ecrire_fichier();      // I/O lente  
+pthread_mutex_unlock(&mutex);  
 
 // ✅ BON : Minimiser la section
-int result = calcul();        // Local
-ecrire_fichier_temp();        // I/O en dehors
-pthread_mutex_lock(&mutex);
-variable = result;             // Seulement l'écriture
-pthread_mutex_unlock(&mutex);
+int result = calcul();        // Local  
+ecrire_fichier_temp();        // I/O en dehors  
+pthread_mutex_lock(&mutex);  
+variable = result;             // Seulement l'écriture  
+pthread_mutex_unlock(&mutex);  
 ```
 
 ---
@@ -1212,8 +1212,8 @@ Le verrouillage/déverrouillage d'un mutex a un **coût** :
 
 #define ITERATIONS 1000000
 
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-int compteur = 0;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+int compteur = 0;  
 
 int main(void) {
     struct timespec start, end;
@@ -1253,9 +1253,9 @@ int main(void) {
 
 **Sortie typique** :
 ```
-Sans mutex : 2456789 ns (2.46 ns/op)
-Avec mutex : 25678901 ns (25.68 ns/op)
-Overhead   : 10.45x
+Sans mutex : 2456789 ns (2.46 ns/op)  
+Avec mutex : 25678901 ns (25.68 ns/op)  
+Overhead   : 10.45x  
 ```
 
 Le mutex est ~10x plus lent, mais reste très rapide en absolu (~25 ns).
@@ -1293,8 +1293,8 @@ typedef struct {
     int compteur_c;
 } Data;
 
-Data data = {0, 0, 0};
-pthread_mutex_t mutex_global = PTHREAD_MUTEX_INITIALIZER;
+Data data = {0, 0, 0};  
+pthread_mutex_t mutex_global = PTHREAD_MUTEX_INITIALIZER;  
 
 void incrementer_a(void) {
     pthread_mutex_lock(&mutex_global);
@@ -1399,11 +1399,11 @@ typedef struct {
 ### Exemple avec 2 mutex
 
 ```c
-pthread_mutex_t mutex_source = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mutex_dest = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_source = PTHREAD_MUTEX_INITIALIZER;  
+pthread_mutex_t mutex_dest = PTHREAD_MUTEX_INITIALIZER;  
 
-int compte_source = 100;
-int compte_dest = 0;
+int compte_source = 100;  
+int compte_dest = 0;  
 
 void transferer(int montant) {
     // Prendre les deux mutex dans un ordre cohérent
@@ -1423,8 +1423,8 @@ void transferer(int montant) {
 ### Cas complexe : Fonction helper
 
 ```c
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-int valeur = 0;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+int valeur = 0;  
 
 void modifier_valeur(int delta) {
     pthread_mutex_lock(&mutex);

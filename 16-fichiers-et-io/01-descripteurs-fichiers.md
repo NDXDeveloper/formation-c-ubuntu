@@ -91,8 +91,8 @@ Pour obtenir un descripteur de fichier vers un fichier réel, on utilise l'appel
 #include <fcntl.h>    // Pour open() et les flags O_*
 #include <unistd.h>   // Pour close()
 
-int open(const char *pathname, int flags);
-int open(const char *pathname, int flags, mode_t mode);
+int open(const char *pathname, int flags);  
+int open(const char *pathname, int flags, mode_t mode);  
 ```
 
 **Paramètres :**
@@ -158,6 +158,7 @@ int main(void) {
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 
 int main(void) {
     int fd;
@@ -207,8 +208,8 @@ int close(int fd);
 ### Exemple de bonne pratique
 
 ```c
-int fd = open("fichier.txt", O_RDONLY);
-if (fd == -1) {
+int fd = open("fichier.txt", O_RDONLY);  
+if (fd == -1) {  
     perror("open");
     return 1;
 }
@@ -357,14 +358,14 @@ Il existe deux niveaux pour manipuler les fichiers en C :
 
 ```c
 // Approche bas niveau (descripteurs)
-int fd = open("fichier.txt", O_RDONLY);
-read(fd, buffer, size);
-close(fd);
+int fd = open("fichier.txt", O_RDONLY);  
+read(fd, buffer, size);  
+close(fd);  
 
 // Approche haut niveau (FILE*)
-FILE *fp = fopen("fichier.txt", "r");
-fread(buffer, 1, size, fp);
-fclose(fp);
+FILE *fp = fopen("fichier.txt", "r");  
+fread(buffer, 1, size, fp);  
+fclose(fp);  
 ```
 
 **Quand utiliser quoi ?**

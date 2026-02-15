@@ -228,8 +228,8 @@ Maintenant, donnons un aperçu de chaque composant avant de les explorer en prof
 
 **Exemple simple** :
 ```c
-SEC("tracepoint/syscalls/sys_enter_open")
-int trace_open(void *ctx)
+SEC("tracepoint/syscalls/sys_enter_open")  
+int trace_open(void *ctx)  
 {
     bpf_printk("Fichier ouvert!\n");
     return 0;
@@ -238,7 +238,7 @@ int trace_open(void *ctx)
 
 Ce programme s'exécute **chaque fois** qu'un fichier est ouvert sur le système.
 
-**Section détaillée** : [21.2.1 BPF Programs](./21.2.1-bpf-programs.md)
+**Section détaillée** : [21.2.1 BPF Programs](./02.1-bpf-programs.md)
 
 ---
 
@@ -274,7 +274,7 @@ struct {
 
 Les programmes BPF écrivent dans cette map, et les programmes userspace peuvent la lire.
 
-**Section détaillée** : [21.2.2 BPF Maps](./21.2.2-bpf-maps.md)
+**Section détaillée** : [21.2.2 BPF Maps](./02.2-bpf-maps.md)
 
 ---
 
@@ -312,7 +312,7 @@ int *ptr = NULL;
 
 Le vérificateur détectera ce problème et refusera de charger le programme.
 
-**Section détaillée** : [21.2.3 Le Vérificateur](./21.2.3-le-verifier.md)
+**Section détaillée** : [21.2.3 Le Vérificateur](./02.3-verifier.md)
 
 ---
 
@@ -343,15 +343,15 @@ Le vérificateur détectera ce problème et refusera de charger le programme.
 
 **Transformation** :
 ```
-Bytecode eBPF         →    Code x86-64
-mov r0, 42            →    mov rax, 42
-add r0, 10            →    add rax, 10
-exit                  →    ret
+Bytecode eBPF         →    Code x86-64  
+mov r0, 42            →    mov rax, 42  
+add r0, 10            →    add rax, 10  
+exit                  →    ret  
 ```
 
 Exécution **directe** par le CPU = performance maximale.
 
-**Section détaillée** : [21.2.4 JIT Compilation](./21.2.4-jit-compilation.md)
+**Section détaillée** : [21.2.4 JIT Compilation](./02.4-jit-compilation.md)
 
 ---
 
@@ -587,10 +587,10 @@ L'architecture d'eBPF est un chef-d'œuvre d'ingénierie logicielle :
 ### 1. Séparation des Responsabilités
 
 ```
-PROGRAMMES     → La logique métier
-MAPS           → Le stockage de données
-VÉRIFICATEUR   → La sécurité
-JIT            → La performance
+PROGRAMMES     → La logique métier  
+MAPS           → Le stockage de données  
+VÉRIFICATEUR   → La sécurité  
+JIT            → La performance  
 ```
 
 Chaque composant a un rôle clair et bien défini.
@@ -671,8 +671,8 @@ Code C → Bytecode → Vérification → JIT → Exécution
 
 Maintenant que vous avez une vue d'ensemble de l'architecture, il est temps d'explorer chaque composant en détail.
 
-**👉 Commençons par les programmes BPF :**
-**21.2.1 BPF Programs**
+**👉 Commençons par les programmes BPF :**  
+**21.2.1 BPF Programs**  
 
 Dans cette section, vous découvrirez :
 - Les différents types de programmes

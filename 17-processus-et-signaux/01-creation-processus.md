@@ -85,11 +85,11 @@ int main(void) {
 
 **Sortie possible :**
 ```
-Avant fork() - PID: 1234
-Je suis le processus PARENT - PID: 1234, Enfant PID: 1235
-Fin du processus PID: 1234
-Je suis le processus ENFANT - PID: 1235, Parent PID: 1234
-Fin du processus PID: 1235
+Avant fork() - PID: 1234  
+Je suis le processus PARENT - PID: 1234, Enfant PID: 1235  
+Fin du processus PID: 1234  
+Je suis le processus ENFANT - PID: 1235, Parent PID: 1234  
+Fin du processus PID: 1235  
 ```
 
 ### Analyse du code
@@ -161,9 +161,9 @@ int main(void) {
 
 **Sortie possible :**
 ```
-Avant fork() - compteur = 100
-PARENT - compteur = 150 (adresse: 0x7ffd12345678)
-ENFANT - compteur = 110 (adresse: 0x7ffd12345678)
+Avant fork() - compteur = 100  
+PARENT - compteur = 150 (adresse: 0x7ffd12345678)  
+ENFANT - compteur = 110 (adresse: 0x7ffd12345678)  
 ```
 
 ### Observation importante
@@ -177,6 +177,7 @@ L'ordre d'exécution entre parent et enfant après un `fork()` est **non déterm
 ```c
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 int main(void) {
     pid_t pid = fork();
@@ -195,10 +196,10 @@ int main(void) {
 
 **Sorties possibles :**
 ```
-C    ou    A    ou    C    ou    A
-D          B          A          C
-A          C          D          D
-B          D          B          B
+C    ou    A    ou    C    ou    A  
+D          B          A          C  
+A          C          D          D  
+B          D          B          B  
 ```
 
 ### Implication pratique
@@ -212,6 +213,7 @@ Ne faites **jamais** d'hypothèses sur l'ordre d'exécution. Si vous avez besoin
 ```c
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <errno.h>
 #include <string.h>
 
@@ -248,6 +250,7 @@ Il est possible de créer plusieurs processus en appelant `fork()` plusieurs foi
 ```c
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 int main(void) {
     pid_t pid1, pid2;
@@ -282,9 +285,9 @@ int main(void) {
 Si vous ne faites pas attention, `fork()` peut créer un nombre exponentiel de processus :
 
 ```c
-fork();
-fork();
-fork();
+fork();  
+fork();  
+fork();  
 ```
 
 Ce code crée **8 processus** au total (2³) ! Soyez prudent avec les appels successifs à `fork()`.
@@ -417,16 +420,16 @@ int main(void) {
 
 ```c
 // ❌ MAUVAIS
-pid_t pid = fork();
-if (pid == 0) {
+pid_t pid = fork();  
+if (pid == 0) {  
     // enfant
 } else {
     // parent - mais que se passe-t-il si fork() a échoué ?
 }
 
 // ✅ BON
-pid_t pid = fork();
-if (pid == -1) {
+pid_t pid = fork();  
+if (pid == -1) {  
     perror("fork");
     return 1;
 }
@@ -441,12 +444,12 @@ if (pid == 0) {
 
 ```c
 // ❌ MAUVAIS : pid dans l'enfant vaut 0, pas son PID !
-pid_t pid = fork();
-printf("Mon PID est: %d\n", pid);  // Faux dans l'enfant !
+pid_t pid = fork();  
+printf("Mon PID est: %d\n", pid);  // Faux dans l'enfant !  
 
 // ✅ BON
-pid_t pid = fork();
-printf("Mon PID est: %d\n", getpid());
+pid_t pid = fork();  
+printf("Mon PID est: %d\n", getpid());  
 ```
 
 ### 3. Ne pas gérer la terminaison des processus enfants

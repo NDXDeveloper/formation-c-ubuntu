@@ -152,10 +152,10 @@ int select(int nfds,
 `fd_set` est un ensemble de descripteurs de fichiers. On le manipule avec des macros :
 
 ```c
-FD_ZERO(&set);      // Vider l'ensemble
-FD_SET(fd, &set);   // Ajouter fd à l'ensemble
-FD_CLR(fd, &set);   // Retirer fd de l'ensemble
-FD_ISSET(fd, &set); // Tester si fd est dans l'ensemble
+FD_ZERO(&set);      // Vider l'ensemble  
+FD_SET(fd, &set);   // Ajouter fd à l'ensemble  
+FD_CLR(fd, &set);   // Retirer fd de l'ensemble  
+FD_ISSET(fd, &set); // Tester si fd est dans l'ensemble  
 ```
 
 ### Exemple basique avec select()
@@ -207,8 +207,8 @@ int main(void) {
 ```
 En attente d'une entrée (timeout 5s)...
 [utilisateur tape "hello"]
-Vous avez tapé : hello
-En attente d'une entrée (timeout 5s)...
+Vous avez tapé : hello  
+En attente d'une entrée (timeout 5s)...  
 [attente de 5 secondes]
 Timeout ! Rien reçu.
 ```
@@ -518,10 +518,10 @@ $ ./server
 
 # Terminal 2 : Se connecter avec telnet
 $ telnet localhost 8080
-hello
-hello
-test
-test
+hello  
+hello  
+test  
+test  
 ```
 
 ### Avantages de poll() sur select()
@@ -586,14 +586,14 @@ typedef union epoll_data {
 int epfd = epoll_create1(0);
 
 // 2. Ajouter des descripteurs
-struct epoll_event ev;
-ev.events = EPOLLIN;
-ev.data.fd = fd;
-epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &ev);
+struct epoll_event ev;  
+ev.events = EPOLLIN;  
+ev.data.fd = fd;  
+epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &ev);  
 
 // 3. Boucle d'événements
-struct epoll_event events[MAX_EVENTS];
-while (1) {
+struct epoll_event events[MAX_EVENTS];  
+while (1) {  
     int n = epoll_wait(epfd, events, MAX_EVENTS, -1);
 
     for (int i = 0; i < n; i++) {
@@ -708,18 +708,18 @@ int main(void) {
             } else {
                 // Données d'un client
                 char buffer[1024];
-                ssize_t n = read(fd, buffer, sizeof(buffer) - 1);
+                ssize_t bytes = read(fd, buffer, sizeof(buffer) - 1);
 
-                if (n <= 0) {
+                if (bytes <= 0) {
                     // Client déconnecté
                     printf("Client fd %d déconnecté\n", fd);
                     epoll_ctl(epfd, EPOLL_CTL_DEL, fd, NULL);
                     close(fd);
                 } else {
                     // Écho
-                    buffer[n] = '\0';
+                    buffer[bytes] = '\0';
                     printf("Reçu de fd %d : %s", fd, buffer);
-                    write(fd, buffer, n);
+                    write(fd, buffer, bytes);
                 }
             }
         }
@@ -779,9 +779,9 @@ while (1) {
 ### Benchmarks (10 000 connexions)
 
 ```
-select() : ~500 ms par itération   (très lent)
-poll()   : ~300 ms par itération   (lent)
-epoll()  : ~0.1 ms par itération   (rapide !)
+select() : ~500 ms par itération   (très lent)  
+poll()   : ~300 ms par itération   (lent)  
+epoll()  : ~0.1 ms par itération   (rapide !)  
 ```
 
 **Conclusion :** Pour un serveur haute performance sous Linux, utilisez `epoll()`.
@@ -951,18 +951,18 @@ Serveur de chat démarré sur le port 8080
 
 # Terminal 2 : Client 1
 $ telnet localhost 8080
-Votre nom : Alice
-Bienvenue Alice ! Tapez vos messages.
-Bob a rejoint le chat
-Bob: Salut !
-Alice: Salut Bob !
+Votre nom : Alice  
+Bienvenue Alice ! Tapez vos messages.  
+Bob a rejoint le chat  
+Bob: Salut !  
+Alice: Salut Bob !  
 
 # Terminal 3 : Client 2
 $ telnet localhost 8080
-Votre nom : Bob
-Bienvenue Bob ! Tapez vos messages.
-Alice: Salut Bob !
-Bob: Salut !
+Votre nom : Bob  
+Bienvenue Bob ! Tapez vos messages.  
+Alice: Salut Bob !  
+Bob: Salut !  
 ```
 
 ## Bonnes pratiques
@@ -972,15 +972,15 @@ Bob: Salut !
 Pour `epoll()` en mode edge-triggered et pour éviter le blocage :
 
 ```c
-int flags = fcntl(fd, F_GETFL, 0);
-fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+int flags = fcntl(fd, F_GETFL, 0);  
+fcntl(fd, F_SETFL, flags | O_NONBLOCK);  
 ```
 
 ### 2. Gérer EAGAIN et EWOULDBLOCK
 
 ```c
-ssize_t n = read(fd, buffer, size);
-if (n == -1) {
+ssize_t n = read(fd, buffer, size);  
+if (n == -1) {  
     if (errno == EAGAIN || errno == EWOULDBLOCK) {
         // Normal avec non-blocking I/O
         return;
@@ -993,8 +993,8 @@ if (n == -1) {
 
 ```c
 // ✅ BON
-int ret = poll(fds, nfds, timeout);
-if (ret == -1) {
+int ret = poll(fds, nfds, timeout);  
+if (ret == -1) {  
     perror("poll");
     return 1;
 }
@@ -1031,9 +1031,9 @@ if (ret == -1 && errno == EINTR) {
 
 ```c
 // ❌ ERREUR
-fd_set readfds;
-FD_ZERO(&readfds);
-FD_SET(fd, &readfds);
+fd_set readfds;  
+FD_ZERO(&readfds);  
+FD_SET(fd, &readfds);  
 
 while (1) {
     select(..., &readfds, ...);  // readfds est modifié !
@@ -1053,8 +1053,8 @@ while (1) {
 
 ```c
 // ❌ ERREUR
-int max_fd = 10;
-select(max_fd, ...);  // Devrait être max_fd + 1 !
+int max_fd = 10;  
+select(max_fd, ...);  // Devrait être max_fd + 1 !  
 
 // ✅ CORRECT
 select(max_fd + 1, ...);
@@ -1063,8 +1063,8 @@ select(max_fd + 1, ...);
 ### 3. Ne pas gérer EOF proprement
 
 ```c
-ssize_t n = read(fd, buffer, size);
-if (n == 0) {
+ssize_t n = read(fd, buffer, size);  
+if (n == 0) {  
     // EOF : le client s'est déconnecté
     close(fd);
     // Retirer de la surveillance !
@@ -1075,8 +1075,8 @@ if (n == 0) {
 
 ```c
 // Si fd est non-bloquant, gérer EAGAIN
-ssize_t n = read(fd, buffer, size);
-if (n == -1 && errno != EAGAIN) {
+ssize_t n = read(fd, buffer, size);  
+if (n == -1 && errno != EAGAIN) {  
     perror("read");
 }
 ```
@@ -1173,8 +1173,8 @@ while (1) {
 
 Maintenant que vous maîtrisez l'I/O multiplexing, explorez :
 - **Section 16.8** : I/O asynchrone (AIO)
-- **chapitre 20** : Programmation réseau avec sockets
-- **chapitre 18** : Threads et concurrence
+- **Chapitre 20** : Programmation réseau avec sockets
+- **Chapitre 18** : Threads et concurrence
 - **Module 6** : Programmation système complète
 
 L'I/O multiplexing est essentiel pour créer des serveurs performants qui gèrent de nombreuses connexions simultanées. C'est la base de tous les serveurs web et systèmes distribués modernes !

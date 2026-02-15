@@ -55,10 +55,10 @@ Le serveur et le client ont des responsabilités différentes :
 C'est **toujours le client** qui initie la communication. Le serveur ne peut pas "appeler" un client de manière spontanée (sauf architectures spécifiques comme WebSockets ou Server Push).
 
 ```
-Client ──[Demande de connexion]──> Serveur
-Client <─[Acceptation]─────────── Serveur
-Client ──[Requête]────────────────> Serveur
-Client <─[Réponse]────────────── Serveur
+Client ──[Demande de connexion]──> Serveur  
+Client <─[Acceptation]─────────── Serveur  
+Client ──[Requête]────────────────> Serveur  
+Client <─[Réponse]────────────── Serveur  
 ```
 
 ### 3. Indépendance technologique
@@ -308,17 +308,17 @@ Un **protocole** est un ensemble de règles qui définit comment le client et le
 
 **Requête du client :**
 ```
-GET /index.html HTTP/1.1
-Host: www.example.com
-User-Agent: Mozilla/5.0
+GET /index.html HTTP/1.1  
+Host: www.example.com  
+User-Agent: Mozilla/5.0  
 
 ```
 
 **Réponse du serveur :**
 ```
-HTTP/1.1 200 OK
-Content-Type: text/html
-Content-Length: 1234
+HTTP/1.1 200 OK  
+Content-Type: text/html  
+Content-Length: 1234  
 
 <html>
   <body>Hello World</body>
@@ -336,11 +336,11 @@ Imaginons un protocole d'écho basique :
 
 **Échange :**
 ```
-Client → Serveur: "hello\n"
-Serveur → Client: "HELLO\n"
-Client → Serveur: "world\n"
-Serveur → Client: "WORLD\n"
-Client → Serveur: "QUIT\n"
+Client → Serveur: "hello\n"  
+Serveur → Client: "HELLO\n"  
+Client → Serveur: "world\n"  
+Serveur → Client: "WORLD\n"  
+Client → Serveur: "QUIT\n"  
 [Connexion fermée]
 ```
 

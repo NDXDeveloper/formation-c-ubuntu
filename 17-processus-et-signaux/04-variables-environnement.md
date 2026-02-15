@@ -25,10 +25,10 @@ NOM=VALEUR
 
 **Exemples :**
 ```bash
-PATH=/usr/bin:/bin:/usr/local/bin
-HOME=/home/utilisateur
-USER=utilisateur
-LANG=fr_FR.UTF-8
+PATH=/usr/bin:/bin:/usr/local/bin  
+HOME=/home/utilisateur  
+USER=utilisateur  
+LANG=fr_FR.UTF-8  
 ```
 
 ### Conventions de nommage
@@ -52,12 +52,12 @@ env
 printenv
 
 # Afficher une variable spécifique
-echo $PATH
-echo $HOME
+echo $PATH  
+echo $HOME  
 
 # Afficher avec printenv
-printenv PATH
-printenv HOME
+printenv PATH  
+printenv HOME  
 ```
 
 ### Variables courantes
@@ -149,11 +149,11 @@ int main(void) {
 Variables d'environnement:
 ===========================
 
-HOME       = /home/pierre
-USER       = pierre
-SHELL      = /bin/bash
-PWD        = /home/pierre/projets
-LANG       = fr_FR.UTF-8
+HOME       = /home/pierre  
+USER       = pierre  
+SHELL      = /bin/bash  
+PWD        = /home/pierre/projets  
+LANG       = fr_FR.UTF-8  
 ```
 
 ### Vérification de l'existence
@@ -208,12 +208,12 @@ int main(void) {
 Toutes les variables d'environnement:
 =====================================
 
-HOME=/home/pierre
-USER=pierre
-PATH=/usr/bin:/bin:/usr/local/bin
-SHELL=/bin/bash
-LANG=fr_FR.UTF-8
-PWD=/home/pierre
+HOME=/home/pierre  
+USER=pierre  
+PATH=/usr/bin:/bin:/usr/local/bin  
+SHELL=/bin/bash  
+LANG=fr_FR.UTF-8  
+PWD=/home/pierre  
 ...
 ```
 
@@ -225,6 +225,8 @@ Une alternative à `environ` : passer l'environnement comme troisième paramètr
 #include <stdio.h>
 
 int main(int argc, char *argv[], char *envp[]) {
+    (void)argc;
+    (void)argv;
     printf("Variables d'environnement (via envp):\n\n");
 
     for (int i = 0; envp[i] != NULL; i++) {
@@ -298,6 +300,7 @@ int setenv(const char *name, const char *value, int overwrite);
 ### Exemple d'utilisation
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -324,14 +327,15 @@ int main(void) {
 
 **Sortie :**
 ```
-EDITOR initial: nano
-EDITOR modifié avec succès
-EDITOR après modification: vim
+EDITOR initial: nano  
+EDITOR modifié avec succès  
+EDITOR après modification: vim  
 ```
 
 ### Créer une nouvelle variable
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -352,6 +356,7 @@ int main(void) {
 ### Le paramètre `overwrite`
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -374,9 +379,9 @@ int main(void) {
 
 **Sortie :**
 ```
-TEST = valeur1
-TEST après setenv(..., 0) = valeur1
-TEST après setenv(..., 1) = valeur3
+TEST = valeur1  
+TEST après setenv(..., 0) = valeur1  
+TEST après setenv(..., 1) = valeur3  
 ```
 
 ### La fonction `unsetenv()`
@@ -392,6 +397,7 @@ int unsetenv(const char *name);
 **Exemple :**
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -423,6 +429,7 @@ int putenv(char *string);
 **Attention :** `putenv()` prend une chaîne `"NOM=VALEUR"` et **ne copie pas** la chaîne. Le pointeur devient part de l'environnement. Évitez d'utiliser des chaînes automatiques (sur la pile).
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -455,9 +462,11 @@ int main(void) {
 Quand un processus crée un enfant avec `fork()`, l'enfant **hérite** de toutes les variables d'environnement du parent :
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 
 int main(void) {
@@ -515,6 +524,7 @@ Quand un processus fait un `exec()`, il peut :
 2. **Spécifier** un nouvel environnement
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -589,10 +599,10 @@ APP_CONFIG=/home/user/my_config.conf ./mon_programme
 Il est courant de préfixer les variables avec le nom de l'application :
 
 ```
-MYAPP_DEBUG=1
-MYAPP_PORT=8080
-MYAPP_DATABASE_URL=postgresql://localhost/mydb
-MYAPP_LOG_LEVEL=info
+MYAPP_DEBUG=1  
+MYAPP_PORT=8080  
+MYAPP_DATABASE_URL=postgresql://localhost/mydb  
+MYAPP_LOG_LEVEL=info  
 ```
 
 ## Modifier l'environnement avant un `exec()`
@@ -724,6 +734,7 @@ SERVER_HOST=0.0.0.0 SERVER_PORT=9000 DEBUG=1 ./mon_serveur
 Trouver un exécutable dans les répertoires du `PATH` :
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -838,7 +849,7 @@ int main(void) {
 
     // Afficher des nombres avec formatage local
     printf("\nExemple de formatage:\n");
-    printf("  Nombre: %'d\n", 1234567);
+    printf("  Nombre: %d\n", 1234567);
 
     return 0;
 }
@@ -893,9 +904,11 @@ void good_example(void) {
 #### 2. Nettoyer l'environnement pour les programmes privilégiés
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 void clean_environment(void) {
     // Supprimer les variables potentiellement dangereuses

@@ -109,19 +109,19 @@ sudo apt install -y linux-tools-common linux-tools-generic
 sudo apt install -y bpftool
 
 # Vérifier les installations
-clang --version
-llvm-objdump --version
-bpftool version
+clang --version  
+llvm-objdump --version  
+bpftool version  
 ```
 
 **Si bpftool n'est pas disponible via apt**, compilez-le depuis les sources :
 
 ```bash
 # Cloner les sources du kernel
-git clone --depth 1 https://github.com/torvalds/linux.git
-cd linux/tools/bpf/bpftool
-make
-sudo make install
+git clone --depth 1 https://github.com/torvalds/linux.git  
+cd linux/tools/bpf/bpftool  
+make  
+sudo make install  
 ```
 
 ### Vérifier que tout fonctionne
@@ -143,8 +143,8 @@ sudo mount -t debugfs none /sys/kernel/debug
 ### Créer un répertoire de travail
 
 ```bash
-mkdir -p ~/ebpf-tutorial
-cd ~/ebpf-tutorial
+mkdir -p ~/ebpf-tutorial  
+cd ~/ebpf-tutorial  
 ```
 
 Vous êtes maintenant prêt à commencer !
@@ -550,6 +550,6 @@ Dans les sous-sections qui suivent, nous allons mettre en pratique tous ces conc
 
 ---
 
-*Note : Si vous rencontrez des problèmes d'installation ou de configuration, consultez l'annexe C du tutoriel qui contient des configurations détaillées pour différents environnements.*
+*Note : Si vous rencontrez des problèmes d'installation ou de configuration, consultez la section 21.4 (Toolchain eBPF) qui détaille l'installation et la vérification des outils.*
 
 ⏭️ [Hello World : tracer les appels système](/21-introduction-ebpf/05.1-hello-world-tracing.md)

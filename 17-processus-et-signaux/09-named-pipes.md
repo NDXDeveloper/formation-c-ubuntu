@@ -385,7 +385,7 @@ int main(void) {
         }
 
         // Envoyer la réponse
-        char response[100];
+        char response[200];
         snprintf(response, sizeof(response), "Réponse: %s", buffer);
         write(fd_resp, response, strlen(response) + 1);
 
@@ -555,14 +555,14 @@ typedef struct {
 } Request;
 
 // Serveur
-char fifo_response[100];
-snprintf(fifo_response, sizeof(fifo_response),
+char fifo_response[100];  
+snprintf(fifo_response, sizeof(fifo_response),  
          "/tmp/fifo_response_%d", request.client_pid);
 
 // Client crée son FIFO de réponse
-char my_fifo[100];
-snprintf(my_fifo, sizeof(my_fifo), "/tmp/fifo_response_%d", getpid());
-mkfifo(my_fifo, 0666);
+char my_fifo[100];  
+snprintf(my_fifo, sizeof(my_fifo), "/tmp/fifo_response_%d", getpid());  
+mkfifo(my_fifo, 0666);  
 ```
 
 ## Scripts shell avec FIFO
@@ -594,9 +594,9 @@ done
 FIFO="/tmp/log_fifo"
 
 # Envoyer un message de log
-echo "Application started" > "$FIFO"
-echo "Processing data..." > "$FIFO"
-echo "Application finished" > "$FIFO"
+echo "Application started" > "$FIFO"  
+echo "Processing data..." > "$FIFO"  
+echo "Application finished" > "$FIFO"  
 ```
 
 ### Exemple 2 : Pipeline shell
@@ -604,8 +604,8 @@ echo "Application finished" > "$FIFO"
 ```bash
 #!/bin/bash
 
-FIFO="/tmp/data_fifo"
-mkfifo "$FIFO"
+FIFO="/tmp/data_fifo"  
+mkfifo "$FIFO"  
 
 # Producteur en arrière-plan
 (
@@ -655,6 +655,7 @@ chmod 660 /tmp/mon_fifo
 
 ```c
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <limits.h>
@@ -730,10 +731,12 @@ int main(void) {
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 static const char *fifo_path = "/tmp/my_app_fifo";
 
 void cleanup(int sig) {
+    (void)sig;
     printf("\nNettoyage...\n");
     unlink(fifo_path);
     exit(0);
@@ -935,6 +938,7 @@ int main(void) {
 ### 3. Event Logger
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 // event_logger.c
 #include <stdio.h>
 #include <fcntl.h>
@@ -1000,8 +1004,8 @@ ls -lp /tmp | grep "^p"
 lsof /tmp/mon_fifo
 
 # Tester manuellement
-echo "test" > /tmp/mon_fifo  # Écriture
-cat /tmp/mon_fifo           # Lecture
+echo "test" > /tmp/mon_fifo  # Écriture  
+cat /tmp/mon_fifo           # Lecture  
 ```
 
 ### Programme de test
@@ -1070,8 +1074,8 @@ int main(int argc, char *argv[]) {
 int fd = open("/tmp/mon_fifo", O_RDONLY);  // Échoue si n'existe pas
 
 // ✅ BON
-mkfifo("/tmp/mon_fifo", 0666);
-int fd = open("/tmp/mon_fifo", O_RDONLY);
+mkfifo("/tmp/mon_fifo", 0666);  
+int fd = open("/tmp/mon_fifo", O_RDONLY);  
 ```
 
 ### 2. Blocage lors de l'ouverture
@@ -1081,8 +1085,8 @@ int fd = open("/tmp/mon_fifo", O_RDONLY);
 int fd = open("/tmp/mon_fifo", O_WRONLY);
 
 // ✅ BON : Utiliser O_NONBLOCK pour tester
-int fd = open("/tmp/mon_fifo", O_WRONLY | O_NONBLOCK);
-if (fd == -1 && errno == ENXIO) {
+int fd = open("/tmp/mon_fifo", O_WRONLY | O_NONBLOCK);  
+if (fd == -1 && errno == ENXIO) {  
     printf("Aucun lecteur\n");
 }
 ```
@@ -1178,15 +1182,15 @@ signal(SIGPIPE, SIG_IGN);
 
 ```c
 // Programme 1: Lecteur
-mkfifo("/tmp/my_fifo", 0666);
-int fd = open("/tmp/my_fifo", O_RDONLY);
-read(fd, buffer, size);
-close(fd);
+mkfifo("/tmp/my_fifo", 0666);  
+int fd = open("/tmp/my_fifo", O_RDONLY);  
+read(fd, buffer, size);  
+close(fd);  
 
 // Programme 2: Écrivain
-int fd = open("/tmp/my_fifo", O_WRONLY);
-write(fd, data, size);
-close(fd);
+int fd = open("/tmp/my_fifo", O_WRONLY);  
+write(fd, data, size);  
+close(fd);  
 
 // Nettoyage
 unlink("/tmp/my_fifo");

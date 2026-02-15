@@ -80,10 +80,10 @@ void ecrire_cache(const char *nouvelles_donnees) {
 
 **Problème** :
 ```
-Thread 1 (lecteur) : lock → LIT → unlock
-Thread 2 (lecteur) : ⏳ BLOQUÉ (alors qu'il pourrait lire en même temps)
-Thread 3 (lecteur) : ⏳ BLOQUÉ
-Thread 4 (lecteur) : ⏳ BLOQUÉ
+Thread 1 (lecteur) : lock → LIT → unlock  
+Thread 2 (lecteur) : ⏳ BLOQUÉ (alors qu'il pourrait lire en même temps)  
+Thread 3 (lecteur) : ⏳ BLOQUÉ  
+Thread 4 (lecteur) : ⏳ BLOQUÉ  
 ```
 
 **Gaspillage** : Les lecteurs se bloquent mutuellement alors qu'ils pourraient tous lire en même temps !
@@ -119,10 +119,10 @@ void ecrire_cache(const char *nouvelles_donnees) {
 
 **Avantage** :
 ```
-Thread 1 (lecteur) : rdlock → LIT ──┐
-Thread 2 (lecteur) : rdlock → LIT ──┤ Tous en même temps !
-Thread 3 (lecteur) : rdlock → LIT ──┤
-Thread 4 (lecteur) : rdlock → LIT ──┘
+Thread 1 (lecteur) : rdlock → LIT ──┐  
+Thread 2 (lecteur) : rdlock → LIT ──┤ Tous en même temps !  
+Thread 3 (lecteur) : rdlock → LIT ──┤  
+Thread 4 (lecteur) : rdlock → LIT ──┘  
 ```
 
 ---
@@ -190,13 +190,13 @@ pthread_rwlock_t mon_rwlock;
 ```
 Demande          État actuel       Résultat
 ========         ===========       ========
-rdlock()         Libre             ✅ OK (devient "lecture")
-rdlock()         Lecture (N)       ✅ OK (devient "lecture N+1")
-rdlock()         Écriture          ⏳ BLOQUE
+rdlock()         Libre             ✅ OK (devient "lecture")  
+rdlock()         Lecture (N)       ✅ OK (devient "lecture N+1")  
+rdlock()         Écriture          ⏳ BLOQUE  
 
-wrlock()         Libre             ✅ OK (devient "écriture")
-wrlock()         Lecture (N)       ⏳ BLOQUE
-wrlock()         Écriture          ⏳ BLOQUE
+wrlock()         Libre             ✅ OK (devient "écriture")  
+wrlock()         Lecture (N)       ⏳ BLOQUE  
+wrlock()         Écriture          ⏳ BLOQUE  
 ```
 
 ### Propriété importante
@@ -224,20 +224,20 @@ pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
 ### Initialisation dynamique
 
 ```c
-pthread_rwlock_t rwlock;
-pthread_rwlockattr_t attr;  // Attributs (optionnel)
+pthread_rwlock_t rwlock;  
+pthread_rwlockattr_t attr;  // Attributs (optionnel)  
 
 // Initialisation simple
-int result = pthread_rwlock_init(&rwlock, NULL);
-if (result != 0) {
+int result = pthread_rwlock_init(&rwlock, NULL);  
+if (result != 0) {  
     fprintf(stderr, "pthread_rwlock_init: %s\n", strerror(result));
 }
 
 // Avec attributs (avancé)
 pthread_rwlockattr_init(&attr);
 // Configurer les attributs...
-pthread_rwlock_init(&rwlock, &attr);
-pthread_rwlockattr_destroy(&attr);
+pthread_rwlock_init(&rwlock, &attr);  
+pthread_rwlockattr_destroy(&attr);  
 ```
 
 **Exemple avec structure** :
@@ -302,8 +302,8 @@ int pthread_rwlock_rdlock(pthread_rwlock_t *rwlock);
 pthread_rwlock_rdlock(&rwlock);  // 🔓 Lecture partagée
 
 // Lire les données (pas de modification)
-int valeur = data.valeur;
-printf("Valeur : %d\n", valeur);
+int valeur = data.valeur;  
+printf("Valeur : %d\n", valeur);  
 
 pthread_rwlock_unlock(&rwlock);
 ```
@@ -644,8 +644,8 @@ File d'attente :
 → Lecteur 1, 3, 4 passent TOUS (écrivain 2 attend)
 ```
 
-**Avantage** : Maximise la concurrence en lecture
-**Inconvénient** : L'écrivain peut attendre indéfiniment (**starvation**)
+**Avantage** : Maximise la concurrence en lecture  
+**Inconvénient** : L'écrivain peut attendre indéfiniment (**starvation**)  
 
 ### 2. Priorité écrivains (Writer-preference)
 
@@ -661,8 +661,8 @@ Lecteurs libèrent :
 → Écrivain 1 passe (lecteurs 2, 3 attendent)
 ```
 
-**Avantage** : Évite la starvation des écrivains
-**Inconvénient** : Réduit la concurrence en lecture
+**Avantage** : Évite la starvation des écrivains  
+**Inconvénient** : Réduit la concurrence en lecture  
 
 ### 3. Équitable (Fair / FIFO)
 
@@ -677,8 +677,8 @@ File d'attente :
 → Lecteur 3 passe
 ```
 
-**Avantage** : Pas de starvation
-**Inconvénient** : Moins de concurrence
+**Avantage** : Pas de starvation  
+**Inconvénient** : Moins de concurrence  
 
 ### Configuration de la politique
 
@@ -687,8 +687,8 @@ Sur Linux (glibc), le comportement par défaut est **writer-preference**.
 **Configuration via attributs** :
 
 ```c
-pthread_rwlockattr_t attr;
-pthread_rwlockattr_init(&attr);
+pthread_rwlockattr_t attr;  
+pthread_rwlockattr_init(&attr);  
 
 // Définir la politique (non portable, dépend du système)
 // Sur Linux : PTHREAD_RWLOCK_PREFER_READER_NP
@@ -698,8 +698,8 @@ pthread_rwlockattr_init(&attr);
 pthread_rwlockattr_setkind_np(&attr,
                                PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP);
 
-pthread_rwlock_init(&rwlock, &attr);
-pthread_rwlockattr_destroy(&attr);
+pthread_rwlock_init(&rwlock, &attr);  
+pthread_rwlockattr_destroy(&attr);  
 ```
 
 **Note** : Ces options sont spécifiques à Linux (suffixe `_NP` = non portable).
@@ -760,12 +760,12 @@ int pthread_rwlock_timedrdlock(pthread_rwlock_t *rwlock,
 **Exemple** :
 
 ```c
-struct timespec timeout;
-clock_gettime(CLOCK_REALTIME, &timeout);
-timeout.tv_sec += 5;  // 5 secondes
+struct timespec timeout;  
+clock_gettime(CLOCK_REALTIME, &timeout);  
+timeout.tv_sec += 5;  // 5 secondes  
 
-int result = pthread_rwlock_timedrdlock(&rwlock, &timeout);
-if (result == 0) {
+int result = pthread_rwlock_timedrdlock(&rwlock, &timeout);  
+if (result == 0) {  
     // Verrou obtenu
     printf("Data: %d\n", data);
     pthread_rwlock_unlock(&rwlock);
@@ -821,9 +821,9 @@ pthread_rwlock_unlock(&rwlock);
 #define ITERATIONS 100000
 #define READ_RATIO 90  // 90% lectures
 
-int data = 0;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
+int data = 0;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;  
 
 void *worker_mutex(void *arg) {
     for (int i = 0; i < ITERATIONS; i++) {
@@ -902,10 +902,10 @@ int main(void) {
 
 **Résultats typiques** :
 ```
-Benchmark : 10 threads, 90% lectures
-Mutex    : 2.456 secondes
-RWLock   : 0.823 secondes
-Speedup  : 2.98x
+Benchmark : 10 threads, 90% lectures  
+Mutex    : 2.456 secondes  
+RWLock   : 0.823 secondes  
+Speedup  : 2.98x  
 ```
 
 **Observation** : Avec beaucoup de lectures, RWLock est **significativement plus rapide**.
@@ -950,9 +950,9 @@ pthread_rwlock_unlock(&rwlock);
 modifier_data(data_copy);
 
 // Écriture
-pthread_rwlock_wrlock(&rwlock);
-remplacer_data(data, data_copy);
-pthread_rwlock_unlock(&rwlock);
+pthread_rwlock_wrlock(&rwlock);  
+remplacer_data(data, data_copy);  
+pthread_rwlock_unlock(&rwlock);  
 ```
 
 ### Pattern 2 : Cache avec expiration
@@ -1043,14 +1043,14 @@ void modifier_data(RCUData *rcu, Data *nouvelle_data) {
 
 ```c
 // ❌ ERREUR : Modification avec rdlock
-pthread_rwlock_rdlock(&rwlock);
-data.valeur = 42;  // ← Race condition !
-pthread_rwlock_unlock(&rwlock);
+pthread_rwlock_rdlock(&rwlock);  
+data.valeur = 42;  // ← Race condition !  
+pthread_rwlock_unlock(&rwlock);  
 
 // ✅ CORRECT
-pthread_rwlock_wrlock(&rwlock);
-data.valeur = 42;
-pthread_rwlock_unlock(&rwlock);
+pthread_rwlock_wrlock(&rwlock);  
+data.valeur = 42;  
+pthread_rwlock_unlock(&rwlock);  
 ```
 
 ### 2. Deadlock avec upgrade
@@ -1075,15 +1075,15 @@ pthread_rwlock_unlock(&rwlock);  // Pas de lock avant !
 
 ```c
 // ❌ FUITE
-pthread_rwlock_rdlock(&rwlock);
-if (erreur) {
+pthread_rwlock_rdlock(&rwlock);  
+if (erreur) {  
     return;  // Oubli de unlock !
 }
 pthread_rwlock_unlock(&rwlock);
 
 // ✅ CORRECT
-pthread_rwlock_rdlock(&rwlock);
-if (erreur) {
+pthread_rwlock_rdlock(&rwlock);  
+if (erreur) {  
     pthread_rwlock_unlock(&rwlock);
     return;
 }
@@ -1096,9 +1096,9 @@ Les RWLocks ne sont **pas récursifs** par défaut :
 
 ```c
 // ❌ DEADLOCK possible
-pthread_rwlock_rdlock(&rwlock);
-fonction_qui_fait_rdlock();  // Deadlock potentiel
-pthread_rwlock_unlock(&rwlock);
+pthread_rwlock_rdlock(&rwlock);  
+fonction_qui_fait_rdlock();  // Deadlock potentiel  
+pthread_rwlock_unlock(&rwlock);  
 ```
 
 **Solution** : Éviter les appels imbriqués, ou documenter clairement.

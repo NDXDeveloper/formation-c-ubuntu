@@ -149,8 +149,8 @@ int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-if (sockfd < 0) {
+int sockfd = socket(AF_INET, SOCK_DGRAM, 0);  
+if (sockfd < 0) {  
     perror("socket");
     exit(EXIT_FAILURE);
 }
@@ -168,12 +168,12 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 **Exemple :**
 ```c
-struct sockaddr_in server_addr;
-memset(&server_addr, 0, sizeof(server_addr));
+struct sockaddr_in server_addr;  
+memset(&server_addr, 0, sizeof(server_addr));  
 
-server_addr.sin_family = AF_INET;
-server_addr.sin_addr.s_addr = INADDR_ANY;  // Toutes les interfaces
-server_addr.sin_port = htons(8080);
+server_addr.sin_family = AF_INET;  
+server_addr.sin_addr.s_addr = INADDR_ANY;  // Toutes les interfaces  
+server_addr.sin_port = htons(8080);  
 
 if (bind(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
     perror("bind");
@@ -209,15 +209,15 @@ ssize_t sendto(int sockfd, const void *buf, size_t len, int flags,
 
 **Exemple :**
 ```c
-struct sockaddr_in dest_addr;
-memset(&dest_addr, 0, sizeof(dest_addr));
+struct sockaddr_in dest_addr;  
+memset(&dest_addr, 0, sizeof(dest_addr));  
 
-dest_addr.sin_family = AF_INET;
-dest_addr.sin_port = htons(8080);
-inet_pton(AF_INET, "192.168.1.10", &dest_addr.sin_addr);
+dest_addr.sin_family = AF_INET;  
+dest_addr.sin_port = htons(8080);  
+inet_pton(AF_INET, "192.168.1.10", &dest_addr.sin_addr);  
 
-const char *message = "Hello, UDP!";
-ssize_t bytes_sent = sendto(sockfd, message, strlen(message), 0,
+const char *message = "Hello, UDP!";  
+ssize_t bytes_sent = sendto(sockfd, message, strlen(message), 0,  
                              (struct sockaddr*)&dest_addr, sizeof(dest_addr));
 
 if (bytes_sent < 0) {
@@ -257,9 +257,9 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
 
 **Exemple :**
 ```c
-char buffer[1024];
-struct sockaddr_in client_addr;
-socklen_t client_len = sizeof(client_addr);
+char buffer[1024];  
+struct sockaddr_in client_addr;  
+socklen_t client_len = sizeof(client_addr);  
 
 ssize_t bytes_received = recvfrom(sockfd, buffer, sizeof(buffer) - 1, 0,
                                    (struct sockaddr*)&client_addr, &client_len);
@@ -523,11 +523,11 @@ Bien qu'UDP soit sans connexion, vous pouvez utiliser `connect()` sur un socket 
 int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
 // Configurer l'adresse du serveur
-struct sockaddr_in server_addr;
-memset(&server_addr, 0, sizeof(server_addr));
-server_addr.sin_family = AF_INET;
-server_addr.sin_port = htons(8080);
-inet_pton(AF_INET, "192.168.1.10", &server_addr.sin_addr);
+struct sockaddr_in server_addr;  
+memset(&server_addr, 0, sizeof(server_addr));  
+server_addr.sin_family = AF_INET;  
+server_addr.sin_port = htons(8080);  
+inet_pton(AF_INET, "192.168.1.10", &server_addr.sin_addr);  
 
 // "Connecter" le socket UDP
 if (connect(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
@@ -536,9 +536,9 @@ if (connect(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
 }
 
 // Maintenant on peut utiliser send() et recv() comme avec TCP
-send(sockfd, "Hello", 5, 0);
-char buffer[1024];
-recv(sockfd, buffer, sizeof(buffer), 0);
+send(sockfd, "Hello", 5, 0);  
+char buffer[1024];  
+recv(sockfd, buffer, sizeof(buffer), 0);  
 ```
 
 ⚠️ **Important :** Ce n'est **pas** une vraie connexion TCP ! Aucun handshake n'a lieu. C'est juste une association locale dans le kernel.
@@ -558,17 +558,17 @@ Comme UDP ne garantit pas la livraison, il est courant de définir un **timeout*
 ### Méthode 1 : `setsockopt()` avec `SO_RCVTIMEO`
 
 ```c
-struct timeval timeout;
-timeout.tv_sec = 5;   // 5 secondes
-timeout.tv_usec = 0;
+struct timeval timeout;  
+timeout.tv_sec = 5;   // 5 secondes  
+timeout.tv_usec = 0;  
 
 if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout)) < 0) {
     perror("setsockopt");
 }
 
 // Maintenant recvfrom() timeout après 5 secondes
-ssize_t bytes = recvfrom(sockfd, buffer, sizeof(buffer), 0, NULL, NULL);
-if (bytes < 0) {
+ssize_t bytes = recvfrom(sockfd, buffer, sizeof(buffer), 0, NULL, NULL);  
+if (bytes < 0) {  
     if (errno == EAGAIN || errno == EWOULDBLOCK) {
         printf("Timeout : aucune réponse reçue\n");
     } else {
@@ -580,17 +580,17 @@ if (bytes < 0) {
 ### Méthode 2 : `select()` ou `poll()`
 
 ```c
-fd_set readfds;
-struct timeval timeout;
+fd_set readfds;  
+struct timeval timeout;  
 
-FD_ZERO(&readfds);
-FD_SET(sockfd, &readfds);
+FD_ZERO(&readfds);  
+FD_SET(sockfd, &readfds);  
 
-timeout.tv_sec = 5;
-timeout.tv_usec = 0;
+timeout.tv_sec = 5;  
+timeout.tv_usec = 0;  
 
-int ready = select(sockfd + 1, &readfds, NULL, NULL, &timeout);
-if (ready < 0) {
+int ready = select(sockfd + 1, &readfds, NULL, NULL, &timeout);  
+if (ready < 0) {  
     perror("select");
 } else if (ready == 0) {
     printf("Timeout : aucune donnée disponible\n");
@@ -612,6 +612,7 @@ Voici un exemple de client UDP qui réessaie en cas de timeout.
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
+#include <sys/time.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 
@@ -695,8 +696,8 @@ L'**UDP broadcasting** permet d'envoyer un datagramme à **tous les hôtes** d'u
 ### Activation du broadcast
 
 ```c
-int broadcast_enable = 1;
-if (setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST,
+int broadcast_enable = 1;  
+if (setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST,  
                &broadcast_enable, sizeof(broadcast_enable)) < 0) {
     perror("setsockopt");
     exit(EXIT_FAILURE);
@@ -706,15 +707,15 @@ if (setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST,
 ### Envoi d'un broadcast
 
 ```c
-struct sockaddr_in broadcast_addr;
-memset(&broadcast_addr, 0, sizeof(broadcast_addr));
+struct sockaddr_in broadcast_addr;  
+memset(&broadcast_addr, 0, sizeof(broadcast_addr));  
 
-broadcast_addr.sin_family = AF_INET;
-broadcast_addr.sin_port = htons(8080);
-broadcast_addr.sin_addr.s_addr = INADDR_BROADCAST;  // 255.255.255.255
+broadcast_addr.sin_family = AF_INET;  
+broadcast_addr.sin_port = htons(8080);  
+broadcast_addr.sin_addr.s_addr = INADDR_BROADCAST;  // 255.255.255.255  
 
-const char *message = "Hello, everyone!";
-sendto(sockfd, message, strlen(message), 0,
+const char *message = "Hello, everyone!";  
+sendto(sockfd, message, strlen(message), 0,  
        (struct sockaddr*)&broadcast_addr, sizeof(broadcast_addr));
 ```
 
@@ -741,15 +742,15 @@ Le **multicasting** permet d'envoyer des datagrammes à un **groupe spécifique*
 ### Exemple d'émetteur multicast
 
 ```c
-struct sockaddr_in multicast_addr;
-memset(&multicast_addr, 0, sizeof(multicast_addr));
+struct sockaddr_in multicast_addr;  
+memset(&multicast_addr, 0, sizeof(multicast_addr));  
 
-multicast_addr.sin_family = AF_INET;
-multicast_addr.sin_port = htons(8080);
-inet_pton(AF_INET, "239.0.0.1", &multicast_addr.sin_addr);  // Adresse multicast
+multicast_addr.sin_family = AF_INET;  
+multicast_addr.sin_port = htons(8080);  
+inet_pton(AF_INET, "239.0.0.1", &multicast_addr.sin_addr);  // Adresse multicast  
 
-const char *message = "Multicast message";
-sendto(sockfd, message, strlen(message), 0,
+const char *message = "Multicast message";  
+sendto(sockfd, message, strlen(message), 0,  
        (struct sockaddr*)&multicast_addr, sizeof(multicast_addr));
 ```
 
@@ -757,9 +758,9 @@ sendto(sockfd, message, strlen(message), 0,
 
 ```c
 // Joindre le groupe multicast
-struct ip_mreq mreq;
-inet_pton(AF_INET, "239.0.0.1", &mreq.imr_multiaddr);
-mreq.imr_interface.s_addr = INADDR_ANY;
+struct ip_mreq mreq;  
+inet_pton(AF_INET, "239.0.0.1", &mreq.imr_multiaddr);  
+mreq.imr_interface.s_addr = INADDR_ANY;  
 
 if (setsockopt(sockfd, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq)) < 0) {
     perror("setsockopt");
@@ -935,8 +936,8 @@ sudo iptables -L -n | grep 8080
 **Symptôme :** Datagrammes tronqués
 
 ```c
-char buffer[10];  // ❌ Trop petit
-recvfrom(sockfd, buffer, sizeof(buffer), 0, NULL, NULL);
+char buffer[10];  // ❌ Trop petit  
+recvfrom(sockfd, buffer, sizeof(buffer), 0, NULL, NULL);  
 ```
 
 **Solution :** Utiliser un buffer suffisamment grand (au moins 1500 octets)
@@ -979,8 +980,8 @@ if (recvfrom(...) < 0) {
 
 Toujours définir un timeout pour `recvfrom()` :
 ```c
-struct timeval tv = {.tv_sec = 5, .tv_usec = 0};
-setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+struct timeval tv = {.tv_sec = 5, .tv_usec = 0};  
+setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));  
 ```
 
 ### 2. Implémenter des retries

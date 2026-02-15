@@ -57,21 +57,21 @@ Malgré son nom, `kill` permet d'envoyer **n'importe quel signal** à un process
 
 ```bash
 # Envoyer SIGTERM (15) - terminaison propre
-kill PID
-kill -15 PID
-kill -TERM PID
+kill PID  
+kill -15 PID  
+kill -TERM PID  
 
 # Envoyer SIGKILL (9) - tuer immédiatement
-kill -9 PID
-kill -KILL PID
+kill -9 PID  
+kill -KILL PID  
 
 # Envoyer SIGINT (2) - équivalent à Ctrl+C
-kill -2 PID
-kill -INT PID
+kill -2 PID  
+kill -INT PID  
 
 # Envoyer un signal personnalisé
-kill -USR1 PID
-kill -10 PID
+kill -USR1 PID  
+kill -10 PID  
 
 # Lister tous les signaux disponibles
 kill -l
@@ -97,8 +97,10 @@ int kill(pid_t pid, int sig);
 **Exemple :**
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 int main(void) {
@@ -120,6 +122,7 @@ int main(void) {
 ### S'envoyer un signal à soi-même
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -159,8 +162,8 @@ int raise(int sig);
 ```c
 #include <signal.h>
 
-typedef void (*sighandler_t)(int);
-sighandler_t signal(int signum, sighandler_t handler);
+typedef void (*sighandler_t)(int);  
+sighandler_t signal(int signum, sighandler_t handler);  
 ```
 
 **Paramètres :**
@@ -200,8 +203,8 @@ int main(void) {
 **Test :**
 ```bash
 $ ./programme
-Programme démarré (PID: 12345)
-Essayez Ctrl+C... ça ne marchera pas!
+Programme démarré (PID: 12345)  
+Essayez Ctrl+C... ça ne marchera pas!  
 
 Itération 1 - Ctrl+C ne fonctionne pas
 ^C                   # Vous appuyez sur Ctrl+C
@@ -244,17 +247,17 @@ int main(void) {
 
 **Sortie :**
 ```
-Programme démarré (PID: 12345)
-Appuyez sur Ctrl+C pour tester le gestionnaire
+Programme démarré (PID: 12345)  
+Appuyez sur Ctrl+C pour tester le gestionnaire  
 
-Itération 1
-Itération 2
+Itération 1  
+Itération 2  
 ^C
 [HANDLER] Signal 2 reçu (SIGINT)!
 [HANDLER] Mais je continue à fonctionner...
 
-Itération 3
-Itération 4
+Itération 3  
+Itération 4  
 ```
 
 ## Gestionnaire de signal : Contraintes importantes
@@ -284,10 +287,10 @@ Consultez `man 7 signal-safety` pour la liste exhaustive. Principales :
 
 ```
 _exit(), access(), alarm(), chdir(), chmod(), chown(),
-close(), dup(), execve(), fork(), getpid(), kill(),
-link(), lseek(), mkdir(), open(), pause(), pipe(),
-read(), rename(), rmdir(), setuid(), signal(), sleep(),
-stat(), time(), umask(), unlink(), wait(), write()
+close(), dup(), execve(), fork(), getpid(), kill(),  
+link(), lseek(), mkdir(), open(), pause(), pipe(),  
+read(), rename(), rmdir(), setuid(), signal(), sleep(),  
+stat(), time(), umask(), unlink(), wait(), write()  
 ```
 
 ### Exemple incorrect
@@ -299,6 +302,7 @@ stat(), time(), umask(), unlink(), wait(), write()
 
 // ❌ DANGEREUX : printf() dans un handler
 void bad_handler(int signum) {
+    (void)signum;
     printf("Signal reçu!\n");  // printf() n'est PAS async-signal-safe!
     // Peut causer un deadlock ou corruption de données
 }
@@ -325,6 +329,7 @@ int main(void) {
 
 // ✅ BON : utilisation de write()
 void safe_handler(int signum) {
+    (void)signum;
     const char msg[] = "\n[HANDLER] Signal reçu!\n";
     write(STDOUT_FILENO, msg, sizeof(msg) - 1);
 }
@@ -415,12 +420,14 @@ struct sigaction {
 ### Exemple basique avec `sigaction()`
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
 #include <string.h>
 
 void sigint_handler(int signum) {
+    (void)signum;
     const char msg[] = "\n[HANDLER] SIGINT reçu\n";
     write(STDOUT_FILENO, msg, sizeof(msg) - 1);
 }
@@ -474,6 +481,7 @@ int main(void) {
 Le flag `SA_SIGINFO` permet d'obtenir plus d'informations sur le signal :
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -525,13 +533,14 @@ int main(void) {
 ### Exemple complet : SIGINT, SIGTERM, SIGUSR1
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
 #include <string.h>
 
-volatile sig_atomic_t keep_running = 1;
-volatile sig_atomic_t usr1_received = 0;
+volatile sig_atomic_t keep_running = 1;  
+volatile sig_atomic_t usr1_received = 0;  
 
 void signal_handler(int signum) {
     char msg[64];
@@ -603,8 +612,8 @@ int main(void) {
 $ ./programme
 Programme démarré (PID: 12345)
 ...
-Itération 1 (SIGUSR1 reçu 0 fois)
-Itération 2 (SIGUSR1 reçu 0 fois)
+Itération 1 (SIGUSR1 reçu 0 fois)  
+Itération 2 (SIGUSR1 reçu 0 fois)  
 
 # Terminal 2
 $ kill -USR1 12345
@@ -633,11 +642,11 @@ Il est possible de **bloquer temporairement** la délivrance de certains signaux
 ```c
 #include <signal.h>
 
-int sigemptyset(sigset_t *set);           // Vider l'ensemble
-int sigfillset(sigset_t *set);            // Remplir avec tous les signaux
-int sigaddset(sigset_t *set, int signum); // Ajouter un signal
-int sigdelset(sigset_t *set, int signum); // Retirer un signal
-int sigismember(const sigset_t *set, int signum); // Tester l'appartenance
+int sigemptyset(sigset_t *set);           // Vider l'ensemble  
+int sigfillset(sigset_t *set);            // Remplir avec tous les signaux  
+int sigaddset(sigset_t *set, int signum); // Ajouter un signal  
+int sigdelset(sigset_t *set, int signum); // Retirer un signal  
+int sigismember(const sigset_t *set, int signum); // Tester l'appartenance  
 ```
 
 ### Modifier le masque de signaux
@@ -656,6 +665,7 @@ int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
 ### Exemple : Bloquer SIGINT temporairement
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -715,6 +725,7 @@ int main(void) {
 Quand un processus enfant se termine, le noyau envoie `SIGCHLD` au parent. C'est le mécanisme pour éviter les zombies de manière asynchrone.
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -796,6 +807,7 @@ int main(void) {
 Si vous ne vous souciez pas du code de retour des enfants :
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -845,13 +857,14 @@ Déclenche `SIGALRM` après `seconds` secondes.
 ### Exemple : Timeout sur une opération
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
 #include <setjmp.h>
 
-static jmp_buf jump_buffer;
-static volatile sig_atomic_t timeout_occurred = 0;
+static jmp_buf jump_buffer;  
+static volatile sig_atomic_t timeout_occurred = 0;  
 
 void alarm_handler(int signum) {
     (void)signum;
@@ -895,6 +908,7 @@ int main(void) {
 Voici un exemple de squelette de serveur gérant proprement les signaux :
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -902,8 +916,8 @@ Voici un exemple de squelette de serveur gérant proprement les signaux :
 #include <sys/wait.h>
 #include <string.h>
 
-volatile sig_atomic_t shutdown_requested = 0;
-volatile sig_atomic_t reload_config = 0;
+volatile sig_atomic_t shutdown_requested = 0;  
+volatile sig_atomic_t reload_config = 0;  
 
 void signal_handler(int signum) {
     char msg[64];
@@ -920,14 +934,14 @@ void signal_handler(int signum) {
 
         case SIGHUP:
             len = snprintf(msg, sizeof(msg),
-                          "\n[Signal] Rechargement config (SIGHUP)\n", signum);
+                          "\n[Signal] Rechargement config (signal %d)\n", signum);
             write(STDOUT_FILENO, msg, len);
             reload_config = 1;
             break;
 
         case SIGUSR1:
             len = snprintf(msg, sizeof(msg),
-                          "\n[Signal] SIGUSR1 - Affichage des stats\n", signum);
+                          "\n[Signal] SIGUSR1 - Affichage des stats (signal %d)\n", signum);
             write(STDOUT_FILENO, msg, len);
             // Afficher des statistiques
             break;
@@ -1082,8 +1096,8 @@ void handler(int sig) {
 Certains appels système retournent `-1` avec `errno == EINTR` quand interrompus par un signal. Utilisez `SA_RESTART` ou gérez manuellement :
 
 ```c
-ssize_t n;
-do {
+ssize_t n;  
+do {  
     n = read(fd, buffer, size);
 } while (n == -1 && errno == EINTR);
 ```

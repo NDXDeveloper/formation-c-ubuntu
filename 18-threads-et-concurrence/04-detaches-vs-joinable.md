@@ -79,11 +79,11 @@ int main(void) {
 
 **Sortie** :
 ```
-Création du thread joinable (par défaut)
-Thread principal attend...
-Thread démarre
-Thread se termine
-Thread principal terminé
+Création du thread joinable (par défaut)  
+Thread principal attend...  
+Thread démarre  
+Thread se termine  
+Thread principal terminé  
 ```
 
 ### Cycle de vie d'un thread joinable
@@ -227,10 +227,10 @@ int main(void) {
 
 **Sortie** :
 ```
-Thread principal continue son travail
-Thread détaché 1 démarre
-Thread détaché 1 se termine
-Thread principal terminé
+Thread principal continue son travail  
+Thread détaché 1 démarre  
+Thread détaché 1 se termine  
+Thread principal terminé  
 ```
 
 ---
@@ -298,12 +298,12 @@ Vous pouvez détacher un thread de **deux manières** :
 #### 1. Depuis le thread principal (après création)
 
 ```c
-pthread_t tid;
-pthread_create(&tid, NULL, worker, NULL);
+pthread_t tid;  
+pthread_create(&tid, NULL, worker, NULL);  
 
 // Détacher immédiatement après la création
-int result = pthread_detach(tid);
-if (result != 0) {
+int result = pthread_detach(tid);  
+if (result != 0) {  
     fprintf(stderr, "Erreur pthread_detach: %s\n", strerror(result));
 }
 ```
@@ -376,19 +376,19 @@ int main(void) {
 **Détacher deux fois le même thread** :
 
 ```c
-pthread_t tid;
-pthread_create(&tid, NULL, worker, NULL);
+pthread_t tid;  
+pthread_create(&tid, NULL, worker, NULL);  
 
-pthread_detach(tid);  // ✅ OK
-pthread_detach(tid);  // ❌ ERREUR : EINVAL (thread déjà détaché)
+pthread_detach(tid);  // ✅ OK  
+pthread_detach(tid);  // ❌ ERREUR : EINVAL (thread déjà détaché)  
 ```
 
 **Joindre un thread détaché** :
 
 ```c
-pthread_t tid;
-pthread_create(&tid, NULL, worker, NULL);
-pthread_detach(tid);
+pthread_t tid;  
+pthread_create(&tid, NULL, worker, NULL);  
+pthread_detach(tid);  
 
 pthread_join(tid, NULL);  // ❌ ERREUR : EINVAL (thread détaché)
 ```
@@ -396,11 +396,11 @@ pthread_join(tid, NULL);  // ❌ ERREUR : EINVAL (thread détaché)
 **Détacher après avoir joint** :
 
 ```c
-pthread_t tid;
-pthread_create(&tid, NULL, worker, NULL);
+pthread_t tid;  
+pthread_create(&tid, NULL, worker, NULL);  
 
-pthread_join(tid, NULL);  // Thread terminé et ressources libérées
-pthread_detach(tid);      // ❌ ERREUR : ESRCH (thread n'existe plus)
+pthread_join(tid, NULL);  // Thread terminé et ressources libérées  
+pthread_detach(tid);      // ❌ ERREUR : ESRCH (thread n'existe plus)  
 ```
 
 ---
@@ -1028,9 +1028,9 @@ int main(void) {
 ### 1. Joindre un thread détaché
 
 ```c
-pthread_t tid;
-pthread_create(&tid, NULL, worker, NULL);
-pthread_detach(tid);
+pthread_t tid;  
+pthread_create(&tid, NULL, worker, NULL);  
+pthread_detach(tid);  
 
 // ❌ ERREUR : EINVAL
 pthread_join(tid, NULL);  // Le thread est détaché !
@@ -1044,19 +1044,19 @@ pthread_join: Invalid argument
 ### 2. Détacher deux fois
 
 ```c
-pthread_t tid;
-pthread_create(&tid, NULL, worker, NULL);
+pthread_t tid;  
+pthread_create(&tid, NULL, worker, NULL);  
 
-pthread_detach(tid);  // ✅ OK
-pthread_detach(tid);  // ❌ ERREUR : EINVAL
+pthread_detach(tid);  // ✅ OK  
+pthread_detach(tid);  // ❌ ERREUR : EINVAL  
 ```
 
 ### 3. Utiliser pthread_t après détachement
 
 ```c
-pthread_t tid;
-pthread_create(&tid, NULL, worker, NULL);
-pthread_detach(tid);
+pthread_t tid;  
+pthread_create(&tid, NULL, worker, NULL);  
+pthread_detach(tid);  
 
 // ❌ DANGER : tid peut ne plus être valide
 // Le thread peut avoir déjà terminé et tid recyclé
@@ -1118,7 +1118,7 @@ void lancer_thread(void) {
 }
 
 void *worker(void *arg) {
-    pthread_detach(pthread_self());  // Optionnel si déjà détaché
+    // Pas de pthread_detach() ici : déjà détaché dans lancer_thread()
 
     int val = *(int *)arg;
     free(arg);  // Libérer l'argument
@@ -1178,9 +1178,9 @@ int main(void) {
 
 ```c
 // ✅ Bon : Détacher immédiatement après création
-pthread_t tid;
-pthread_create(&tid, NULL, worker, NULL);
-pthread_detach(tid);
+pthread_t tid;  
+pthread_create(&tid, NULL, worker, NULL);  
+pthread_detach(tid);  
 
 // Ou créer directement détaché avec attributs
 ```
@@ -1206,15 +1206,15 @@ void *traiter_client(void *client) {
 
 ```c
 // Pour calculs avec résultat → Joinable
-pthread_t tid;
-pthread_create(&tid, NULL, calculer_pi, NULL);
-void *result;
-pthread_join(tid, &result);  // Récupérer le résultat
+pthread_t tid;  
+pthread_create(&tid, NULL, calculer_pi, NULL);  
+void *result;  
+pthread_join(tid, &result);  // Récupérer le résultat  
 
 // Pour tâches de fond → Détaché
-pthread_t tid;
-pthread_create(&tid, NULL, logger, NULL);
-pthread_detach(tid);  // Fire and forget
+pthread_t tid;  
+pthread_create(&tid, NULL, logger, NULL);  
+pthread_detach(tid);  // Fire and forget  
 ```
 
 ### 4. Utiliser une fonction helper pour threads détachés

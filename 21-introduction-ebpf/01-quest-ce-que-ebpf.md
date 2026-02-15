@@ -500,7 +500,7 @@ Si vous voulez commencer à explorer eBPF dès maintenant :
 
 ### **Tutoriels interactifs**
 - [eBPF Tutorial by Example](https://github.com/lizrice/ebpf-beginners) par Liz Rice
-- Labs Katacoda sur eBPF (environnement sandbox)
+- [eBPF Tutorial by Example](https://eunomia.dev/tutorials/) (tutoriels progressifs avec sandbox)
 
 ### **Communautés**
 - [eBPF Slack](https://ebpf.io/slack) - Communauté très accueillante

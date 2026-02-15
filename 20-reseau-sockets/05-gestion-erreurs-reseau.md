@@ -60,8 +60,8 @@ Erreurs détectées **immédiatement**, généralement au démarrage.
 **Gestion typique :** Afficher l'erreur et quitter proprement
 
 ```c
-int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-if (sockfd < 0) {
+int sockfd = socket(AF_INET, SOCK_STREAM, 0);  
+if (sockfd < 0) {  
     perror("socket");
     fprintf(stderr, "Impossible de créer le socket. Vérifiez les permissions.\n");
     exit(EXIT_FAILURE);
@@ -106,7 +106,7 @@ while (retry < MAX_RETRIES) {
                 retry, MAX_RETRIES, strerror(errno));
 
         if (retry < MAX_RETRIES) {
-            sleep(2 * retry);  // Backoff exponentiel
+            sleep(1 << retry);  // Backoff exponentiel (1s, 2s, 4s)
         }
     } else {
         perror("connect");
@@ -141,8 +141,8 @@ Erreurs pendant l'**envoi** ou la **réception** de données.
 **Gestion typique :** Détecter, logger, décider (retry/abort)
 
 ```c
-ssize_t n = send(sockfd, buffer, len, 0);
-if (n < 0) {
+ssize_t n = send(sockfd, buffer, len, 0);  
+if (n < 0) {  
     switch (errno) {
         case EPIPE:
         case ECONNRESET:
@@ -189,17 +189,17 @@ L'opération prend **trop de temps**.
 
 ```c
 // Timeout pour recv()
-struct timeval tv;
-tv.tv_sec = 30;   // 30 secondes
-tv.tv_usec = 0;
+struct timeval tv;  
+tv.tv_sec = 30;   // 30 secondes  
+tv.tv_usec = 0;  
 
 if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
     perror("setsockopt SO_RCVTIMEO");
 }
 
 // Maintenant recv() timeout après 30 secondes
-ssize_t n = recv(sockfd, buffer, sizeof(buffer), 0);
-if (n < 0) {
+ssize_t n = recv(sockfd, buffer, sizeof(buffer), 0);  
+if (n < 0) {  
     if (errno == EAGAIN || errno == EWOULDBLOCK) {
         fprintf(stderr, "Timeout : aucune donnée reçue en 30 secondes\n");
         // Décider quoi faire
@@ -228,8 +228,8 @@ Le système manque de **ressources**.
 **Gestion typique :** Limiter les ressources, retry, dégradation gracieuse
 
 ```c
-int client_fd = accept(server_fd, ...);
-if (client_fd < 0) {
+int client_fd = accept(server_fd, ...);  
+if (client_fd < 0) {  
     if (errno == EMFILE || errno == ENFILE) {
         fprintf(stderr, "Trop de connexions ouvertes, refus temporaire\n");
         // Possibilité : fermer des connexions inactives
@@ -252,7 +252,9 @@ Quand une fonction système échoue (retourne -1), elle positionne la variable g
 ```c
 #include <errno.h>
 
-extern int errno;  // Variable globale (thread-local en pratique)
+// errno est un macro qui s'étend vers une valeur thread-local
+// Sur Linux : #define errno (*__errno_location())
+// Utilisez simplement errno après #include <errno.h>
 ```
 
 **Séquence typique :**
@@ -397,19 +399,19 @@ Parfois, la connexion est coupée (câble débranché) mais aucun des deux côt�
 #### 1. TCP Keepalive
 
 ```c
-int keepalive = 1;
-if (setsockopt(sockfd, SOL_SOCKET, SO_KEEPALIVE, &keepalive, sizeof(keepalive)) < 0) {
+int keepalive = 1;  
+if (setsockopt(sockfd, SOL_SOCKET, SO_KEEPALIVE, &keepalive, sizeof(keepalive)) < 0) {  
     perror("setsockopt SO_KEEPALIVE");
 }
 
 // Optionnel : configurer les paramètres keepalive
-int keepidle = 60;   // Inactivité avant premier probe (secondes)
-int keepintvl = 10;  // Intervalle entre probes
-int keepcnt = 3;     // Nombre de probes avant déclaration morte
+int keepidle = 60;   // Inactivité avant premier probe (secondes)  
+int keepintvl = 10;  // Intervalle entre probes  
+int keepcnt = 3;     // Nombre de probes avant déclaration morte  
 
-setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPIDLE, &keepidle, sizeof(keepidle));
-setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPINTVL, &keepintvl, sizeof(keepintvl));
-setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPCNT, &keepcnt, sizeof(keepcnt));
+setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPIDLE, &keepidle, sizeof(keepidle));  
+setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPINTVL, &keepintvl, sizeof(keepintvl));  
+setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPCNT, &keepcnt, sizeof(keepcnt));  
 ```
 
 **Fonctionnement :**
@@ -484,13 +486,13 @@ int main() {
 
 ```c
 // ❌ Mauvais
-socket(AF_INET, SOCK_STREAM, 0);
-connect(sockfd, ...);
-send(sockfd, buffer, len, 0);
+socket(AF_INET, SOCK_STREAM, 0);  
+connect(sockfd, ...);  
+send(sockfd, buffer, len, 0);  
 
 // ✅ Bon
-int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-if (sockfd < 0) {
+int sockfd = socket(AF_INET, SOCK_STREAM, 0);  
+if (sockfd < 0) {  
     perror("socket");
     return -1;
 }
@@ -501,8 +503,8 @@ if (connect(sockfd, ...) < 0) {
     return -1;
 }
 
-ssize_t n = send(sockfd, buffer, len, 0);
-if (n < 0) {
+ssize_t n = send(sockfd, buffer, len, 0);  
+if (n < 0) {  
     perror("send");
     close(sockfd);
     return -1;
@@ -531,8 +533,8 @@ ssize_t recv_retry(int sockfd, void *buf, size_t len, int flags) {
 
 **Utilisation :**
 ```c
-ssize_t n = recv_retry(sockfd, buffer, sizeof(buffer), 0);
-if (n < 0) {
+ssize_t n = recv_retry(sockfd, buffer, sizeof(buffer), 0);  
+if (n < 0) {  
     perror("recv");
 } else if (n == 0) {
     printf("Connexion fermée\n");
@@ -911,6 +913,7 @@ Voici un client TCP avec gestion d'erreurs complète.
 #include <unistd.h>
 #include <errno.h>
 #include <signal.h>
+#include <sys/time.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 

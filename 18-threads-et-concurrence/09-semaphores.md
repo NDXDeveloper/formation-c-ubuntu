@@ -130,8 +130,8 @@ void *thread_func(void *arg) {
 
 **Avec Sémaphore** :
 ```c
-sem_t semaphore;
-sem_init(&semaphore, 0, 3);  // 3 threads simultanés max
+sem_t semaphore;  
+sem_init(&semaphore, 0, 3);  // 3 threads simultanés max  
 
 void *thread_func(void *arg) {
     sem_wait(&semaphore);  // Décrémenter (max 3 en même temps)
@@ -287,16 +287,16 @@ int sem_wait(sem_t *sem);
 **Exemple** :
 
 ```c
-sem_t sem;
-sem_init(&sem, 0, 2);  // Valeur initiale = 2
+sem_t sem;  
+sem_init(&sem, 0, 2);  // Valeur initiale = 2  
 
 // Thread 1
-sem_wait(&sem);  // Valeur = 1, continue
-printf("Thread 1 : Accès ressource\n");
+sem_wait(&sem);  // Valeur = 1, continue  
+printf("Thread 1 : Accès ressource\n");  
 
 // Thread 2
-sem_wait(&sem);  // Valeur = 0, continue
-printf("Thread 2 : Accès ressource\n");
+sem_wait(&sem);  // Valeur = 0, continue  
+printf("Thread 2 : Accès ressource\n");  
 
 // Thread 3
 sem_wait(&sem);  // Valeur = 0, BLOQUE jusqu'à un post()
@@ -322,8 +322,8 @@ int sem_post(sem_t *sem);
 
 ```c
 // Thread qui libère
-sem_post(&sem);  // Valeur++, réveille un thread bloqué
-printf("Ressource libérée\n");
+sem_post(&sem);  // Valeur++, réveille un thread bloqué  
+printf("Ressource libérée\n");  
 ```
 
 ### sem_getvalue() : Obtenir la valeur
@@ -339,9 +339,9 @@ int sem_getvalue(sem_t *sem, int *valeur);
 **Exemple** :
 
 ```c
-int valeur;
-sem_getvalue(&sem, &valeur);
-printf("Valeur actuelle du sémaphore : %d\n", valeur);
+int valeur;  
+sem_getvalue(&sem, &valeur);  
+printf("Valeur actuelle du sémaphore : %d\n", valeur);  
 ```
 
 ### Exemple complet
@@ -397,17 +397,17 @@ int main(void) {
 
 **Sortie typique** :
 ```
-Thread 0 : Demande accès
-Thread 0 : Accès obtenu, travaille...
-Thread 1 : Demande accès
-Thread 1 : Accès obtenu, travaille...
-Thread 2 : Demande accès
-Thread 3 : Demande accès
-Thread 4 : Demande accès
-Thread 0 : Libère l'accès
-Thread 2 : Accès obtenu, travaille...
-Thread 1 : Libère l'accès
-Thread 3 : Accès obtenu, travaille...
+Thread 0 : Demande accès  
+Thread 0 : Accès obtenu, travaille...  
+Thread 1 : Demande accès  
+Thread 1 : Accès obtenu, travaille...  
+Thread 2 : Demande accès  
+Thread 3 : Demande accès  
+Thread 4 : Demande accès  
+Thread 0 : Libère l'accès  
+Thread 2 : Accès obtenu, travaille...  
+Thread 1 : Libère l'accès  
+Thread 3 : Accès obtenu, travaille...  
 ...
 ```
 
@@ -422,15 +422,15 @@ Un **sémaphore binaire** a une valeur de **0 ou 1**. Il se comporte comme un mu
 ### Initialisation
 
 ```c
-sem_t sem_binaire;
-sem_init(&sem_binaire, 0, 1);  // Valeur = 1 (libre)
+sem_t sem_binaire;  
+sem_init(&sem_binaire, 0, 1);  // Valeur = 1 (libre)  
 ```
 
 ### Utilisation comme mutex
 
 ```c
-int compteur = 0;
-sem_t mutex_sem;
+int compteur = 0;  
+sem_t mutex_sem;  
 
 void *incrementer(void *arg) {
     for (int i = 0; i < 100000; i++) {
@@ -534,16 +534,16 @@ int main(void) {
 
 **Sortie** :
 ```
-Pool de 3 connexions disponibles
-Client 0 : Demande connexion
-Client 0 : Connexion obtenue, utilise...
-Client 1 : Demande connexion
-Client 1 : Connexion obtenue, utilise...
-Client 2 : Demande connexion
-Client 2 : Connexion obtenue, utilise...
-Client 3 : Demande connexion  ← Bloqué (pool plein)
-Client 0 : Libère connexion
-Client 3 : Connexion obtenue, utilise...  ← Débloqué
+Pool de 3 connexions disponibles  
+Client 0 : Demande connexion  
+Client 0 : Connexion obtenue, utilise...  
+Client 1 : Demande connexion  
+Client 1 : Connexion obtenue, utilise...  
+Client 2 : Demande connexion  
+Client 2 : Connexion obtenue, utilise...  
+Client 3 : Demande connexion  ← Bloqué (pool plein)  
+Client 0 : Libère connexion  
+Client 3 : Connexion obtenue, utilise...  ← Débloqué  
 ...
 ```
 
@@ -572,11 +572,11 @@ Les sémaphores sont **idéaux** pour implémenter le pattern producteur-consomm
 
 #define BUFFER_SIZE 5
 
-int buffer[BUFFER_SIZE];
-int in = 0, out = 0;
+int buffer[BUFFER_SIZE];  
+int in = 0, out = 0;  
 
-sem_t empty;  // Nombre de cases vides
-sem_t full;   // Nombre de cases pleines
+sem_t empty;  // Nombre de cases vides  
+sem_t full;   // Nombre de cases pleines  
 
 void *producteur(void *arg) {
     for (int i = 0; i < 20; i++) {
@@ -648,12 +648,12 @@ Si plusieurs producteurs/consommateurs accèdent au buffer, il faut protéger `i
 #define N_PROD 2
 #define N_CONS 2
 
-int buffer[BUFFER_SIZE];
-int in = 0, out = 0;
+int buffer[BUFFER_SIZE];  
+int in = 0, out = 0;  
 
-sem_t empty;
-sem_t full;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+sem_t empty;  
+sem_t full;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
 
 void *producteur(void *arg) {
     int id = *(int *)arg;
@@ -875,9 +875,9 @@ Une **barrière** force tous les threads à attendre que tous soient arrivés av
 
 #define NUM_THREADS 5
 
-int threads_arrived = 0;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-sem_t barrier_sem;
+int threads_arrived = 0;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+sem_t barrier_sem;  
 
 void barrier(int id) {
     pthread_mutex_lock(&mutex);
@@ -962,8 +962,8 @@ sem_t *sem_open(const char *name, int oflag, ...);
 // O_EXCL : Erreur si existe déjà (avec O_CREAT)
 
 // Exemple
-sem_t *sem = sem_open("/mon_semaphore", O_CREAT, 0644, 1);
-if (sem == SEM_FAILED) {
+sem_t *sem = sem_open("/mon_semaphore", O_CREAT, 0644, 1);  
+if (sem == SEM_FAILED) {  
     perror("sem_open");
     exit(EXIT_FAILURE);
 }
@@ -1043,8 +1043,8 @@ Consommateur : Attente des données...
 
 # Terminal 2
 ./producteur
-Producteur : Préparation des données...
-Producteur : Données prêtes, signal !
+Producteur : Préparation des données...  
+Producteur : Données prêtes, signal !  
 
 # Terminal 1 (débloqué)
 Consommateur : Données reçues !
@@ -1175,14 +1175,14 @@ Il existe **deux APIs** de sémaphores sous Linux :
 
 ```c
 // ❌ Fuite de ressources
-sem_t sem;
-sem_init(&sem, 0, 1);
+sem_t sem;  
+sem_init(&sem, 0, 1);  
 // Utilisation...
 // Pas de sem_destroy() !
 
 // ✅ Correct
-sem_t sem;
-sem_init(&sem, 0, 1);
+sem_t sem;  
+sem_init(&sem, 0, 1);  
 // Utilisation...
 sem_destroy(&sem);
 ```
@@ -1191,9 +1191,9 @@ sem_destroy(&sem);
 
 ```c
 // ❌ Bloque immédiatement
-sem_t sem;
-sem_init(&sem, 0, 0);  // Valeur = 0
-sem_wait(&sem);  // BLOQUE (personne ne fera post)
+sem_t sem;  
+sem_init(&sem, 0, 0);  // Valeur = 0  
+sem_wait(&sem);  // BLOQUE (personne ne fera post)  
 
 // ✅ Correct pour mutex
 sem_init(&sem, 0, 1);  // Valeur = 1 (disponible)
@@ -1218,8 +1218,8 @@ sem_post(&sem);  // Rendre
 
 ```c
 // ❌ Mélange d'APIs
-sem_t sem;
-pthread_mutex_lock(&sem);  // Erreur de type !
+sem_t sem;  
+pthread_mutex_lock(&sem);  // Erreur de type !  
 
 // ✅ Correct
 sem_wait(&sem);
@@ -1230,16 +1230,16 @@ sem_wait(&sem);
 ```c
 // Producteur-consommateur mal fait
 // ❌ DEADLOCK potentiel
-sem_wait(&mutex);    // Prendre mutex
-sem_wait(&full);     // Attendre full → DEADLOCK si buffer vide
+sem_wait(&mutex);    // Prendre mutex  
+sem_wait(&full);     // Attendre full → DEADLOCK si buffer vide  
 // Buffer plein, mais mutex verrouillé !
 
 // ✅ CORRECT : Sémaphore avant mutex
-sem_wait(&full);     // Attendre données
-sem_wait(&mutex);    // Puis prendre mutex
+sem_wait(&full);     // Attendre données  
+sem_wait(&mutex);    // Puis prendre mutex  
 // Consommer
-sem_post(&mutex);
-sem_post(&empty);
+sem_post(&mutex);  
+sem_post(&empty);  
 ```
 
 ---
@@ -1253,9 +1253,9 @@ sem_post(&empty);
 sem_t s1, s2;
 
 // ✅ Clair
-sem_t empty_slots;
-sem_t filled_slots;
-sem_t mutex_sem;
+sem_t empty_slots;  
+sem_t filled_slots;  
+sem_t mutex_sem;  
 ```
 
 ### 2. Documenter la valeur initiale

@@ -48,14 +48,15 @@ Notifications diverses : `SIGCHLD`, `SIGPIPE`, `SIGHUP`, `SIGALRM`
 `SIGTERM` est le signal par défaut de la commande `kill` :
 
 ```bash
-kill PID        # Envoie SIGTERM
-kill -15 PID    # Équivalent
-kill -TERM PID  # Équivalent
+kill PID        # Envoie SIGTERM  
+kill -15 PID    # Équivalent  
+kill -TERM PID  # Équivalent  
 ```
 
 ### Exemple : Gestion de SIGTERM
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -140,6 +141,7 @@ int main(void) {
 ### Exemple : Confirmer avant de quitter
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -188,6 +190,7 @@ int main(void) {
 ### Usage typique : Script interruptible
 
 ```c
+#define _XOPEN_SOURCE 500
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -196,7 +199,7 @@ volatile sig_atomic_t keep_running = 1;
 
 void sigint_handler(int signum) {
     (void)signum;
-    write(STDOUT_FILENO, "\nInterruption demandée...\n", 26);
+    write(STDOUT_FILENO, "\nInterruption demandée...\n", 27);
     keep_running = 0;
 }
 
@@ -243,8 +246,8 @@ kill PID
 sleep 5
 
 # Si le processus ne répond pas, SIGKILL
-kill -9 PID
-kill -KILL PID
+kill -9 PID  
+kill -KILL PID  
 ```
 
 ### Conséquences de SIGKILL
@@ -307,8 +310,8 @@ int main(void) {
 PID=$1
 
 # Envoyer SIGTERM
-echo "Envoi de SIGTERM à $PID..."
-kill -TERM $PID
+echo "Envoi de SIGTERM à $PID..."  
+kill -TERM $PID  
 
 # Attendre jusqu'à 10 secondes
 for i in {1..10}; do
@@ -320,8 +323,8 @@ for i in {1..10}; do
 done
 
 # Si toujours actif, SIGKILL
-echo "Processus ne répond pas, envoi de SIGKILL..."
-kill -9 $PID
+echo "Processus ne répond pas, envoi de SIGKILL..."  
+kill -9 $PID  
 ```
 
 ## SIGQUIT (3) : Quitter avec core dump
@@ -424,14 +427,15 @@ int main(void) {
 ### Exemple : Statistiques et configuration
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
 #include <time.h>
 
 // Statistiques globales
-volatile sig_atomic_t request_count = 0;
-volatile sig_atomic_t debug_mode = 0;
+volatile sig_atomic_t request_count = 0;  
+volatile sig_atomic_t debug_mode = 0;  
 
 void sigusr_handler(int signum) {
     char msg[256];
@@ -496,9 +500,9 @@ int main(void) {
 ```bash
 # Terminal 1
 $ ./service
-Service démarré (PID: 12345)
-Requête #1
-Requête #2
+Service démarré (PID: 12345)  
+Requête #1  
+Requête #2  
 
 # Terminal 2
 $ kill -USR2 12345  # Activer debug
@@ -510,9 +514,9 @@ $ kill -USR1 12345  # Voir les stats
 [DEBUG] Traitement requête #4
 
 === Statistiques ===
-Requêtes traitées: 4
-Mode debug: ON
-Timestamp: 1234567890
+Requêtes traitées: 4  
+Mode debug: ON  
+Timestamp: 1234567890  
 ====================
 ```
 
@@ -546,6 +550,7 @@ kill -HUP <PID>
 ### Exemple : Service avec rechargement
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -557,8 +562,8 @@ typedef struct {
     int max_connections;
 } Config;
 
-Config global_config;
-volatile sig_atomic_t reload_requested = 0;
+Config global_config;  
+volatile sig_atomic_t reload_requested = 0;  
 
 void load_configuration(void) {
     printf("\n[Config] Chargement de la configuration...\n");
@@ -636,6 +641,7 @@ nohup ./mon_programme &
 ### Usage principal : Éviter les zombies
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -735,6 +741,7 @@ sa.sa_flags = SA_RESTART | SA_NOCLDSTOP | SA_NOCLDWAIT;
 ### Exemple : Timeout sur une opération
 
 ```c
+#define _XOPEN_SOURCE 600
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -785,6 +792,7 @@ int main(void) {
 ### Exemple : Alarme périodique
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -934,14 +942,15 @@ ssize_t safe_write(int fd, const void *buf, size_t count) {
 ### Exemple : Déclenchement volontaire
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
 
 void sigsegv_handler(int signum) {
     (void)signum;
-    write(STDERR_FILENO, "\nSIGSEGV capturé!\n", 18);
-    write(STDERR_FILENO, "Erreur mémoire détectée\n", 25);
+    write(STDERR_FILENO, "\nSIGSEGV capturé!\n", 19);
+    write(STDERR_FILENO, "Erreur mémoire détectée\n", 27);
     _exit(1);  // Terminer immédiatement
 }
 
@@ -978,10 +987,11 @@ int main(void) {
 #include <stdlib.h>
 
 void sigsegv_handler(int signum) {
+    (void)signum;
     void *array[10];
     size_t size;
 
-    write(STDERR_FILENO, "\n=== CRASH DÉTECTÉ ===\n", 23);
+    write(STDERR_FILENO, "\n=== CRASH DÉTECTÉ ===\n", 25);
 
     // Obtenir la backtrace
     size = backtrace(array, 10);
@@ -989,7 +999,7 @@ void sigsegv_handler(int signum) {
     write(STDERR_FILENO, "Stack trace:\n", 13);
     backtrace_symbols_fd(array, size, STDERR_FILENO);
 
-    write(STDERR_FILENO, "\n===================\n", 22);
+    write(STDERR_FILENO, "\n===================\n", 21);
 
     // Terminer immédiatement
     _exit(1);
@@ -1026,6 +1036,7 @@ gcc -rdynamic -o programme programme.c
 ### Exemple : Division par zéro
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -1107,7 +1118,7 @@ kill -CONT PID
 
 void sigtstp_handler(int signum) {
     (void)signum;
-    write(STDOUT_FILENO, "\nCtrl+Z détecté, mais je refuse de m'arrêter!\n", 47);
+    write(STDOUT_FILENO, "\nCtrl+Z détecté, mais je refuse de m'arrêter!\n", 49);
 }
 
 int main(void) {

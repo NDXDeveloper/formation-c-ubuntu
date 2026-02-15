@@ -92,12 +92,12 @@ POSIX AIO est l'API standard pour l'I/O asynchrone définie par POSIX.1-2001.
 ```c
 #include <aio.h>
 
-int aio_read(struct aiocb *aiocbp);    // Lecture asynchrone
-int aio_write(struct aiocb *aiocbp);   // Écriture asynchrone
-int aio_error(const struct aiocb *aiocbp);   // Vérifier le statut
-ssize_t aio_return(struct aiocb *aiocbp);    // Récupérer le résultat
-int aio_cancel(int fd, struct aiocb *aiocbp); // Annuler une opération
-int aio_suspend(const struct aiocb * const aiocb_list[],
+int aio_read(struct aiocb *aiocbp);    // Lecture asynchrone  
+int aio_write(struct aiocb *aiocbp);   // Écriture asynchrone  
+int aio_error(const struct aiocb *aiocbp);   // Vérifier le statut  
+ssize_t aio_return(struct aiocb *aiocbp);    // Récupérer le résultat  
+int aio_cancel(int fd, struct aiocb *aiocbp); // Annuler une opération  
+int aio_suspend(const struct aiocb * const aiocb_list[],  
                 int nitems, const struct timespec *timeout); // Attendre
 ```
 
@@ -126,8 +126,10 @@ POSIX AIO propose **trois méthodes** pour être notifié de la fin d'une opéra
 Vérifier périodiquement avec `aio_error()` :
 
 ```c
+#define _XOPEN_SOURCE 600
 #include <aio.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -189,16 +191,18 @@ int main(void) {
 gcc -o aio_demo aio_demo.c -lrt
 ```
 
-**Avantages :** Simple
-**Inconvénients :** Consomme du CPU, pas vraiment asynchrone
+**Avantages :** Simple  
+**Inconvénients :** Consomme du CPU, pas vraiment asynchrone  
 
 #### 2. Signal
 
 Recevoir un signal quand l'opération est terminée :
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <aio.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <signal.h>
 #include <string.h>
@@ -267,16 +271,18 @@ int main(void) {
 }
 ```
 
-**Avantages :** Vraiment asynchrone
-**Inconvénients :** Complexité des signaux
+**Avantages :** Vraiment asynchrone  
+**Inconvénients :** Complexité des signaux  
 
 #### 3. Thread callback
 
 Lancer un thread qui exécutera une fonction de callback :
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <aio.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <pthread.h>
@@ -336,18 +342,20 @@ int main(void) {
 }
 ```
 
-**Avantages :** Propre, séparation des responsabilités
-**Inconvénients :** Overhead du thread
+**Avantages :** Propre, séparation des responsabilités  
+**Inconvénients :** Overhead du thread  
 
 ### Exemple : Copie de fichier asynchrone
 
 ```c
+#define _XOPEN_SOURCE 600
 #include <aio.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 
 #define BUFFER_SIZE 4096
 
@@ -512,18 +520,20 @@ sudo apt-get install liburing-dev
 sudo dnf install liburing-devel
 
 # Compiler depuis les sources
-git clone https://github.com/axboe/liburing.git
-cd liburing
+git clone https://github.com/axboe/liburing.git  
+cd liburing  
 ./configure
-make
-sudo make install
+make  
+sudo make install  
 ```
 
 ### Exemple basique avec io_uring
 
 ```c
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <string.h>
 #include <liburing.h>
 
@@ -612,18 +622,20 @@ gcc -o uring_demo uring_demo.c -luring
 ### Exemple : Lecture multiple en parallèle
 
 ```c
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <string.h>
 #include <liburing.h>
 
 #define QUEUE_DEPTH 32
-#define BLOCK_SIZE 4096
+#define BUF_SIZE 4096
 
 typedef struct {
     int file_index;
-    char buffer[BLOCK_SIZE];
+    char buffer[BUF_SIZE];
 } read_context_t;
 
 int main(void) {
@@ -660,12 +672,7 @@ int main(void) {
         struct io_uring_sqe *sqe = io_uring_get_sqe(&ring);
         if (!sqe) break;
 
-        struct iovec iov = {
-            .iov_base = contexts[i].buffer,
-            .iov_len = BLOCK_SIZE
-        };
-
-        io_uring_prep_readv(sqe, fds[i], &iov, 1, 0);
+        io_uring_prep_read(sqe, fds[i], contexts[i].buffer, BUF_SIZE, 0);
         io_uring_sqe_set_data(sqe, &contexts[i]);
     }
 
@@ -708,6 +715,7 @@ int main(void) {
 ### Exemple avancé : Serveur echo avec io_uring
 
 ```c
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -776,12 +784,7 @@ void add_read(struct io_uring *ring, int client_fd) {
     req->type = READ;
     req->fd = client_fd;
 
-    struct iovec iov = {
-        .iov_base = req->buffer,
-        .iov_len = BUFFER_SIZE
-    };
-
-    io_uring_prep_readv(sqe, client_fd, &iov, 1, 0);
+    io_uring_prep_read(sqe, client_fd, req->buffer, BUFFER_SIZE, 0);
     io_uring_sqe_set_data(sqe, req);
 }
 
@@ -795,12 +798,7 @@ void add_write(struct io_uring *ring, int client_fd,
     req->len = len;
     memcpy(req->buffer, data, len);
 
-    struct iovec iov = {
-        .iov_base = req->buffer,
-        .iov_len = len
-    };
-
-    io_uring_prep_writev(sqe, client_fd, &iov, 1, 0);
+    io_uring_prep_write(sqe, client_fd, req->buffer, len, 0);
     io_uring_sqe_set_data(sqe, req);
 }
 
@@ -915,9 +913,9 @@ gcc -o uring_server uring_server.c -luring
 ```
 Test: Lire 1000 fichiers de 4 Ko chacun
 
-I/O bloquant :     250 ms
-POSIX AIO :        180 ms  (28% plus rapide)
-io_uring :          45 ms  (82% plus rapide) ✅
+I/O bloquant :     250 ms  
+POSIX AIO :        180 ms  (28% plus rapide)  
+io_uring :          45 ms  (82% plus rapide) ✅  
 ```
 
 **Conclusion :** `io_uring` est nettement supérieur sur Linux moderne.
@@ -983,8 +981,8 @@ Quel modèle d'I/O choisir ?
 
 ```c
 // ✅ BON
-struct io_uring_cqe *cqe;
-if (io_uring_wait_cqe(&ring, &cqe) < 0) {
+struct io_uring_cqe *cqe;  
+if (io_uring_wait_cqe(&ring, &cqe) < 0) {  
     perror("io_uring_wait_cqe");
     return -1;
 }
@@ -1002,8 +1000,8 @@ io_uring_wait_cqe(&ring, &cqe);
 ### 2. Toujours marquer les CQE comme vues
 
 ```c
-struct io_uring_cqe *cqe;
-io_uring_wait_cqe(&ring, &cqe);
+struct io_uring_cqe *cqe;  
+io_uring_wait_cqe(&ring, &cqe);  
 
 // Traiter cqe...
 
@@ -1062,16 +1060,16 @@ io_uring_queue_init(4096, &ring, 0);  // ⚠️ Si vraiment nécessaire
 
 ```c
 // ❌ ERREUR
-struct io_uring_sqe *sqe = io_uring_get_sqe(&ring);
-io_uring_prep_read(sqe, fd, buffer, size, 0);
+struct io_uring_sqe *sqe = io_uring_get_sqe(&ring);  
+io_uring_prep_read(sqe, fd, buffer, size, 0);  
 // Oubli de io_uring_submit() !
 io_uring_wait_cqe(&ring, &cqe);  // Attend indéfiniment !
 
 // ✅ CORRECT
-struct io_uring_sqe *sqe = io_uring_get_sqe(&ring);
-io_uring_prep_read(sqe, fd, buffer, size, 0);
-io_uring_submit(&ring);  // ✅
-io_uring_wait_cqe(&ring, &cqe);
+struct io_uring_sqe *sqe = io_uring_get_sqe(&ring);  
+io_uring_prep_read(sqe, fd, buffer, size, 0);  
+io_uring_submit(&ring);  // ✅  
+io_uring_wait_cqe(&ring, &cqe);  
 ```
 
 ### 2. Buffer invalide pendant l'opération
@@ -1099,17 +1097,17 @@ char *buffer = malloc(1024);  // Alloué sur le tas
 
 ```c
 // ❌ PROBLÈME
-char buffer[1024];
-io_uring_prep_read(sqe1, fd1, buffer, 1024, 0);
-io_uring_submit(&ring);
+char buffer[1024];  
+io_uring_prep_read(sqe1, fd1, buffer, 1024, 0);  
+io_uring_submit(&ring);  
 
 // Réutilise le même buffer immédiatement !
 io_uring_prep_read(sqe2, fd2, buffer, 1024, 0);  // ⚠️ Race !
 
 // ✅ SOLUTION
-char buffer1[1024], buffer2[1024];
-io_uring_prep_read(sqe1, fd1, buffer1, 1024, 0);
-io_uring_prep_read(sqe2, fd2, buffer2, 1024, 0);
+char buffer1[1024], buffer2[1024];  
+io_uring_prep_read(sqe1, fd1, buffer1, 1024, 0);  
+io_uring_prep_read(sqe2, fd2, buffer2, 1024, 0);  
 ```
 
 ### 4. Ne pas vérifier la disponibilité des SQE
@@ -1152,9 +1150,9 @@ io_uring_submit(&ring);
 
 ```c
 // Accept, read, write tous via io_uring
-io_uring_prep_accept(sqe_accept, server_fd, ...);
-io_uring_prep_recv(sqe_read, client_fd, buffer, ...);
-io_uring_prep_send(sqe_write, client_fd, response, ...);
+io_uring_prep_accept(sqe_accept, server_fd, ...);  
+io_uring_prep_recv(sqe_read, client_fd, buffer, ...);  
+io_uring_prep_send(sqe_write, client_fd, response, ...);  
 ```
 
 ### 3. Traitement de logs
@@ -1173,8 +1171,8 @@ io_uring_submit(&ring);
 
 ```c
 // Lire depuis source et écrire vers destination en parallèle
-io_uring_prep_read(sqe_read, src_fd, buffer, SIZE, offset);
-io_uring_prep_write(sqe_write, dst_fd, buffer, SIZE, offset);
+io_uring_prep_read(sqe_read, src_fd, buffer, SIZE, offset);  
+io_uring_prep_write(sqe_write, dst_fd, buffer, SIZE, offset);  
 
 // Pipeline : lecture et écriture simultanées
 ```
@@ -1230,10 +1228,10 @@ fio --name=test --ioengine=io_uring --rw=read --bs=4k
 ## Prochaines étapes
 
 Maintenant que vous comprenez l'I/O asynchrone, explorez :
-- **chapitre 17** : Processus et signaux (pour comprendre les signaux AIO)
-- **chapitre 18** : Threads et concurrence (alternative à AIO)
-- **chapitre 20** : Programmation réseau (combiné avec io_uring)
-- **chapitre 27** : Optimisation et performance (profiling d'I/O)
+- **Chapitre 17** : Processus et signaux (pour comprendre les signaux AIO)
+- **Chapitre 18** : Threads et concurrence (alternative à AIO)
+- **Chapitre 20** : Programmation réseau (combiné avec io_uring)
+- **Chapitre 27** : Optimisation et performance (profiling d'I/O)
 
 L'I/O asynchrone représente le summum de l'efficacité pour les opérations d'entrée/sortie. C'est une technique avancée qui, lorsqu'elle est bien maîtrisée, permet de créer des systèmes extrêmement performants capables de gérer des charges massives !
 

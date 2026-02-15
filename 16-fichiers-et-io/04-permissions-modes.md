@@ -93,9 +93,9 @@ On **additionne** ces valeurs pour obtenir un chiffre de 0 à 7 :
 **Exemple : `rw-r--r--` en octal**
 
 ```
-User:   rw-  = 4 + 2 + 0 = 6
-Group:  r--  = 4 + 0 + 0 = 4
-Others: r--  = 4 + 0 + 0 = 4
+User:   rw-  = 4 + 2 + 0 = 6  
+Group:  r--  = 4 + 0 + 0 = 4  
+Others: r--  = 4 + 0 + 0 = 4  
 
 Résultat : 0644
 ```
@@ -103,9 +103,9 @@ Résultat : 0644
 **Autre exemple : `rwxr-x---` en octal**
 
 ```
-User:   rwx  = 4 + 2 + 1 = 7
-Group:  r-x  = 4 + 0 + 1 = 5
-Others: ---  = 0 + 0 + 0 = 0
+User:   rwx  = 4 + 2 + 1 = 7  
+Group:  r-x  = 4 + 0 + 1 = 5  
+Others: ---  = 0 + 0 + 0 = 0  
 
 Résultat : 0750
 ```
@@ -127,8 +127,8 @@ La notation **0644** commence par un `0` pour indiquer que c'est un **nombre oct
 
 ```c
 // En C, ces deux lignes sont équivalentes :
-mode_t permissions = 0644;  // Octal
-mode_t permissions = 420;   // Décimal (6×64 + 4×8 + 4 = 420)
+mode_t permissions = 0644;  // Octal  
+mode_t permissions = 420;   // Décimal (6×64 + 4×8 + 4 = 420)  
 
 // ⚠️ Attention : toujours utiliser le 0 devant pour clarté !
 ```
@@ -197,13 +197,13 @@ FILE *fp = fopen("fichier.txt", "w");
 #include <sys/stat.h>
 
 // Méthode 1 : Modifier umask temporairement
-mode_t old_umask = umask(0);  // Désactiver umask
-FILE *fp = fopen("fichier.txt", "w");
-umask(old_umask);  // Restaurer
+mode_t old_umask = umask(0);  // Désactiver umask  
+FILE *fp = fopen("fichier.txt", "w");  
+umask(old_umask);  // Restaurer  
 
 // Méthode 2 : Utiliser open() puis fdopen()
-int fd = open("fichier.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600);
-FILE *fp = fdopen(fd, "w");
+int fd = open("fichier.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600);  
+FILE *fp = fdopen(fd, "w");  
 ```
 
 ### Permissions des répertoires
@@ -253,20 +253,26 @@ Permissions finales = Permissions demandées & ~umask
 
 ```
 Fichier créé avec open(..., 0666) :
-  0666  (rw-rw-rw-)  ← Permissions demandées
-& ~0022 (-----w--w-)  ← Inverse du umask
-= 0644  (rw-r--r--)   ← Permissions finales
+  Permissions demandées :  0666  (rw-rw-rw-)
+  Umask retire :           0022  (----w--w-)
+  Permissions finales :    0644  (rw-r--r--)
+
+  (Calcul : 0666 & ~0022 = 0666 & 0755 = 0644)
 
 Répertoire créé avec mkdir(..., 0777) :
-  0777  (rwxrwxrwx)  ← Permissions demandées
-& ~0022 (-----w--w-)  ← Inverse du umask
-= 0755  (rwxr-xr-x)  ← Permissions finales
+  Permissions demandées :  0777  (rwxrwxrwx)
+  Umask retire :           0022  (----w--w-)
+  Permissions finales :    0755  (rwxr-xr-x)
+
+  (Calcul : 0777 & ~0022 = 0777 & 0755 = 0755)
 ```
 
 ### Manipuler le umask en C
 
 ```c
 #include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <stdio.h>
 
 int main(void) {
@@ -316,6 +322,8 @@ int chmod(const char *pathname, mode_t mode);
 **Exemple :**
 ```c
 #include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <stdio.h>
 
 int main(void) {
@@ -344,8 +352,8 @@ int fchmod(int fd, mode_t mode);
 
 **Exemple :**
 ```c
-int fd = open("fichier.txt", O_RDWR);
-if (fd != -1) {
+int fd = open("fichier.txt", O_RDWR);  
+if (fd != -1) {  
     fchmod(fd, 0600);  // Rendre privé
     close(fd);
 }
@@ -391,19 +399,19 @@ Plutôt que d'utiliser des nombres octaux, vous pouvez utiliser des **constantes
 #include <sys/stat.h>
 
 // Permissions du propriétaire (User)
-S_IRUSR  // 0400  r--------  Lecture
-S_IWUSR  // 0200  -w-------  Écriture
-S_IXUSR  // 0100  --x------  Exécution
+S_IRUSR  // 0400  r--------  Lecture  
+S_IWUSR  // 0200  -w-------  Écriture  
+S_IXUSR  // 0100  --x------  Exécution  
 
 // Permissions du groupe (Group)
-S_IRGRP  // 0040  ---r-----  Lecture
-S_IWGRP  // 0020  ----w----  Écriture
-S_IXGRP  // 0010  -----x---  Exécution
+S_IRGRP  // 0040  ---r-----  Lecture  
+S_IWGRP  // 0020  ----w----  Écriture  
+S_IXGRP  // 0010  -----x---  Exécution  
 
 // Permissions des autres (Others)
-S_IROTH  // 0004  ------r--  Lecture
-S_IWOTH  // 0002  -------w-  Écriture
-S_IXOTH  // 0001  --------x  Exécution
+S_IROTH  // 0004  ------r--  Lecture  
+S_IWOTH  // 0002  -------w-  Écriture  
+S_IXOTH  // 0001  --------x  Exécution  
 ```
 
 ### Combinaisons pratiques
@@ -427,9 +435,9 @@ mode_t mode = S_IRWXU;  // Macro pour S_IRUSR | S_IWUSR | S_IXUSR
 ### Macros utiles
 
 ```c
-S_IRWXU  // 0700  rwx------  Toutes permissions pour User
-S_IRWXG  // 0070  ---rwx---  Toutes permissions pour Group
-S_IRWXO  // 0007  ------rwx  Toutes permissions pour Others
+S_IRWXU  // 0700  rwx------  Toutes permissions pour User  
+S_IRWXG  // 0070  ---rwx---  Toutes permissions pour Group  
+S_IRWXO  // 0007  ------rwx  Toutes permissions pour Others  
 ```
 
 ### Exemple complet avec constantes
@@ -451,7 +459,7 @@ int main(void) {
         return 1;
     }
 
-    write(fd, "Données confidentielles\n", 24);
+    write(fd, "Données confidentielles\n", 25);
     close(fd);
 
     // Créer un script exécutable (rwxr-xr-x, 0755)
@@ -478,8 +486,8 @@ int main(void) {
 ```c
 #include <sys/stat.h>
 
-int stat(const char *pathname, struct stat *statbuf);
-int fstat(int fd, struct stat *statbuf);
+int stat(const char *pathname, struct stat *statbuf);  
+int fstat(int fd, struct stat *statbuf);  
 ```
 
 **La structure `struct stat` :**
@@ -499,6 +507,7 @@ struct stat {
 ### Exemple : Afficher les permissions
 
 ```c
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -593,8 +602,8 @@ int main(void) {
 ```c
 #include <unistd.h>
 
-int chown(const char *pathname, uid_t owner, gid_t group);
-int fchown(int fd, uid_t owner, gid_t group);
+int chown(const char *pathname, uid_t owner, gid_t group);  
+int fchown(int fd, uid_t owner, gid_t group);  
 ```
 
 **Exemple :**
@@ -669,8 +678,8 @@ drwxrwsr-x 2 alice devs 4096 Nov 26 10:30 projet_partage
 **En C :**
 ```c
 // Répertoire avec setgid
-mkdir("projet", 0775);
-chmod("projet", 02775);  // rwxrwsr-x
+mkdir("projet", 0775);  
+chmod("projet", 02775);  // rwxrwsr-x  
 
 // Avec constantes
 chmod("projet", S_ISGID | S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -693,8 +702,8 @@ drwxrwxrwt 20 root root 4096 Nov 26 10:30 /tmp
 **En C :**
 ```c
 // Répertoire avec sticky bit
-mkdir("shared", 0777);
-chmod("shared", 01777);  // rwxrwxrwt
+mkdir("shared", 0777);  
+chmod("shared", 01777);  // rwxrwxrwt  
 
 // Avec constantes
 chmod("shared", S_ISVTX | S_IRWXU | S_IRWXG | S_IRWXO);
@@ -712,10 +721,10 @@ chmod("shared", S_ISVTX | S_IRWXU | S_IRWXG | S_IRWXO);
 
 ```c
 // Format complet : [special][user][group][others]
-chmod("fichier", 04755);  // setuid + rwxr-xr-x
-chmod("fichier", 02755);  // setgid + rwxr-xr-x
-chmod("fichier", 01777);  // sticky + rwxrwxrwx
-chmod("fichier", 06755);  // setuid + setgid + rwxr-xr-x
+chmod("fichier", 04755);  // setuid + rwxr-xr-x  
+chmod("fichier", 02755);  // setgid + rwxr-xr-x  
+chmod("fichier", 01777);  // sticky + rwxrwxrwx  
+chmod("fichier", 06755);  // setuid + setgid + rwxr-xr-x  
 ```
 
 ## Vérifier les permissions d'accès
@@ -815,8 +824,8 @@ int fd = open("deploy.sh", O_WRONLY | O_CREAT | O_TRUNC, 0755);
 #### 4. Répertoires partagés : 1777 avec sticky bit
 
 ```c
-mkdir("/tmp/shared", 0777);
-chmod("/tmp/shared", 01777);  // Avec sticky bit
+mkdir("/tmp/shared", 0777);  
+chmod("/tmp/shared", 01777);  // Avec sticky bit  
 ```
 
 ### Dangers des permissions trop permissives
@@ -836,8 +845,10 @@ chmod("script.sh", 0755);
 ## Exemple complet : Gestionnaire de permissions
 
 ```c
+#define _XOPEN_SOURCE 700
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
@@ -910,11 +921,11 @@ int main(int argc, char *argv[]) {
 **Utilisation :**
 ```bash
 $ ./perms /bin/bash
-Fichier : /bin/bash
-Permissions : -rwxr-xr-x (0755)
-Propriétaire : UID 0
-Groupe : GID 0
-Taille : 1183448 octets
+Fichier : /bin/bash  
+Permissions : -rwxr-xr-x (0755)  
+Propriétaire : UID 0  
+Groupe : GID 0  
+Taille : 1183448 octets  
 
 Vos permissions :
   Lecture :   ✓ OUI

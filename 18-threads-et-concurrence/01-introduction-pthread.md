@@ -38,9 +38,9 @@ L'utilisateur doit attendre que tout soit fini avant de pouvoir cliquer.
 
 **Avec threads** :
 ```
-Thread 1: [Téléchargement...]
-Thread 2: [Compression...]
-Thread 3: [Interface réactive !]
+Thread 1: [Téléchargement...]  
+Thread 2: [Compression...]  
+Thread 3: [Interface réactive !]  
 ```
 Tout se passe en même temps, l'interface reste fluide.
 
@@ -136,10 +136,10 @@ Les threads permettent de séparer les tâches longues des tâches interactives.
 
 **Exemple : Serveur web**
 ```
-Thread principal  → Accepte les nouvelles connexions (rapide)
-Thread worker 1   → Traite requête client 1 (peut être lent)
-Thread worker 2   → Traite requête client 2 (peut être lent)
-Thread worker 3   → Traite requête client 3 (peut être lent)
+Thread principal  → Accepte les nouvelles connexions (rapide)  
+Thread worker 1   → Traite requête client 1 (peut être lent)  
+Thread worker 2   → Traite requête client 2 (peut être lent)  
+Thread worker 3   → Traite requête client 3 (peut être lent)  
 ```
 
 Le serveur reste réactif même si une requête prend du temps.
@@ -213,6 +213,7 @@ Voici un premier programme simple qui crée un thread secondaire :
 
 // Fonction exécutée par le thread secondaire
 void *thread_function(void *arg) {
+    (void)arg;
     printf("Hello depuis le thread secondaire !\n");
     printf("ID du thread : %lu\n", pthread_self());
     sleep(1);  // Simule un travail
@@ -253,24 +254,24 @@ int main(void) {
 ```bash
 $ gcc -Wall -Wextra -pthread hello_thread.c -o hello_thread
 $ ./hello_thread
-Hello depuis le thread principal (main) !
-ID du thread principal : 140234567890
-Thread secondaire créé avec succès (ID: 140234567123)
-Hello depuis le thread secondaire !
-ID du thread : 140234567123
-Le thread secondaire se termine.
-Le thread principal se termine.
+Hello depuis le thread principal (main) !  
+ID du thread principal : 140234567890  
+Thread secondaire créé avec succès (ID: 140234567123)  
+Hello depuis le thread secondaire !  
+ID du thread : 140234567123  
+Le thread secondaire se termine.  
+Le thread principal se termine.  
 ```
 
 ### Que se passe-t-il ?
 
-1. **Ligne 1-5** : Inclusion des headers nécessaires
-2. **Ligne 8-14** : Définition de la fonction du thread
+1. **Lignes 1-4** : Inclusion des headers nécessaires
+2. **Lignes 7-13** : Définition de la fonction du thread
    - Signature obligatoire : `void *fonction(void *arg)`
    - Retourne `NULL` à la fin
-3. **Ligne 22** : Déclaration d'une variable `pthread_t` pour stocker l'ID du thread
-4. **Ligne 28** : Création du thread avec `pthread_create()`
-5. **Ligne 36** : Attente de la fin du thread avec `pthread_join()`
+3. **Ligne 16** : Déclaration d'une variable `pthread_t` pour stocker l'ID du thread
+4. **Ligne 23** : Création du thread avec `pthread_create()`
+5. **Ligne 32** : Attente de la fin du thread avec `pthread_join()`
 
 ---
 
@@ -305,9 +306,9 @@ int pthread_create(pthread_t *thread,
 
 **Exemple** :
 ```c
-pthread_t tid;
-int result = pthread_create(&tid, NULL, ma_fonction, NULL);
-if (result != 0) {
+pthread_t tid;  
+int result = pthread_create(&tid, NULL, ma_fonction, NULL);  
+if (result != 0) {  
     fprintf(stderr, "Erreur pthread_create : %d\n", result);
 }
 ```
@@ -403,9 +404,10 @@ Termine le thread appelant et retourne `retval`. Équivalent à `return retval;`
 **Différence importante** :
 ```c
 void *thread_func(void *arg) {
-    // Ces deux lignes sont équivalentes :
-    return NULL;
-    pthread_exit(NULL);
+    // Ces deux formes sont équivalentes :
+    return NULL;          // Option 1 : return classique
+    // ou
+    // pthread_exit(NULL);  // Option 2 : terminaison explicite
 }
 ```
 
@@ -457,9 +459,9 @@ Si vous créez 3 threads exécutant cette fonction, vous obtiendrez 3 adresses d
 **Vous ne pouvez PAS prédire** dans quel ordre les threads s'exécuteront :
 
 ```c
-void *thread1(void *arg) { printf("A\n"); return NULL; }
-void *thread2(void *arg) { printf("B\n"); return NULL; }
-void *thread3(void *arg) { printf("C\n"); return NULL; }
+void *thread1(void *arg) { printf("A\n"); return NULL; }  
+void *thread2(void *arg) { printf("B\n"); return NULL; }  
+void *thread3(void *arg) { printf("C\n"); return NULL; }  
 
 // Possible : ABC, ACB, BAC, BCA, CAB, CBA
 // Impossible à garantir sans synchronisation
@@ -470,8 +472,8 @@ void *thread3(void *arg) { printf("C\n"); return NULL; }
 Les fonctions pthread retournent `0` en cas de succès, un code d'erreur sinon :
 
 ```c
-int result = pthread_create(&tid, NULL, func, NULL);
-if (result != 0) {
+int result = pthread_create(&tid, NULL, func, NULL);  
+if (result != 0) {  
     // ERREUR : ne pas utiliser errno avec pthread !
     fprintf(stderr, "pthread_create failed: %d\n", result);
 }
@@ -527,12 +529,13 @@ int main(void) {
 ### 2. Ne pas passer de pointeurs vers des variables locales
 
 ```c
-// ❌ DANGEREUX
-void creer_thread(void) {
+// ❌ DANGEREUX : data sera détruite quand la fonction retourne
+void lancer_thread(void) {
     int data = 42;
     pthread_t tid;
-    pthread_create(&tid, NULL, func, &data);  // data sera détruite !
-    pthread_join(tid, NULL);
+    pthread_create(&tid, NULL, func, &data);
+    // Pas de join ici : la fonction retourne,
+    // data est détruite, le thread lit un pointeur invalide !
 }
 
 // ✅ SOLUTION 1 : Variable statique

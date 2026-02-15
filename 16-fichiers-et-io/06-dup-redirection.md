@@ -235,9 +235,9 @@ La **redirection** consiste à faire pointer stdin (0), stdout (1) ou stderr (2)
 **En C avec dup2() :**
 ```c
 // Rediriger stdout vers un fichier
-int fd = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-dup2(fd, STDOUT_FILENO);  // stdout (1) pointe maintenant vers output.txt
-close(fd);                // On peut fermer fd, le fd 1 reste valide
+int fd = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);  
+dup2(fd, STDOUT_FILENO);  // stdout (1) pointe maintenant vers output.txt  
+close(fd);                // On peut fermer fd, le fd 1 reste valide  
 
 printf("Ceci va dans output.txt\n");
 ```
@@ -337,13 +337,13 @@ int main(void) {
 
 **Sortie :**
 ```
-Terminal:
-Message sur le terminal
-De retour sur le terminal
+Terminal:  
+Message sur le terminal  
+De retour sur le terminal  
 
-log.txt:
-Message dans log.txt
-Autre message dans log.txt
+log.txt:  
+Message dans log.txt  
+Autre message dans log.txt  
 ```
 
 ### Redirection de stdin
@@ -436,9 +436,9 @@ int main(void) {
 
 **Contenu de combined.log :**
 ```
-Message normal
-Message d'erreur
-Autre message
+Message normal  
+Message d'erreur  
+Autre message  
 ```
 
 ## Utilisation avec fork() et exec()
@@ -620,6 +620,7 @@ ls → [stdout redirigé] → [pipe écriture] → [pipe lecture] → [stdin red
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 
 int main(void) {
@@ -640,7 +641,9 @@ int main(void) {
             buffer[n] = '\0';
 
             time_t now = time(NULL);
-            printf("[%s] %s", ctime(&now), buffer);
+            char *timestr = ctime(&now);
+            timestr[strlen(timestr) - 1] = '\0';  // Enlever le \n
+            printf("[%s] %s", timestr, buffer);
             fflush(stdout);
         }
 
@@ -793,23 +796,23 @@ int main(void) {
 
 ```c
 // ✅ BON
-int fd_copy = dup(fd);
-if (fd_copy == -1) {
+int fd_copy = dup(fd);  
+if (fd_copy == -1) {  
     perror("dup");
     return 1;
 }
 
 // ❌ MAUVAIS
-int fd_copy = dup(fd);
-write(fd_copy, data, size);  // fd_copy pourrait être -1 !
+int fd_copy = dup(fd);  
+write(fd_copy, data, size);  // fd_copy pourrait être -1 !  
 ```
 
 ### 2. Fermer les descripteurs inutilisés
 
 ```c
-int fd = open("file.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-dup2(fd, STDOUT_FILENO);
-close(fd);  // ✅ Plus besoin de fd, fermer pour libérer une ressource
+int fd = open("file.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);  
+dup2(fd, STDOUT_FILENO);  
+close(fd);  // ✅ Plus besoin de fd, fermer pour libérer une ressource  
 ```
 
 ### 3. Sauvegarder avant de rediriger si vous devez restaurer
@@ -820,16 +823,16 @@ int stdout_backup = dup(STDOUT_FILENO);
 // ... redirection ...
 
 // Restaurer
-dup2(stdout_backup, STDOUT_FILENO);
-close(stdout_backup);
+dup2(stdout_backup, STDOUT_FILENO);  
+close(stdout_backup);  
 ```
 
 ### 4. Utiliser dup2() plutôt que close() + dup()
 
 ```c
 // ❌ MAUVAIS (race condition possible)
-close(STDOUT_FILENO);
-dup(fd);  // Espère obtenir 1, mais pas garanti !
+close(STDOUT_FILENO);  
+dup(fd);  // Espère obtenir 1, mais pas garanti !  
 
 // ✅ BON (atomique)
 dup2(fd, STDOUT_FILENO);
@@ -842,9 +845,9 @@ printf("Message dans le buffer");
 // Si on redirige maintenant, le buffer peut être perdu
 
 // Solution : flusher avant redirection
-printf("Message dans le buffer");
-fflush(stdout);
-dup2(fd, STDOUT_FILENO);
+printf("Message dans le buffer");  
+fflush(stdout);  
+dup2(fd, STDOUT_FILENO);  
 ```
 
 ## Pièges courants
@@ -853,8 +856,8 @@ dup2(fd, STDOUT_FILENO);
 
 ```c
 // ❌ PROBLÉMATIQUE
-int pipefd[2];
-pipe(pipefd);
+int pipefd[2];  
+pipe(pipefd);  
 
 if (fork() == 0) {
     // Enfant : devrait fermer pipefd[0] s'il n'écrit que
@@ -884,15 +887,15 @@ dup2(fd, STDOUT_FILENO);
 ### 3. Confondre les extrémités du pipe
 
 ```c
-int pipefd[2];
-pipe(pipefd);
+int pipefd[2];  
+pipe(pipefd);  
 
 // pipefd[0] = lecture (read end)
 // pipefd[1] = écriture (write end)
 
 // ❌ ERREUR COURANTE
-write(pipefd[0], data, size);  // Impossible ! C'est la lecture
-read(pipefd[1], buf, size);    // Impossible ! C'est l'écriture
+write(pipefd[0], data, size);  // Impossible ! C'est la lecture  
+read(pipefd[1], buf, size);    // Impossible ! C'est l'écriture  
 ```
 
 ### 4. Ne pas restaurer les descripteurs standards
@@ -1017,10 +1020,10 @@ $ ls
 file1.txt  file2.txt  mini_shell.c
 $ ls > list.txt
 $ cat list.txt
-file1.txt
-file2.txt
-mini_shell.c
-list.txt
+file1.txt  
+file2.txt  
+mini_shell.c  
+list.txt  
 $ exit
 Au revoir!
 ```
@@ -1041,8 +1044,8 @@ int dup3(int oldfd, int newfd, int flags);
 - `O_CLOEXEC` : Le nouveau fd sera fermé automatiquement lors d'un `exec()`
 
 ```c
-int fd = open("file.txt", O_RDONLY);
-int newfd = dup3(fd, 10, O_CLOEXEC);
+int fd = open("file.txt", O_RDONLY);  
+int newfd = dup3(fd, 10, O_CLOEXEC);  
 // newfd (10) sera fermé si on appelle exec()
 ```
 

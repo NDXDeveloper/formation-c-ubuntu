@@ -142,39 +142,39 @@ void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset)
 
 ```c
 // Protections de base
-PROT_NONE   // Pas d'accès
-PROT_READ   // Lecture seule
-PROT_WRITE  // Écriture (implique généralement PROT_READ)
-PROT_EXEC   // Exécution (pour charger du code)
+PROT_NONE   // Pas d'accès  
+PROT_READ   // Lecture seule  
+PROT_WRITE  // Écriture (implique généralement PROT_READ)  
+PROT_EXEC   // Exécution (pour charger du code)  
 
 // Combinaisons courantes
-PROT_READ                    // Lecture seule
-PROT_READ | PROT_WRITE       // Lecture/écriture
-PROT_READ | PROT_EXEC        // Lecture/exécution (bibliothèques)
+PROT_READ                    // Lecture seule  
+PROT_READ | PROT_WRITE       // Lecture/écriture  
+PROT_READ | PROT_EXEC        // Lecture/exécution (bibliothèques)  
 ```
 
 ### Flags principaux
 
 ```c
 // Type de mapping (un seul requis)
-MAP_SHARED      // Modifications visibles par tous les processus et écrites sur le disque
-MAP_PRIVATE     // Modifications privées au processus (copy-on-write)
+MAP_SHARED      // Modifications visibles par tous les processus et écrites sur le disque  
+MAP_PRIVATE     // Modifications privées au processus (copy-on-write)  
 
 // Options additionnelles
-MAP_ANONYMOUS   // Pas de fichier (mémoire pure), fd = -1
-MAP_FIXED       // Force l'adresse spécifiée (dangereux)
-MAP_POPULATE    // Précharge les pages immédiatement
-MAP_LOCKED      // Verrouille les pages en RAM (évite le swap)
+MAP_ANONYMOUS   // Pas de fichier (mémoire pure), fd = -1  
+MAP_FIXED       // Force l'adresse spécifiée (dangereux)  
+MAP_POPULATE    // Précharge les pages immédiatement  
+MAP_LOCKED      // Verrouille les pages en RAM (évite le swap)  
 ```
 
 **Différence cruciale** : `MAP_SHARED` vs `MAP_PRIVATE`
 
 ```
-MAP_SHARED:
-Processus A écrit → Fichier modifié ← Processus B voit les changements
+MAP_SHARED:  
+Processus A écrit → Fichier modifié ← Processus B voit les changements  
 
-MAP_PRIVATE:
-Processus A écrit → Copie privée (pas le fichier) × Processus B ne voit rien
+MAP_PRIVATE:  
+Processus A écrit → Copie privée (pas le fichier) × Processus B ne voit rien  
 ```
 
 ### Fonction de démapping : `munmap()`
@@ -185,7 +185,7 @@ int munmap(void *addr, size_t length);
 
 **Libère** le mapping et invalide le pointeur.
 
-**Important** : Toujours appeler `munmap()` avant de fermer le descripteur de fichier.
+**Important** : Le mapping persiste même après `close(fd)`. Appelez `munmap()` quand vous n'avez plus besoin du mapping.
 
 ---
 
@@ -247,7 +247,7 @@ int main(int argc, char *argv[]) {
 
     // Ou utiliser comme un tableau
     printf("Premier caractère : '%c'\n", file_content[0]);
-    printf("Dernier caractère : '%c'\n", file_content[file_size - 1]);
+    printf("Dernier caractère : 0x%02x\n", (unsigned char)file_content[file_size - 1]);
 
     // 6. Libérer le mapping
     if (munmap(file_content, file_size) == -1) {
@@ -282,9 +282,9 @@ Contenu du fichier :
 ---
 Hello from mmap!
 ---
-Premier caractère : 'H'
-Dernier caractère : '!'
-Mapping libéré avec succès
+Premier caractère : 'H'  
+Dernier caractère : 0x0a  
+Mapping libéré avec succès  
 ```
 
 ---
@@ -488,17 +488,17 @@ int msync(void *addr, size_t length, int flags);
 **Flags :**
 
 ```c
-MS_SYNC      // Bloquant : attend la fin de l'écriture
-MS_ASYNC     // Asynchrone : lance l'écriture et retourne immédiatement
-MS_INVALIDATE // Invalide les autres mappings du même fichier
+MS_SYNC      // Bloquant : attend la fin de l'écriture  
+MS_ASYNC     // Asynchrone : lance l'écriture et retourne immédiatement  
+MS_INVALIDATE // Invalide les autres mappings du même fichier  
 ```
 
 **Exemple d'utilisation :**
 
 ```c
 // Modifier des données
-data[0] = 'X';
-data[1] = 'Y';
+data[0] = 'X';  
+data[1] = 'Y';  
 
 // Forcer l'écriture immédiate (bloquant)
 if (msync(data, file_size, MS_SYNC) == -1) {
@@ -653,11 +653,13 @@ int mprotect(void *addr, size_t len, int prot);
 ```c
 // mprotect_example.c
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/mman.h>
 #include <string.h>
 #include <signal.h>
 
 void segfault_handler(int sig) {
+    (void)sig;
     printf("SEGFAULT attrapé ! Tentative d'écriture interdite.\n");
     exit(1);
 }
@@ -702,12 +704,12 @@ Les mappings doivent être alignés sur la **taille de page** (généralement 40
 ```c
 #include <unistd.h>
 
-long page_size = sysconf(_SC_PAGESIZE);
-printf("Taille de page : %ld octets\n", page_size);  // Généralement 4096
+long page_size = sysconf(_SC_PAGESIZE);  
+printf("Taille de page : %ld octets\n", page_size);  // Généralement 4096  
 
 // L'offset doit être un multiple de page_size
-off_t offset = 4096;  // OK
-off_t offset_bad = 100;  // Erreur EINVAL
+off_t offset = 4096;  // OK  
+off_t offset_bad = 100;  // Erreur EINVAL  
 ```
 
 ### 2. Préchargement avec MAP_POPULATE
@@ -717,8 +719,8 @@ off_t offset_bad = 100;  // Erreur EINVAL
 char *data = mmap(NULL, size, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
 ```
 
-**Avantage** : Pas de page faults ultérieurs
-**Inconvénient** : Plus lent au démarrage
+**Avantage** : Pas de page faults ultérieurs  
+**Inconvénient** : Plus lent au démarrage  
 
 ### 3. Verrouillage en mémoire avec MAP_LOCKED
 
@@ -734,13 +736,13 @@ char *data = mmap(NULL, size, PROT_READ | PROT_WRITE,
 
 ```c
 // ❌ Mauvais : copie tout le fichier en mémoire
-FILE *f = fopen("large_file.bin", "rb");
-char *buffer = malloc(file_size);
-fread(buffer, 1, file_size, f);
+FILE *f = fopen("large_file.bin", "rb");  
+char *buffer = malloc(file_size);  
+fread(buffer, 1, file_size, f);  
 
 // ✅ Bon : mapping direct, pas de copie
-int fd = open("large_file.bin", O_RDONLY);
-char *data = mmap(NULL, file_size, PROT_READ, MAP_PRIVATE, fd, 0);
+int fd = open("large_file.bin", O_RDONLY);  
+char *data = mmap(NULL, file_size, PROT_READ, MAP_PRIVATE, fd, 0);  
 ```
 
 ---
@@ -830,8 +832,8 @@ int main() {
 
 **Résultats typiques** (lecture séquentielle) :
 ```
-read() : 0.450 secondes
-mmap() : 0.380 secondes
+read() : 0.450 secondes  
+mmap() : 0.380 secondes  
 ```
 
 **Conclusion** : `mmap()` est généralement **15-20% plus rapide** pour les accès séquentiels, et encore plus pour les accès aléatoires.
@@ -862,9 +864,9 @@ SQLite utilise massivement `mmap()` pour accéder aux fichiers de base de donné
 
 ```c
 // Simplifié : comment SQLite mappe un fichier DB
-int fd = open("database.db", O_RDWR);
-struct stat sb;
-fstat(fd, &sb);
+int fd = open("database.db", O_RDWR);  
+struct stat sb;  
+fstat(fd, &sb);  
 
 // Mapper toute la base en mémoire
 void *db_memory = mmap(NULL, sb.st_size, PROT_READ | PROT_WRITE,
@@ -889,18 +891,18 @@ typedef struct {
     // ... autres champs BMP
 } __attribute__((packed)) bmp_header_t;
 
-int fd = open("image.bmp", O_RDONLY);
-struct stat sb;
-fstat(fd, &sb);
+int fd = open("image.bmp", O_RDONLY);  
+struct stat sb;  
+fstat(fd, &sb);  
 
 bmp_header_t *img = mmap(NULL, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 
 // Accès direct aux pixels
-uint8_t *pixels = (uint8_t *)img + img->pixel_offset;
-printf("Premier pixel RGB : %d %d %d\n", pixels[0], pixels[1], pixels[2]);
+uint8_t *pixels = (uint8_t *)img + img->pixel_offset;  
+printf("Premier pixel RGB : %d %d %d\n", pixels[0], pixels[1], pixels[2]);  
 
-munmap(img, sb.st_size);
-close(fd);
+munmap(img, sb.st_size);  
+close(fd);  
 ```
 
 ### 4. Configuration partagée
@@ -910,18 +912,18 @@ close(fd);
 // Plusieurs processus lisent une config sans IPC complexe
 
 // Processus 1 (writer)
-int fd = open("/tmp/config.bin", O_RDWR | O_CREAT, 0666);
-ftruncate(fd, sizeof(config_t));
-config_t *cfg = mmap(NULL, sizeof(config_t), PROT_READ | PROT_WRITE,
+int fd = open("/tmp/config.bin", O_RDWR | O_CREAT, 0666);  
+ftruncate(fd, sizeof(config_t));  
+config_t *cfg = mmap(NULL, sizeof(config_t), PROT_READ | PROT_WRITE,  
                      MAP_SHARED, fd, 0);
-cfg->timeout = 30;
-cfg->max_connections = 100;
-msync(cfg, sizeof(config_t), MS_SYNC);
+cfg->timeout = 30;  
+cfg->max_connections = 100;  
+msync(cfg, sizeof(config_t), MS_SYNC);  
 
 // Processus 2, 3, 4... (readers)
-int fd = open("/tmp/config.bin", O_RDONLY);
-config_t *cfg = mmap(NULL, sizeof(config_t), PROT_READ, MAP_SHARED, fd, 0);
-printf("Timeout : %d\n", cfg->timeout);  // Lit directement
+int fd = open("/tmp/config.bin", O_RDONLY);  
+config_t *cfg = mmap(NULL, sizeof(config_t), PROT_READ, MAP_SHARED, fd, 0);  
+printf("Timeout : %d\n", cfg->timeout);  // Lit directement  
 ```
 
 ---
@@ -932,12 +934,12 @@ printf("Timeout : %d\n", cfg->timeout);  // Lit directement
 
 ```c
 // ❌ Dangereux
-char *data = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);
-data[0] = 'X';  // Peut crasher si mmap a échoué !
+char *data = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);  
+data[0] = 'X';  // Peut crasher si mmap a échoué !  
 
 // ✅ Correct
-char *data = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);
-if (data == MAP_FAILED) {
+char *data = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);  
+if (data == MAP_FAILED) {  
     perror("mmap");
     return 1;
 }
@@ -947,8 +949,8 @@ if (data == MAP_FAILED) {
 
 ```c
 // Fichier de 100 octets
-struct stat sb;
-fstat(fd, &sb);  // sb.st_size = 100
+struct stat sb;  
+fstat(fd, &sb);  // sb.st_size = 100  
 
 // ❌ Erreur : mapper 1000 octets
 char *data = mmap(NULL, 1000, PROT_READ, MAP_PRIVATE, fd, 0);
@@ -962,12 +964,12 @@ char *data = mmap(NULL, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 
 ```c
 // ❌ Erreur : offset doit être multiple de la taille de page
-off_t offset = 100;  // EINVAL !
-char *data = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, offset);
+off_t offset = 100;  // EINVAL !  
+char *data = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, offset);  
 
 // ✅ Correct
-off_t offset = 4096;  // Multiple de page_size
-char *data = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, offset);
+off_t offset = 4096;  // Multiple de page_size  
+char *data = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, offset);  
 ```
 
 ### 4. Accès après munmap()
@@ -1011,9 +1013,9 @@ close(fd);
 // Les modifications peuvent ne pas être écrites !
 
 // ✅ Forcer la synchronisation
-msync(data, size, MS_SYNC);
-munmap(data, size);
-close(fd);
+msync(data, size, MS_SYNC);  
+munmap(data, size);  
+close(fd);  
 ```
 
 ---

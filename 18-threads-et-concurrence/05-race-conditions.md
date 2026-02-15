@@ -54,9 +54,9 @@ Imaginez un compte bancaire partagé avec 100€ :
 Vous (Thread 1)          Conjoint (Thread 2)
 ===============          ===================
 
-Lire solde: 100€
-Retirer 50€
-Nouveau solde: 50€
+Lire solde: 100€  
+Retirer 50€  
+Nouveau solde: 50€  
                          Lire solde: 100€  ← LIT LA VIEILLE VALEUR !
                          Retirer 30€
                          Nouveau solde: 70€
@@ -138,9 +138,9 @@ La plupart des opérations en C ne sont **pas atomiques** (indivisibles). Par ex
 
 ```assembly
 ; x++ en assembleur (simplifié)
-MOV  eax, [x]      ; 1. Lire x dans un registre
-ADD  eax, 1        ; 2. Incrémenter le registre
-MOV  [x], eax      ; 3. Écrire le résultat dans x
+MOV  eax, [x]      ; 1. Lire x dans un registre  
+ADD  eax, 1        ; 2. Incrémenter le registre  
+MOV  [x], eax      ; 3. Écrire le résultat dans x  
 ```
 
 Un changement de contexte peut survenir **entre ces 3 instructions** !
@@ -152,9 +152,9 @@ Sur les systèmes multicœurs, chaque CPU a son propre cache. Les modifications 
 ```
 CPU 1 (Thread 1)              CPU 2 (Thread 2)
 ================              ================
-Cache: x = 5                  Cache: x = 5
-x = 10
-Cache: x = 10  ───────┐       Lit x
+Cache: x = 5                  Cache: x = 5  
+x = 10  
+Cache: x = 10  ───────┐       Lit x  
                       │       Cache: x = 5  ← Vieille valeur !
                       │
                       └─→ Synchronisation (éventuelle)
@@ -207,20 +207,20 @@ int main(void) {
 
 **Exécution 1** :
 ```
-Valeur attendue : 2000000
-Valeur obtenue  : 1847392
+Valeur attendue : 2000000  
+Valeur obtenue  : 1847392  
 ```
 
 **Exécution 2** :
 ```
-Valeur attendue : 2000000
-Valeur obtenue  : 1923871
+Valeur attendue : 2000000  
+Valeur obtenue  : 1923871  
 ```
 
 **Exécution 3** :
 ```
-Valeur attendue : 2000000
-Valeur obtenue  : 2000000  ← Par chance !
+Valeur attendue : 2000000  
+Valeur obtenue  : 2000000  ← Par chance !  
 ```
 
 **Pourquoi ?** Chaque exécution a un ordre d'ordonnancement différent, donc un résultat différent.
@@ -247,15 +247,15 @@ compteur = temp;
 ```
 Temps    Thread 1                Thread 2           compteur
 ====     ========                ========           ========
-t0       temp1 = compteur (0)                       0
-t1                               temp2 = compteur (0)   0
-t2       temp1 = temp1 + 1 (1)                      0
-t3                               temp2 = temp2 + 1 (1)  0
-t4       compteur = temp1 (1)                       1
-t5                               compteur = temp2 (1)   1
+t0       temp1 = compteur (0)                       0  
+t1                               temp2 = compteur (0)   0  
+t2       temp1 = temp1 + 1 (1)                      0  
+t3                               temp2 = temp2 + 1 (1)  0  
+t4       compteur = temp1 (1)                       1  
+t5                               compteur = temp2 (1)   1  
 
-Résultat : compteur = 1 au lieu de 2 !
-Une incrémentation est perdue !
+Résultat : compteur = 1 au lieu de 2 !  
+Une incrémentation est perdue !  
 ```
 
 ---
@@ -346,10 +346,10 @@ void *acheter(void *arg) {
 ```
 stock = 1
 
-Thread 1: Vérifie (stock = 1 > 0) → Vrai
-Thread 2: Vérifie (stock = 1 > 0) → Vrai
-Thread 1: stock-- → stock = 0
-Thread 2: stock-- → stock = -1 !  ← PROBLÈME !
+Thread 1: Vérifie (stock = 1 > 0) → Vrai  
+Thread 2: Vérifie (stock = 1 > 0) → Vrai  
+Thread 1: stock-- → stock = 0  
+Thread 2: stock-- → stock = -1 !  ← PROBLÈME !  
 ```
 
 ### 3. Write-After-Write (Écriture après Écriture)
@@ -380,14 +380,14 @@ Variante de Read-Modify-Write où une mise à jour est complètement perdue.
 int solde = 100;
 
 // Thread 1 : Ajoute 50
-temp = solde;        // 100
-temp = temp + 50;    // 150
-solde = temp;        // 150
+temp = solde;        // 100  
+temp = temp + 50;    // 150  
+solde = temp;        // 150  
 
 // Thread 2 : Enlève 30 (entrelaçé)
-temp = solde;        // 100 (lit avant que T1 écrive)
-temp = temp - 30;    // 70
-solde = temp;        // 70 ← Écrase le +50 de T1 !
+temp = solde;        // 100 (lit avant que T1 écrive)  
+temp = temp - 30;    // 70  
+solde = temp;        // 70 ← Écrase le +50 de T1 !  
 
 // Résultat : 70 au lieu de 120 (100 + 50 - 30)
 ```
@@ -418,8 +418,8 @@ typedef struct {
 Point p = {0, 0};
 
 // Thread 1
-p.x = 10;
-p.y = 10;  // ← Interrupted ici
+p.x = 10;  
+p.y = 10;  // ← Interrupted ici  
 
 // Thread 2
 printf("Point: (%d, %d)\n", p.x, p.y);
@@ -459,8 +459,8 @@ Les race conditions sont **notoirement difficiles** à reproduire :
 Dans les cas extrêmes, corruption de pointeurs ou d'index :
 
 ```c
-int tableau[100];
-int index = 0;
+int tableau[100];  
+int index = 0;  
 
 void *ajouter(void *arg) {
     tableau[index] = *(int *)arg;
@@ -568,8 +568,8 @@ Recherchez les patterns suivants :
 
 ```c
 // ❌ Variable globale modifiée sans protection
-int compteur = 0;
-compteur++;  // Dans un thread
+int compteur = 0;  
+compteur++;  // Dans un thread  
 
 // ❌ Check-then-act
 if (condition) {
@@ -577,8 +577,8 @@ if (condition) {
 }
 
 // ❌ Opérations non atomiques
-x = x + 1;
-array[index++] = value;
+x = x + 1;  
+array[index++] = value;  
 ```
 
 ---
@@ -696,9 +696,9 @@ if (x > 0) x--;
 long long x = 123456789;  // Peut prendre plusieurs cycles CPU
 
 // ❌ NON atomique
-struct Point p;
-p.x = 10;  // ← Peut être interrompu ici
-p.y = 20;
+struct Point p;  
+p.x = 10;  // ← Peut être interrompu ici  
+p.y = 20;  
 ```
 
 ### Opérations potentiellement atomiques
@@ -806,9 +806,9 @@ int main(void) {
 
 **Résultat possible** :
 ```
-Retrait de 600.00 OK
-Retrait de 600.00 OK
-Solde final : -200.00  ← Découvert non autorisé !
+Retrait de 600.00 OK  
+Retrait de 600.00 OK  
+Solde final : -200.00  ← Découvert non autorisé !  
 ```
 
 ### Exemple 3 : Statistiques
@@ -836,19 +836,19 @@ void *ajouter_valeur(void *arg) {
 
 **Problème** : Un autre thread peut lire entre les 3 affectations et voir un état incohérent :
 ```
-Thread 1: total = 100, count = 5, moyenne = 20.0
-Thread 2 commence...
-Thread 2: total += 50 → total = 150
+Thread 1: total = 100, count = 5, moyenne = 20.0  
+Thread 2 commence...  
+Thread 2: total += 50 → total = 150  
 [Thread 3 lit ici: total=150, count=5, moyenne=20.0 ← Incohérent !]
-Thread 2: count++ → count = 6
-Thread 2: moyenne = 150/6 = 25.0
+Thread 2: count++ → count = 6  
+Thread 2: moyenne = 150/6 = 25.0  
 ```
 
 ### Exemple 4 : Index de tableau
 
 ```c
-int tableau[1000];
-int prochain_index = 0;
+int tableau[1000];  
+int prochain_index = 0;  
 
 void *ajouter(void *arg) {
     int valeur = *(int *)arg;
@@ -891,21 +891,21 @@ void *incrementer(void *arg) {
 Pour attendre qu'une condition soit remplie :
 
 ```c
-pthread_cond_t cond;
-pthread_mutex_t mutex;
+pthread_cond_t cond;  
+pthread_mutex_t mutex;  
 
 // Thread 1 : Attend
-pthread_mutex_lock(&mutex);
-while (!condition) {
+pthread_mutex_lock(&mutex);  
+while (!condition) {  
     pthread_cond_wait(&cond, &mutex);
 }
 pthread_mutex_unlock(&mutex);
 
 // Thread 2 : Signal
-pthread_mutex_lock(&mutex);
-condition = 1;
-pthread_cond_signal(&cond);
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+condition = 1;  
+pthread_cond_signal(&cond);  
+pthread_mutex_unlock(&mutex);  
 ```
 
 **Détaillé dans la section 18.8.**
@@ -915,8 +915,8 @@ pthread_mutex_unlock(&mutex);
 Pour limiter le nombre de threads accédant à une ressource :
 
 ```c
-sem_t semaphore;
-sem_init(&semaphore, 0, 3);  // Max 3 threads simultanés
+sem_t semaphore;  
+sem_init(&semaphore, 0, 3);  // Max 3 threads simultanés  
 
 void *utiliser_ressource(void *arg) {
     sem_wait(&semaphore);    // Décrémenter (bloque si 0)
@@ -1005,8 +1005,8 @@ void *thread_func(void *arg) {
 
 ```bash
 #!/bin/bash
-echo "Test de race conditions - 100 exécutions"
-for i in {1..100}; do
+echo "Test de race conditions - 100 exécutions"  
+for i in {1..100}; do  
     result=$(./programme | grep "Résultat" | awk '{print $2}')
     echo "Run $i: $result"
 done | sort | uniq -c
@@ -1019,8 +1019,8 @@ done | sort | uniq -c
 ```c
 // ⚠️ SECTION CRITIQUE : Accès à compteur_global
 // Protéger avec mutex_compteur avant modification
-int compteur_global = 0;
-pthread_mutex_t mutex_compteur = PTHREAD_MUTEX_INITIALIZER;
+int compteur_global = 0;  
+pthread_mutex_t mutex_compteur = PTHREAD_MUTEX_INITIALIZER;  
 ```
 
 ### 6. Code review

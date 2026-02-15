@@ -15,8 +15,8 @@ Comprendre ces concepts est essentiel pour écrire des applications multi-proces
 Un **processus orphelin** est un processus dont le **parent s'est terminé avant lui**.
 
 ```
-Situation initiale:          Après terminaison du parent:
-Parent (PID 1000)            systemd (PID 1)
+Situation initiale:          Après terminaison du parent:  
+Parent (PID 1000)            systemd (PID 1)  
   └── Enfant (PID 1001)        └── Enfant (PID 1001) [ORPHELIN]
 ```
 
@@ -240,6 +240,7 @@ Un grand nombre de zombies indique généralement un bug dans le programme paren
 ```c
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 int main(void) {
     printf("Création de 1000 processus zombies...\n");
@@ -567,8 +568,10 @@ Une approche élégante pour éviter les zombies est d'utiliser un **gestionnair
 Quand un processus enfant se termine, le noyau envoie le signal **`SIGCHLD`** au parent. Le parent peut installer un gestionnaire pour ce signal et appeler `wait()` à ce moment-là.
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <signal.h>
 #include <sys/wait.h>
 
@@ -639,6 +642,7 @@ Une méthode simple (mais moins flexible) pour éviter les zombies :
 ```c
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <signal.h>
 
 int main(void) {
@@ -711,8 +715,8 @@ signal(SIGCHLD, sigchld_handler);
 **Quand :** Vous voulez créer un processus complètement détaché sans avoir à le gérer.
 
 ```c
-pid_t pid = fork();
-if (pid == 0) {
+pid_t pid = fork();  
+if (pid == 0) {  
     // Premier enfant
     pid_t pid2 = fork();
     if (pid2 == 0) {
@@ -813,7 +817,7 @@ void check_zombies(void) {
         if (entry->d_name[0] < '0' || entry->d_name[0] > '9')
             continue;
 
-        char path[256];
+        char path[512];
         snprintf(path, sizeof(path), "/proc/%s/stat", entry->d_name);
 
         FILE *fp = fopen(path, "r");
@@ -877,8 +881,8 @@ for (int i = 0; i < 10; i++) {
 wait(NULL);  // N'attend qu'un seul enfant!
 
 // ✅ BON
-int N = 10;
-for (int i = 0; i < N; i++) {
+int N = 10;  
+for (int i = 0; i < N; i++) {  
     if (fork() == 0) {
         exit(0);
     }
@@ -892,10 +896,10 @@ for (int i = 0; i < N; i++) {
 
 ```c
 // ❌ MAUVAIS
-while (wait(NULL) > 0);  // Boucle infinie si pas d'enfants!
+while (wait(NULL) > 0);  // Sort prématurément si interrompu par un signal (EINTR)
 
 // ✅ BON
-while (wait(NULL) > 0 || errno == EINTR);  // Continue si interrompu
+while (wait(NULL) > 0 || errno == EINTR);  // Relance wait() si interrompu par un signal
 ```
 
 ## Bonnes pratiques

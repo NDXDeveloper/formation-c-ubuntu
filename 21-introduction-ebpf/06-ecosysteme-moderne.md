@@ -591,9 +591,9 @@ R: **Non !** C'est comme utiliser Kubernetes sans écrire du code Go. Cilium et 
 **Q: Mon kernel est-il assez récent ?**
 
 R: Vérifiez avec `uname -r`. Pour Cilium et Pixie :
-- **Minimum** : Kernel 4.9
-- **Recommandé** : Kernel 5.4+
-- **Optimal** : Kernel 5.10+
+- **Minimum** : Kernel 5.10 (ou 4.18 sur RHEL 8.10)
+- **Recommandé** : Kernel 5.15+
+- **Optimal** : Kernel 6.1+
 
 La plupart des distributions modernes (Ubuntu 20.04+, RHEL 8+, etc.) sont OK.
 
@@ -626,8 +626,8 @@ Vous êtes maintenant prêt à découvrir comment eBPF transforme l'infrastructu
 
 **Ce que vous allez voir dans les prochaines sous-sections :**
 
-→ **21.6.1 - Cilium** : Comment eBPF révolutionne le networking Kubernetes
-→ **21.6.2 - Pixie** : L'observabilité sans instrumentation devient réalité
+→ **21.6.1 - Cilium** : Comment eBPF révolutionne le networking Kubernetes  
+→ **21.6.2 - Pixie** : L'observabilité sans instrumentation devient réalité  
 → **21.6.3 - Ressources** : Votre feuille de route pour continuer l'aventure
 
 **Rappelez-vous :**

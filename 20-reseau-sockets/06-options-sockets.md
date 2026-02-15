@@ -44,8 +44,8 @@ int setsockopt(int sockfd, int level, int optname,
 
 **Exemple de base :**
 ```c
-int opt = 1;
-if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+int opt = 1;  
+if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {  
     perror("setsockopt");
     exit(EXIT_FAILURE);
 }
@@ -71,8 +71,8 @@ int getsockopt(int sockfd, int level, int optname,
 
 **Exemple :**
 ```c
-int opt;
-socklen_t optlen = sizeof(opt);
+int opt;  
+socklen_t optlen = sizeof(opt);  
 
 if (getsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, &optlen) < 0) {
     perror("getsockopt");
@@ -102,8 +102,8 @@ bind: Address already in use
 #### Solution
 
 ```c
-int opt = 1;
-if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+int opt = 1;  
+if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {  
     perror("setsockopt SO_REUSEADDR");
 }
 ```
@@ -125,11 +125,11 @@ if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
 int server_fd = socket(AF_INET, SOCK_STREAM, 0);
 
 // ⚠️ AVANT bind()
-int opt = 1;
-setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+int opt = 1;  
+setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));  
 
-bind(server_fd, ...);
-listen(server_fd, ...);
+bind(server_fd, ...);  
+listen(server_fd, ...);  
 ```
 
 ---
@@ -141,8 +141,8 @@ listen(server_fd, ...);
 Permet à **plusieurs processus** d'écouter sur le **même port** simultanément.
 
 ```c
-int opt = 1;
-setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
+int opt = 1;  
+setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));  
 ```
 
 **Utilité :**
@@ -182,8 +182,8 @@ setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
 Détecter une connexion TCP "morte" (câble débranché, machine éteinte sans fermeture propre).
 
 ```c
-int keepalive = 1;
-if (setsockopt(sockfd, SOL_SOCKET, SO_KEEPALIVE, &keepalive, sizeof(keepalive)) < 0) {
+int keepalive = 1;  
+if (setsockopt(sockfd, SOL_SOCKET, SO_KEEPALIVE, &keepalive, sizeof(keepalive)) < 0) {  
     perror("setsockopt SO_KEEPALIVE");
 }
 ```
@@ -196,16 +196,16 @@ if (setsockopt(sockfd, SOL_SOCKET, SO_KEEPALIVE, &keepalive, sizeof(keepalive)) 
 **Configuration fine (Linux) :**
 ```c
 // Temps d'inactivité avant le premier probe (secondes)
-int keepidle = 60;
-setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPIDLE, &keepidle, sizeof(keepidle));
+int keepidle = 60;  
+setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPIDLE, &keepidle, sizeof(keepidle));  
 
 // Intervalle entre les probes (secondes)
-int keepintvl = 10;
-setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPINTVL, &keepintvl, sizeof(keepintvl));
+int keepintvl = 10;  
+setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPINTVL, &keepintvl, sizeof(keepintvl));  
 
 // Nombre de probes avant déclaration morte
-int keepcnt = 3;
-setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPCNT, &keepcnt, sizeof(keepcnt));
+int keepcnt = 3;  
+setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPCNT, &keepcnt, sizeof(keepcnt));  
 ```
 
 **Calcul du timeout total :**
@@ -232,14 +232,14 @@ Timeout = keepidle + (keepintvl * keepcnt)
 
 ```c
 // Augmenter le buffer de réception à 256 KB
-int rcvbuf = 256 * 1024;
-if (setsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, &rcvbuf, sizeof(rcvbuf)) < 0) {
+int rcvbuf = 256 * 1024;  
+if (setsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, &rcvbuf, sizeof(rcvbuf)) < 0) {  
     perror("setsockopt SO_RCVBUF");
 }
 
 // Augmenter le buffer d'envoi à 256 KB
-int sndbuf = 256 * 1024;
-if (setsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &sndbuf, sizeof(sndbuf)) < 0) {
+int sndbuf = 256 * 1024;  
+if (setsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &sndbuf, sizeof(sndbuf)) < 0) {  
     perror("setsockopt SO_SNDBUF");
 }
 ```
@@ -262,10 +262,10 @@ Buffer optimal ≈ Bande passante × RTT (Round-Trip Time)
 
 **Vérifier la valeur réelle :**
 ```c
-int rcvbuf;
-socklen_t optlen = sizeof(rcvbuf);
-getsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, &rcvbuf, &optlen);
-printf("Buffer de réception : %d octets\n", rcvbuf);
+int rcvbuf;  
+socklen_t optlen = sizeof(rcvbuf);  
+getsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, &rcvbuf, &optlen);  
+printf("Buffer de réception : %d octets\n", rcvbuf);  
 ```
 
 ⚠️ **Note :** Le kernel peut doubler la valeur demandée pour ses métadonnées.
@@ -277,9 +277,9 @@ printf("Buffer de réception : %d octets\n", rcvbuf);
 #### Définir un timeout pour recv() et send()
 
 ```c
-struct timeval timeout;
-timeout.tv_sec = 5;   // 5 secondes
-timeout.tv_usec = 0;  // 0 microsecondes
+struct timeval timeout;  
+timeout.tv_sec = 5;   // 5 secondes  
+timeout.tv_usec = 0;  // 0 microsecondes  
 
 // Timeout pour recv()
 if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout)) < 0) {
@@ -299,12 +299,12 @@ if (setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout)) < 0) 
 **Exemple d'utilisation :**
 ```c
 // Définir timeout de 10 secondes
-struct timeval tv = {.tv_sec = 10, .tv_usec = 0};
-setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+struct timeval tv = {.tv_sec = 10, .tv_usec = 0};  
+setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));  
 
 // recv() timeout après 10 secondes
-ssize_t n = recv(sockfd, buffer, sizeof(buffer), 0);
-if (n < 0) {
+ssize_t n = recv(sockfd, buffer, sizeof(buffer), 0);  
+if (n < 0) {  
     if (errno == EAGAIN || errno == EWOULDBLOCK) {
         fprintf(stderr, "Timeout : aucune donnée reçue\n");
     } else {
@@ -331,9 +331,9 @@ Par défaut, `close()` retourne immédiatement, même si des données sont encor
 #### Solution
 
 ```c
-struct linger ling;
-ling.l_onoff = 1;   // Activer linger
-ling.l_linger = 10; // Attendre max 10 secondes
+struct linger ling;  
+ling.l_onoff = 1;   // Activer linger  
+ling.l_linger = 10; // Attendre max 10 secondes  
 
 if (setsockopt(sockfd, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling)) < 0) {
     perror("setsockopt SO_LINGER");
@@ -376,9 +376,9 @@ struct linger ling = {.l_onoff = 1, .l_linger = 0};
 **Cas d'usage du mode RST :**
 ```c
 // Utile pour forcer la fermeture immédiate sans TIME_WAIT
-struct linger ling = {.l_onoff = 1, .l_linger = 0};
-setsockopt(sockfd, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling));
-close(sockfd);  // Fermeture brutale, pas de TIME_WAIT
+struct linger ling = {.l_onoff = 1, .l_linger = 0};  
+setsockopt(sockfd, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling));  
+close(sockfd);  // Fermeture brutale, pas de TIME_WAIT  
 ```
 
 ⚠️ **Attention :** Mode RST doit être utilisé avec précaution. Le destinataire peut perdre des données.
@@ -392,19 +392,19 @@ close(sockfd);  // Fermeture brutale, pas de TIME_WAIT
 Par défaut, envoyer à une adresse broadcast (255.255.255.255) est refusé.
 
 ```c
-int broadcast = 1;
-if (setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST, &broadcast, sizeof(broadcast)) < 0) {
+int broadcast = 1;  
+if (setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST, &broadcast, sizeof(broadcast)) < 0) {  
     perror("setsockopt SO_BROADCAST");
 }
 
 // Maintenant on peut envoyer en broadcast
-struct sockaddr_in broadcast_addr;
-broadcast_addr.sin_family = AF_INET;
-broadcast_addr.sin_port = htons(8080);
-broadcast_addr.sin_addr.s_addr = INADDR_BROADCAST;  // 255.255.255.255
+struct sockaddr_in broadcast_addr;  
+broadcast_addr.sin_family = AF_INET;  
+broadcast_addr.sin_port = htons(8080);  
+broadcast_addr.sin_addr.s_addr = INADDR_BROADCAST;  // 255.255.255.255  
 
-const char *msg = "Hello everyone!";
-sendto(sockfd, msg, strlen(msg), 0,
+const char *msg = "Hello everyone!";  
+sendto(sockfd, msg, strlen(msg), 0,  
        (struct sockaddr*)&broadcast_addr, sizeof(broadcast_addr));
 ```
 
@@ -422,8 +422,8 @@ sendto(sockfd, msg, strlen(msg), 0,
 Récupérer les erreurs qui se sont produites sur le socket, particulièrement utile en mode non-bloquant.
 
 ```c
-int error = 0;
-socklen_t len = sizeof(error);
+int error = 0;  
+socklen_t len = sizeof(error);  
 
 if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &error, &len) < 0) {
     perror("getsockopt SO_ERROR");
@@ -439,8 +439,8 @@ if (getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &error, &len) < 0) {
 **Exemple avec connect() non-bloquant :**
 ```c
 // Rendre le socket non-bloquant
-int flags = fcntl(sockfd, F_GETFL, 0);
-fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
+int flags = fcntl(sockfd, F_GETFL, 0);  
+fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);  
 
 // Tenter connexion (retournera -1 avec errno=EINPROGRESS)
 if (connect(sockfd, ...) < 0 && errno != EINPROGRESS) {
@@ -448,12 +448,12 @@ if (connect(sockfd, ...) < 0 && errno != EINPROGRESS) {
 }
 
 // Attendre que la connexion soit établie
-fd_set writefds;
-FD_ZERO(&writefds);
-FD_SET(sockfd, &writefds);
+fd_set writefds;  
+FD_ZERO(&writefds);  
+FD_SET(sockfd, &writefds);  
 
-struct timeval timeout = {.tv_sec = 5, .tv_usec = 0};
-if (select(sockfd + 1, NULL, &writefds, NULL, &timeout) > 0) {
+struct timeval timeout = {.tv_sec = 5, .tv_usec = 0};  
+if (select(sockfd + 1, NULL, &writefds, NULL, &timeout) > 0) {  
     // Vérifier si connexion réussie
     int error;
     socklen_t len = sizeof(error);
@@ -486,8 +486,8 @@ L'algorithme de Nagle **regroupe** les petits paquets pour réduire l'overhead r
 #### Désactiver Nagle
 
 ```c
-int flag = 1;
-if (setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(flag)) < 0) {
+int flag = 1;  
+if (setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(flag)) < 0) {  
     perror("setsockopt TCP_NODELAY");
 }
 ```
@@ -509,8 +509,8 @@ if (setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(flag)) < 0) {
 int client_fd = accept(server_fd, ...);
 
 // Désactiver Nagle pour réactivité maximale
-int nodelay = 1;
-setsockopt(client_fd, IPPROTO_TCP, TCP_NODELAY, &nodelay, sizeof(nodelay));
+int nodelay = 1;  
+setsockopt(client_fd, IPPROTO_TCP, TCP_NODELAY, &nodelay, sizeof(nodelay));  
 ```
 
 ---
@@ -520,8 +520,8 @@ setsockopt(client_fd, IPPROTO_TCP, TCP_NODELAY, &nodelay, sizeof(nodelay));
 #### Opposé de TCP_NODELAY
 
 ```c
-int cork = 1;
-setsockopt(sockfd, IPPROTO_TCP, TCP_CORK, &cork, sizeof(cork));
+int cork = 1;  
+setsockopt(sockfd, IPPROTO_TCP, TCP_CORK, &cork, sizeof(cork));  
 ```
 
 **Effet :** Accumule les données jusqu'à ce que :
@@ -533,20 +533,20 @@ setsockopt(sockfd, IPPROTO_TCP, TCP_CORK, &cork, sizeof(cork));
 **Exemple : Serveur HTTP**
 ```c
 // Activer cork
-int cork = 1;
-setsockopt(client_fd, IPPROTO_TCP, TCP_CORK, &cork, sizeof(cork));
+int cork = 1;  
+setsockopt(client_fd, IPPROTO_TCP, TCP_CORK, &cork, sizeof(cork));  
 
 // Envoyer les en-têtes HTTP
-send(client_fd, "HTTP/1.1 200 OK\r\n", 17, 0);
-send(client_fd, "Content-Type: text/html\r\n", 25, 0);
-send(client_fd, "Content-Length: 1234\r\n\r\n", 24, 0);
+send(client_fd, "HTTP/1.1 200 OK\r\n", 17, 0);  
+send(client_fd, "Content-Type: text/html\r\n", 25, 0);  
+send(client_fd, "Content-Length: 1234\r\n\r\n", 24, 0);  
 
 // Envoyer le corps
 send(client_fd, body, body_len, 0);
 
 // Désactiver cork pour forcer l'envoi
-cork = 0;
-setsockopt(client_fd, IPPROTO_TCP, TCP_CORK, &cork, sizeof(cork));
+cork = 0;  
+setsockopt(client_fd, IPPROTO_TCP, TCP_CORK, &cork, sizeof(cork));  
 ```
 
 **Résultat :** Tout est envoyé dans 1 ou 2 paquets au lieu de 4.
@@ -562,8 +562,8 @@ setsockopt(client_fd, IPPROTO_TCP, TCP_CORK, &cork, sizeof(cork));
 Par défaut, TCP attend un peu avant d'envoyer un ACK, au cas où il y aurait des données à renvoyer dans le même paquet.
 
 ```c
-int quickack = 1;
-setsockopt(sockfd, IPPROTO_TCP, TCP_QUICKACK, &quickack, sizeof(quickack));
+int quickack = 1;  
+setsockopt(sockfd, IPPROTO_TCP, TCP_QUICKACK, &quickack, sizeof(quickack));  
 ```
 
 **Effet :** Force l'envoi immédiat des ACKs.
@@ -581,8 +581,8 @@ setsockopt(sockfd, IPPROTO_TCP, TCP_QUICKACK, &quickack, sizeof(quickack));
 #### Contrôler le MSS (Maximum Segment Size)
 
 ```c
-int mss = 1400;
-if (setsockopt(sockfd, IPPROTO_TCP, TCP_MAXSEG, &mss, sizeof(mss)) < 0) {
+int mss = 1400;  
+if (setsockopt(sockfd, IPPROTO_TCP, TCP_MAXSEG, &mss, sizeof(mss)) < 0) {  
     perror("setsockopt TCP_MAXSEG");
 }
 ```
@@ -606,8 +606,8 @@ if (setsockopt(sockfd, IPPROTO_TCP, TCP_MAXSEG, &mss, sizeof(mss)) < 0) {
 Le TTL est décrémenté à chaque routeur. Quand il atteint 0, le paquet est détruit.
 
 ```c
-int ttl = 64;
-if (setsockopt(sockfd, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl)) < 0) {
+int ttl = 64;  
+if (setsockopt(sockfd, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl)) < 0) {  
     perror("setsockopt IP_TTL");
 }
 ```
@@ -625,8 +625,8 @@ if (setsockopt(sockfd, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl)) < 0) {
 #### Définir la priorité des paquets
 
 ```c
-int tos = IPTOS_LOWDELAY;  // Priorité : faible latence
-if (setsockopt(sockfd, IPPROTO_IP, IP_TOS, &tos, sizeof(tos)) < 0) {
+int tos = IPTOS_LOWDELAY;  // Priorité : faible latence  
+if (setsockopt(sockfd, IPPROTO_IP, IP_TOS, &tos, sizeof(tos)) < 0) {  
     perror("setsockopt IP_TOS");
 }
 ```
@@ -702,6 +702,7 @@ Voici un serveur TCP avec options optimisées.
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/time.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/tcp.h>
@@ -846,6 +847,7 @@ Fonction utilitaire pour afficher les options d'un socket :
 ```c
 #include <stdio.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 #include <netinet/tcp.h>
 
 void print_socket_options(int sockfd) {
@@ -900,8 +902,8 @@ void print_socket_options(int sockfd) {
 
 **Utilisation :**
 ```c
-int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-print_socket_options(sockfd);
+int sockfd = socket(AF_INET, SOCK_STREAM, 0);  
+print_socket_options(sockfd);  
 ```
 
 ---
@@ -931,8 +933,8 @@ Certaines options doivent être définies avant d'utiliser le socket :
 int sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
 // ✅ Définir SO_REUSEADDR AVANT bind()
-int opt = 1;
-setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+int opt = 1;  
+setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));  
 
 bind(sockfd, ...);  // Maintenant bind() peut réutiliser l'adresse
 ```
@@ -945,8 +947,8 @@ bind(sockfd, ...);  // Maintenant bind() peut réutiliser l'adresse
 // Désactiver Nagle pour réduire la latence dans notre protocole
 // requête/réponse interactif. Les messages sont petits (<100 octets)
 // et nécessitent une réponse immédiate.
-int nodelay = 1;
-setsockopt(client_fd, IPPROTO_TCP, TCP_NODELAY, &nodelay, sizeof(nodelay));
+int nodelay = 1;  
+setsockopt(client_fd, IPPROTO_TCP, TCP_NODELAY, &nodelay, sizeof(nodelay));  
 ```
 
 ---
@@ -955,12 +957,12 @@ setsockopt(client_fd, IPPROTO_TCP, TCP_NODELAY, &nodelay, sizeof(nodelay));
 
 ```bash
 # Vérifier les limites de buffers
-sysctl net.core.rmem_max
-sysctl net.core.wmem_max
+sysctl net.core.rmem_max  
+sysctl net.core.wmem_max  
 
 # Augmenter si nécessaire (root requis)
-sudo sysctl -w net.core.rmem_max=16777216
-sudo sysctl -w net.core.wmem_max=16777216
+sudo sysctl -w net.core.rmem_max=16777216  
+sudo sysctl -w net.core.wmem_max=16777216  
 ```
 
 ---

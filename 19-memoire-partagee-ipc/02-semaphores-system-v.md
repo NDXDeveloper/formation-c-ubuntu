@@ -24,8 +24,8 @@ Sans synchronisation, l'accès concurrent à une ressource partagée produit des
 ```
 Processus A                    Processus B
 -----------                    -----------
-Lire counter (= 10)           Lire counter (= 10)
-Incrémenter (11)              Incrémenter (11)
+Lire counter (= 10)           Lire counter (= 10)  
+Incrémenter (11)              Incrémenter (11)  
 Écrire counter (11)           Écrire counter (11)
 
 Résultat : counter = 11 au lieu de 12 !
@@ -36,9 +36,9 @@ Avec un sémaphore :
 ```
 Processus A                    Processus B
 -----------                    -----------
-Attendre sémaphore (entrer)   [BLOQUÉ - attend]
-Lire counter (= 10)
-Incrémenter (11)
+Attendre sémaphore (entrer)   [BLOQUÉ - attend]  
+Lire counter (= 10)  
+Incrémenter (11)  
 Écrire counter (11)
 Libérer sémaphore (sortir)
                               Attendre sémaphore (entrer)
@@ -61,11 +61,11 @@ Il existe **deux APIs différentes** pour les sémaphores sous Linux :
 ```c
 #include <semaphore.h>
 
-sem_t sem;
-sem_init(&sem, 0, 1);    // Simple et intuitif
-sem_wait(&sem);          // Attendre
-sem_post(&sem);          // Signaler
-sem_destroy(&sem);
+sem_t sem;  
+sem_init(&sem, 0, 1);    // Simple et intuitif  
+sem_wait(&sem);          // Attendre  
+sem_post(&sem);          // Signaler  
+sem_destroy(&sem);  
 ```
 
 **Avantages :**
@@ -78,9 +78,9 @@ sem_destroy(&sem);
 ```c
 #include <sys/sem.h>
 
-int semid = semget(key, 1, IPC_CREAT | 0666);  // Plus complexe
-struct sembuf op = {0, -1, 0};
-semop(semid, &op, 1);    // Opération opaque
+int semid = semget(key, 1, IPC_CREAT | 0666);  // Plus complexe  
+struct sembuf op = {0, -1, 0};  
+semop(semid, &op, 1);    // Opération opaque  
 ```
 
 **Caractéristiques :**
@@ -124,8 +124,8 @@ Chaque ensemble a :
 System V utilise des **clés numériques** pour identifier les ressources :
 
 ```c
-key_t key = ftok("/tmp/myfile", 'A');  // Génère une clé unique
-int semid = semget(key, 1, IPC_CREAT | 0666);
+key_t key = ftok("/tmp/myfile", 'A');  // Génère une clé unique  
+int semid = semget(key, 1, IPC_CREAT | 0666);  
 ```
 
 - `ftok()` génère une clé à partir d'un chemin de fichier et d'un ID
@@ -162,9 +162,9 @@ int semget(key_t key, int nsems, int semflg);
 **Exemple :**
 ```c
 // Créer un ensemble de 1 sémaphore
-key_t key = ftok("/tmp/mysem", 'S');
-int semid = semget(key, 1, IPC_CREAT | 0666);
-if (semid == -1) {
+key_t key = ftok("/tmp/mysem", 'S');  
+int semid = semget(key, 1, IPC_CREAT | 0666);  
+if (semid == -1) {  
     perror("semget");
     exit(1);
 }
@@ -205,16 +205,16 @@ struct sembuf {
 struct sembuf op;
 
 // Attendre (décrementer, P operation, "prendre")
-op.sem_num = 0;        // Sémaphore numéro 0
-op.sem_op = -1;        // Décrémenter
-op.sem_flg = SEM_UNDO; // Annuler si crash
-semop(semid, &op, 1);
+op.sem_num = 0;        // Sémaphore numéro 0  
+op.sem_op = -1;        // Décrémenter  
+op.sem_flg = SEM_UNDO; // Annuler si crash  
+semop(semid, &op, 1);  
 
 // Signaler (incrémenter, V operation, "libérer")
-op.sem_num = 0;
-op.sem_op = +1;        // Incrémenter
-op.sem_flg = SEM_UNDO;
-semop(semid, &op, 1);
+op.sem_num = 0;  
+op.sem_op = +1;        // Incrémenter  
+op.sem_flg = SEM_UNDO;  
+semop(semid, &op, 1);  
 ```
 
 ### 3. `semctl()` - Contrôle et configuration
@@ -251,13 +251,13 @@ union semun {
 
 ```c
 // Initialiser un sémaphore à 1 (mutex)
-union semun arg;
-arg.val = 1;
-semctl(semid, 0, SETVAL, arg);
+union semun arg;  
+arg.val = 1;  
+semctl(semid, 0, SETVAL, arg);  
 
 // Lire la valeur
-int val = semctl(semid, 0, GETVAL);
-printf("Valeur actuelle : %d\n", val);
+int val = semctl(semid, 0, GETVAL);  
+printf("Valeur actuelle : %d\n", val);  
 
 // Supprimer l'ensemble
 semctl(semid, 0, IPC_RMID);
@@ -441,13 +441,13 @@ Un avantage de System V : effectuer **plusieurs opérations atomiquement** :
 struct sembuf ops[2];
 
 // Opération atomique : décrémenter sem 0 ET incrémenter sem 1
-ops[0].sem_num = 0;
-ops[0].sem_op = -1;
-ops[0].sem_flg = SEM_UNDO;
+ops[0].sem_num = 0;  
+ops[0].sem_op = -1;  
+ops[0].sem_flg = SEM_UNDO;  
 
-ops[1].sem_num = 1;
-ops[1].sem_op = +1;
-ops[1].sem_flg = SEM_UNDO;
+ops[1].sem_num = 1;  
+ops[1].sem_op = +1;  
+ops[1].sem_flg = SEM_UNDO;  
 
 // Les deux opérations sont effectuées atomiquement (ou aucune)
 semop(semid, ops, 2);
@@ -470,8 +470,8 @@ sem_wait_sysv(semid, 0);
 
 Avec `SEM_UNDO` :
 ```c
-op.sem_flg = SEM_UNDO;  // ✅
-sem_wait_sysv(semid, 0);
+op.sem_flg = SEM_UNDO;  // ✅  
+sem_wait_sysv(semid, 0);  
 
 // Si le processus crash, le système annule automatiquement
 // l'opération → le sémaphore est libéré
@@ -523,8 +523,8 @@ semctl(semid, 0, IPC_RMID);
 
 ```c
 // Initialisation : valeur = 1
-arg.val = 1;
-semctl(semid, 0, SETVAL, arg);
+arg.val = 1;  
+semctl(semid, 0, SETVAL, arg);  
 
 // Utilisation
 sem_wait_sysv(semid, 0);  // Acquérir
@@ -536,8 +536,8 @@ sem_post_sysv(semid, 0);  // Libérer
 
 ```c
 // Initialisation : valeur = N (nombre de ressources disponibles)
-arg.val = 5;  // Pool de 5 connexions
-semctl(semid, 0, SETVAL, arg);
+arg.val = 5;  // Pool de 5 connexions  
+semctl(semid, 0, SETVAL, arg);  
 
 // Utilisation
 sem_wait_sysv(semid, 0);  // Prendre une ressource (décrémente)
@@ -549,17 +549,17 @@ sem_post_sysv(semid, 0);  // Rendre la ressource (incrémente)
 
 ```c
 // Sémaphore initialisé à 0
-arg.val = 0;
-semctl(semid, 0, SETVAL, arg);
+arg.val = 0;  
+semctl(semid, 0, SETVAL, arg);  
 
 // Processus A termine son travail
-printf("Processus A : travail terminé\n");
-sem_post_sysv(semid, 0);  // Signaler
+printf("Processus A : travail terminé\n");  
+sem_post_sysv(semid, 0);  // Signaler  
 
 // Processus B attend
-printf("Processus B : attente...\n");
-sem_wait_sysv(semid, 0);  // Bloqué jusqu'au signal
-printf("Processus B : peut continuer\n");
+printf("Processus B : attente...\n");  
+sem_wait_sysv(semid, 0);  // Bloqué jusqu'au signal  
+printf("Processus B : peut continuer\n");  
 ```
 
 ### 4. Producteur-Consommateur
@@ -570,9 +570,9 @@ int semid = semget(key, 2, IPC_CREAT | 0666);
 
 // sem[0] = places vides dans le buffer (initialement N)
 // sem[1] = éléments disponibles (initialement 0)
-unsigned short init_vals[2] = {BUFFER_SIZE, 0};
-arg.array = init_vals;
-semctl(semid, 0, SETALL, arg);
+unsigned short init_vals[2] = {BUFFER_SIZE, 0};  
+arg.array = init_vals;  
+semctl(semid, 0, SETALL, arg);  
 
 // Producteur
 sem_wait_sysv(semid, 0);  // Attendre place vide
@@ -597,9 +597,9 @@ int semid = semget(key, 1, IPC_CREAT | 0666);
 sem_wait_sysv(semid, 0);
 
 // ✅ Toujours initialiser
-union semun arg;
-arg.val = 1;
-semctl(semid, 0, SETVAL, arg);
+union semun arg;  
+arg.val = 1;  
+semctl(semid, 0, SETVAL, arg);  
 ```
 
 ### 2. Ne pas supprimer les sémaphores
@@ -617,12 +617,12 @@ Sans cela, vous verrez des sémaphores orphelins dans `ipcs -s`.
 
 ```c
 // Processus A
-sem_wait_sysv(semid, 0);  // Acquiert sem 0
-sem_wait_sysv(semid, 1);  // Veut sem 1
+sem_wait_sysv(semid, 0);  // Acquiert sem 0  
+sem_wait_sysv(semid, 1);  // Veut sem 1  
 
 // Processus B
-sem_wait_sysv(semid, 1);  // Acquiert sem 1
-sem_wait_sysv(semid, 0);  // Veut sem 0
+sem_wait_sysv(semid, 1);  // Acquiert sem 1  
+sem_wait_sysv(semid, 0);  // Veut sem 0  
 
 // → DEADLOCK !
 ```
@@ -691,12 +691,12 @@ typedef struct {
 } shared_buffer_t;
 
 void sem_wait_sysv(int semid, int semnum) {
-    struct sembuf op = {semnum, -1, SEM_UNDO};
+    struct sembuf op = {semnum, -1, 0};
     semop(semid, &op, 1);
 }
 
 void sem_post_sysv(int semid, int semnum) {
-    struct sembuf op = {semnum, +1, SEM_UNDO};
+    struct sembuf op = {semnum, +1, 0};
     semop(semid, &op, 1);
 }
 
@@ -804,9 +804,9 @@ ipcs -s -i <semid>
 2. Si valeur = 0 et aucun processus ne libère :
 ```bash
 # Réinitialiser manuellement (depuis un programme)
-union semun arg;
-arg.val = 1;
-semctl(semid, 0, SETVAL, arg);
+union semun arg;  
+arg.val = 1;  
+semctl(semid, 0, SETVAL, arg);  
 ```
 
 3. Ou supprimer complètement :
@@ -852,8 +852,8 @@ ipcs -s | grep $USER | awk '{print $2}' | xargs -I {} ipcrm -s {}
 ```c
 #include <errno.h>
 
-int semid = semget(key, 1, IPC_CREAT | 0666);
-if (semid == -1) {
+int semid = semget(key, 1, IPC_CREAT | 0666);  
+if (semid == -1) {  
     if (errno == EEXIST) {
         fprintf(stderr, "Sémaphore déjà existant\n");
         // Essayer de l'obtenir sans IPC_CREAT
@@ -868,8 +868,8 @@ if (semid == -1) {
 }
 
 // Opération avec timeout (non standard, Linux-specific)
-struct sembuf op = {0, -1, IPC_NOWAIT | SEM_UNDO};
-if (semop(semid, &op, 1) == -1) {
+struct sembuf op = {0, -1, IPC_NOWAIT | SEM_UNDO};  
+if (semop(semid, &op, 1) == -1) {  
     if (errno == EAGAIN) {
         fprintf(stderr, "Sémaphore non disponible (non bloquant)\n");
     } else {
@@ -897,19 +897,19 @@ Si vous maintenez du code legacy et souhaitez moderniser :
 
 **Avant (System V) :**
 ```c
-int semid = semget(key, 1, IPC_CREAT | 0666);
-union semun arg;
-arg.val = 1;
-semctl(semid, 0, SETVAL, arg);
+int semid = semget(key, 1, IPC_CREAT | 0666);  
+union semun arg;  
+arg.val = 1;  
+semctl(semid, 0, SETVAL, arg);  
 
-struct sembuf op = {0, -1, SEM_UNDO};
-semop(semid, &op, 1);
+struct sembuf op = {0, -1, SEM_UNDO};  
+semop(semid, &op, 1);  
 ```
 
 **Après (POSIX) :**
 ```c
-sem_t sem;
-sem_init(&sem, 1, 1);  // 1 = partagé entre processus
+sem_t sem;  
+sem_init(&sem, 1, 1);  // 1 = partagé entre processus  
 
 sem_wait(&sem);
 ```
@@ -987,8 +987,8 @@ Les **sémaphores System V** sont un mécanisme de synchronisation puissant mais
 ### Commandes essentielles
 
 ```bash
-ipcs -s          # Lister les sémaphores
-ipcrm -s <id>    # Supprimer un sémaphore
+ipcs -s          # Lister les sémaphores  
+ipcrm -s <id>    # Supprimer un sémaphore  
 ```
 
 ---

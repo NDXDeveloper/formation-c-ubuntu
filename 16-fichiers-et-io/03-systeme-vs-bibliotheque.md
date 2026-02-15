@@ -135,12 +135,12 @@ int main(void) {
 **Exemple côte à côte :**
 ```c
 // Appels système
-int fd = open("file.txt", O_RDONLY);
-if (fd == -1) { /* erreur */ }
+int fd = open("file.txt", O_RDONLY);  
+if (fd == -1) { /* erreur */ }  
 
 // Bibliothèque C
-FILE *fp = fopen("file.txt", "r");
-if (fp == NULL) { /* erreur */ }
+FILE *fp = fopen("file.txt", "r");  
+if (fp == NULL) { /* erreur */ }  
 ```
 
 ### 2. Fonctions d'ouverture
@@ -183,15 +183,15 @@ FILE *fp = fopen("data.txt", "w+");
 char buffer[256];
 
 // APPELS SYSTÈME
-int fd = open("file.txt", O_RDONLY);
-ssize_t n = read(fd, buffer, sizeof(buffer) - 1);
-buffer[n] = '\0';  // Vous devez ajouter le '\0'
-close(fd);
+int fd = open("file.txt", O_RDONLY);  
+ssize_t n = read(fd, buffer, sizeof(buffer) - 1);  
+buffer[n] = '\0';  // Vous devez ajouter le '\0'  
+close(fd);  
 
 // BIBLIOTHÈQUE C
-FILE *fp = fopen("file.txt", "r");
-fgets(buffer, sizeof(buffer), fp);  // '\0' ajouté automatiquement
-fclose(fp);
+FILE *fp = fopen("file.txt", "r");  
+fgets(buffer, sizeof(buffer), fp);  // '\0' ajouté automatiquement  
+fclose(fp);  
 ```
 
 ### 4. Fonctions d'écriture
@@ -205,20 +205,20 @@ fclose(fp);
 
 **Exemple d'écriture formatée :**
 ```c
-int age = 25;
-const char *nom = "Alice";
+int age = 25;  
+const char *nom = "Alice";  
 
 // APPELS SYSTÈME : Vous devez formater manuellement
-int fd = open("info.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-char buffer[256];
-int len = snprintf(buffer, sizeof(buffer), "Nom: %s, Age: %d\n", nom, age);
-write(fd, buffer, len);
-close(fd);
+int fd = open("info.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);  
+char buffer[256];  
+int len = snprintf(buffer, sizeof(buffer), "Nom: %s, Age: %d\n", nom, age);  
+write(fd, buffer, len);  
+close(fd);  
 
 // BIBLIOTHÈQUE C : Formatage intégré
-FILE *fp = fopen("info.txt", "w");
-fprintf(fp, "Nom: %s, Age: %d\n", nom, age);  // Beaucoup plus simple !
-fclose(fp);
+FILE *fp = fopen("info.txt", "w");  
+fprintf(fp, "Nom: %s, Age: %d\n", nom, age);  // Beaucoup plus simple !  
+fclose(fp);  
 ```
 
 ### 5. Fonctions de fermeture
@@ -230,12 +230,12 @@ fclose(fp);
 **Différence importante :**
 ```c
 // APPELS SYSTÈME : Fermeture immédiate
-write(fd, data, size);
-close(fd);  // Données écrites immédiatement (ou presque)
+write(fd, data, size);  
+close(fd);  // Données écrites immédiatement (ou presque)  
 
 // BIBLIOTHÈQUE C : Vide le buffer d'abord
-fprintf(fp, "texte");
-fclose(fp);  // 1. Vide le buffer, 2. Appelle close() en interne
+fprintf(fp, "texte");  
+fclose(fp);  // 1. Vide le buffer, 2. Appelle close() en interne  
 ```
 
 ## Le buffering : La grande différence
@@ -296,7 +296,7 @@ int main(void) {
 }
 ```
 
-**Si vous ouvrez `test.txt` pendant le sleep() :** Le fichier sera vide ou n'existera même pas !
+**Si vous ouvrez `test.txt` pendant le sleep() :** Le fichier existera (créé par le `open()` sous-jacent) mais sera vide !
 
 ### Forcer le vidage du buffer
 
@@ -306,8 +306,8 @@ int main(void) {
 
 FILE *fp = fopen("log.txt", "w");
 
-fprintf(fp, "Message important\n");
-fflush(fp);  // ✅ Force l'écriture immédiate sur disque
+fprintf(fp, "Message important\n");  
+fflush(fp);  // ✅ Force l'écriture immédiate sur disque  
 
 fprintf(fp, "Autre message\n");
 // Ce message reste dans le buffer jusqu'à fclose() ou fflush()
@@ -333,8 +333,8 @@ setbuf(fp, NULL);
 // Ou : setvbuf(fp, NULL, _IONBF, 0);
 
 // Maintenant chaque fprintf() écrit immédiatement
-fprintf(fp, "Log 1\n");  // Écrit tout de suite
-fprintf(fp, "Log 2\n");  // Écrit tout de suite
+fprintf(fp, "Log 1\n");  // Écrit tout de suite  
+fprintf(fp, "Log 2\n");  // Écrit tout de suite  
 
 fclose(fp);
 ```
@@ -393,8 +393,8 @@ int main(void) {
 
 **Résultats typiques :**
 ```
-Appels système : 0.850 secondes
-Bibliothèque C : 0.012 secondes
+Appels système : 0.850 secondes  
+Bibliothèque C : 0.012 secondes  
 ```
 
 **Bibliothèque C = ~70x plus rapide !** (pour des petites écritures fréquentes)
@@ -464,8 +464,8 @@ int fd = open("file.txt", O_WRONLY | O_CREAT, 0600);  // rw------- seulement
 
 **3. Fichiers spéciaux**
 ```c
-int fd = open("/dev/urandom", O_RDONLY);  // Générateur aléatoire
-int fd = open("/proc/cpuinfo", O_RDONLY); // Informations système
+int fd = open("/dev/urandom", O_RDONLY);  // Générateur aléatoire  
+int fd = open("/proc/cpuinfo", O_RDONLY); // Informations système  
 ```
 
 **4. Manipulation directe de descripteurs**
@@ -490,8 +490,8 @@ fprintf(fp, "Utilisateur: %s, Score: %d, Ratio: %.2f%%\n",
 
 **2. Lecture ligne par ligne**
 ```c
-char ligne[256];
-while (fgets(ligne, sizeof(ligne), fp) != NULL) {
+char ligne[256];  
+while (fgets(ligne, sizeof(ligne), fp) != NULL) {  
     printf("%s", ligne);
 }
 // Très simple comparé à read()
@@ -499,13 +499,13 @@ while (fgets(ligne, sizeof(ligne), fp) != NULL) {
 
 **3. Parsing de texte**
 ```c
-int age;
-char nom[50];
-fscanf(fp, "%s %d", nom, &age);
+int age;  
+char nom[50];  
+fscanf(fp, "%s %d", nom, &age);  
 // Impossible directement avec read()
 ```
 
-**4. Gestion automatique des erreurs de fin de ligne**
+**4. Gestion automatique des fins de ligne**
 ```c
 // Gère automatiquement \n, \r\n, \r selon le système
 fputs("ligne\n", fp);
@@ -518,12 +518,12 @@ fputs("ligne\n", fp);
 ```c
 #include <stdio.h>
 
-FILE *fp = fopen("file.txt", "r");
-int fd = fileno(fp);  // Obtenir le descripteur sous-jacent
+FILE *fp = fopen("file.txt", "r");  
+int fd = fileno(fp);  // Obtenir le descripteur sous-jacent  
 
 // Maintenant on peut utiliser les deux
-fgets(buffer, size, fp);  // Bibliothèque C
-read(fd, buf, n);         // Appel système
+fgets(buffer, size, fp);  // Bibliothèque C  
+read(fd, buf, n);         // Appel système  
 ```
 
 **⚠️ Attention :** Mélanger les deux peut causer des problèmes de buffering !
@@ -533,8 +533,8 @@ read(fd, buf, n);         // Appel système
 ```c
 #include <stdio.h>
 
-int fd = open("file.txt", O_RDONLY);
-FILE *fp = fdopen(fd, "r");  // Envelopper le fd dans un FILE*
+int fd = open("file.txt", O_RDONLY);  
+FILE *fp = fdopen(fd, "r");  // Envelopper le fd dans un FILE*  
 
 // Maintenant on peut utiliser les fonctions de stdio
 fgets(buffer, size, fp);
@@ -554,8 +554,8 @@ dup2(fd, STDOUT_FILENO);  // Redirection
 ✅ **Performance critique avec gros transferts**
 ```c
 // Copier un fichier de 1 Go
-char buffer[1024 * 1024];  // 1 Mo
-while ((n = read(fd_in, buffer, sizeof(buffer))) > 0) {
+char buffer[1024 * 1024];  // 1 Mo  
+while ((n = read(fd_in, buffer, sizeof(buffer))) > 0) {  
     write(fd_out, buffer, n);
 }
 ```
@@ -581,8 +581,8 @@ open("file", O_RDONLY | O_NOATIME | O_DIRECT);
 
 ✅ **Manipulation de fichiers texte**
 ```c
-FILE *fp = fopen("config.txt", "r");
-while (fgets(ligne, sizeof(ligne), fp) != NULL) {
+FILE *fp = fopen("config.txt", "r");  
+while (fgets(ligne, sizeof(ligne), fp) != NULL) {  
     // Traiter chaque ligne
 }
 ```
@@ -736,30 +736,30 @@ int copy_stdio(const char *src, const char *dst) {
 
 ```c
 // ❌ DANGEREUX
-FILE *fp = fopen("file.txt", "r");
-int fd = fileno(fp);
+FILE *fp = fopen("file.txt", "r");  
+int fd = fileno(fp);  
 
-fgets(line, size, fp);  // Utilise le buffer de stdio
-read(fd, buf, n);       // Bypass le buffer -> données décalées !
+fgets(line, size, fp);  // Utilise le buffer de stdio  
+read(fd, buf, n);       // Bypass le buffer -> données décalées !  
 ```
 
 **Solution :** Si vous devez mélanger, utilisez `fflush()` :
 ```c
-fgets(line, size, fp);
-fflush(fp);           // Synchronise
-read(fd, buf, n);     // OK maintenant
+fgets(line, size, fp);  
+fflush(fp);           // Synchronise  
+read(fd, buf, n);     // OK maintenant  
 ```
 
 ### 2. Oublier de vérifier les erreurs
 
 ```c
 // ❌ MAUVAIS
-FILE *fp = fopen("file.txt", "r");
-fgets(buffer, size, fp);  // Crash si fp == NULL !
+FILE *fp = fopen("file.txt", "r");  
+fgets(buffer, size, fp);  // Crash si fp == NULL !  
 
 // ✅ BON
-FILE *fp = fopen("file.txt", "r");
-if (fp == NULL) {
+FILE *fp = fopen("file.txt", "r");  
+if (fp == NULL) {  
     perror("fopen");
     return 1;
 }

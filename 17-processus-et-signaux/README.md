@@ -4,7 +4,7 @@
 
 ## Introduction au chapitre
 
-Bienvenue dans le **chapitre 6 : Programmation Système Linux**, et plus précisément dans le chapitre consacré aux **processus et signaux**. Ce chapitre est fondamental pour comprendre comment fonctionnent les systèmes d'exploitation modernes et comment créer des applications système robustes.
+Bienvenue dans le **Module 6 : Programmation Système Linux**, et plus précisément dans le chapitre consacré aux **processus et signaux**. Ce chapitre est fondamental pour comprendre comment fonctionnent les systèmes d'exploitation modernes et comment créer des applications système robustes.
 
 ### Qu'est-ce qu'un processus ?
 
@@ -138,8 +138,8 @@ Les variables d'environnement permettent de configurer les processus :
 
 **Exemple aperçu :**
 ```c
-char *path = getenv("PATH");
-setenv("MA_VARIABLE", "valeur", 1);
+char *path = getenv("PATH");  
+setenv("MA_VARIABLE", "valeur", 1);  
 ```
 
 ### 3. Gestion des signaux (Sections 17.5 - 17.7)
@@ -173,8 +173,8 @@ Faire communiquer des processus avec :
 
 **Exemple aperçu :**
 ```c
-int pipefd[2];
-pipe(pipefd);
+int pipefd[2];  
+pipe(pipefd);  
 
 if (fork() == 0) {
     // Enfant lit
@@ -259,27 +259,27 @@ ps -u utilisateur
 
 Surveillance en temps réel :
 ```bash
-top      # Moniteur système basique
-htop     # Version améliorée (à installer)
+top      # Moniteur système basique  
+htop     # Version améliorée (à installer)  
 ```
 
 ### Commande `pstree`
 
 Affiche l'arbre hiérarchique :
 ```bash
-pstree           # Arbre complet
-pstree -p        # Avec les PIDs
-pstree -p 1234   # Arbre d'un processus spécifique
+pstree           # Arbre complet  
+pstree -p        # Avec les PIDs  
+pstree -p 1234   # Arbre d'un processus spécifique  
 ```
 
 ### Commande `kill`
 
 Envoyer des signaux :
 ```bash
-kill PID            # SIGTERM (arrêt propre)
-kill -9 PID         # SIGKILL (force)
-kill -USR1 PID      # Signal utilisateur
-killall firefox     # Tuer par nom
+kill PID            # SIGTERM (arrêt propre)  
+kill -9 PID         # SIGKILL (force)  
+kill -USR1 PID      # Signal utilisateur  
+killall firefox     # Tuer par nom  
 ```
 
 ### Répertoire `/proc`
@@ -287,10 +287,10 @@ killall firefox     # Tuer par nom
 Linux expose les informations des processus dans `/proc` :
 ```bash
 # Informations sur le processus 1234
-cat /proc/1234/status     # État général
-cat /proc/1234/cmdline    # Ligne de commande
-cat /proc/1234/environ    # Variables d'environnement
-ls -l /proc/1234/fd       # Fichiers ouverts
+cat /proc/1234/status     # État général  
+cat /proc/1234/cmdline    # Ligne de commande  
+cat /proc/1234/environ    # Variables d'environnement  
+ls -l /proc/1234/fd       # Fichiers ouverts  
 ```
 
 ## Prérequis et concepts nécessaires
@@ -420,12 +420,12 @@ gdb ./mon_programme
 Les pages de manuel sont votre meilleure ressource :
 
 ```bash
-man 2 fork      # Appel système fork()
-man 2 wait      # Appel système wait()
-man 2 kill      # Appel système kill()
-man 2 signal    # Gestion des signaux
-man 2 pipe      # Création de pipes
-man 7 signal    # Vue d'ensemble des signaux
+man 2 fork      # Appel système fork()  
+man 2 wait      # Appel système wait()  
+man 2 kill      # Appel système kill()  
+man 2 signal    # Gestion des signaux  
+man 2 pipe      # Création de pipes  
+man 7 signal    # Vue d'ensemble des signaux  
 ```
 
 **Sections du manuel :**

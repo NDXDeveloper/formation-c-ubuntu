@@ -109,9 +109,9 @@ int main(void) {
 
 **Sortie typique :**
 ```
-Pipe créé avec succès!
-Descripteur de lecture:  fd[0] = 3
-Descripteur d'écriture:  fd[1] = 4
+Pipe créé avec succès!  
+Descripteur de lecture:  fd[0] = 3  
+Descripteur d'écriture:  fd[1] = 4  
 ```
 
 ## Communication dans un seul processus
@@ -154,8 +154,8 @@ int main(void) {
 
 **Sortie :**
 ```
-Envoi du message: "Hello via pipe!"
-Message reçu: "Hello via pipe!"
+Envoi du message: "Hello via pipe!"  
+Message reçu: "Hello via pipe!"  
 ```
 
 ## Communication parent-enfant : Pattern de base
@@ -257,8 +257,8 @@ int main(void) {
 ```
 APRÈS fork():
 
-Parent                         Enfant
-fd[0] ─┐                   ┌─ fd[0]
+Parent                         Enfant  
+fd[0] ─┐                   ┌─ fd[0]  
        │                   │
 fd[1] ─┼─→ [PIPE] ─────────┼─→ LECTURE
        │                   │
@@ -344,8 +344,8 @@ if (fork() == 0) {
 Pour communiquer dans les deux sens, il faut **deux pipes** :
 
 ```
-Parent → Enfant : pipe1
-Enfant → Parent : pipe2
+Parent → Enfant : pipe1  
+Enfant → Parent : pipe2  
 ```
 
 ### Exemple : Échange bidirectionnel
@@ -683,8 +683,8 @@ int main(void) {
 **Sortie :**
 ```
 [Parent] Lecture depuis le pipe:
-Ce message va dans le pipe!
-Ligne 2 dans le pipe!
+Ce message va dans le pipe!  
+Ligne 2 dans le pipe!  
 ```
 
 ## Simuler une commande shell : `ls | wc`
@@ -1124,32 +1124,32 @@ if (fork() == 0) {
 
 ```c
 // ❌ MAUVAIS
-fork();
-pipe(pipefd);  // Parent et enfant ont des pipes différents!
+fork();  
+pipe(pipefd);  // Parent et enfant ont des pipes différents!  
 
 // ✅ BON
-pipe(pipefd);  // Créer AVANT le fork
-fork();
+pipe(pipefd);  // Créer AVANT le fork  
+fork();  
 ```
 
 ### 3. Inversion lecture/écriture
 
 ```c
 // ❌ MAUVAIS
-write(pipefd[0], ...);  // fd[0] est pour la LECTURE!
-read(pipefd[1], ...);   // fd[1] est pour l'ÉCRITURE!
+write(pipefd[0], ...);  // fd[0] est pour la LECTURE!  
+read(pipefd[1], ...);   // fd[1] est pour l'ÉCRITURE!  
 
 // ✅ BON
-write(pipefd[1], ...);  // Écriture
-read(pipefd[0], ...);   // Lecture
+write(pipefd[1], ...);  // Écriture  
+read(pipefd[0], ...);   // Lecture  
 ```
 
 ### 4. Ne pas vérifier les erreurs
 
 ```c
 // ❌ MAUVAIS
-pipe(pipefd);
-write(pipefd[1], data, size);
+pipe(pipefd);  
+write(pipefd[1], data, size);  
 
 // ✅ BON
 if (pipe(pipefd) == -1) {
@@ -1168,8 +1168,8 @@ if (write(pipefd[1], data, size) == -1) {
 ```c
 // ❌ MAUVAIS (peut causer un deadlock)
 // Parent écrit, puis lit
-write(pipe1[1], data, size);  // Peut bloquer si buffer plein
-read(pipe2[0], buffer, size); // Attend l'enfant qui attend aussi
+write(pipe1[1], data, size);  // Peut bloquer si buffer plein  
+read(pipe2[0], buffer, size); // Attend l'enfant qui attend aussi  
 
 // ✅ BON : Utiliser deux processus ou non-bloquant
 ```
@@ -1207,8 +1207,8 @@ read(pipe2[0], buffer, size); // Attend l'enfant qui attend aussi
 ### Pattern standard
 
 ```c
-int pipefd[2];
-pipe(pipefd);
+int pipefd[2];  
+pipe(pipefd);  
 
 if (fork() == 0) {
     // ENFANT (lecteur)

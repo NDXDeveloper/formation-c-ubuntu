@@ -39,8 +39,8 @@ Un signal peut être dans l'un de ces trois états :
 Chaque processus possède un **masque de signaux** (signal mask) qui définit quels signaux sont actuellement bloqués.
 
 ```
-Masque vide : Tous les signaux peuvent être délivrés
-Masque plein : Tous les signaux (sauf SIGKILL/SIGSTOP) sont bloqués
+Masque vide : Tous les signaux peuvent être délivrés  
+Masque plein : Tous les signaux (sauf SIGKILL/SIGSTOP) sont bloqués  
 ```
 
 ### Signaux non masquables
@@ -66,11 +66,11 @@ Cinq fonctions permettent de manipuler les ensembles de signaux :
 ```c
 #include <signal.h>
 
-int sigemptyset(sigset_t *set);           // Vider l'ensemble
-int sigfillset(sigset_t *set);            // Remplir avec tous les signaux
-int sigaddset(sigset_t *set, int signum); // Ajouter un signal
-int sigdelset(sigset_t *set, int signum); // Retirer un signal
-int sigismember(const sigset_t *set, int signum); // Tester l'appartenance
+int sigemptyset(sigset_t *set);           // Vider l'ensemble  
+int sigfillset(sigset_t *set);            // Remplir avec tous les signaux  
+int sigaddset(sigset_t *set, int signum); // Ajouter un signal  
+int sigdelset(sigset_t *set, int signum); // Retirer un signal  
+int sigismember(const sigset_t *set, int signum); // Tester l'appartenance  
 ```
 
 **Retour :**
@@ -81,6 +81,7 @@ int sigismember(const sigset_t *set, int signum); // Tester l'appartenance
 ### Exemple : Créer un ensemble
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 
@@ -117,14 +118,15 @@ int main(void) {
 
 **Sortie :**
 ```
-SIGINT est dans l'ensemble
-SIGQUIT n'est PAS dans l'ensemble
-SIGTERM a été retiré
+SIGINT est dans l'ensemble  
+SIGQUIT n'est PAS dans l'ensemble  
+SIGTERM a été retiré  
 ```
 
 ### Exemple : Ensemble complet
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 
@@ -174,6 +176,7 @@ int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
 ### Exemple basique : Bloquer SIGINT
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -211,18 +214,18 @@ int main(void) {
 
 **Test :**
 ```
-Phase 1: SIGINT normal (3 secondes)
-Essayez Ctrl+C maintenant!
+Phase 1: SIGINT normal (3 secondes)  
+Essayez Ctrl+C maintenant!  
 ^C                              # Le programme se termine
 
 Ou si vous attendez:
 
-Phase 2: SIGINT BLOQUÉ (5 secondes)
-Ctrl+C ne fonctionnera pas temporairement!
+Phase 2: SIGINT BLOQUÉ (5 secondes)  
+Ctrl+C ne fonctionnera pas temporairement!  
 ^C^C^C                         # Aucun effet visible
 
-Phase 3: SIGINT débloqué
-Les signaux en attente seront délivrés maintenant...
+Phase 3: SIGINT débloqué  
+Les signaux en attente seront délivrés maintenant...  
                                # Le programme se termine immédiatement
 ```
 
@@ -231,6 +234,7 @@ Les signaux en attente seront délivrés maintenant...
 #### Mode 1 : `SIG_BLOCK` - Ajouter au masque
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -265,6 +269,7 @@ int main(void) {
 #### Mode 2 : `SIG_UNBLOCK` - Retirer du masque
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -299,6 +304,7 @@ int main(void) {
 #### Mode 3 : `SIG_SETMASK` - Remplacer complètement
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -338,6 +344,7 @@ int main(void) {
 Bonne pratique : sauvegarder l'ancien masque et le restaurer ensuite.
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -392,6 +399,7 @@ Permet de savoir quels signaux sont actuellement **en attente** (bloqués mais g
 ### Exemple complet : Visualiser les signaux en attente
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -478,9 +486,9 @@ $ kill -INT 12345
 $ kill -USR1 12345
 
 # Terminal 1 (suite)
-Seconde 1/10 - Signaux en attente: (aucun)
-Seconde 2/10 - Signaux en attente: SIGINT
-Seconde 3/10 - Signaux en attente: SIGINT SIGUSR1
+Seconde 1/10 - Signaux en attente: (aucun)  
+Seconde 2/10 - Signaux en attente: SIGINT  
+Seconde 3/10 - Signaux en attente: SIGINT SIGUSR1  
 ...
 Déblocage des signaux...
 # Le programme se termine (SIGINT délivré)
@@ -493,6 +501,7 @@ Déblocage des signaux...
 Voici le pattern standard pour protéger une section critique :
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -580,6 +589,7 @@ void update_data_selective(void) {
 Quand un handler s'exécute, le signal qui l'a déclenché est **automatiquement bloqué** (sauf si vous utilisez `SA_NODEFER`).
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -627,6 +637,7 @@ int main(void) {
 Le champ `sa_mask` de `struct sigaction` permet de bloquer des signaux supplémentaires pendant l'exécution du handler :
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -684,16 +695,16 @@ Considérez ce code problématique :
 
 ```c
 // ❌ MAUVAIS : Condition de course
-sigset_t mask;
-sigemptyset(&mask);
-sigaddset(&mask, SIGUSR1);
+sigset_t mask;  
+sigemptyset(&mask);  
+sigaddset(&mask, SIGUSR1);  
 
 sigprocmask(SIG_BLOCK, &mask, NULL);
 
 // PROBLÈME: Si SIGUSR1 arrive ICI, on le manque!
 
-sigprocmask(SIG_UNBLOCK, &mask, NULL);
-pause();  // Peut ne jamais se réveiller
+sigprocmask(SIG_UNBLOCK, &mask, NULL);  
+pause();  // Peut ne jamais se réveiller  
 ```
 
 ### La solution : `sigsuspend()`
@@ -712,6 +723,7 @@ int sigsuspend(const sigset_t *mask);
 ### Exemple : Attendre un signal spécifique
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -762,12 +774,13 @@ int main(void) {
 ### Pattern : Attendre plusieurs signaux
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
 
-volatile sig_atomic_t signal_received = 0;
-volatile sig_atomic_t which_signal = 0;
+volatile sig_atomic_t signal_received = 0;  
+volatile sig_atomic_t which_signal = 0;  
 
 void signal_handler(int signum) {
     signal_received = 1;
@@ -829,6 +842,7 @@ int main(void) {
 ### 1. Protéger une transaction
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -871,9 +885,11 @@ int main(void) {
 ### 2. Fenêtre de synchronisation
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 volatile sig_atomic_t ready = 0;
 
@@ -934,6 +950,7 @@ int main(void) {
 ### 3. Réentrance sécurisée
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
@@ -1007,13 +1024,13 @@ void good_critical_section(void) {
 
 ```c
 // ❌ MAUVAIS
-sigset_t mask;
-sigaddset(&mask, SIGINT);  // Comportement indéfini!
+sigset_t mask;  
+sigaddset(&mask, SIGINT);  // Comportement indéfini!  
 
 // ✅ BON
-sigset_t mask;
-sigemptyset(&mask);
-sigaddset(&mask, SIGINT);
+sigset_t mask;  
+sigemptyset(&mask);  
+sigaddset(&mask, SIGINT);  
 ```
 
 ### 3. Confusion entre bloquer et ignorer
@@ -1032,8 +1049,8 @@ signal(SIGINT, SIG_IGN);
 
 ```c
 // ❌ MAUVAIS: Race condition
-sigprocmask(SIG_UNBLOCK, &mask, NULL);
-pause();  // Le signal peut arriver avant pause()!
+sigprocmask(SIG_UNBLOCK, &mask, NULL);  
+pause();  // Le signal peut arriver avant pause()!  
 
 // ✅ BON: Utiliser sigsuspend()
 sigsuspend(&waitmask);

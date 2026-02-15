@@ -319,8 +319,8 @@ Après avoir complété le parcours débutant, vous serez capable de :
 ```c
 #include <stdatomic.h>
 
-atomic_ulong compteur_requetes = 0;
-atomic_bool should_stop = false;
+atomic_ulong compteur_requetes = 0;  
+atomic_bool should_stop = false;  
 
 void handle_request(void) {
     atomic_fetch_add(&compteur_requetes, 1);
@@ -482,7 +482,7 @@ Ne remplacez un mutex par des atomiques que si :
 Utilisez `seq_cst` (par défaut) jusqu'à ce que :
 - Vous maîtrisiez les concepts
 - Un profiler montre que c'est un bottleneck
-- Vous comprenez parfaitement acquire/release
+- Vous compreniez parfaitement acquire/release
 
 ---
 
@@ -518,8 +518,8 @@ gcc -std=c11 -Wall -Wextra -pthread -O3 mon_code.c -o mon_code
 gcc -dM -E - < /dev/null | grep ATOMIC
 
 # Profiler avec perf
-perf record -g ./mon_programme
-perf report
+perf record -g ./mon_programme  
+perf report  
 
 # Analyser le cache
 valgrind --tool=cachegrind ./mon_programme

@@ -49,6 +49,7 @@ Ces fonctions ne peuvent **jamais échouer** et retournent toujours une valeur v
 ```c
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 int main(void) {
     pid_t mon_pid = getpid();
@@ -63,8 +64,8 @@ int main(void) {
 
 **Sortie exemple :**
 ```
-Mon PID est: 12345
-Le PID de mon parent est: 3456
+Mon PID est: 12345  
+Le PID de mon parent est: 3456  
 ```
 
 Le processus parent est généralement le shell (bash, zsh) qui a lancé votre programme.
@@ -134,18 +135,18 @@ int main(void) {
 **Sortie possible :**
 ```
 === AVANT fork() ===
-PID du processus: 1234
-PID du parent: 890
+PID du processus: 1234  
+PID du parent: 890  
 
 === PROCESSUS PARENT ===
-Mon PID: 1234
-PID de mon parent: 890
-J'ai créé un enfant avec le PID: 1235
+Mon PID: 1234  
+PID de mon parent: 890  
+J'ai créé un enfant avec le PID: 1235  
 
 === PROCESSUS ENFANT ===
-Mon PID: 1235
-PID de mon parent: 1234
-Je suis l'enfant créé par fork()
+Mon PID: 1235  
+PID de mon parent: 1234  
+Je suis l'enfant créé par fork()  
 ```
 
 ### Observations importantes
@@ -225,6 +226,7 @@ Voici un programme qui remonte toute la chaîne de processus jusqu'à `systemd` 
 ```c
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -401,6 +403,7 @@ mon_programme(1234)─┬─mon_programme(1235)
 ```c
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 int main(void) {
     pid_t pid;
@@ -459,6 +462,7 @@ Un groupe de processus est un ensemble de processus partageant le même **PGID**
 ```c
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 int main(void) {
     pid_t pid, pgid;
@@ -487,8 +491,10 @@ int main(void) {
 Une session est un ensemble de groupes de processus. Chaque session a un **SID** (Session ID).
 
 ```c
+#define _XOPEN_SOURCE 500
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 int main(void) {
     pid_t pid = getpid();
@@ -552,25 +558,25 @@ ps aux
 pstree -p
 
 # Surveillance en temps réel
-top
-htop  # version améliorée (à installer)
+top  
+htop  # version améliorée (à installer)  
 
 # Informations détaillées sur un processus
-cat /proc/PID/status
-cat /proc/PID/cmdline
-cat /proc/PID/environ
+cat /proc/PID/status  
+cat /proc/PID/cmdline  
+cat /proc/PID/environ  
 
 # Trouver le PID d'un processus par nom
-pgrep nom_processus
-pidof nom_programme
+pgrep nom_processus  
+pidof nom_programme  
 
 # Tuer un processus par PID
-kill PID
-kill -9 PID  # force (SIGKILL)
+kill PID  
+kill -9 PID  # force (SIGKILL)  
 
 # Tuer un processus par nom
-pkill nom_processus
-killall nom_programme
+pkill nom_processus  
+killall nom_programme  
 ```
 
 ### Programme C pour lister ses enfants
@@ -578,6 +584,7 @@ killall nom_programme
 ```c
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <dirent.h>
 #include <string.h>
 #include <stdlib.h>
@@ -665,6 +672,7 @@ Lorsqu'un processus parent se termine avant ses enfants, ces enfants deviennent 
 ```c
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 int main(void) {
     pid_t pid = fork();
@@ -707,8 +715,10 @@ int main(void) {
 Sous Linux, chaque **thread** a aussi un identifiant unique appelé **TID** (Thread ID). Le thread principal d'un processus a un TID égal au PID du processus.
 
 ```c
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <sys/syscall.h>
 
 int main(void) {
@@ -733,8 +743,8 @@ int main(void) {
 
 ```c
 // ✅ BON
-pid_t pid = fork();
-if (pid == -1) {
+pid_t pid = fork();  
+if (pid == -1) {  
     perror("fork");
     return 1;
 }
@@ -744,15 +754,15 @@ if (pid == -1) {
 
 ```c
 // ❌ MAUVAIS dans l'enfant
-pid_t pid = fork();
-if (pid == 0) {
+pid_t pid = fork();  
+if (pid == 0) {  
     // pid vaut 0, pas le PID de l'enfant!
     printf("Mon PID: %d\n", pid);  // Affiche 0!
 }
 
 // ✅ BON
-pid_t pid = fork();
-if (pid == 0) {
+pid_t pid = fork();  
+if (pid == 0) {  
     printf("Mon PID: %d\n", getpid());  // Correct!
 }
 ```

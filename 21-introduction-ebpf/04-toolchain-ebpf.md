@@ -240,16 +240,16 @@ int fd = syscall(__NR_bpf, BPF_PROG_LOAD, &attr, sizeof(attr));
 ```python
 from bcc import BPF
 
-prog = """
-int hello(void *ctx) {
+prog = """  
+int hello(void *ctx) {  
     bpf_trace_printk("Hello!\\n");
     return 0;
 }
 """
 
-b = BPF(text=prog)
-b.attach_kprobe(event="sys_clone", fn_name="hello")
-b.trace_print()
+b = BPF(text=prog)  
+b.attach_kprobe(event="sys_clone", fn_name="hello")  
+b.trace_print()  
 ```
 
 **Avantages :**
@@ -274,8 +274,8 @@ b.trace_print()
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 
-SEC("kprobe/sys_clone")
-int hello(struct pt_regs *ctx) {
+SEC("kprobe/sys_clone")  
+int hello(struct pt_regs *ctx) {  
     bpf_printk("Hello!\n");
     return 0;
 }
@@ -330,16 +330,16 @@ int main() {
 
 **Pour apprendre eBPF :**
 ```
-Commencez par : BCC (Python)
-Raison : Courbe d'apprentissage douce, résultats immédiats
+Commencez par : BCC (Python)  
+Raison : Courbe d'apprentissage douce, résultats immédiats  
 
 Exemple : Utiliser execsnoop-bpfcc pour voir les processus
 ```
 
 **Pour prototyper rapidement :**
 ```
-Utilisez : bpftrace
-Raison : One-liners puissants, syntaxe simple
+Utilisez : bpftrace  
+Raison : One-liners puissants, syntaxe simple  
 
 Exemple :
 $ bpftrace -e 'kprobe:sys_open { printf("open: %s\n", str(arg1)); }'
@@ -347,16 +347,16 @@ $ bpftrace -e 'kprobe:sys_open { printf("open: %s\n", str(arg1)); }'
 
 **Pour développer un outil production :**
 ```
-Utilisez : libbpf + CO-RE
-Raison : Performance, portabilité, distribution
+Utilisez : libbpf + CO-RE  
+Raison : Performance, portabilité, distribution  
 
 Exemple : Cilium, Falco, outils système
 ```
 
 **Pour inspecter/debugger :**
 ```
-Utilisez : bpftool
-Raison : Outil CLI standard, inclus partout
+Utilisez : bpftool  
+Raison : Outil CLI standard, inclus partout  
 
 Exemple :
 $ sudo bpftool prog list
@@ -371,8 +371,8 @@ $ sudo bpftool map dump id 5
 
 ```bash
 # Compilateurs
-sudo apt update
-sudo apt install -y \
+sudo apt update  
+sudo apt install -y \  
     clang \
     llvm \
     gcc
@@ -429,8 +429,8 @@ sudo dnf install -y bpftrace
 
 ```bash
 # Vérifier clang avec support BPF
-clang --version
-llc --version | grep bpf
+clang --version  
+llc --version | grep bpf  
 
 # Vérifier libbpf
 pkg-config --modversion libbpf
@@ -445,14 +445,14 @@ ls /sys/kernel/btf/vmlinux  # BTF requis pour CO-RE
 echo '
 #include <linux/bpf.h>
 #include <bpf/bpf_helpers.h>
-SEC("kprobe/sys_clone")
-int test(void *ctx) { return 0; }
-char LICENSE[] SEC("license") = "GPL";
+SEC("kprobe/sys_clone")  
+int test(void *ctx) { return 0; }  
+char LICENSE[] SEC("license") = "GPL";  
 ' > test.bpf.c
 
-clang -O2 -target bpf -c test.bpf.c -o test.bpf.o
-rm test.bpf.c test.bpf.o
-echo "✅ Toolchain OK!"
+clang -O2 -target bpf -c test.bpf.c -o test.bpf.o  
+rm test.bpf.c test.bpf.o  
+echo "✅ Toolchain OK!"  
 ```
 
 ---
@@ -463,8 +463,8 @@ echo "✅ Toolchain OK!"
 
 ```bash
 # Créer la structure du projet
-mkdir my-ebpf-tool && cd my-ebpf-tool
-mkdir src include
+mkdir my-ebpf-tool && cd my-ebpf-tool  
+mkdir src include  
 
 # Générer vmlinux.h (une fois)
 bpftool btf dump file /sys/kernel/btf/vmlinux format c > include/vmlinux.h
@@ -503,8 +503,8 @@ gcc -Wall -O2 src/loader.c -o loader -lbpf -lelf -lz
 sudo ./loader
 
 # Inspecter avec bpftool
-sudo bpftool prog list
-sudo bpftool map list
+sudo bpftool prog list  
+sudo bpftool map list  
 ```
 
 ### 5. Debug
@@ -535,9 +535,9 @@ sudo cat /sys/kernel/debug/tracing/trace_pipe
 
 **libbpf-bootstrap :**
 ```bash
-git clone https://github.com/libbpf/libbpf-bootstrap
-cd libbpf-bootstrap/examples/c
-make
+git clone https://github.com/libbpf/libbpf-bootstrap  
+cd libbpf-bootstrap/examples/c  
+make  
 ```
 
 **BCC tools :**
@@ -546,9 +546,9 @@ make
 ls /usr/share/bcc/tools/
 
 # Exemples
-sudo execsnoop-bpfcc      # Tracer les executions
-sudo opensnoop-bpfcc      # Tracer les open()
-sudo biolatency-bpfcc     # Latence I/O disque
+sudo execsnoop-bpfcc      # Tracer les executions  
+sudo opensnoop-bpfcc      # Tracer les open()  
+sudo biolatency-bpfcc     # Latence I/O disque  
 ```
 
 ### Communautés
@@ -599,13 +599,13 @@ sudo setcap cap_bpf,cap_perfmon,cap_net_admin+ep ./loader
 grep CONFIG_BPF /boot/config-$(uname -r)
 
 # Requis :
-CONFIG_BPF=y
-CONFIG_BPF_SYSCALL=y
-CONFIG_BPF_JIT=y
+CONFIG_BPF=y  
+CONFIG_BPF_SYSCALL=y  
+CONFIG_BPF_JIT=y  
 
 # Recommandé :
-CONFIG_DEBUG_INFO_BTF=y  # Pour CO-RE
-CONFIG_BPF_LSM=y         # Pour sécurité
+CONFIG_DEBUG_INFO_BTF=y  # Pour CO-RE  
+CONFIG_BPF_LSM=y         # Pour sécurité  
 ```
 
 ---

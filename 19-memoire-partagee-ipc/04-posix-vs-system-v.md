@@ -74,7 +74,7 @@ Mais les deux standards diffèrent **profondément** dans leur philosophie, leur
 **Caractéristiques POSIX :**
 - Utilise des **noms symboliques** (chemins style `/name`)
 - S'intègre au **système de fichiers virtuel** (`/dev/shm`, `/dev/mqueue`)
-- **Disparaît automatiquement** avec le dernier processus (ou via `unlink`)
+- Suppression via **`*_unlink()`** (ressource libérée après fermeture par le dernier processus)
 - Utilisable avec des **outils standards** : `ls`, `rm`
 - API simple et cohérente
 
@@ -90,23 +90,23 @@ Mais les deux standards diffèrent **profondément** dans leur philosophie, leur
 #include <sys/sem.h>
 
 // Créer un ensemble de sémaphores
-key_t key = ftok("/tmp", 'S');
-int semid = semget(key, 1, IPC_CREAT | 0666);
+key_t key = ftok("/tmp", 'S');  
+int semid = semget(key, 1, IPC_CREAT | 0666);  
 
 // Initialiser
 union semun {
     int val;
 } arg;
-arg.val = 1;
-semctl(semid, 0, SETVAL, arg);
+arg.val = 1;  
+semctl(semid, 0, SETVAL, arg);  
 
 // Attendre (P)
-struct sembuf op = {0, -1, SEM_UNDO};
-semop(semid, &op, 1);
+struct sembuf op = {0, -1, SEM_UNDO};  
+semop(semid, &op, 1);  
 
 // Signaler (V)
-op.sem_op = +1;
-semop(semid, &op, 1);
+op.sem_op = +1;  
+semop(semid, &op, 1);  
 
 // Supprimer
 semctl(semid, 0, IPC_RMID);
@@ -161,8 +161,8 @@ sem_unlink("/my_sem");
 #include <sys/shm.h>
 
 // Créer
-key_t key = ftok("/tmp", 'M');
-int shmid = shmget(key, 4096, IPC_CREAT | 0666);
+key_t key = ftok("/tmp", 'M');  
+int shmid = shmget(key, 4096, IPC_CREAT | 0666);  
 
 // Attacher
 void *ptr = shmat(shmid, NULL, 0);
@@ -184,8 +184,8 @@ shmctl(shmid, IPC_RMID, NULL);
 #include <fcntl.h>
 
 // Créer
-int fd = shm_open("/my_shm", O_CREAT | O_RDWR, 0666);
-ftruncate(fd, 4096);
+int fd = shm_open("/my_shm", O_CREAT | O_RDWR, 0666);  
+ftruncate(fd, 4096);  
 
 // Mapper
 void *ptr = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
@@ -194,8 +194,8 @@ void *ptr = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 strcpy(ptr, "Hello");
 
 // Détacher
-munmap(ptr, 4096);
-close(fd);
+munmap(ptr, 4096);  
+close(fd);  
 
 // Supprimer
 shm_unlink("/my_shm");
@@ -225,8 +225,8 @@ shm_unlink("/my_shm");
 #include <sys/msg.h>
 
 // Créer
-key_t key = ftok("/tmp", 'Q');
-int msqid = msgget(key, IPC_CREAT | 0666);
+key_t key = ftok("/tmp", 'Q');  
+int msqid = msgget(key, IPC_CREAT | 0666);  
 
 // Structure
 struct message {
@@ -235,8 +235,8 @@ struct message {
 };
 
 // Envoyer
-struct message msg = {1, "Hello"};
-msgsnd(msqid, &msg, sizeof(msg.text), 0);
+struct message msg = {1, "Hello"};  
+msgsnd(msqid, &msg, sizeof(msg.text), 0);  
 
 // Recevoir (avec filtrage par type)
 msgrcv(msqid, &msg, sizeof(msg.text), 1, 0);
@@ -251,20 +251,20 @@ msgctl(msqid, IPC_RMID, NULL);
 #include <mqueue.h>
 
 // Créer
-struct mq_attr attr = {0, 10, 8192, 0};  // max 10 msgs, 8KB chacun
-mqd_t mq = mq_open("/my_queue", O_CREAT | O_RDWR, 0666, &attr);
+struct mq_attr attr = {0, 10, 8192, 0};  // max 10 msgs, 8KB chacun  
+mqd_t mq = mq_open("/my_queue", O_CREAT | O_RDWR, 0666, &attr);  
 
 // Envoyer (avec priorité)
-char msg[100] = "Hello";
-mq_send(mq, msg, strlen(msg) + 1, 5);  // priorité 5
+char msg[100] = "Hello";  
+mq_send(mq, msg, strlen(msg) + 1, 5);  // priorité 5  
 
 // Recevoir
-unsigned int prio;
-mq_receive(mq, msg, sizeof(msg), &prio);
+unsigned int prio;  
+mq_receive(mq, msg, sizeof(msg), &prio);  
 
 // Fermer et supprimer
-mq_close(mq);
-mq_unlink("/my_queue");
+mq_close(mq);  
+mq_unlink("/my_queue");  
 ```
 
 #### Comparaison files de messages
@@ -548,20 +548,20 @@ int main() {
 **Avant (System V) :**
 
 ```c
-key_t key = ftok("/tmp", 'S');
-int semid = semget(key, 1, IPC_CREAT | 0666);
+key_t key = ftok("/tmp", 'S');  
+int semid = semget(key, 1, IPC_CREAT | 0666);  
 
-union semun arg;
-arg.val = 1;
-semctl(semid, 0, SETVAL, arg);
+union semun arg;  
+arg.val = 1;  
+semctl(semid, 0, SETVAL, arg);  
 
-struct sembuf wait_op = {0, -1, SEM_UNDO};
-semop(semid, &wait_op, 1);
+struct sembuf wait_op = {0, -1, SEM_UNDO};  
+semop(semid, &wait_op, 1);  
 
 // Section critique
 
-struct sembuf post_op = {0, +1, SEM_UNDO};
-semop(semid, &post_op, 1);
+struct sembuf post_op = {0, +1, SEM_UNDO};  
+semop(semid, &post_op, 1);  
 
 semctl(semid, 0, IPC_RMID);
 ```
@@ -577,8 +577,8 @@ sem_wait(sem);
 
 sem_post(sem);
 
-sem_close(sem);
-sem_unlink("/my_sem");
+sem_close(sem);  
+sem_unlink("/my_sem");  
 ```
 
 **Bénéfices** :
@@ -603,8 +603,8 @@ void cleanup_handler(int sig) {
     exit(1);
 }
 
-signal(SIGTERM, cleanup_handler);
-signal(SIGINT, cleanup_handler);
+signal(SIGTERM, cleanup_handler);  
+signal(SIGINT, cleanup_handler);  
 ```
 
 ### 2. Ensembles de sémaphores
@@ -617,9 +617,9 @@ signal(SIGINT, cleanup_handler);
 int semid = semget(key, 3, IPC_CREAT | 0666);
 
 // POSIX : 3 sémaphores individuels
-sem_t *sem1 = sem_open("/sem1", O_CREAT, 0666, 1);
-sem_t *sem2 = sem_open("/sem2", O_CREAT, 0666, 1);
-sem_t *sem3 = sem_open("/sem3", O_CREAT, 0666, 1);
+sem_t *sem1 = sem_open("/sem1", O_CREAT, 0666, 1);  
+sem_t *sem2 = sem_open("/sem2", O_CREAT, 0666, 1);  
+sem_t *sem3 = sem_open("/sem3", O_CREAT, 0666, 1);  
 ```
 
 ### 3. Filtrage de messages par type
@@ -633,14 +633,14 @@ sem_t *sem3 = sem_open("/sem3", O_CREAT, 0666, 1);
 msgrcv(msqid, &msg, size, TYPE_URGENT, 0);
 
 // POSIX : Utiliser les priorités (0-31)
-mq_receive(mq, buffer, size, &priority);
-if (priority >= 20) {
+mq_receive(mq, buffer, size, &priority);  
+if (priority >= 20) {  
     // Message urgent
 }
 
 // Ou : Plusieurs queues dédiées
-mqd_t mq_urgent = mq_open("/queue_urgent", O_RDONLY);
-mqd_t mq_normal = mq_open("/queue_normal", O_RDONLY);
+mqd_t mq_urgent = mq_open("/queue_urgent", O_RDONLY);  
+mqd_t mq_normal = mq_open("/queue_normal", O_RDONLY);  
 ```
 
 ---
@@ -666,9 +666,9 @@ ipcs -q
 ipcs -s -i <semid>
 
 # Supprimer
-ipcrm -s <semid>
-ipcrm -m <shmid>
-ipcrm -q <msqid>
+ipcrm -s <semid>  
+ipcrm -m <shmid>  
+ipcrm -q <msqid>  
 
 # Nettoyer toutes les ressources d'un utilisateur
 ipcs -s | grep $USER | awk '{print $2}' | xargs -I {} ipcrm -s {}
@@ -690,12 +690,12 @@ ls -la /dev/mqueue/
 xxd /dev/shm/my_shared_memory
 
 # Supprimer
-rm /dev/shm/my_shm
-rm /dev/mqueue/my_queue
+rm /dev/shm/my_shm  
+rm /dev/mqueue/my_queue  
 
 # Taille utilisée
-du -sh /dev/shm/*
-df -h /dev/shm
+du -sh /dev/shm/*  
+df -h /dev/shm  
 ```
 
 **Avantage POSIX** : Pas besoin d'apprendre de nouveaux outils !
@@ -741,8 +741,8 @@ Le choix doit se baser sur :
 sem_t *posix_sem = sem_open("/new_feature", O_CREAT, 0666, 1);
 
 // Communiquer avec un daemon legacy System V existant
-int legacy_msqid = msgget(existing_key, 0666);
-msgsnd(legacy_msqid, &msg, size, 0);
+int legacy_msqid = msgget(existing_key, 0666);  
+msgsnd(legacy_msqid, &msg, size, 0);  
 ```
 
 **Recommandation** : Choisissez **un seul standard par projet** et tenez-vous-y.
@@ -850,12 +850,12 @@ typedef struct {
 } shared_buffer_t;
 
 void sem_wait_sysv(int semid, int num) {
-    struct sembuf op = {num, -1, SEM_UNDO};
+    struct sembuf op = {num, -1, 0};
     semop(semid, &op, 1);
 }
 
 void sem_post_sysv(int semid, int num) {
-    struct sembuf op = {num, +1, SEM_UNDO};
+    struct sembuf op = {num, +1, 0};
     semop(semid, &op, 1);
 }
 

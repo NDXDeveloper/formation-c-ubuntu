@@ -109,8 +109,8 @@ void ma_fonction(void *arg) {  // Pas de valeur de retour
 **Utilisation** :
 
 ```c
-pthread_t tid;
-pthread_create(&tid, NULL, ma_fonction, NULL);
+pthread_t tid;  
+pthread_create(&tid, NULL, ma_fonction, NULL);  
                           // ↑ Pas de parenthèses ni de &
                           // On passe le nom de la fonction directement
 ```
@@ -121,20 +121,20 @@ C'est l'**argument** passé à la fonction du thread. Étant de type `void*`, vo
 
 ```c
 // Exemple 1 : Passer un entier
-int valeur = 42;
-pthread_create(&tid, NULL, func, &valeur);
+int valeur = 42;  
+pthread_create(&tid, NULL, func, &valeur);  
 
 // Exemple 2 : Passer une chaîne
-char *message = "Hello";
-pthread_create(&tid, NULL, func, message);
+char *message = "Hello";  
+pthread_create(&tid, NULL, func, message);  
 
 // Exemple 3 : Passer une structure
 struct Data {
     int id;
     char name[50];
 };
-struct Data data = {1, "Thread1"};
-pthread_create(&tid, NULL, func, &data);
+struct Data data = {1, "Thread1"};  
+pthread_create(&tid, NULL, func, &data);  
 
 // Exemple 4 : Aucun argument
 pthread_create(&tid, NULL, func, NULL);
@@ -176,8 +176,8 @@ Les codes d'erreur les plus courants :
 ### Vérification des erreurs (méthode simple)
 
 ```c
-pthread_t tid;
-int result = pthread_create(&tid, NULL, ma_fonction, NULL);
+pthread_t tid;  
+int result = pthread_create(&tid, NULL, ma_fonction, NULL);  
 
 if (result != 0) {
     fprintf(stderr, "Erreur pthread_create: code %d\n", result);
@@ -192,8 +192,8 @@ Les fonctions pthread ne modifient **pas** `errno`, mais vous pouvez utiliser `s
 ```c
 #include <string.h>  // Pour strerror()
 
-int result = pthread_create(&tid, NULL, func, NULL);
-if (result != 0) {
+int result = pthread_create(&tid, NULL, func, NULL);  
+if (result != 0) {  
     fprintf(stderr, "Erreur pthread_create: %s\n", strerror(result));
     exit(EXIT_FAILURE);
 }
@@ -219,8 +219,8 @@ void pthread_error(const char *msg, int errnum) {
 }
 
 // Utilisation
-int result = pthread_create(&tid, NULL, func, NULL);
-if (result != 0) {
+int result = pthread_create(&tid, NULL, func, NULL);  
+if (result != 0) {  
     pthread_error("pthread_create", result);
 }
 ```
@@ -274,17 +274,17 @@ int main(void) {
 
 **Sortie possible** (l'ordre peut varier) :
 ```
-Thread 0 créé
-Thread 1 créé
-Hello depuis le thread #0 (ID: 140234567890)
-Thread 2 créé
-Hello depuis le thread #1 (ID: 140234567891)
-Thread 3 créé
-Hello depuis le thread #2 (ID: 140234567892)
-Thread 4 créé
-Hello depuis le thread #3 (ID: 140234567893)
-Hello depuis le thread #4 (ID: 140234567894)
-Tous les threads sont terminés
+Thread 0 créé  
+Thread 1 créé  
+Hello depuis le thread #0 (ID: 140234567890)  
+Thread 2 créé  
+Hello depuis le thread #1 (ID: 140234567891)  
+Thread 3 créé  
+Hello depuis le thread #2 (ID: 140234567892)  
+Thread 4 créé  
+Hello depuis le thread #3 (ID: 140234567893)  
+Hello depuis le thread #4 (ID: 140234567894)  
+Tous les threads sont terminés  
 ```
 
 ### ⚠️ Piège classique : Passer l'indice de boucle
@@ -303,19 +303,19 @@ for (int i = 0; i < NUM_THREADS; i++) {
 
 **Résultat possible** :
 ```
-Thread #5 (alors qu'on en a créé que 5, numérotés 0-4)
-Thread #5
-Thread #5
-Thread #2
-Thread #5
+Thread #5 (alors qu'on en a créé que 5, numérotés 0-4)  
+Thread #5  
+Thread #5  
+Thread #2  
+Thread #5  
 ```
 
 **Solutions** :
 
 **Solution 1** : Tableau d'arguments (recommandé)
 ```c
-int thread_args[NUM_THREADS];
-for (int i = 0; i < NUM_THREADS; i++) {
+int thread_args[NUM_THREADS];  
+for (int i = 0; i < NUM_THREADS; i++) {  
     thread_args[i] = i;
     pthread_create(&threads[i], NULL, print_hello, &thread_args[i]);
 }
@@ -417,8 +417,8 @@ void *traiter_fichier(void *arg) {
 Un thread peut en annuler un autre avec `pthread_cancel()` :
 
 ```c
-pthread_t tid;
-pthread_create(&tid, NULL, long_task, NULL);
+pthread_t tid;  
+pthread_create(&tid, NULL, long_task, NULL);  
 
 // Plus tard...
 pthread_cancel(tid);  // Demande l'annulation du thread
@@ -590,9 +590,9 @@ int main(void) {
 
 **Solution** : Toujours récupérer et libérer :
 ```c
-void *retval;
-pthread_join(tid, &retval);
-if (retval != NULL) {
+void *retval;  
+pthread_join(tid, &retval);  
+if (retval != NULL) {  
     free(retval);
 }
 ```
@@ -718,11 +718,11 @@ void *thread_func(void *arg) {
 **NON !** C'est un comportement indéfini :
 
 ```c
-pthread_t tid;
-pthread_create(&tid, NULL, worker, NULL);
+pthread_t tid;  
+pthread_create(&tid, NULL, worker, NULL);  
 
-pthread_join(tid, NULL);  // ✅ OK
-pthread_join(tid, NULL);  // ❌ Comportement indéfini !
+pthread_join(tid, NULL);  // ✅ OK  
+pthread_join(tid, NULL);  // ❌ Comportement indéfini !  
 ```
 
 Après un `pthread_join()` réussi, le thread ID n'est plus valide.
@@ -809,13 +809,13 @@ int main(void) {
 
 **Sortie** :
 ```
-Main se termine avec pthread_exit
-Thread travaille... 1/10
-Thread travaille... 2/10
-Thread travaille... 3/10
+Main se termine avec pthread_exit  
+Thread travaille... 1/10  
+Thread travaille... 2/10  
+Thread travaille... 3/10  
 ...
-Thread travaille... 10/10
-Thread terminé
+Thread travaille... 10/10  
+Thread terminé  
 ```
 
 Le programme ne se termine que quand le dernier thread (ici `long_task`) se termine.
@@ -891,19 +891,19 @@ int main(void) {
 
 ```c
 // ❌ Mauvais
-pthread_create(&tid, NULL, func, NULL);
-pthread_join(tid, NULL);
+pthread_create(&tid, NULL, func, NULL);  
+pthread_join(tid, NULL);  
 
 // ✅ Bon
-int rc;
-rc = pthread_create(&tid, NULL, func, NULL);
-if (rc != 0) {
+int rc;  
+rc = pthread_create(&tid, NULL, func, NULL);  
+if (rc != 0) {  
     fprintf(stderr, "pthread_create: %s\n", strerror(rc));
     exit(EXIT_FAILURE);
 }
 
-rc = pthread_join(tid, NULL);
-if (rc != 0) {
+rc = pthread_join(tid, NULL);  
+if (rc != 0) {  
     fprintf(stderr, "pthread_join: %s\n", strerror(rc));
     exit(EXIT_FAILURE);
 }

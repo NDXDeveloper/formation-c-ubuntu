@@ -8,7 +8,7 @@ Bienvenue dans l'un des chapitres les plus passionnants de cette formation : **e
 
 ## Pourquoi eBPF est révolutionnaire ?
 
-eBPF permet d'exécuter du code **en toute sécurité** directement dans le noyau Linux sans avoir à modifier le code du noyau ou charger des chapitres kernel. C'est comparable à l'ajout d'un "superpouvoir" à Linux qui permet de :
+eBPF permet d'exécuter du code **en toute sécurité** directement dans le noyau Linux sans avoir à modifier le code du noyau ou charger des modules kernel. C'est comparable à l'ajout d'un "superpouvoir" à Linux qui permet de :
 
 - **Observer** le système avec une granularité sans précédent
 - **Sécuriser** les applications et le réseau de manière native
@@ -102,7 +102,7 @@ Pour suivre ce chapitre, vous aurez besoin de :
 - **Ubuntu 22.04 ou 24.04** recommandé
 - Droits **root/sudo** (eBPF nécessite des privilèges élevés)
 - Au moins **4 GB de RAM** pour compiler et tester
-- **Environnement DevContainer** (optionnel mais recommandé, voir Section 2.5)
+- **Environnement DevContainer** (optionnel mais recommandé)
 
 Vérifiez la version de votre kernel :
 ```bash

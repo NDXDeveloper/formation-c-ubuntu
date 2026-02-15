@@ -6,7 +6,7 @@
 
 La **gestion des fichiers et des entrées/sorties** (I/O - Input/Output) est l'un des aspects les plus fondamentaux de la programmation système sous Linux. Que vous développiez un simple script de traitement de texte ou un serveur web haute performance gérant des milliers de connexions, vous devrez maîtriser ces concepts.
 
-> **💡 Citation :** "Sous Unix, tout est fichier." — Doug McIlroy
+> **💡 Citation :** "Sous Unix, tout est fichier." — Philosophie Unix (Ken Thompson & Dennis Ritchie)
 >
 > Cette philosophie signifie que Linux traite de manière uniforme les fichiers réguliers, les périphériques, les sockets réseau, les pipes, et bien d'autres ressources. Comprendre les I/O, c'est comprendre le cœur de Linux.
 
@@ -90,9 +90,9 @@ Sous Linux, presque toutes les ressources du système sont accessibles via une *
 
 **Lire un fichier normal :**
 ```c
-int fd = open("data.txt", O_RDONLY);
-read(fd, buffer, size);
-close(fd);
+int fd = open("data.txt", O_RDONLY);  
+read(fd, buffer, size);  
+close(fd);  
 ```
 
 **Lire depuis le clavier (stdin) :**
@@ -109,8 +109,8 @@ read(sock, buffer, size);  // Toujours la même fonction !
 
 **Lire des informations CPU :**
 ```c
-int fd = open("/proc/cpuinfo", O_RDONLY);
-read(fd, buffer, size);  // Le système se présente comme un fichier
+int fd = open("/proc/cpuinfo", O_RDONLY);  
+read(fd, buffer, size);  // Le système se présente comme un fichier  
 ```
 
 **Cette uniformité est puissante** : les outils et techniques que vous apprenez s'appliquent partout.
@@ -314,9 +314,9 @@ Si vous avez déjà de l'expérience :
 gcc --version
 
 # Outils d'analyse
-strace --version  # Tracer les appels système
-lsof              # Lister les fichiers ouverts
-man 2 open        # Manuel des appels système
+strace --version  # Tracer les appels système  
+lsof              # Lister les fichiers ouverts  
+man 2 open        # Manuel des appels système  
 ```
 
 ### Outils de debugging
@@ -385,9 +385,9 @@ while (données disponibles) {
 
 ### Niveaux d'importance
 
-**🔴 CRITIQUE :** Vous devez absolument maîtriser ce concept
-**🟡 IMPORTANT :** Concept essentiel pour la suite
-**🟢 UTILE :** Bon à savoir, mais pas bloquant
+**🔴 CRITIQUE :** Vous devez absolument maîtriser ce concept  
+**🟡 IMPORTANT :** Concept essentiel pour la suite  
+**🟢 UTILE :** Bon à savoir, mais pas bloquant  
 
 ## Objectifs d'apprentissage
 
@@ -422,9 +422,9 @@ while (données disponibles) {
 
 **Man pages Linux :**
 ```bash
-man 2 open     # Appels système (section 2)
-man 3 fopen    # Bibliothèque C (section 3)
-man 7 aio      # Aperçu des APIs (section 7)
+man 2 open     # Appels système (section 2)  
+man 3 fopen    # Bibliothèque C (section 3)  
+man 7 aio      # Aperçu des APIs (section 7)  
 ```
 
 **En ligne :**

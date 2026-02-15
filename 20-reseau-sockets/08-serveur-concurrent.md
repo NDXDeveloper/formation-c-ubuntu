@@ -43,9 +43,9 @@ while (1) {
 ### Exemple du problème
 
 ```
-Client 1 : Se connecte à 12:00:00, traité pendant 5 secondes
-Client 2 : Se connecte à 12:00:01, ATTEND jusqu'à 12:00:05 !
-Client 3 : Se connecte à 12:00:02, ATTEND jusqu'à 12:00:10 !
+Client 1 : Se connecte à 12:00:00, traité pendant 5 secondes  
+Client 2 : Se connecte à 12:00:01, ATTEND jusqu'à 12:00:05 !  
+Client 3 : Se connecte à 12:00:02, ATTEND jusqu'à 12:00:10 !  
 ```
 
 **Inacceptable pour un serveur en production !**
@@ -116,6 +116,7 @@ if (pid < 0) {
 ### Exemple Complet : Serveur Multi-Processus
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -299,11 +300,11 @@ void sigchld_handler(int sig) {
 // Dans main()
 signal(SIGCHLD, sigchld_handler);
 // ou mieux :
-struct sigaction sa;
-sa.sa_handler = sigchld_handler;
-sigemptyset(&sa.sa_mask);
-sa.sa_flags = SA_RESTART;
-sigaction(SIGCHLD, &sa, NULL);
+struct sigaction sa;  
+sa.sa_handler = sigchld_handler;  
+sigemptyset(&sa.sa_mask);  
+sa.sa_flags = SA_RESTART;  
+sigaction(SIGCHLD, &sa, NULL);  
 ```
 
 #### Solution 2 : Ignorer SIGCHLD (Linux)
@@ -543,8 +544,8 @@ gcc -o server_pthread server_pthread.c -Wall -Wextra -pthread
 #### Thread Joinable (défaut)
 
 ```c
-pthread_t thread;
-pthread_create(&thread, NULL, func, arg);
+pthread_t thread;  
+pthread_create(&thread, NULL, func, arg);  
 
 // Le thread principal doit attendre
 pthread_join(thread, NULL);
@@ -555,8 +556,8 @@ pthread_join(thread, NULL);
 #### Thread Détaché (recommandé pour serveurs)
 
 ```c
-pthread_t thread;
-pthread_create(&thread, NULL, func, arg);
+pthread_t thread;  
+pthread_create(&thread, NULL, func, arg);  
 
 // Le thread se nettoie automatiquement à la fin
 pthread_detach(thread);
@@ -587,10 +588,10 @@ void* handle_client_thread(void *arg) {
 **Problème :** Deux threads peuvent modifier `client_count` en même temps.
 
 ```
-Thread 1 lit client_count = 5
-Thread 2 lit client_count = 5    (avant que Thread 1 écrive)
-Thread 1 écrit client_count = 6
-Thread 2 écrit client_count = 6  (❌ devrait être 7 !)
+Thread 1 lit client_count = 5  
+Thread 2 lit client_count = 5    (avant que Thread 1 écrive)  
+Thread 1 écrit client_count = 6  
+Thread 2 écrit client_count = 6  (❌ devrait être 7 !)  
 ```
 
 #### Solution : Mutex
@@ -598,8 +599,8 @@ Thread 2 écrit client_count = 6  (❌ devrait être 7 !)
 ```c
 #include <pthread.h>
 
-pthread_mutex_t count_mutex = PTHREAD_MUTEX_INITIALIZER;
-int client_count = 0;
+pthread_mutex_t count_mutex = PTHREAD_MUTEX_INITIALIZER;  
+int client_count = 0;  
 
 void* handle_client_thread(void *arg) {
     // Verrouiller
@@ -653,9 +654,9 @@ typedef struct {
 } task_t;
 
 // File de tâches (implémentation omise)
-task_queue_t task_queue;
-pthread_mutex_t queue_mutex;
-pthread_cond_t queue_cond;
+task_queue_t task_queue;  
+pthread_mutex_t queue_mutex;  
+pthread_cond_t queue_cond;  
 
 void* worker_thread(void *arg) {
     while (1) {
@@ -797,10 +798,10 @@ int select(int nfds, fd_set *readfds, fd_set *writefds,
 ### Macros pour manipuler `fd_set`
 
 ```c
-FD_ZERO(&set);           // Vider l'ensemble
-FD_SET(fd, &set);        // Ajouter fd à l'ensemble
-FD_CLR(fd, &set);        // Retirer fd de l'ensemble
-FD_ISSET(fd, &set);      // Tester si fd est dans l'ensemble
+FD_ZERO(&set);           // Vider l'ensemble  
+FD_SET(fd, &set);        // Ajouter fd à l'ensemble  
+FD_CLR(fd, &set);        // Retirer fd de l'ensemble  
+FD_ISSET(fd, &set);      // Tester si fd est dans l'ensemble  
 ```
 
 ---
@@ -1020,12 +1021,12 @@ struct pollfd {
 ```c
 #define MAX_CLIENTS 1000
 
-struct pollfd fds[MAX_CLIENTS + 1];  // +1 pour le serveur
-int nfds = 1;  // Nombre actuel de descripteurs
+struct pollfd fds[MAX_CLIENTS + 1];  // +1 pour le serveur  
+int nfds = 1;  // Nombre actuel de descripteurs  
 
 // Initialiser
-fds[0].fd = server_fd;
-fds[0].events = POLLIN;
+fds[0].fd = server_fd;  
+fds[0].events = POLLIN;  
 
 for (int i = 1; i <= MAX_CLIENTS; i++) {
     fds[i].fd = -1;  // Non utilisé
@@ -1333,10 +1334,10 @@ Nombre de clients simultanés ?
 
 **Exemple (Nginx, HAProxy) :**
 ```
-Processus 1 (CPU core 1) : epoll() → gère 10 000 clients
-Processus 2 (CPU core 2) : epoll() → gère 10 000 clients
-Processus 3 (CPU core 3) : epoll() → gère 10 000 clients
-Processus 4 (CPU core 4) : epoll() → gère 10 000 clients
+Processus 1 (CPU core 1) : epoll() → gère 10 000 clients  
+Processus 2 (CPU core 2) : epoll() → gère 10 000 clients  
+Processus 3 (CPU core 3) : epoll() → gère 10 000 clients  
+Processus 4 (CPU core 4) : epoll() → gère 10 000 clients  
 
 Total : 40 000 clients simultanés
 ```

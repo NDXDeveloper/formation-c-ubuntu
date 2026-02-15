@@ -59,8 +59,8 @@ Imaginons un programme qui calcule la température d'une grille en 2D, étape pa
 #define SIZE 100
 #define NUM_THREADS 4
 
-double grille[SIZE][SIZE];
-double nouvelle_grille[SIZE][SIZE];
+double grille[SIZE][SIZE];  
+double nouvelle_grille[SIZE][SIZE];  
 
 void *calculer_region(void *arg) {
     int id = *(int *)arg;
@@ -95,8 +95,8 @@ void *calculer_region(void *arg) {
 
 **Problème sans synchronisation** :
 ```
-Thread 1: Phase 1 (rapide) → Phase 2 → Phase 1 de nouveau
-Thread 2: Phase 1 (lent)   → Toujours en Phase 1
+Thread 1: Phase 1 (rapide) → Phase 2 → Phase 1 de nouveau  
+Thread 2: Phase 1 (lent)   → Toujours en Phase 1  
                             ↑
                 Thread 1 lit des données pas encore calculées !
 ```
@@ -104,8 +104,8 @@ Thread 2: Phase 1 (lent)   → Toujours en Phase 1
 ### Tentative avec mutex (❌ Insuffisant)
 
 ```c
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-int threads_finis_phase1 = 0;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+int threads_finis_phase1 = 0;  
 
 void *calculer_region(void *arg) {
     // Phase 1
@@ -192,10 +192,10 @@ Thread 4:  ════╗ ║ ║   ║
                  ▼
            Libération !
                  ║
-Thread 1:        ║══════════════►
-Thread 2:        ║══════════════►
-Thread 3:        ║══════════════►
-Thread 4:        ║══════════════►
+Thread 1:        ║══════════════►  
+Thread 2:        ║══════════════►  
+Thread 3:        ║══════════════►  
+Thread 4:        ║══════════════►  
 ```
 
 ### Comparaison avec autres mécanismes
@@ -271,11 +271,11 @@ int pthread_barrier_wait(pthread_barrier_t *barrier);
 **Exemple** :
 ```c
 void *thread_func(void *arg) {
-    printf("Thread %ld : Avant barrière\n", pthread_self());
+    printf("Thread %lu : Avant barrière\n", pthread_self());
 
     pthread_barrier_wait(&barriere);  // Attendre les autres
 
-    printf("Thread %ld : Après barrière\n", pthread_self());
+    printf("Thread %lu : Après barrière\n", pthread_self());
     return NULL;
 }
 ```
@@ -490,9 +490,9 @@ void *worker(void *arg) {
 #define NUM_THREADS 4
 #define ITERATIONS 10
 
-double grille[GRID_SIZE][GRID_SIZE];
-double nouvelle_grille[GRID_SIZE][GRID_SIZE];
-pthread_barrier_t barriere;
+double grille[GRID_SIZE][GRID_SIZE];  
+double nouvelle_grille[GRID_SIZE][GRID_SIZE];  
+pthread_barrier_t barriere;  
 
 void initialiser_grille(void) {
     for (int i = 0; i < GRID_SIZE; i++) {
@@ -588,13 +588,13 @@ int main(void) {
 
 **Sortie** :
 ```
-Démarrage simulation (100x100, 4 threads)
-Itération 1 terminée
-Itération 2 terminée
-Itération 3 terminée
+Démarrage simulation (100x100, 4 threads)  
+Itération 1 terminée  
+Itération 2 terminée  
+Itération 3 terminée  
 ...
-Itération 10 terminée
-Simulation terminée
+Itération 10 terminée  
+Simulation terminée  
 ```
 
 ---
@@ -770,8 +770,8 @@ int main(void) {
 ### Pattern 1 : Fork-Join parallèle
 
 ```c
-pthread_barrier_t barriere_debut, barriere_fin;
-double resultats[NUM_THREADS];
+pthread_barrier_t barriere_debut, barriere_fin;  
+double resultats[NUM_THREADS];  
 
 void *worker(void *arg) {
     int id = *(int *)arg;
@@ -832,9 +832,9 @@ int main(void) {
 ```c
 #define SIZE 1000000
 
-int donnees[SIZE];
-int sommes_locales[NUM_THREADS];
-pthread_barrier_t barriere;
+int donnees[SIZE];  
+int sommes_locales[NUM_THREADS];  
+pthread_barrier_t barriere;  
 
 void *calculer_somme(void *arg) {
     int id = *(int *)arg;
@@ -867,9 +867,9 @@ void *calculer_somme(void *arg) {
 ### Pattern 3 : Algorithme itératif avec convergence
 
 ```c
-pthread_barrier_t barriere;
-double differences[NUM_THREADS];
-volatile int converge = 0;
+pthread_barrier_t barriere;  
+double differences[NUM_THREADS];  
+volatile int converge = 0;  
 
 void *worker(void *arg) {
     int id = *(int *)arg;
@@ -910,9 +910,9 @@ void *worker(void *arg) {
 ```c
 #define NUM_WORKERS 8
 
-pthread_barrier_t barriere_debut, barriere_fin;
-int taches[NUM_WORKERS];
-int resultats[NUM_WORKERS];
+pthread_barrier_t barriere_debut, barriere_fin;  
+int taches[NUM_WORKERS];  
+int resultats[NUM_WORKERS];  
 
 void *worker(void *arg) {
     int id = *(int *)arg;
@@ -990,16 +990,16 @@ int main(void) {
 **Mutex** :
 ```c
 // Protection de données partagées
-pthread_mutex_lock(&mutex);
-compteur++;
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+compteur++;  
+pthread_mutex_unlock(&mutex);  
 ```
 
 **Condition variable** :
 ```c
 // Attendre qu'une condition devienne vraie
-pthread_mutex_lock(&mutex);
-while (!condition) {
+pthread_mutex_lock(&mutex);  
+while (!condition) {  
     pthread_cond_wait(&cond, &mutex);
 }
 pthread_mutex_unlock(&mutex);
@@ -1019,9 +1019,9 @@ pthread_barrier_wait(&barriere);
 pthread_barrier_wait(&barriere);
 
 // Équivalent manuel
-pthread_mutex_lock(&mutex);
-arrived++;
-if (arrived == count) {
+pthread_mutex_lock(&mutex);  
+arrived++;  
+if (arrived == count) {  
     arrived = 0;
     pthread_cond_broadcast(&cond);
 } else {
@@ -1197,15 +1197,15 @@ pthread_barrier_destroy(&barriere);  // Maintenant OK
 
 ```c
 // ❌ PROBLÈME : Le nombre change
-int num_threads = 4;
-pthread_barrier_init(&barriere, NULL, num_threads);
+int num_threads = 4;  
+pthread_barrier_init(&barriere, NULL, num_threads);  
 
 // Plus tard...
 num_threads = 6;  // La barrière attend toujours 4 !
 
 // ✅ SOLUTION : Recréer la barrière
-pthread_barrier_destroy(&barriere);
-pthread_barrier_init(&barriere, NULL, num_threads);
+pthread_barrier_destroy(&barriere);  
+pthread_barrier_init(&barriere, NULL, num_threads);  
 ```
 
 ---

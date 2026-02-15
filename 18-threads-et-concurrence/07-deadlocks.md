@@ -59,8 +59,8 @@ Un **deadlock** (interblocage) se produit quand **deux ou plusieurs threads** so
 ### Exemple simple avec 2 threads
 
 ```c
-pthread_mutex_t mutex_A = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mutex_B = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_A = PTHREAD_MUTEX_INITIALIZER;  
+pthread_mutex_t mutex_B = PTHREAD_MUTEX_INITIALIZER;  
 
 // Thread 1
 void *thread1(void *arg) {
@@ -96,12 +96,12 @@ void *thread2(void *arg) {
 ```
 Temps    Thread 1                    Thread 2
 ======   ========================    ========================
-t0       lock(mutex_A) ✅
-t1                                   lock(mutex_B) ✅
-t2       Essaie lock(mutex_B)        Essaie lock(mutex_A)
+t0       lock(mutex_A) ✅  
+t1                                   lock(mutex_B) ✅  
+t2       Essaie lock(mutex_B)        Essaie lock(mutex_A)  
          [BLOQUÉ - attend T2]        [BLOQUÉ - attend T1]
-t3       [BLOQUÉ]                    [BLOQUÉ]
-t4       [BLOQUÉ]                    [BLOQUÉ]
+t3       [BLOQUÉ]                    [BLOQUÉ]  
+t4       [BLOQUÉ]                    [BLOQUÉ]  
 ...      [BLOQUÉ POUR TOUJOURS]      [BLOQUÉ POUR TOUJOURS]
 ```
 
@@ -152,8 +152,8 @@ pthread_mutex_lock(&mutex);   // Seul un thread peut le posséder
 **Exemple** :
 
 ```c
-pthread_mutex_lock(&mutex_A);     // Possède A
-pthread_mutex_lock(&mutex_B);     // Attend B (tout en gardant A)
+pthread_mutex_lock(&mutex_A);     // Possède A  
+pthread_mutex_lock(&mutex_B);     // Attend B (tout en gardant A)  
 ```
 
 **Comment l'éliminer ?** : Acquérir toutes les ressources en une seule fois atomique.
@@ -287,20 +287,20 @@ void fonction_externe(void) {
 Les mutex **récursifs** permettent au même thread de verrouiller plusieurs fois :
 
 ```c
-pthread_mutex_t mutex;
-pthread_mutexattr_t attr;
+pthread_mutex_t mutex;  
+pthread_mutexattr_t attr;  
 
 // Initialisation avec attribut récursif
-pthread_mutexattr_init(&attr);
-pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-pthread_mutex_init(&mutex, &attr);
-pthread_mutexattr_destroy(&attr);
+pthread_mutexattr_init(&attr);  
+pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);  
+pthread_mutex_init(&mutex, &attr);  
+pthread_mutexattr_destroy(&attr);  
 
 // Maintenant OK
-pthread_mutex_lock(&mutex);
-pthread_mutex_lock(&mutex);  // ✅ OK : Même thread
-pthread_mutex_unlock(&mutex);
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+pthread_mutex_lock(&mutex);  // ✅ OK : Même thread  
+pthread_mutex_unlock(&mutex);  
+pthread_mutex_unlock(&mutex);  
 
 pthread_mutex_destroy(&mutex);
 ```
@@ -321,8 +321,8 @@ typedef struct {
     pthread_mutex_t mutex;
 } Compte;
 
-Compte compte_A;
-Compte compte_B;
+Compte compte_A;  
+Compte compte_B;  
 
 // Thread 1 : A → B
 void *transfert_A_vers_B(void *arg) {
@@ -372,9 +372,9 @@ Wait(B) ⏳      Wait(A) ⏳
 Plus complexe, mais même principe :
 
 ```c
-pthread_mutex_t m1 = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t m2 = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t m3 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t m1 = PTHREAD_MUTEX_INITIALIZER;  
+pthread_mutex_t m2 = PTHREAD_MUTEX_INITIALIZER;  
+pthread_mutex_t m3 = PTHREAD_MUTEX_INITIALIZER;  
 
 void *thread1(void *arg) {
     pthread_mutex_lock(&m1);
@@ -521,8 +521,8 @@ void debug_lock(pthread_mutex_t *mutex, const char *name, int line) {
 #define LOCK(m) debug_lock(&m, #m, __LINE__)
 
 // Utilisation
-LOCK(mutex_A);
-LOCK(mutex_B);
+LOCK(mutex_A);  
+LOCK(mutex_B);  
 ```
 
 **Sortie en cas de deadlock** :
@@ -676,8 +676,8 @@ void transfert(Compte *source, Compte *dest, int montant) {
 
 ```c
 // Ces deux appels utilisent le même ordre interne
-transfert(&compte_A, &compte_B, 100);
-transfert(&compte_B, &compte_A, 50);
+transfert(&compte_A, &compte_B, 100);  
+transfert(&compte_B, &compte_A, 50);  
 ```
 
 ---
@@ -716,28 +716,28 @@ void transfert(SystemeBancaire *sys, int montant) {
 
 ```c
 // ❌ Garde les deux mutex longtemps
-pthread_mutex_lock(&mutex_A);
-pthread_mutex_lock(&mutex_B);
-calcul_long();  // Garde A et B
-pthread_mutex_unlock(&mutex_B);
-pthread_mutex_unlock(&mutex_A);
+pthread_mutex_lock(&mutex_A);  
+pthread_mutex_lock(&mutex_B);  
+calcul_long();  // Garde A et B  
+pthread_mutex_unlock(&mutex_B);  
+pthread_mutex_unlock(&mutex_A);  
 
 // ✅ Garde les mutex le minimum de temps
 int temp_A, temp_B;
 
-pthread_mutex_lock(&mutex_A);
-temp_A = variable_A;
-pthread_mutex_unlock(&mutex_A);
+pthread_mutex_lock(&mutex_A);  
+temp_A = variable_A;  
+pthread_mutex_unlock(&mutex_A);  
 
-pthread_mutex_lock(&mutex_B);
-temp_B = variable_B;
-pthread_mutex_unlock(&mutex_B);
+pthread_mutex_lock(&mutex_B);  
+temp_B = variable_B;  
+pthread_mutex_unlock(&mutex_B);  
 
 int result = calcul_long(temp_A, temp_B);
 
-pthread_mutex_lock(&mutex_A);
-variable_A = result;
-pthread_mutex_unlock(&mutex_A);
+pthread_mutex_lock(&mutex_A);  
+variable_A = result;  
+pthread_mutex_unlock(&mutex_A);  
 ```
 
 ### Lock-free data structures
@@ -927,8 +927,8 @@ void *philosophe_limite(void *arg) {
 ### Exemple 2 : Reader-Writer avec deadlock potentiel
 
 ```c
-pthread_mutex_t mutex_read = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mutex_write = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_read = PTHREAD_MUTEX_INITIALIZER;  
+pthread_mutex_t mutex_write = PTHREAD_MUTEX_INITIALIZER;  
 
 void *reader(void *arg) {
     pthread_mutex_lock(&mutex_read);
@@ -1059,8 +1059,8 @@ void log_lock_released(pthread_t tid, const char *mutex_name) {
 
 ```c
 // T1 et T2 bloqués indéfiniment
-T1: lock(A), wait(B)
-T2: lock(B), wait(A)
+T1: lock(A), wait(B)  
+T2: lock(B), wait(A)  
 ```
 
 ### Livelock

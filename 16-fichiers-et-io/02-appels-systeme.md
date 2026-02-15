@@ -157,8 +157,8 @@ Les appels système sont **relativement lents** comparés aux fonctions normales
 
 ```c
 // Succès : retourne une valeur ≥ 0
-int result = syscall(...);
-if (result >= 0) {
+int result = syscall(...);  
+if (result >= 0) {  
     // Succès
 }
 
@@ -173,20 +173,20 @@ if (result == -1) {
 
 ```c
 // open() : retourne le fd (≥ 0) ou -1
-int fd = open("file.txt", O_RDONLY);
-if (fd == -1) {
+int fd = open("file.txt", O_RDONLY);  
+if (fd == -1) {  
     perror("open");
 }
 
 // read() : retourne nombre d'octets lus ou -1
-ssize_t n = read(fd, buffer, 100);
-if (n == -1) {
+ssize_t n = read(fd, buffer, 100);  
+if (n == -1) {  
     perror("read");
 }
 
 // fork() : retourne le PID (> 0), 0 (enfant), ou -1
-pid_t pid = fork();
-if (pid == -1) {
+pid_t pid = fork();  
+if (pid == -1) {  
     perror("fork");
 }
 ```
@@ -200,8 +200,8 @@ Quand un appel système échoue, il positionne la variable globale **`errno`** a
 #include <string.h>
 #include <stdio.h>
 
-int fd = open("fichier_inexistant.txt", O_RDONLY);
-if (fd == -1) {
+int fd = open("fichier_inexistant.txt", O_RDONLY);  
+if (fd == -1) {  
     printf("Erreur numéro : %d\n", errno);
     printf("Message : %s\n", strerror(errno));
     // Ou simplement :
@@ -229,8 +229,8 @@ if (fd == -1) {
 #include <stdio.h>
 
 // ✅ BON
-int fd = open("file.txt", O_RDONLY);
-if (fd == -1) {
+int fd = open("file.txt", O_RDONLY);  
+if (fd == -1) {  
     if (errno == ENOENT) {
         printf("Fichier non trouvé\n");
     } else if (errno == EACCES) {
@@ -241,8 +241,8 @@ if (fd == -1) {
 }
 
 // ❌ MAUVAIS : ne pas vérifier errno sans avoir vérifié l'échec
-int fd = open("file.txt", O_RDONLY);
-if (errno == ENOENT) {  // ERREUR : fd peut être valide !
+int fd = open("file.txt", O_RDONLY);  
+if (errno == ENOENT) {  // ERREUR : fd peut être valide !  
     // ...
 }
 ```
@@ -259,14 +259,14 @@ if (errno == ENOENT) {  // ERREUR : fd peut être valide !
 #include <fcntl.h>
 #include <sys/stat.h>
 
-int open(const char *pathname, int flags);
-int open(const char *pathname, int flags, mode_t mode);
+int open(const char *pathname, int flags);  
+int open(const char *pathname, int flags, mode_t mode);  
 ```
 
 **Exemple :**
 ```c
-int fd = open("/tmp/data.txt", O_RDWR | O_CREAT, 0644);
-if (fd == -1) {
+int fd = open("/tmp/data.txt", O_RDWR | O_CREAT, 0644);  
+if (fd == -1) {  
     perror("open");
     return 1;
 }
@@ -282,9 +282,9 @@ ssize_t read(int fd, void *buf, size_t count);
 
 **Exemple :**
 ```c
-char buffer[256];
-ssize_t n = read(fd, buffer, sizeof(buffer) - 1);
-if (n == -1) {
+char buffer[256];  
+ssize_t n = read(fd, buffer, sizeof(buffer) - 1);  
+if (n == -1) {  
     perror("read");
 } else if (n == 0) {
     printf("Fin de fichier\n");
@@ -304,9 +304,9 @@ ssize_t write(int fd, const void *buf, size_t count);
 
 **Exemple :**
 ```c
-const char *message = "Bonjour Linux\n";
-ssize_t n = write(fd, message, strlen(message));
-if (n == -1) {
+const char *message = "Bonjour Linux\n";  
+ssize_t n = write(fd, message, strlen(message));  
+if (n == -1) {  
     perror("write");
 } else {
     printf("Écrit %zd octets\n", n);
@@ -400,8 +400,8 @@ pid_t fork(void);
 
 **Exemple :**
 ```c
-pid_t pid = fork();
-if (pid == -1) {
+pid_t pid = fork();  
+if (pid == -1) {  
     perror("fork");
 } else if (pid == 0) {
     printf("Je suis le processus enfant\n");
@@ -433,14 +433,14 @@ void _exit(int status);
 ```c
 #include <sys/wait.h>
 
-pid_t wait(int *status);
-pid_t waitpid(pid_t pid, int *status, int options);
+pid_t wait(int *status);  
+pid_t waitpid(pid_t pid, int *status, int options);  
 ```
 
 **Exemple :**
 ```c
-pid_t pid = fork();
-if (pid == 0) {
+pid_t pid = fork();  
+if (pid == 0) {  
     // Processus enfant
     _exit(42);
 } else {
@@ -458,8 +458,8 @@ if (pid == 0) {
 ```c
 #include <unistd.h>
 
-int brk(void *addr);
-void *sbrk(intptr_t increment);
+int brk(void *addr);  
+void *sbrk(intptr_t increment);  
 ```
 
 **Note :** Ces appels sont rarement utilisés directement. Utilisez plutôt `malloc()` qui les utilise en interne.
@@ -475,8 +475,8 @@ void *mmap(void *addr, size_t length, int prot, int flags,
 
 **Exemple (allocation anonyme) :**
 ```c
-size_t size = 4096; // 1 page
-void *ptr = mmap(NULL, size, PROT_READ | PROT_WRITE,
+size_t size = 4096; // 1 page  
+void *ptr = mmap(NULL, size, PROT_READ | PROT_WRITE,  
                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 if (ptr == MAP_FAILED) {
     perror("mmap");
@@ -511,8 +511,8 @@ kill(getpid(), SIGKILL);
 ```c
 #include <signal.h>
 
-typedef void (*sighandler_t)(int);
-sighandler_t signal(int signum, sighandler_t handler);
+typedef void (*sighandler_t)(int);  
+sighandler_t signal(int signum, sighandler_t handler);  
 ```
 
 ### Informations système
@@ -543,8 +543,8 @@ pid_t getppid(void);
 ```c
 #include <unistd.h>
 
-uid_t getuid(void);
-gid_t getgid(void);
+uid_t getuid(void);  
+gid_t getgid(void);  
 ```
 
 #### `gettimeofday()` - Obtenir l'heure actuelle
@@ -557,10 +557,10 @@ int gettimeofday(struct timeval *tv, struct timezone *tz);
 
 **Exemple :**
 ```c
-struct timeval tv;
-gettimeofday(&tv, NULL);
-printf("Secondes depuis epoch : %ld\n", tv.tv_sec);
-printf("Microsecondes : %ld\n", tv.tv_usec);
+struct timeval tv;  
+gettimeofday(&tv, NULL);  
+printf("Secondes depuis epoch : %ld\n", tv.tv_sec);  
+printf("Microsecondes : %ld\n", tv.tv_usec);  
 ```
 
 ## Appels système vs Fonctions de bibliothèque
@@ -643,10 +643,10 @@ Certaines fonctions de la libc n'appellent aucun syscall :
 
 ```c
 // Ces fonctions sont purement en espace utilisateur
-strlen(str);        // Parcours de chaîne
-strcpy(dest, src);  // Copie de chaîne
-memset(ptr, 0, n);  // Remplissage mémoire
-sqrt(x);            // Calcul mathématique
+strlen(str);        // Parcours de chaîne  
+strcpy(dest, src);  // Copie de chaîne  
+memset(ptr, 0, n);  // Remplissage mémoire  
+sqrt(x);            // Calcul mathématique  
 ```
 
 ### Fonctions de bibliothèque qui utilisent PLUSIEURS syscalls
@@ -685,14 +685,14 @@ strace -c ./hello
 
 **Exemple de sortie :**
 ```
-execve("./hello", ["./hello"], 0x7ffe...) = 0
-brk(NULL)                               = 0x55a123000
-mmap(NULL, 8192, PROT_READ|PROT_WRITE, ...) = 0x7f8a...
-open("/tmp/file.txt", O_RDONLY)         = 3
-read(3, "Hello\n", 4096)                = 6
-write(1, "Hello\n", 6)                  = 6
-close(3)                                = 0
-exit_group(0)                           = ?
+execve("./hello", ["./hello"], 0x7ffe...) = 0  
+brk(NULL)                               = 0x55a123000  
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, ...) = 0x7f8a...  
+open("/tmp/file.txt", O_RDONLY)         = 3  
+read(3, "Hello\n", 4096)                = 6  
+write(1, "Hello\n", 6)                  = 6  
+close(3)                                = 0  
+exit_group(0)                           = ?  
 ```
 
 ### Exemple pratique avec strace
@@ -735,6 +735,7 @@ long syscall(long number, ...);
 
 **Exemple :**
 ```c
+#define _GNU_SOURCE
 #include <unistd.h>
 #include <sys/syscall.h>
 #include <stdio.h>
@@ -799,15 +800,15 @@ int main(void) {
 
 ```c
 // ✅ BON
-int fd = open("file.txt", O_RDONLY);
-if (fd == -1) {
+int fd = open("file.txt", O_RDONLY);  
+if (fd == -1) {  
     perror("open");
     return 1;
 }
 
 // ❌ MAUVAIS
-int fd = open("file.txt", O_RDONLY);
-read(fd, buffer, 100);  // fd pourrait être -1 !
+int fd = open("file.txt", O_RDONLY);  
+read(fd, buffer, 100);  // fd pourrait être -1 !  
 ```
 
 ### 2. Utiliser `perror()` ou `strerror()`
@@ -835,8 +836,8 @@ Certains syscalls peuvent être interrompus par un signal :
 ```c
 #include <errno.h>
 
-ssize_t n;
-do {
+ssize_t n;  
+do {  
     n = read(fd, buffer, size);
 } while (n == -1 && errno == EINTR);
 
@@ -874,14 +875,14 @@ write(fd, data, 1000);  // Tout d'un coup
 
 ```c
 // Pour du texte, préférez les fonctions bufferisées
-FILE *fp = fopen("file.txt", "w");
-fprintf(fp, "Line %d\n", i);  // Bufferisé automatiquement
-fclose(fp);
+FILE *fp = fopen("file.txt", "w");  
+fprintf(fp, "Line %d\n", i);  // Bufferisé automatiquement  
+fclose(fp);  
 
 // Pour des opérations binaires à haute performance
-int fd = open("file.bin", O_WRONLY);
-write(fd, large_buffer, size);  // Accès direct
-close(fd);
+int fd = open("file.bin", O_WRONLY);  
+write(fd, large_buffer, size);  // Accès direct  
+close(fd);  
 ```
 
 ## Tableau récapitulatif
@@ -889,7 +890,7 @@ close(fd);
 | Catégorie | Appels système courants |
 |-----------|------------------------|
 | **Fichiers** | `open`, `read`, `write`, `close`, `lseek`, `stat`, `unlink` |
-| **Répertoires** | `mkdir`, `rmdir`, `chdir`, `getcwd`, `opendir`, `readdir` |
+| **Répertoires** | `mkdir`, `rmdir`, `chdir`, `getcwd`, `getdents64` |
 | **Processus** | `fork`, `execve`, `exit`, `wait`, `waitpid`, `getpid` |
 | **Signaux** | `kill`, `signal`, `sigaction`, `pause`, `alarm` |
 | **Mémoire** | `brk`, `sbrk`, `mmap`, `munmap`, `mprotect` |

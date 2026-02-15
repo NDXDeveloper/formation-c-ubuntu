@@ -43,17 +43,17 @@ Cette signature impose d'utiliser un pointeur générique `void*` pour passer de
 Un pointeur `void*` est un **pointeur générique** qui peut pointer vers n'importe quel type de données :
 
 ```c
-int x = 42;
-char c = 'A';
-double d = 3.14;
+int x = 42;  
+char c = 'A';  
+double d = 3.14;  
 
-void *ptr1 = &x;  // Pointe vers un int
-void *ptr2 = &c;  // Pointe vers un char
-void *ptr3 = &d;  // Pointe vers un double
+void *ptr1 = &x;  // Pointe vers un int  
+void *ptr2 = &c;  // Pointe vers un char  
+void *ptr3 = &d;  // Pointe vers un double  
 ```
 
-**Avantage** : Grande flexibilité.
-**Inconvénient** : Perte d'information de type → nécessité de **caster**.
+**Avantage** : Grande flexibilité.  
+**Inconvénient** : Perte d'information de type → nécessité de **caster**.  
 
 ### Utilisation dans pthread_create()
 
@@ -386,9 +386,9 @@ int main(void) {
 
 **Sortie** :
 ```
-Thread ID : 1
-Nom : Worker
-Coefficient : 1.50
+Thread ID : 1  
+Nom : Worker  
+Coefficient : 1.50  
 ```
 
 ### Exemple avec calcul
@@ -436,8 +436,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Calcul de la somme de 1 à 1000...
-Résultat : 500500
+Calcul de la somme de 1 à 1000...  
+Résultat : 500500  
 ```
 
 ### Structure avec allocation dynamique
@@ -494,7 +494,7 @@ int main(void) {
 
 ### Tableau d'entiers
 
-Un tableau est déjà un pointeur, donc vous pouvez le passer directement :
+Un tableau se convertit implicitement en pointeur vers son premier élément, donc vous pouvez le passer directement :
 
 ```c
 #include <stdio.h>
@@ -805,17 +805,17 @@ int main(void) {
 
 **Sortie** :
 ```
-Thread 0 : calcul de 0 à 25
-Thread 1 : calcul de 25 à 50
-Thread 2 : calcul de 50 à 75
-Thread 3 : calcul de 75 à 100
-Thread 0 : somme partielle = 325
-Thread 1 : somme partielle = 950
-Thread 2 : somme partielle = 1575
-Thread 3 : somme partielle = 2200
+Thread 0 : calcul de 0 à 25  
+Thread 1 : calcul de 25 à 50  
+Thread 2 : calcul de 50 à 75  
+Thread 3 : calcul de 75 à 100  
+Thread 0 : somme partielle = 325  
+Thread 1 : somme partielle = 950  
+Thread 2 : somme partielle = 1575  
+Thread 3 : somme partielle = 2200  
 
-Somme totale : 5050
-Vérification : 5050 (formule n(n+1)/2)
+Somme totale : 5050  
+Vérification : 5050 (formule n(n+1)/2)  
 ```
 
 ---
@@ -898,9 +898,9 @@ int main(void) {
 
 **Sortie** :
 ```
-Résolution de 1x² + -5x + 6 = 0
-Delta = 1.00
-Deux solutions : x1 = 2.00, x2 = 3.00
+Résolution de 1x² + -5x + 6 = 0  
+Delta = 1.00  
+Deux solutions : x1 = 2.00, x2 = 3.00  
 ```
 
 ### Via pthread_join() et malloc
@@ -1013,9 +1013,9 @@ int main(void) {
 
 **Sortie** :
 ```
-Avant : hello world
-Après : HELLO WORLD
-Modifié : Oui
+Avant : hello world  
+Après : HELLO WORLD  
+Modifié : Oui  
 ```
 
 ---
@@ -1037,12 +1037,12 @@ for (int i = 0; i < 5; i++) {
 **Pourquoi c'est un bug ?**
 
 ```
-i = 0 → pthread_create(..., &i)  ───┐
-i = 1 → pthread_create(..., &i)  ───┤ Tous pointent
-i = 2 → pthread_create(..., &i)  ───┤ vers la même
-i = 3 → pthread_create(..., &i)  ───┤ variable i
-i = 4 → pthread_create(..., &i)  ───┤
-i = 5 (fin de boucle)                ┘
+i = 0 → pthread_create(..., &i)  ───┐  
+i = 1 → pthread_create(..., &i)  ───┤ Tous pointent  
+i = 2 → pthread_create(..., &i)  ───┤ vers la même  
+i = 3 → pthread_create(..., &i)  ───┤ variable i  
+i = 4 → pthread_create(..., &i)  ───┤  
+i = 5 (fin de boucle)                ┘  
 
 Quand les threads lisent *arg, i peut valoir 5 !
 ```
@@ -1051,8 +1051,8 @@ Quand les threads lisent *arg, i peut valoir 5 !
 
 ```c
 // Solution 1 : Tableau d'arguments
-int ids[5];
-for (int i = 0; i < 5; i++) {
+int ids[5];  
+for (int i = 0; i < 5; i++) {  
     ids[i] = i;
     pthread_create(&threads[i], NULL, worker, &ids[i]);
 }
@@ -1250,8 +1250,8 @@ void *traiter_donnees(void *arg) {
 ### 3. Vérifier les allocations
 
 ```c
-int *id = malloc(sizeof(int));
-if (id == NULL) {
+int *id = malloc(sizeof(int));  
+if (id == NULL) {  
     fprintf(stderr, "Erreur malloc\n");
     return 1;
 }

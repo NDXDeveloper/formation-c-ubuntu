@@ -108,7 +108,7 @@ bind(sockfd, (struct sockaddr*)&addr, sizeof(addr));
 ### Le problème de l'endianness
 
 Les processeurs stockent les nombres multi-octets différemment :
-- **Big-endian** : L'octet de poids fort en premier (ex: ARM, SPARC)
+- **Big-endian** : L'octet de poids fort en premier (ex: SPARC, PowerPC, Motorola 68000)
 - **Little-endian** : L'octet de poids faible en premier (ex: x86, x86_64)
 
 ### Network Byte Order
@@ -123,12 +123,12 @@ Pour garantir la portabilité, on utilise ces fonctions :
 #include <arpa/inet.h>
 
 // Host to Network (conversions vers network byte order)
-uint32_t htonl(uint32_t hostlong);    // 32 bits (pour IP)
-uint16_t htons(uint16_t hostshort);   // 16 bits (pour ports)
+uint32_t htonl(uint32_t hostlong);    // 32 bits (pour IP)  
+uint16_t htons(uint16_t hostshort);   // 16 bits (pour ports)  
 
 // Network to Host (conversions depuis network byte order)
-uint32_t ntohl(uint32_t netlong);     // 32 bits
-uint16_t ntohs(uint16_t netshort);    // 16 bits
+uint32_t ntohl(uint32_t netlong);     // 32 bits  
+uint16_t ntohs(uint16_t netshort);    // 16 bits  
 ```
 
 **Mnémonique :**
@@ -139,8 +139,8 @@ uint16_t ntohs(uint16_t netshort);    // 16 bits
 
 **Exemple :**
 ```c
-uint16_t port = 8080;
-addr.sin_port = htons(port);  // Conversion obligatoire !
+uint16_t port = 8080;  
+addr.sin_port = htons(port);  // Conversion obligatoire !  
 ```
 
 ⚠️ **Règle d'or :** Toujours convertir les ports et adresses IP avant de les mettre dans les structures socket.
@@ -154,7 +154,7 @@ addr.sin_port = htons(port);  // Conversion obligatoire !
 ```c
 #include <arpa/inet.h>
 
-// IPv4 uniquement (ancienne méthode, toujours utilisée)
+// Méthode moderne (supporte IPv4 et IPv6)
 int inet_pton(int af, const char *src, void *dst);
 ```
 
@@ -170,9 +170,9 @@ int inet_pton(int af, const char *src, void *dst);
 
 **Exemple :**
 ```c
-struct sockaddr_in addr;
-addr.sin_family = AF_INET;
-addr.sin_port = htons(8080);
+struct sockaddr_in addr;  
+addr.sin_family = AF_INET;  
+addr.sin_port = htons(8080);  
 
 if (inet_pton(AF_INET, "192.168.1.10", &addr.sin_addr) <= 0) {
     perror("inet_pton");
@@ -194,9 +194,9 @@ const char *inet_ntop(int af, const void *src, char *dst, socklen_t size);
 
 **Exemple :**
 ```c
-char ip_str[INET_ADDRSTRLEN];
-inet_ntop(AF_INET, &addr.sin_addr, ip_str, INET_ADDRSTRLEN);
-printf("Adresse IP : %s\n", ip_str);
+char ip_str[INET_ADDRSTRLEN];  
+inet_ntop(AF_INET, &addr.sin_addr, ip_str, INET_ADDRSTRLEN);  
+printf("Adresse IP : %s\n", ip_str);  
 ```
 
 ### Constantes utiles
@@ -212,8 +212,8 @@ printf("Adresse IP : %s\n", ip_str);
 // Écouter sur toutes les interfaces
 addr.sin_addr.s_addr = INADDR_ANY;  // 0.0.0.0
 
-// Localhost (boucle locale)
-addr.sin_addr.s_addr = INADDR_LOOPBACK;  // 127.0.0.1
+// Localhost (boucle locale) — htonl() nécessaire car 0x7f000001 ≠ 0
+addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);  // 127.0.0.1
 
 // Broadcast
 addr.sin_addr.s_addr = INADDR_BROADCAST;  // 255.255.255.255
@@ -278,8 +278,8 @@ int socket(int domain, int type, int protocol);
 
 **Exemple :**
 ```c
-int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-if (sockfd < 0) {
+int sockfd = socket(AF_INET, SOCK_STREAM, 0);  
+if (sockfd < 0) {  
     perror("socket");
     exit(EXIT_FAILURE);
 }
@@ -306,12 +306,12 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 **Exemple :**
 ```c
-struct sockaddr_in server_addr;
-memset(&server_addr, 0, sizeof(server_addr));
+struct sockaddr_in server_addr;  
+memset(&server_addr, 0, sizeof(server_addr));  
 
-server_addr.sin_family = AF_INET;
-server_addr.sin_addr.s_addr = INADDR_ANY;  // Toutes les interfaces
-server_addr.sin_port = htons(8080);        // Port 8080
+server_addr.sin_family = AF_INET;  
+server_addr.sin_addr.s_addr = INADDR_ANY;  // Toutes les interfaces  
+server_addr.sin_port = htons(8080);        // Port 8080  
 
 if (bind(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
     perror("bind");
@@ -388,19 +388,19 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 
 **Exemple :**
 ```c
-struct sockaddr_in client_addr;
-socklen_t client_len = sizeof(client_addr);
+struct sockaddr_in client_addr;  
+socklen_t client_len = sizeof(client_addr);  
 
-int client_fd = accept(sockfd, (struct sockaddr*)&client_addr, &client_len);
-if (client_fd < 0) {
+int client_fd = accept(sockfd, (struct sockaddr*)&client_addr, &client_len);  
+if (client_fd < 0) {  
     perror("accept");
     // Selon l'erreur, on peut continuer ou non
 }
 
 // Afficher l'IP du client
-char client_ip[INET_ADDRSTRLEN];
-inet_ntop(AF_INET, &client_addr.sin_addr, client_ip, INET_ADDRSTRLEN);
-printf("Client connecté : %s:%d\n", client_ip, ntohs(client_addr.sin_port));
+char client_ip[INET_ADDRSTRLEN];  
+inet_ntop(AF_INET, &client_addr.sin_addr, client_ip, INET_ADDRSTRLEN);  
+printf("Client connecté : %s:%d\n", client_ip, ntohs(client_addr.sin_port));  
 ```
 
 **Points importants :**
@@ -434,11 +434,11 @@ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 **Exemple :**
 ```c
-struct sockaddr_in server_addr;
-memset(&server_addr, 0, sizeof(server_addr));
+struct sockaddr_in server_addr;  
+memset(&server_addr, 0, sizeof(server_addr));  
 
-server_addr.sin_family = AF_INET;
-server_addr.sin_port = htons(8080);
+server_addr.sin_family = AF_INET;  
+server_addr.sin_port = htons(8080);  
 
 if (inet_pton(AF_INET, "192.168.1.10", &server_addr.sin_addr) <= 0) {
     perror("inet_pton");
@@ -471,8 +471,8 @@ printf("Connecté au serveur !\n");
 ### 6. `send()` / `write()` - Envoyer des données
 
 ```c
-ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-ssize_t write(int sockfd, const void *buf, size_t count);
+ssize_t send(int sockfd, const void *buf, size_t len, int flags);  
+ssize_t write(int sockfd, const void *buf, size_t count);  
 ```
 
 **Paramètres :**
@@ -487,18 +487,18 @@ ssize_t write(int sockfd, const void *buf, size_t count);
 
 **Exemple avec `send()` :**
 ```c
-const char *message = "Hello, Client!";
-ssize_t bytes_sent = send(client_fd, message, strlen(message), 0);
-if (bytes_sent < 0) {
+const char *message = "Hello, Client!";  
+ssize_t bytes_sent = send(client_fd, message, strlen(message), 0);  
+if (bytes_sent < 0) {  
     perror("send");
 }
 ```
 
 **Exemple avec `write()` :**
 ```c
-const char *message = "Hello, Client!";
-ssize_t bytes_sent = write(client_fd, message, strlen(message));
-if (bytes_sent < 0) {
+const char *message = "Hello, Client!";  
+ssize_t bytes_sent = write(client_fd, message, strlen(message));  
+if (bytes_sent < 0) {  
     perror("write");
 }
 ```
@@ -535,8 +535,8 @@ ssize_t send_all(int sockfd, const void *buf, size_t len) {
 ### 7. `recv()` / `read()` - Recevoir des données
 
 ```c
-ssize_t recv(int sockfd, void *buf, size_t len, int flags);
-ssize_t read(int sockfd, void *buf, size_t count);
+ssize_t recv(int sockfd, void *buf, size_t len, int flags);  
+ssize_t read(int sockfd, void *buf, size_t count);  
 ```
 
 **Paramètres :**
@@ -552,8 +552,8 @@ ssize_t read(int sockfd, void *buf, size_t count);
 
 **Exemple avec `recv()` :**
 ```c
-char buffer[1024];
-ssize_t bytes_received = recv(client_fd, buffer, sizeof(buffer) - 1, 0);
+char buffer[1024];  
+ssize_t bytes_received = recv(client_fd, buffer, sizeof(buffer) - 1, 0);  
 
 if (bytes_received < 0) {
     perror("recv");
@@ -596,8 +596,8 @@ int close(int fd);
 
 **Exemple :**
 ```c
-close(client_fd);
-close(sockfd);
+close(client_fd);  
+close(sockfd);  
 ```
 
 **Rôle :**
@@ -849,8 +849,8 @@ int setsockopt(int sockfd, int level, int optname,
 
 **Exemple d'utilisation :**
 ```c
-int opt = 1;
-if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+int opt = 1;  
+if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {  
     perror("setsockopt");
     exit(EXIT_FAILURE);
 }
@@ -865,18 +865,18 @@ if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
 
 ```c
 // Définir un timeout pour recv() (éviter de bloquer indéfiniment)
-struct timeval timeout;
-timeout.tv_sec = 5;   // 5 secondes
-timeout.tv_usec = 0;
-setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
+struct timeval timeout;  
+timeout.tv_sec = 5;   // 5 secondes  
+timeout.tv_usec = 0;  
+setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));  
 
 // Définir la taille du buffer d'envoi
-int sndbuf = 65536;
-setsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &sndbuf, sizeof(sndbuf));
+int sndbuf = 65536;  
+setsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &sndbuf, sizeof(sndbuf));  
 
 // Activer TCP keepalive (détection de connexions mortes)
-int keepalive = 1;
-setsockopt(sockfd, SOL_SOCKET, SO_KEEPALIVE, &keepalive, sizeof(keepalive));
+int keepalive = 1;  
+setsockopt(sockfd, SOL_SOCKET, SO_KEEPALIVE, &keepalive, sizeof(keepalive));  
 ```
 
 ---
@@ -922,8 +922,8 @@ if (connect(sockfd, ...) < 0) {
 ### Gestion robuste
 
 ```c
-ssize_t bytes_sent = send(sockfd, buffer, len, 0);
-if (bytes_sent < 0) {
+ssize_t bytes_sent = send(sockfd, buffer, len, 0);  
+if (bytes_sent < 0) {  
     if (errno == EINTR) {
         // Réessayer en cas d'interruption par signal
         bytes_sent = send(sockfd, buffer, len, 0);
@@ -961,8 +961,8 @@ Le serveur d'exemple ci-dessus est **itératif** : il ne peut gérer qu'**un seu
 socket(AF_INET, SOCK_STREAM, 0);
 
 // ✅ Bon
-int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-if (sockfd < 0) {
+int sockfd = socket(AF_INET, SOCK_STREAM, 0);  
+if (sockfd < 0) {  
     perror("socket");
     exit(EXIT_FAILURE);
 }
@@ -971,22 +971,22 @@ if (sockfd < 0) {
 ### 2. Initialiser les structures à zéro
 
 ```c
-struct sockaddr_in addr;
-memset(&addr, 0, sizeof(addr));  // ✅ Important !
+struct sockaddr_in addr;  
+memset(&addr, 0, sizeof(addr));  // ✅ Important !  
 ```
 
 ### 3. Utiliser `SO_REUSEADDR` en développement
 
 ```c
-int opt = 1;
-setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+int opt = 1;  
+setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));  
 ```
 
 ### 4. Toujours fermer les sockets
 
 ```c
-close(client_fd);
-close(server_fd);
+close(client_fd);  
+close(server_fd);  
 ```
 
 ### 5. Gérer les envois partiels
@@ -1035,8 +1035,8 @@ netstat -tuln
 
 **Exemple de sortie :**
 ```
-State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port
-LISTEN  0       5       0.0.0.0:8080        0.0.0.0:*
+State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  
+LISTEN  0       5       0.0.0.0:8080        0.0.0.0:*  
 ```
 
 ### Afficher les connexions actives

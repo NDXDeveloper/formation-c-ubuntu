@@ -110,9 +110,9 @@ int msgget(key_t key, int msgflg);
 
 **Exemple :**
 ```c
-key_t key = ftok("/tmp/myqueue", 'Q');
-int msqid = msgget(key, IPC_CREAT | 0666);
-if (msqid == -1) {
+key_t key = ftok("/tmp/myqueue", 'Q');  
+int msqid = msgget(key, IPC_CREAT | 0666);  
+if (msqid == -1) {  
     perror("msgget");
     exit(1);
 }
@@ -152,9 +152,9 @@ struct message {
     char text[100];
 };
 
-struct message msg;
-msg.mtype = 1;  // Type du message
-strcpy(msg.text, "Hello from sender!");
+struct message msg;  
+msg.mtype = 1;  // Type du message  
+strcpy(msg.text, "Hello from sender!");  
 
 // Envoyer (taille = sizeof(msg.text), pas sizeof(msg) !)
 if (msgsnd(msqid, &msg, sizeof(msg.text), 0) == -1) {
@@ -203,14 +203,14 @@ struct message {
 struct message msg;
 
 // Recevoir n'importe quel message
-ssize_t bytes = msgrcv(msqid, &msg, sizeof(msg.text), 0, 0);
-if (bytes == -1) {
+ssize_t bytes = msgrcv(msqid, &msg, sizeof(msg.text), 0, 0);  
+if (bytes == -1) {  
     perror("msgrcv");
     exit(1);
 }
 
-printf("Type : %ld\n", msg.mtype);
-printf("Message : %s\n", msg.text);
+printf("Type : %ld\n", msg.mtype);  
+printf("Message : %s\n", msg.text);  
 ```
 
 ---
@@ -246,10 +246,10 @@ struct msqid_ds {
 
 ```c
 // Obtenir les infos
-struct msqid_ds info;
-msgctl(msqid, IPC_STAT, &info);
-printf("Nombre de messages : %lu\n", info.msg_qnum);
-printf("Taille max : %lu octets\n", info.msg_qbytes);
+struct msqid_ds info;  
+msgctl(msqid, IPC_STAT, &info);  
+printf("Nombre de messages : %lu\n", info.msg_qnum);  
+printf("Taille max : %lu octets\n", info.msg_qbytes);  
 
 // Supprimer la queue
 msgctl(msqid, IPC_RMID, NULL);
@@ -301,7 +301,7 @@ int main() {
 
     // 3. Envoyer plusieurs messages
     for (int i = 1; i <= 5; i++) {
-        msg.mtype = i % 2 + 1;  // Types alternés : 1, 2, 1, 2, 1
+        msg.mtype = (i + 1) % 2 + 1;  // Types alternés : 1, 2, 1, 2, 1
         snprintf(msg.text, MSG_SIZE, "Message numéro %d", i);
 
         printf("Envoi : type=%ld, texte=\"%s\"\n", msg.mtype, msg.text);
@@ -385,8 +385,8 @@ int main() {
 
 ```bash
 # Compiler
-gcc sender.c -o sender
-gcc receiver.c -o receiver
+gcc sender.c -o sender  
+gcc receiver.c -o receiver  
 
 # Terminal 1 : Envoyer
 ./sender
@@ -397,24 +397,24 @@ gcc receiver.c -o receiver
 
 **Sortie du sender :**
 ```
-Queue de messages créée (ID: 32768)
-Envoi : type=1, texte="Message numéro 1"
-Envoi : type=2, texte="Message numéro 2"
-Envoi : type=1, texte="Message numéro 3"
-Envoi : type=2, texte="Message numéro 4"
-Envoi : type=1, texte="Message numéro 5"
-Tous les messages ont été envoyés.
+Queue de messages créée (ID: 32768)  
+Envoi : type=1, texte="Message numéro 1"  
+Envoi : type=2, texte="Message numéro 2"  
+Envoi : type=1, texte="Message numéro 3"  
+Envoi : type=2, texte="Message numéro 4"  
+Envoi : type=1, texte="Message numéro 5"  
+Tous les messages ont été envoyés.  
 ```
 
 **Sortie du receiver :**
 ```
-Connexion à la queue (ID: 32768)
-Reçu : type=1, texte="Message numéro 1"
-Reçu : type=2, texte="Message numéro 2"
-Reçu : type=1, texte="Message numéro 3"
-Reçu : type=2, texte="Message numéro 4"
-Reçu : type=1, texte="Message numéro 5"
-Tous les messages ont été reçus.
+Connexion à la queue (ID: 32768)  
+Reçu : type=1, texte="Message numéro 1"  
+Reçu : type=2, texte="Message numéro 2"  
+Reçu : type=1, texte="Message numéro 3"  
+Reçu : type=2, texte="Message numéro 4"  
+Reçu : type=1, texte="Message numéro 5"  
+Tous les messages ont été reçus.  
 ```
 
 ---
@@ -576,8 +576,8 @@ struct request {
 };
 
 // Client
-request.mtype = getpid();  // Utilise son PID comme type
-msgsnd(msqid, &request, sizeof(request) - sizeof(long), 0);
+request.mtype = getpid();  // Utilise son PID comme type  
+msgsnd(msqid, &request, sizeof(request) - sizeof(long), 0);  
 
 // Attendre la réponse avec son PID
 msgrcv(msqid, &response, sizeof(response) - sizeof(long), getpid(), 0);
@@ -589,8 +589,8 @@ msgrcv(msqid, &req, sizeof(req) - sizeof(long), 0, 0);
 // Traiter...
 
 // Répondre avec le PID du client comme type
-response.mtype = req.mtype;
-msgsnd(msqid, &response, sizeof(response) - sizeof(long), 0);
+response.mtype = req.mtype;  
+msgsnd(msqid, &response, sizeof(response) - sizeof(long), 0);  
 ```
 
 ### 3. Broadcast (Diffusion)
@@ -600,14 +600,14 @@ msgsnd(msqid, &response, sizeof(response) - sizeof(long), 0);
 #define BROADCAST_TYPE 999
 
 // Émetteur
-struct broadcast_msg msg;
-msg.mtype = BROADCAST_TYPE;
-strcpy(msg.command, "SHUTDOWN");
-msgsnd(msqid, &msg, sizeof(msg.text), 0);
+struct broadcast_msg msg;  
+msg.mtype = BROADCAST_TYPE;  
+strcpy(msg.command, "SHUTDOWN");  
+msgsnd(msqid, &msg, sizeof(msg) - sizeof(long), 0);  
 
 // Récepteurs (plusieurs processus)
-msgrcv(msqid, &msg, sizeof(msg.text), BROADCAST_TYPE, 0);
-if (strcmp(msg.command, "SHUTDOWN") == 0) {
+msgrcv(msqid, &msg, sizeof(msg) - sizeof(long), BROADCAST_TYPE, 0);  
+if (strcmp(msg.command, "SHUTDOWN") == 0) {  
     printf("Arrêt demandé\n");
     exit(0);
 }
@@ -639,14 +639,14 @@ ipcrm -q 32768
 
 ```c
 // Obtenir les statistiques
-struct msqid_ds info;
-msgctl(msqid, IPC_STAT, &info);
+struct msqid_ds info;  
+msgctl(msqid, IPC_STAT, &info);  
 
-printf("Nombre de messages : %lu\n", info.msg_qnum);
-printf("Taille totale utilisée : %lu octets\n", info.msg_cbytes);
-printf("Taille max de la queue : %lu octets\n", info.msg_qbytes);
-printf("Dernier envoi : PID %d\n", info.msg_lspid);
-printf("Dernière réception : PID %d\n", info.msg_lrpid);
+printf("Nombre de messages : %lu\n", info.msg_qnum);  
+printf("Taille totale utilisée : %lu octets\n", info.msg_cbytes);  
+printf("Taille max de la queue : %lu octets\n", info.msg_qbytes);  
+printf("Dernier envoi : PID %d\n", info.msg_lspid);  
+printf("Dernière réception : PID %d\n", info.msg_lrpid);  
 ```
 
 ---
@@ -704,9 +704,9 @@ Les message queues ont des limites imposées par le système :
 
 ```bash
 # Voir les limites
-cat /proc/sys/kernel/msgmax  # Taille max d'un message (8192 octets par défaut)
-cat /proc/sys/kernel/msgmnb  # Taille max d'une queue (16384 octets par défaut)
-cat /proc/sys/kernel/msgmni  # Nombre max de queues (32000 par défaut)
+cat /proc/sys/kernel/msgmax  # Taille max d'un message (8192 octets par défaut)  
+cat /proc/sys/kernel/msgmnb  # Taille max d'une queue (16384 octets par défaut)  
+cat /proc/sys/kernel/msgmni  # Nombre max de queues (32000 par défaut)  
 ```
 
 **Dépasser les limites :**
@@ -719,10 +719,10 @@ cat /proc/sys/kernel/msgmni  # Nombre max de queues (32000 par défaut)
 msgsnd(msqid, &msg, size, 0);  // Sans IPC_NOWAIT
 
 // 2. Augmenter la taille de la queue (root requis)
-struct msqid_ds info;
-msgctl(msqid, IPC_STAT, &info);
-info.msg_qbytes = 32768;  // Doubler la taille
-msgctl(msqid, IPC_SET, &info);
+struct msqid_ds info;  
+msgctl(msqid, IPC_STAT, &info);  
+info.msg_qbytes = 32768;  // Doubler la taille  
+msgctl(msqid, IPC_SET, &info);  
 ```
 
 ---
@@ -915,8 +915,8 @@ int main() {
 
 ```bash
 # Compiler
-gcc logger.c -o logger
-gcc app.c -o app
+gcc logger.c -o logger  
+gcc app.c -o app  
 
 # Terminal 1 : Démarrer le logger (affiche INFO et plus critiques)
 ./logger 3
@@ -930,8 +930,8 @@ gcc app.c -o app
 
 **Sortie du logger :**
 ```
-Logger démarré (niveau min: INFO)
-Listening...
+Logger démarré (niveau min: INFO)  
+Listening...  
 
 [Thu Nov 27 10:30:15 2025] [INFO] [PID 12345] Application démarrée
 [Thu Nov 27 10:30:16 2025] [WARN] [PID 12345] Configuration manquante, utilisation des défauts
@@ -971,8 +971,8 @@ msgsnd(msqid, &msg, sizeof(msg) - sizeof(long), 0);
 
 ```c
 // ❌ INTERDIT : mtype doit être > 0
-msg.mtype = 0;   // Erreur EINVAL
-msg.mtype = -1;  // Erreur EINVAL
+msg.mtype = 0;   // Erreur EINVAL  
+msg.mtype = -1;  // Erreur EINVAL  
 
 // ✅ CORRECT
 msg.mtype = 1;   // Type valide
@@ -1052,11 +1052,11 @@ Une alternative plus moderne et portable :
 #include <mqueue.h>
 
 // API plus simple
-mqd_t mq = mq_open("/my_queue", O_CREAT | O_RDWR, 0666, NULL);
-mq_send(mq, buffer, size, priority);
-mq_receive(mq, buffer, size, &priority);
-mq_close(mq);
-mq_unlink("/my_queue");
+mqd_t mq = mq_open("/my_queue", O_CREAT | O_RDWR, 0666, NULL);  
+mq_send(mq, buffer, size, priority);  
+mq_receive(mq, buffer, size, &priority);  
+mq_close(mq);  
+mq_unlink("/my_queue");  
 ```
 
 **Avantages POSIX** :
@@ -1127,9 +1127,9 @@ Les **message queues System V** permettent une communication asynchrone typée e
 ### Commandes essentielles
 
 ```bash
-ipcs -q           # Lister les queues
-ipcs -q -i <id>   # Détails d'une queue
-ipcrm -q <id>     # Supprimer une queue
+ipcs -q           # Lister les queues  
+ipcs -q -i <id>   # Détails d'une queue  
+ipcrm -q <id>     # Supprimer une queue  
 ```
 
 ---

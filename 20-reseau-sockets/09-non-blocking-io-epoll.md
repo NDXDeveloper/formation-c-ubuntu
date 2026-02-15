@@ -20,8 +20,8 @@ En mode **bloquant**, les opérations réseau **attendent** jusqu'à ce qu'elles
 
 ```c
 // Mode bloquant (défaut)
-char buffer[1024];
-ssize_t n = recv(sockfd, buffer, sizeof(buffer), 0);
+char buffer[1024];  
+ssize_t n = recv(sockfd, buffer, sizeof(buffer), 0);  
 // ⏳ Le programme s'arrête ici jusqu'à ce que des données arrivent
 ```
 
@@ -41,8 +41,8 @@ En mode **non-bloquant**, les opérations retournent **immédiatement**, même s
 
 ```c
 // Mode non-bloquant
-char buffer[1024];
-ssize_t n = recv(sockfd, buffer, sizeof(buffer), 0);
+char buffer[1024];  
+ssize_t n = recv(sockfd, buffer, sizeof(buffer), 0);  
 // ⚡ Retourne immédiatement
 
 if (n < 0) {
@@ -87,8 +87,8 @@ int set_nonblocking(int sockfd) {
 
 **Utilisation :**
 ```c
-int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-set_nonblocking(sockfd);
+int sockfd = socket(AF_INET, SOCK_STREAM, 0);  
+set_nonblocking(sockfd);  
 
 // Maintenant recv(), send(), etc. sont non-bloquants
 ```
@@ -111,8 +111,8 @@ int sockfd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
 ```c
 #include <sys/ioctl.h>
 
-int nonblock = 1;
-ioctl(sockfd, FIONBIO, &nonblock);
+int nonblock = 1;  
+ioctl(sockfd, FIONBIO, &nonblock);  
 ```
 
 **Note :** Moins portable que `fcntl()`.
@@ -228,10 +228,10 @@ epoll_wait() notifie encore...
 
 **Exemple :**
 ```c
-struct epoll_event event;
-event.events = EPOLLIN;  // Level-Triggered par défaut
-event.data.fd = sockfd;
-epoll_ctl(epfd, EPOLL_CTL_ADD, sockfd, &event);
+struct epoll_event event;  
+event.events = EPOLLIN;  // Level-Triggered par défaut  
+event.data.fd = sockfd;  
+epoll_ctl(epfd, EPOLL_CTL_ADD, sockfd, &event);  
 ```
 
 **Quand utiliser LT :**
@@ -261,10 +261,10 @@ Si vous ne lisez pas tout, epoll_wait() ne notifie plus !
 
 **Exemple :**
 ```c
-struct epoll_event event;
-event.events = EPOLLIN | EPOLLET;  // Edge-Triggered
-event.data.fd = sockfd;
-epoll_ctl(epfd, EPOLL_CTL_ADD, sockfd, &event);
+struct epoll_event event;  
+event.events = EPOLLIN | EPOLLET;  // Edge-Triggered  
+event.data.fd = sockfd;  
+epoll_ctl(epfd, EPOLL_CTL_ADD, sockfd, &event);  
 ```
 
 **Quand utiliser ET :**
@@ -708,8 +708,8 @@ gcc -o server_epoll_et server_epoll_et.c -Wall -Wextra
 ./server_epoll_et
 
 # Terminal 2
-telnet localhost 8080
-Hello
+telnet localhost 8080  
+Hello  
 # Le serveur renvoie : Hello
 ```
 
@@ -756,9 +756,9 @@ Pour envoyer des fichiers, utilisez `sendfile()` pour éviter de copier en mémo
 #include <sys/sendfile.h>
 
 // Envoyer un fichier directement
-int file_fd = open("file.txt", O_RDONLY);
-off_t offset = 0;
-size_t file_size = 1024;
+int file_fd = open("file.txt", O_RDONLY);  
+off_t offset = 0;  
+size_t file_size = 1024;  
 
 ssize_t sent = sendfile(socket_fd, file_fd, &offset, file_size);
 ```
@@ -775,13 +775,13 @@ ssize_t sent = sendfile(socket_fd, file_fd, &offset, file_size);
 Pour éviter les race conditions dans les architectures multi-threadées.
 
 ```c
-event.events = EPOLLIN | EPOLLONESHOT;
-event.data.ptr = conn;
-epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &event);
+event.events = EPOLLIN | EPOLLONESHOT;  
+event.data.ptr = conn;  
+epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &event);  
 
 // Après traitement, ré-armer manuellement
-event.events = EPOLLIN | EPOLLONESHOT;
-epoll_ctl(epfd, EPOLL_CTL_MOD, fd, &event);
+event.events = EPOLLIN | EPOLLONESHOT;  
+epoll_ctl(epfd, EPOLL_CTL_MOD, fd, &event);  
 ```
 
 **Effet :** Le descripteur est automatiquement désactivé après une notification.
@@ -818,10 +818,10 @@ lsof -p <PID>
 
 ```c
 // Logger les événements
-if (events[i].events & EPOLLIN)  printf("EPOLLIN\n");
-if (events[i].events & EPOLLOUT) printf("EPOLLOUT\n");
-if (events[i].events & EPOLLERR) printf("EPOLLERR\n");
-if (events[i].events & EPOLLHUP) printf("EPOLLHUP\n");
+if (events[i].events & EPOLLIN)  printf("EPOLLIN\n");  
+if (events[i].events & EPOLLOUT) printf("EPOLLOUT\n");  
+if (events[i].events & EPOLLERR) printf("EPOLLERR\n");  
+if (events[i].events & EPOLLHUP) printf("EPOLLHUP\n");  
 ```
 
 ---
@@ -883,12 +883,12 @@ while (1) {
 
 ```c
 // Activer quand on a des données à envoyer
-event.events = EPOLLIN | EPOLLOUT | EPOLLET;
-epoll_ctl(epfd, EPOLL_CTL_MOD, fd, &event);
+event.events = EPOLLIN | EPOLLOUT | EPOLLET;  
+epoll_ctl(epfd, EPOLL_CTL_MOD, fd, &event);  
 
 // Désactiver quand tout est envoyé
-event.events = EPOLLIN | EPOLLET;
-epoll_ctl(epfd, EPOLL_CTL_MOD, fd, &event);
+event.events = EPOLLIN | EPOLLET;  
+epoll_ctl(epfd, EPOLL_CTL_MOD, fd, &event);  
 ```
 
 ---
@@ -920,9 +920,9 @@ if (conn->state == STATE_CLOSING) {
 **Solution :** Toujours `set_nonblocking()` avant d'ajouter à epoll ET.
 
 ```c
-int client_fd = accept(...);
-set_nonblocking(client_fd);  // ✅ Obligatoire en ET
-epoll_ctl(epfd, EPOLL_CTL_ADD, client_fd, &event);
+int client_fd = accept(...);  
+set_nonblocking(client_fd);  // ✅ Obligatoire en ET  
+epoll_ctl(epfd, EPOLL_CTL_ADD, client_fd, &event);  
 ```
 
 ---
@@ -949,10 +949,10 @@ epoll_ctl(epfd, EPOLL_CTL_ADD, client_fd, &event);
 Pour exploiter tous les cœurs CPU :
 
 ```
-Processus 1 (Core 1) : epoll ET → 25k connexions
-Processus 2 (Core 2) : epoll ET → 25k connexions
-Processus 3 (Core 3) : epoll ET → 25k connexions
-Processus 4 (Core 4) : epoll ET → 25k connexions
+Processus 1 (Core 1) : epoll ET → 25k connexions  
+Processus 2 (Core 2) : epoll ET → 25k connexions  
+Processus 3 (Core 3) : epoll ET → 25k connexions  
+Processus 4 (Core 4) : epoll ET → 25k connexions  
 
 Total : 100k connexions, 4 cœurs utilisés
 ```
@@ -983,8 +983,8 @@ int main() {
 **Avec `SO_REUSEPORT` :**
 
 ```c
-int opt = 1;
-setsockopt(server_fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
+int opt = 1;  
+setsockopt(server_fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));  
 ```
 
 Le kernel distribue automatiquement les connexions entre les processus.

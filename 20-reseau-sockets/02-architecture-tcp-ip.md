@@ -441,9 +441,9 @@ La couche **Application** est celle avec laquelle les programmes interagissent d
 
 **Exemple de requête HTTP :**
 ```http
-GET /index.html HTTP/1.1
-Host: www.example.com
-User-Agent: Mozilla/5.0
+GET /index.html HTTP/1.1  
+Host: www.example.com  
+User-Agent: Mozilla/5.0  
 ```
 
 #### FTP (File Transfer Protocol)
@@ -576,13 +576,13 @@ Un **socket** est une **interface de programmation** (API) qui permet aux applic
 Nous verrons dans les prochaines sections comment utiliser concrètement ces fonctions :
 
 ```c
-int socket(int domain, int type, int protocol);
-int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-int listen(int sockfd, int backlog);
-int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
-int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
-ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+int socket(int domain, int type, int protocol);  
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);  
+int listen(int sockfd, int backlog);  
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);  
+int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);  
+ssize_t send(int sockfd, const void *buf, size_t len, int flags);  
+ssize_t recv(int sockfd, void *buf, size_t len, int flags);  
 ```
 
 ---

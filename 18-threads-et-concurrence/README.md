@@ -445,9 +445,9 @@ Les termes français sont donnés entre parenthèses lors de la première utilis
 
 ```bash
 # Pages man
-man pthreads        # Vue d'ensemble
-man pthread_create  # Création de threads
-man pthread_mutex   # Mutex
+man pthreads        # Vue d'ensemble  
+man pthread_create  # Création de threads  
+man pthread_mutex   # Mutex  
 ```
 
 ### Livres recommandés
@@ -501,7 +501,7 @@ Si vous connaissez déjà les threads (Java, C++, Python), vous pouvez :
 
 Une fois cette introduction terminée, vous êtes prêt à commencer !
 
-**Prochaine étape** : [18.1 Introduction à pthread](18.1_introduction_pthread.md)
+**Prochaine étape** : [18.1 Introduction à pthread](01-introduction-pthread.md)
 
 Dans la section suivante, vous allez :
 - Créer votre premier thread
@@ -564,7 +564,7 @@ Prenez votre temps, pratiquez régulièrement, et n'hésitez pas à revenir sur 
 
 💡 **Prêt à plonger dans le monde fascinant de la concurrence ?**
 
-👉 **[Commencer avec la section 18.1 - Introduction à pthread](18.1_introduction_pthread.md)**
+👉 **[Commencer avec la section 18.1 - Introduction à pthread](01-introduction-pthread.md)**
 
 Bonne chance et bon apprentissage ! 🎓
 

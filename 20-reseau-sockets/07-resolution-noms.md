@@ -181,13 +181,13 @@ struct addrinfo {
 ### Étape 1 : Préparer les hints
 
 ```c
-struct addrinfo hints;
-memset(&hints, 0, sizeof(hints));
+struct addrinfo hints;  
+memset(&hints, 0, sizeof(hints));  
 
-hints.ai_family = AF_UNSPEC;      // IPv4 ou IPv6
-hints.ai_socktype = SOCK_STREAM;  // TCP
-hints.ai_flags = 0;               // Pas de flags spéciaux
-hints.ai_protocol = 0;            // N'importe quel protocole
+hints.ai_family = AF_UNSPEC;      // IPv4 ou IPv6  
+hints.ai_socktype = SOCK_STREAM;  // TCP  
+hints.ai_flags = 0;               // Pas de flags spéciaux  
+hints.ai_protocol = 0;            // N'importe quel protocole  
 ```
 
 **Options pour `ai_family` :**
@@ -206,11 +206,11 @@ hints.ai_protocol = 0;            // N'importe quel protocole
 ### Étape 2 : Appeler `getaddrinfo()`
 
 ```c
-struct addrinfo *result;
-int status;
+struct addrinfo *result;  
+int status;  
 
-status = getaddrinfo("www.google.com", "80", &hints, &result);
-if (status != 0) {
+status = getaddrinfo("www.google.com", "80", &hints, &result);  
+if (status != 0) {  
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
     exit(EXIT_FAILURE);
 }
@@ -225,8 +225,8 @@ if (status != 0) {
 `getaddrinfo()` peut retourner plusieurs adresses. Il faut les essayer jusqu'à ce qu'une fonctionne.
 
 ```c
-struct addrinfo *rp;
-int sockfd = -1;
+struct addrinfo *rp;  
+int sockfd = -1;  
 
 // Parcourir la liste des résultats
 for (rp = result; rp != NULL; rp = rp->ai_next) {
@@ -270,6 +270,7 @@ freeaddrinfo(result);
 ## Exemple Complet : Client TCP avec Résolution de Nom
 
 ```c
+#define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -360,12 +361,12 @@ gcc -o client_dns client_dns.c -Wall -Wextra
 
 **Sortie attendue :**
 ```
-Résolution de www.example.com...
-Tentative de connexion à 93.184.216.34...
+Résolution de www.example.com...  
+Tentative de connexion à 93.184.216.34...  
 ✓ Connecté avec succès !
 
-Réponse du serveur :
-HTTP/1.1 200 OK
+Réponse du serveur :  
+HTTP/1.1 200 OK  
 ...
 ```
 
@@ -376,6 +377,7 @@ HTTP/1.1 200 OK
 Pour un serveur, utilisez le flag `AI_PASSIVE` et passez `NULL` comme `node`.
 
 ```c
+#define _POSIX_C_SOURCE 200112L
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -527,11 +529,11 @@ void print_client_info(struct sockaddr_storage *client_addr, socklen_t addr_len)
 }
 
 // Utilisation dans accept()
-struct sockaddr_storage client_addr;
-socklen_t addr_len = sizeof(client_addr);
+struct sockaddr_storage client_addr;  
+socklen_t addr_len = sizeof(client_addr);  
 
-int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, &addr_len);
-if (client_fd >= 0) {
+int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, &addr_len);  
+if (client_fd >= 0) {  
     print_client_info(&client_addr, addr_len);
 }
 ```
@@ -570,8 +572,8 @@ void reverse_lookup(const char *ip_address) {
 }
 
 // Utilisation
-reverse_lookup("8.8.8.8");  // → dns.google
-reverse_lookup("1.1.1.1");  // → one.one.one.one
+reverse_lookup("8.8.8.8");  // → dns.google  
+reverse_lookup("1.1.1.1");  // → one.one.one.one  
 ```
 
 ---
@@ -602,8 +604,8 @@ Convertit un code d'erreur en message lisible.
 
 **Exemple :**
 ```c
-int status = getaddrinfo("invalid.domain.xyz", "80", &hints, &result);
-if (status != 0) {
+int status = getaddrinfo("invalid.domain.xyz", "80", &hints, &result);  
+if (status != 0) {  
     fprintf(stderr, "Erreur DNS : %s\n", gai_strerror(status));
 
     switch (status) {
@@ -653,9 +655,9 @@ Configure les serveurs DNS à utiliser.
 **Format :**
 ```
 # /etc/resolv.conf
-nameserver 8.8.8.8        # Google DNS
-nameserver 1.1.1.1        # Cloudflare DNS
-search localdomain        # Suffixe par défaut
+nameserver 8.8.8.8        # Google DNS  
+nameserver 1.1.1.1        # Cloudflare DNS  
+search localdomain        # Suffixe par défaut  
 ```
 
 **Options courantes :**
@@ -682,8 +684,8 @@ hosts: files dns
 
 **Autres ordres possibles :**
 ```
-hosts: files dns myhostname  # Ajouter le hostname local
-hosts: files mdns4_minimal [NOTFOUND=return] dns  # Support mDNS (Avahi)
+hosts: files dns myhostname  # Ajouter le hostname local  
+hosts: files mdns4_minimal [NOTFOUND=return] dns  # Support mDNS (Avahi)  
 ```
 
 ---
@@ -733,11 +735,11 @@ Associe des noms de services à des numéros de port.
 **Extraits :**
 ```
 # /etc/services
-http            80/tcp          www
-https           443/tcp
-ssh             22/tcp
-ftp             21/tcp
-smtp            25/tcp          mail
+http            80/tcp          www  
+https           443/tcp  
+ssh             22/tcp  
+ftp             21/tcp  
+smtp            25/tcp          mail  
 ```
 
 ### Utiliser des noms de services avec `getaddrinfo()`
@@ -745,10 +747,10 @@ smtp            25/tcp          mail
 Au lieu de passer "80", vous pouvez passer "http" :
 
 ```c
-struct addrinfo hints, *result;
-memset(&hints, 0, sizeof(hints));
-hints.ai_family = AF_UNSPEC;
-hints.ai_socktype = SOCK_STREAM;
+struct addrinfo hints, *result;  
+memset(&hints, 0, sizeof(hints));  
+hints.ai_family = AF_UNSPEC;  
+hints.ai_socktype = SOCK_STREAM;  
 
 // Utiliser le nom du service au lieu du numéro
 getaddrinfo("www.example.com", "http", &hints, &result);
@@ -834,8 +836,8 @@ for (rp = result; rp != NULL; rp = rp->ai_next) {
 }
 
 // ❌ Mauvais : utiliser seulement la première
-sockfd = socket(result->ai_family, ...);
-connect(sockfd, result->ai_addr, ...);
+sockfd = socket(result->ai_family, ...);  
+connect(sockfd, result->ai_addr, ...);  
 ```
 
 ---
@@ -843,8 +845,8 @@ connect(sockfd, result->ai_addr, ...);
 ### 3. Toujours libérer avec `freeaddrinfo()`
 
 ```c
-struct addrinfo *result;
-getaddrinfo(..., &result);
+struct addrinfo *result;  
+getaddrinfo(..., &result);  
 
 // ... utiliser result ...
 
@@ -856,8 +858,8 @@ freeaddrinfo(result);  // ✅ Obligatoire !
 ### 4. Gérer les erreurs de résolution
 
 ```c
-int status = getaddrinfo(hostname, port, &hints, &result);
-if (status != 0) {
+int status = getaddrinfo(hostname, port, &hints, &result);  
+if (status != 0) {  
     // ✅ Afficher un message utile
     fprintf(stderr, "Impossible de résoudre %s : %s\n",
             hostname, gai_strerror(status));
@@ -953,8 +955,8 @@ struct dns_cache_entry {
 // Cache simple avec TTL de 5 minutes
 #define CACHE_TTL 300
 
-struct dns_cache_entry cache[10];
-int cache_size = 0;
+struct dns_cache_entry cache[10];  
+int cache_size = 0;  
 
 struct addrinfo* cached_getaddrinfo(const char *hostname,
                                      const char *port,
@@ -1000,6 +1002,7 @@ struct addrinfo* cached_getaddrinfo(const char *hostname,
 Voici un exemple complet de client HTTP utilisant la résolution DNS.
 
 ```c
+#define _POSIX_C_SOURCE 200112L
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1132,8 +1135,8 @@ struct addrinfo hints = {
 };
 
 // 2. Résoudre
-struct addrinfo *result;
-getaddrinfo("google.com", "80", &hints, &result);
+struct addrinfo *result;  
+getaddrinfo("google.com", "80", &hints, &result);  
 
 // 3. Boucler et essayer
 for (rp = result; rp; rp = rp->ai_next) {

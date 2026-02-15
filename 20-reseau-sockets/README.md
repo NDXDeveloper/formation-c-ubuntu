@@ -268,10 +268,10 @@ Les exemples de ce chapitre sont conçus pour **Linux/Unix**. Si vous êtes sur 
 gcc --version
 
 # Outils réseau
-ping
-netstat (ou ss)
-tcpdump
-nc (netcat)
+ping  
+netstat (ou ss)  
+tcpdump  
+nc (netcat)  
 
 # Debugger
 gdb
@@ -280,12 +280,12 @@ gdb
 ### Installation des Outils (Ubuntu/Debian)
 
 ```bash
-sudo apt update
-sudo apt install build-essential
-sudo apt install net-tools
-sudo apt install tcpdump
-sudo apt install netcat
-sudo apt install gdb
+sudo apt update  
+sudo apt install build-essential  
+sudo apt install net-tools  
+sudo apt install tcpdump  
+sudo apt install netcat  
+sudo apt install gdb  
 ```
 
 ---
@@ -460,11 +460,11 @@ telnet localhost 8080
 
 Les pages de manuel sont vos amies :
 ```bash
-man socket
-man tcp
-man ip
-man 2 socket  # Documentation de l'appel système socket()
-man 7 ip      # Documentation du protocole IP
+man socket  
+man tcp  
+man ip  
+man 2 socket  # Documentation de l'appel système socket()  
+man 7 ip      # Documentation du protocole IP  
 ```
 
 ### 6. Soyez Patient avec les Bugs

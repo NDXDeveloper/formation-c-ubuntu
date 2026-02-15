@@ -74,17 +74,17 @@ void *thread_func(void *arg) {
 
 **Problème** :
 ```
-Thread 1 : format_message(1, "Hello") → buffer = "[1] Hello"
-Thread 2 : format_message(2, "World") → buffer = "[2] World"  ← Écrase T1
-Thread 1 : printf("%s") → Affiche "[2] World" au lieu de "[1] Hello" !
+Thread 1 : format_message(1, "Hello") → buffer = "[1] Hello"  
+Thread 2 : format_message(2, "World") → buffer = "[2] World"  ← Écrase T1  
+Thread 1 : printf("%s") → Affiche "[2] World" au lieu de "[1] Hello" !  
 ```
 
 ### Solutions possibles
 
 **Solution 1 : Mutex (lent)**
 ```c
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-char buffer[256];
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+char buffer[256];  
 
 char *format_message(int id, const char *msg) {
     pthread_mutex_lock(&mutex);  // Sérialise tout
@@ -239,12 +239,12 @@ int main(void) {
 
 **Sortie** :
 ```
-Thread 1 : compteur = 1
-Thread 2 : compteur = 1  ← Chaque thread compte indépendamment
-Thread 3 : compteur = 1
-Thread 1 : compteur = 2
-Thread 2 : compteur = 2
-Thread 3 : compteur = 2
+Thread 1 : compteur = 1  
+Thread 2 : compteur = 1  ← Chaque thread compte indépendamment  
+Thread 3 : compteur = 1  
+Thread 1 : compteur = 2  
+Thread 2 : compteur = 2  
+Thread 3 : compteur = 2  
 ...
 ```
 
@@ -474,8 +474,8 @@ void cleanup(void *ptr) {
 pthread_key_create(&key, cleanup);  // Avec destructeur
 
 // Dans le thread
-char *buffer = malloc(1024);
-pthread_setspecific(key, buffer);
+char *buffer = malloc(1024);  
+pthread_setspecific(key, buffer);  
 
 // À la fin du thread : cleanup(buffer) appelé automatiquement
 ```
@@ -487,8 +487,8 @@ pthread_setspecific(key, buffer);
 Pour créer la clé **une seule fois** de manière thread-safe :
 
 ```c
-pthread_key_t key;
-pthread_once_t once_control = PTHREAD_ONCE_INIT;
+pthread_key_t key;  
+pthread_once_t once_control = PTHREAD_ONCE_INIT;  
 
 void create_key(void) {
     pthread_key_create(&key, cleanup);
@@ -739,9 +739,9 @@ void *thread_func(void *arg) {
 
 ```c
 // library.h
-void lib_init(void);
-void lib_cleanup(void);
-int lib_operation(void);
+void lib_init(void);  
+void lib_cleanup(void);  
+int lib_operation(void);  
 
 // library.c
 #include <pthread.h>
@@ -753,8 +753,8 @@ typedef struct {
     int initialized;
 } LibContext;
 
-pthread_key_t lib_context_key;
-pthread_once_t key_once = PTHREAD_ONCE_INIT;
+pthread_key_t lib_context_key;  
+pthread_once_t key_once = PTHREAD_ONCE_INIT;  
 
 void destroy_context(void *ctx) {
     LibContext *context = ctx;
@@ -1043,8 +1043,8 @@ void fonction_a(void) {
 #define ITERATIONS 10000000
 
 // Variable globale (avec mutex)
-int global_var = 0;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+int global_var = 0;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
 
 // TLS
 _Thread_local int tls_var = 0;
@@ -1118,10 +1118,10 @@ int main(void) {
 
 **Résultats typiques** :
 ```
-Benchmark (10000000 itérations) :
-Global (mutex) : 2.347 s
-TLS            : 0.023 s  ← ~100x plus rapide
-pthread_key    : 0.045 s  ← ~50x plus rapide
+Benchmark (10000000 itérations) :  
+Global (mutex) : 2.347 s  
+TLS            : 0.023 s  ← ~100x plus rapide  
+pthread_key    : 0.045 s  ← ~50x plus rapide  
 ```
 
 ### Limitations

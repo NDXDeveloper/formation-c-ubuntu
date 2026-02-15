@@ -66,8 +66,8 @@ typedef struct {
 Queue queue = {.count = 0};
 ```
 
-**Producteur** : Ajoute des éléments
-**Consommateur** : Retire des éléments (doit attendre si vide)
+**Producteur** : Ajoute des éléments  
+**Consommateur** : Retire des éléments (doit attendre si vide)  
 
 ### Tentative 1 : Attente active (❌ Mauvais)
 
@@ -254,20 +254,20 @@ pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 ### Initialisation dynamique
 
 ```c
-pthread_cond_t cond;
-pthread_condattr_t attr;  // Attributs (optionnel)
+pthread_cond_t cond;  
+pthread_condattr_t attr;  // Attributs (optionnel)  
 
 // Initialisation simple
-int result = pthread_cond_init(&cond, NULL);
-if (result != 0) {
+int result = pthread_cond_init(&cond, NULL);  
+if (result != 0) {  
     fprintf(stderr, "pthread_cond_init: %s\n", strerror(result));
 }
 
 // Avec attributs (avancé)
 pthread_condattr_init(&attr);
 // Configurer attr...
-pthread_cond_init(&cond, &attr);
-pthread_condattr_destroy(&attr);
+pthread_cond_init(&cond, &attr);  
+pthread_condattr_destroy(&attr);  
 ```
 
 **Quand l'utiliser ?**
@@ -412,9 +412,9 @@ pthread_mutex_unlock(&mutex);
 #include <pthread.h>
 #include <unistd.h>
 
-int ready = 0;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+int ready = 0;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;  
 
 void *waiter(void *arg) {
     printf("Waiter: J'attends que ready devienne 1...\n");
@@ -464,12 +464,12 @@ int main(void) {
 
 **Sortie** :
 ```
-Waiter: J'attends que ready devienne 1...
-Waiter: Condition fausse, je m'endors
-Signaler: Je prépare les données
-Signaler: J'envoie le signal
-Waiter: Je suis réveillé, je vérifie la condition
-Waiter: Condition vraie ! Je continue
+Waiter: J'attends que ready devienne 1...  
+Waiter: Condition fausse, je m'endors  
+Signaler: Je prépare les données  
+Signaler: J'envoie le signal  
+Waiter: Je suis réveillé, je vérifie la condition  
+Waiter: Condition vraie ! Je continue  
 ```
 
 ---
@@ -505,16 +505,16 @@ pthread_cond_signal(&cond);  // Réveiller un thread
 
 ```c
 // Approche 1 : Signal APRÈS unlock (recommandé)
-pthread_mutex_lock(&mutex);
-ready = 1;
-pthread_mutex_unlock(&mutex);
-pthread_cond_signal(&cond);  // Thread réveillé peut prendre mutex immédiatement
+pthread_mutex_lock(&mutex);  
+ready = 1;  
+pthread_mutex_unlock(&mutex);  
+pthread_cond_signal(&cond);  // Thread réveillé peut prendre mutex immédiatement  
 
 // Approche 2 : Signal AVANT unlock (fonctionne aussi)
-pthread_mutex_lock(&mutex);
-ready = 1;
-pthread_cond_signal(&cond);  // Thread réveillé attend sur mutex
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+ready = 1;  
+pthread_cond_signal(&cond);  // Thread réveillé attend sur mutex  
+pthread_mutex_unlock(&mutex);  
 ```
 
 **Recommandation** : Signal après unlock pour éviter un réveil suivi d'un blocage immédiat.
@@ -570,9 +570,9 @@ pthread_cond_broadcast(&cond);
 **Exemple 1 : Arrêt de programme**
 
 ```c
-int terminate = 0;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+int terminate = 0;  
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
 
 void *worker(void *arg) {
     pthread_mutex_lock(&mutex);
@@ -598,14 +598,14 @@ void shutdown(void) {
 **Exemple 2 : Barrière de threads**
 
 ```c
-int threads_arrives = 0;
-int n_threads = 5;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+int threads_arrives = 0;  
+int n_threads = 5;  
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
 
 void *worker(void *arg) {
     // Phase 1
-    printf("Thread %ld : Phase 1\n", pthread_self());
+    printf("Thread %lu : Phase 1\n", pthread_self());
 
     // Attendre que tous arrivent
     pthread_mutex_lock(&mutex);
@@ -624,7 +624,7 @@ void *worker(void *arg) {
     pthread_mutex_unlock(&mutex);
 
     // Phase 2 (tous les threads exécutent ensemble)
-    printf("Thread %ld : Phase 2\n", pthread_self());
+    printf("Thread %lu : Phase 2\n", pthread_self());
 
     return NULL;
 }
@@ -637,16 +637,16 @@ SIGNAL :
 ========
 Threads en attente : [T1] [T2] [T3] [T4]
                       ↑
-Signal envoyé ────────┘
-Résultat : T1 réveillé, T2/T3/T4 dorment encore
+Signal envoyé ────────┘  
+Résultat : T1 réveillé, T2/T3/T4 dorment encore  
 
 
 BROADCAST :
 ===========
 Threads en attente : [T1] [T2] [T3] [T4]
                       ↑    ↑    ↑    ↑
-Broadcast envoyé ─────┴────┴────┴────┘
-Résultat : TOUS réveillés
+Broadcast envoyé ─────┴────┴────┴────┘  
+Résultat : TOUS réveillés  
 ```
 
 ---
@@ -740,17 +740,17 @@ int main(void) {
 
 **Sortie typique** :
 ```
-Produit : 0 (count=1)
-Produit : 1 (count=2)
-Consommé : 1 (count=1)
-Produit : 2 (count=2)
-Produit : 3 (count=3)
-Consommé : 2 (count=2)
+Produit : 0 (count=1)  
+Produit : 1 (count=2)  
+Consommé : 1 (count=1)  
+Produit : 2 (count=2)  
+Produit : 3 (count=3)  
+Consommé : 2 (count=2)  
 ...
-Produit : 9 (count=10)
-Producteur: Buffer plein, j'attends
-Consommé : 9 (count=9)
-Produit : 10 (count=10)
+Produit : 9 (count=10)  
+Producteur: Buffer plein, j'attends  
+Consommé : 9 (count=9)  
+Produit : 10 (count=10)  
 ...
 ```
 
@@ -899,8 +899,8 @@ Même sans spurious wakeup, plusieurs threads peuvent être réveillés :
 ```c
 // Scénario avec 2 consommateurs
 
-Consommateur 1: wait() sur count == 0
-Consommateur 2: wait() sur count == 0
+Consommateur 1: wait() sur count == 0  
+Consommateur 2: wait() sur count == 0  
 
 Producteur: count++, signal()
 
@@ -908,8 +908,8 @@ Producteur: count++, signal()
 // Mais pendant que C1 se réveille, C2 peut aussi se réveiller
 // (ou broadcast est utilisé)
 
-C1: Consomme l'item, count = 0
-C2: Se réveille, count == 0 !
+C1: Consomme l'item, count = 0  
+C2: Se réveille, count == 0 !  
 ```
 
 **Avec while** :
@@ -946,9 +946,9 @@ while (!condition) {
 #include <pthread.h>
 #include <unistd.h>
 
-int thread_ready = 0;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+int thread_ready = 0;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;  
 
 void *worker(void *arg) {
     // Initialisation longue
@@ -1097,7 +1097,7 @@ int main(void) {
 }
 ```
 
-### Exemple 3 : Read-Write avec priorité lecteurs
+### Exemple 3 : Read-Write avec priorité écrivains
 
 ```c
 typedef struct {
@@ -1204,9 +1204,9 @@ int pthread_cond_timedwait(pthread_cond_t *cond,
 #include <time.h>
 #include <errno.h>
 
-int ready = 0;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+int ready = 0;  
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;  
 
 void *waiter(void *arg) {
     struct timespec timeout;
@@ -1250,8 +1250,8 @@ int main(void) {
 
 **Sortie** :
 ```
-Attente avec timeout de 5 secondes...
-TIMEOUT : Aucun signal reçu après 5 secondes
+Attente avec timeout de 5 secondes...  
+TIMEOUT : Aucun signal reçu après 5 secondes  
 ```
 
 ---
@@ -1279,8 +1279,8 @@ while (count == 0) {
 pthread_cond_wait(&cond, &mutex);  // Crash ou comportement indéfini
 
 // ✅ CORRECT
-pthread_mutex_lock(&mutex);
-while (!condition) {
+pthread_mutex_lock(&mutex);  
+while (!condition) {  
     pthread_cond_wait(&cond, &mutex);
 }
 pthread_mutex_unlock(&mutex);
@@ -1290,22 +1290,22 @@ pthread_mutex_unlock(&mutex);
 
 ```c
 // ❌ MAUVAIS : Race condition
-ready = 1;  // Pas protégé !
-pthread_cond_signal(&cond);
+ready = 1;  // Pas protégé !  
+pthread_cond_signal(&cond);  
 
 // ✅ CORRECT
-pthread_mutex_lock(&mutex);
-ready = 1;
-pthread_mutex_unlock(&mutex);
-pthread_cond_signal(&cond);
+pthread_mutex_lock(&mutex);  
+ready = 1;  
+pthread_mutex_unlock(&mutex);  
+pthread_cond_signal(&cond);  
 ```
 
 ### 4. Attendre la mauvaise condition
 
 ```c
 // ❌ ERREUR : Attend sur la mauvaise condition
-pthread_mutex_lock(&mutex);
-while (count == 0) {
+pthread_mutex_lock(&mutex);  
+while (count == 0) {  
     pthread_cond_wait(&cond_not_full, &mutex);  // Mauvaise condition !
 }
 pthread_mutex_unlock(&mutex);
@@ -1315,9 +1315,9 @@ pthread_mutex_unlock(&mutex);
 
 ```c
 // ❌ DEADLOCK : wait sans le bon mutex
-pthread_mutex_lock(&mutex_A);
-pthread_cond_wait(&cond, &mutex_B);  // Attend sur mutex_B mais possède A !
-pthread_mutex_unlock(&mutex_A);
+pthread_mutex_lock(&mutex_A);  
+pthread_cond_wait(&cond, &mutex_B);  // Attend sur mutex_B mais possède A !  
+pthread_mutex_unlock(&mutex_A);  
 ```
 
 ---
@@ -1377,8 +1377,8 @@ int buffer_get(Buffer *buf) {
 
 ```c
 // ✅ BON : Conditions séparées
-pthread_cond_t cond_not_empty;  // Pour "buffer non vide"
-pthread_cond_t cond_not_full;   // Pour "buffer non plein"
+pthread_cond_t cond_not_empty;  // Pour "buffer non vide"  
+pthread_cond_t cond_not_full;   // Pour "buffer non plein"  
 
 // ❌ MOINS BON : Une seule condition pour tout
 pthread_cond_t cond;  // Utilisée pour les deux → broadcast nécessaire
@@ -1388,16 +1388,16 @@ pthread_cond_t cond;  // Utilisée pour les deux → broadcast nécessaire
 
 ```c
 // ✅ RECOMMANDÉ
-pthread_mutex_lock(&mutex);
-ready = 1;
-pthread_mutex_unlock(&mutex);
-pthread_cond_signal(&cond);  // Signal après unlock
+pthread_mutex_lock(&mutex);  
+ready = 1;  
+pthread_mutex_unlock(&mutex);  
+pthread_cond_signal(&cond);  // Signal après unlock  
 
 // ✅ FONCTIONNE AUSSI (mais moins efficace)
-pthread_mutex_lock(&mutex);
-ready = 1;
-pthread_cond_signal(&cond);
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+ready = 1;  
+pthread_cond_signal(&cond);  
+pthread_mutex_unlock(&mutex);  
 ```
 
 ### 5. Documenter les invariants
@@ -1464,8 +1464,8 @@ Dans cette section, vous avez appris :
 
 ✅ **Pattern obligatoire** :
 ```c
-pthread_mutex_lock(&mutex);
-while (!condition) {  // TOUJOURS while
+pthread_mutex_lock(&mutex);  
+while (!condition) {  // TOUJOURS while  
     pthread_cond_wait(&cond, &mutex);
 }
 // Travail

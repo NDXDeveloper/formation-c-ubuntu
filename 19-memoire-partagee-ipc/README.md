@@ -105,9 +105,9 @@ Linux offre une riche palette de mécanismes IPC, chacun adapté à des besoins 
 Sans synchronisation :
 ```c
 // Processus A                  // Processus B
-int val = counter;              int val = counter;  // Tous deux lisent 10
-val++;                          val++;               // Tous deux incrémentent
-counter = val;                  counter = val;       // Résultat : 11 au lieu de 12 !
+int val = counter;              int val = counter;  // Tous deux lisent 10  
+val++;                          val++;               // Tous deux incrémentent  
+counter = val;                  counter = val;       // Résultat : 11 au lieu de 12 !  
 ```
 
 **Solutions** :
@@ -151,8 +151,8 @@ Historiquement, deux familles d'API ont émergé pour l'IPC sous UNIX/Linux :
 
 **Exemple (sémaphore System V)** :
 ```c
-key_t key = ftok("/tmp", 'S');
-int semid = semget(key, 1, IPC_CREAT | 0666);
+key_t key = ftok("/tmp", 'S');  
+int semid = semget(key, 1, IPC_CREAT | 0666);  
 // ... opérations ...
 semctl(semid, 0, IPC_RMID);  // Supprimer explicitement
 ```
@@ -317,7 +317,7 @@ PostgreSQL utilise massivement l'IPC avancé :
 
 - **Shared memory** : Buffer pool pour cacher les pages de données
 - **Sémaphores** : Gestion des verrous sur les tables/lignes
-- **Signaux** : Communication entre processes
+- **Signaux** : Communication entre processus
 
 ### 2. Serveur web : Nginx
 
@@ -358,7 +358,7 @@ Redis en mode cluster utilise :
 
 - **Memory-mapped files** : Persistence sur disque
 - **Sockets** : Communication cluster
-- Internement : mmap pour RDB snapshots
+- En interne : mmap pour RDB snapshots
 
 ### 4. Moteur de jeu : Unity
 
@@ -491,7 +491,7 @@ Voici un classement approximatif des mécanismes IPC par **performance** (du plu
 
 ### 1. Synchronisation
 
-**Problème** : Les accès concurrent sans coordination produisent des résultats imprévisibles.
+**Problème** : Les accès concurrents sans coordination produisent des résultats imprévisibles.
 
 ```c
 // Sans synchronisation : DANGER !
@@ -512,8 +512,8 @@ shared_data->counter++;  // Race condition si plusieurs processus
 
 ```bash
 # Orphelins à nettoyer manuellement
-ipcs -a  # Voir les ressources
-ipcrm -s <semid>  # Supprimer
+ipcs -a  # Voir les ressources  
+ipcrm -s <semid>  # Supprimer  
 ```
 
 **Solution** : Toujours nettoyer (`IPC_RMID`, `shm_unlink()`), utiliser POSIX si possible.
@@ -606,24 +606,24 @@ Avant de commencer, familiarisez-vous avec ces commandes :
 
 ```bash
 # Inspection des ressources System V
-ipcs          # Tout
-ipcs -s       # Sémaphores
-ipcs -m       # Shared memory
-ipcs -q       # Message queues
+ipcs          # Tout  
+ipcs -s       # Sémaphores  
+ipcs -m       # Shared memory  
+ipcs -q       # Message queues  
 
 # Suppression
-ipcrm -s <semid>
-ipcrm -m <shmid>
-ipcrm -q <msqid>
+ipcrm -s <semid>  
+ipcrm -m <shmid>  
+ipcrm -q <msqid>  
 
 # Ressources POSIX
-ls -la /dev/shm/      # Shared memory
-ls -la /dev/mqueue/   # Message queues
+ls -la /dev/shm/      # Shared memory  
+ls -la /dev/mqueue/   # Message queues  
 
 # Informations système
-cat /proc/sys/kernel/sem     # Limites sémaphores
-cat /proc/sys/kernel/shmmax  # Taille max shared memory
-cat /proc/sys/kernel/msgmax  # Taille max message
+cat /proc/sys/kernel/sem     # Limites sémaphores  
+cat /proc/sys/kernel/shmmax  # Taille max shared memory  
+cat /proc/sys/kernel/msgmax  # Taille max message  
 ```
 
 ---

@@ -57,9 +57,9 @@ Client (Navigateur)          Serveur Web
 ### Format Général
 
 ```
-MÉTHODE /chemin HTTP/1.1
-En-Tête-1: Valeur1
-En-Tête-2: Valeur2
+MÉTHODE /chemin HTTP/1.1  
+En-Tête-1: Valeur1  
+En-Tête-2: Valeur2  
 
 Corps (optionnel)
 ```
@@ -67,11 +67,11 @@ Corps (optionnel)
 ### Exemple Concret
 
 ```http
-GET /index.html HTTP/1.1
-Host: www.example.com
-User-Agent: Mozilla/5.0
-Accept: text/html
-Connection: close
+GET /index.html HTTP/1.1  
+Host: www.example.com  
+User-Agent: Mozilla/5.0  
+Accept: text/html  
+Connection: close  
 
 ```
 
@@ -114,9 +114,9 @@ Connection: close
 ### Format Général
 
 ```
-HTTP/1.1 CODE Message
-En-Tête-1: Valeur1
-En-Tête-2: Valeur2
+HTTP/1.1 CODE Message  
+En-Tête-1: Valeur1  
+En-Tête-2: Valeur2  
 
 Corps
 ```
@@ -124,10 +124,10 @@ Corps
 ### Exemple Concret
 
 ```http
-HTTP/1.1 200 OK
-Content-Type: text/html
-Content-Length: 137
-Connection: close
+HTTP/1.1 200 OK  
+Content-Type: text/html  
+Content-Length: 137  
+Connection: close  
 
 <!DOCTYPE html>
 <html>
@@ -619,8 +619,8 @@ void send_400(int fd) {
     send_response(fd, 400, "Bad Request", "text/html", body, strlen(body));
 }
 
-// Servir un fichier
-void serve_file(int client_fd, const char *req_path) {
+// Servir un fichier (head_only=1 pour HEAD : en-têtes sans corps)
+void serve_file(int client_fd, const char *req_path, int head_only) {
     char filepath[512];
 
     // Construire le chemin complet
@@ -671,7 +671,12 @@ void serve_file(int client_fd, const char *req_path) {
 
     // Envoyer la réponse
     const char *mime = get_mime_type(filepath);
-    send_response(client_fd, 200, "OK", mime, content, size);
+    if (head_only) {
+        // HEAD : en-têtes avec Content-Length, mais pas de corps
+        send_response(client_fd, 200, "OK", mime, NULL, size);
+    } else {
+        send_response(client_fd, 200, "OK", mime, content, size);
+    }
 
     free(content);
 }
@@ -715,8 +720,11 @@ void handle_client(int client_fd) {
         return;
     }
 
+    // HEAD : mêmes en-têtes que GET, mais sans le corps
+    int head_only = (strcmp(req.method, "HEAD") == 0);
+
     // Servir le fichier
-    serve_file(client_fd, req.path);
+    serve_file(client_fd, req.path, head_only);
 
     close(client_fd);
 }
@@ -949,19 +957,38 @@ void handle_client_keepalive(int client_fd) {
 
 Pour les navigateurs qui supportent la compression :
 
+> **Note :** La fonction `compress()` de zlib produit du format **zlib** (RFC 1950), pas du **gzip** (RFC 1952). Pour produire du vrai gzip compatible avec `Content-Encoding: gzip`, il faut utiliser `deflateInit2()` avec `MAX_WBITS + 16`.
+
 ```c
 #include <zlib.h>
 
-char* compress_content(const char *data, size_t len, size_t *compressed_len) {
+// Compression au format gzip (pas zlib !)
+char* gzip_compress(const char *data, size_t len, size_t *compressed_len) {
     uLongf bound = compressBound(len);
     char *compressed = malloc(bound);
+    if (!compressed) return NULL;
 
-    if (compress((Bytef*)compressed, &bound, (const Bytef*)data, len) != Z_OK) {
+    z_stream strm = {0};
+    // MAX_WBITS + 16 = format gzip
+    if (deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED,
+                     MAX_WBITS + 16, 8, Z_DEFAULT_STRATEGY) != Z_OK) {
         free(compressed);
         return NULL;
     }
 
-    *compressed_len = bound;
+    strm.next_in = (Bytef*)data;
+    strm.avail_in = len;
+    strm.next_out = (Bytef*)compressed;
+    strm.avail_out = bound;
+
+    if (deflate(&strm, Z_FINISH) != Z_STREAM_END) {
+        deflateEnd(&strm);
+        free(compressed);
+        return NULL;
+    }
+
+    *compressed_len = strm.total_out;
+    deflateEnd(&strm);
     return compressed;
 }
 
@@ -971,7 +998,7 @@ void serve_file_compressed(int client_fd, const char *filepath,
 
     if (accept_gzip && size > 1000) {  // Compresser si > 1KB
         size_t compressed_size;
-        char *compressed = compress_content(content, size, &compressed_size);
+        char *compressed = gzip_compress(content, size, &compressed_size);
 
         if (compressed) {
             // Envoyer avec Content-Encoding: gzip
@@ -1226,9 +1253,9 @@ ab -n 10000 -c 100 http://localhost:8080/
 
 **Exemple de sortie :**
 ```
-Requests per second:    2500.00 [#/sec] (mean)
-Time per request:       40.000 [ms] (mean)
-Time per request:       0.400 [ms] (mean, across all concurrent requests)
+Requests per second:    2500.00 [#/sec] (mean)  
+Time per request:       40.000 [ms] (mean)  
+Time per request:       0.400 [ms] (mean, across all concurrent requests)  
 ```
 
 ---
@@ -1237,8 +1264,8 @@ Time per request:       0.400 [ms] (mean, across all concurrent requests)
 
 ```bash
 # Installer wrk
-git clone https://github.com/wg/wrk.git
-cd wrk && make
+git clone https://github.com/wg/wrk.git  
+cd wrk && make  
 
 # Test : 30 secondes, 12 threads, 400 connexions
 ./wrk -t12 -c400 -d30s http://localhost:8080/

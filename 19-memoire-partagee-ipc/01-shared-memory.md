@@ -283,8 +283,8 @@ int main() {
 
 ```bash
 # Compiler (nécessite -lrt sur certains systèmes)
-gcc producer.c -o producer -lrt
-gcc consumer.c -o consumer -lrt
+gcc producer.c -o producer -lrt  
+gcc consumer.c -o consumer -lrt  
 
 # Terminal 1 : Lancer le producteur
 ./producer
@@ -297,18 +297,18 @@ gcc consumer.c -o consumer -lrt
 
 Terminal 1 (producer) :
 ```
-Producteur : Écriture des données...
-Producteur : counter = 42
-Producteur : message = Hello from producer!
-Appuyez sur Entrée pour terminer...
+Producteur : Écriture des données...  
+Producteur : counter = 42  
+Producteur : message = Hello from producer!  
+Appuyez sur Entrée pour terminer...  
 ```
 
 Terminal 2 (consumer) :
 ```
-Consommateur : Lecture des données...
-Consommateur : counter = 42
-Consommateur : message = Hello from producer!
-Consommateur : nouveau counter = 52
+Consommateur : Lecture des données...  
+Consommateur : counter = 42  
+Consommateur : message = Hello from producer!  
+Consommateur : nouveau counter = 52  
 ```
 
 ---
@@ -340,9 +340,9 @@ Quand plusieurs processus accèdent simultanément à la mémoire partagée, des
 
 ```c
 // Processus A                  // Processus B
-int val = data->counter;        int val = data->counter;  // Tous deux lisent 10
-val++;                          val++;                     // Tous deux incrémentent à 11
-data->counter = val;            data->counter = val;       // Résultat final : 11 au lieu de 12 !
+int val = data->counter;        int val = data->counter;  // Tous deux lisent 10  
+val++;                          val++;                     // Tous deux incrémentent à 11  
+data->counter = val;            data->counter = val;       // Résultat final : 11 au lieu de 12 !  
 ```
 
 ### Solutions de synchronisation
@@ -372,8 +372,8 @@ sem_init(&data->semaphore, 1, 1);  // 1 = partagé entre processus, 1 = valeur i
 // Utilisation dans tous les processus
 sem_wait(&data->semaphore);        // Entrer en section critique
 // ... accès aux données partagées ...
-data->counter++;
-sem_post(&data->semaphore);        // Sortir de la section critique
+data->counter++;  
+sem_post(&data->semaphore);        // Sortir de la section critique  
 
 // Destruction dans le dernier processus
 sem_destroy(&data->semaphore);
@@ -417,8 +417,8 @@ sem_destroy(&data->semaphore);
 
 ```c
 // Vérification complète avec gestion d'erreurs
-int shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666);
-if (shm_fd == -1) {
+int shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666);  
+if (shm_fd == -1) {  
     perror("shm_open");
     // Erreurs possibles :
     // - EACCES : Permissions insuffisantes
@@ -434,8 +434,8 @@ if (ftruncate(shm_fd, SHM_SIZE) == -1) {
     exit(EXIT_FAILURE);
 }
 
-void *ptr = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-if (ptr == MAP_FAILED) {
+void *ptr = mmap(NULL, SHM_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);  
+if (ptr == MAP_FAILED) {  
     perror("mmap");
     // Erreurs possibles :
     // - EBADF : Descripteur invalide
@@ -508,8 +508,8 @@ ipcs -m
 ipcrm -m <shmid>
 
 # Surveiller l'utilisation mémoire
-free -h
-df -h /dev/shm/
+free -h  
+df -h /dev/shm/  
 ```
 
 ---

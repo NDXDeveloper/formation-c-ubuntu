@@ -121,8 +121,8 @@ Disque physique
 ```c
 #include <unistd.h>
 
-int fd = open("file.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-write(fd, data, size);
+int fd = open("file.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);  
+write(fd, data, size);  
 
 // Forcer l'écriture sur disque
 fsync(fd);  // Bloque jusqu'à ce que les données soient physiquement écrites
@@ -133,8 +133,8 @@ close(fd);
 **Ou avec un flag d'ouverture :**
 ```c
 // O_SYNC : Chaque write() attend l'écriture physique (TRÈS LENT)
-int fd = open("file.txt", O_WRONLY | O_CREAT | O_TRUNC | O_SYNC, 0644);
-write(fd, data, size);  // Bloque jusqu'à l'écriture sur disque
+int fd = open("file.txt", O_WRONLY | O_CREAT | O_TRUNC | O_SYNC, 0644);  
+write(fd, data, size);  // Bloque jusqu'à l'écriture sur disque  
 ```
 
 ## I/O bufferisé (Bibliothèque C)
@@ -173,9 +173,9 @@ int main(void) {
 
 **Analyse du comportement :**
 ```
-fprintf() → [Buffer RAM] (rapide, ~1-10 ns)
-fprintf() → [Buffer RAM] (rapide, ~1-10 ns)
-fprintf() → [Buffer RAM] (rapide, ~1-10 ns)
+fprintf() → [Buffer RAM] (rapide, ~1-10 ns)  
+fprintf() → [Buffer RAM] (rapide, ~1-10 ns)  
+fprintf() → [Buffer RAM] (rapide, ~1-10 ns)  
     ↓
 fclose() → [Buffer plein ou fermeture]
     ↓
@@ -241,11 +241,11 @@ fclose(fp);
 
 **Illustration :**
 ```
-fprintf() → Buffer [████████░░░░░░░░░░] 40%
-fprintf() → Buffer [████████████░░░░░░] 60%
-fprintf() → Buffer [████████████████░░] 80%
-fprintf() → Buffer [████████████████████] 100% → [Syscall write()]
-fprintf() → Buffer [████░░░░░░░░░░░░░░░] 20% (nouveau buffer)
+fprintf() → Buffer [████████░░░░░░░░░░] 40%  
+fprintf() → Buffer [████████████░░░░░░] 60%  
+fprintf() → Buffer [████████████████░░] 80%  
+fprintf() → Buffer [████████████████████] 100% → [Syscall write()]  
+fprintf() → Buffer [████░░░░░░░░░░░░░░░] 20% (nouveau buffer)  
 ```
 
 ### 2. Line Buffered (Buffering ligne par ligne)
@@ -277,8 +277,8 @@ printf("Entrez votre nom : ");  // Pas de \n → reste dans buffer
 
 printf("Entrez votre nom : \n"); // Avec \n → immédiatement affiché
 // Ou :
-printf("Entrez votre nom : ");
-fflush(stdout);  // Force l'affichage
+printf("Entrez votre nom : ");  
+fflush(stdout);  // Force l'affichage  
 ```
 
 ### 3. Unbuffered (Sans buffering)
@@ -318,7 +318,9 @@ Si le programme crash, les messages d'erreur bufferisés seraient perdus. Avec u
 ### Déterminer le type de buffering
 
 ```c
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
+#include <unistd.h>
 
 int main(void) {
     FILE *fp = fopen("test.txt", "w");
@@ -370,8 +372,8 @@ int main(void) {
 
 **Équivalent avec `setbuf()` (plus simple) :**
 ```c
-FILE *fp = fopen("log.txt", "w");
-setbuf(fp, NULL);  // Désactive le buffering
+FILE *fp = fopen("log.txt", "w");  
+setbuf(fp, NULL);  // Désactive le buffering  
 ```
 
 #### Activer le buffering complet
@@ -380,8 +382,8 @@ setbuf(fp, NULL);  // Désactive le buffering
 FILE *fp = fopen("output.txt", "w");
 
 // Buffer de 16 Ko
-char buffer[16384];
-setvbuf(fp, buffer, _IOFBF, sizeof(buffer));
+char buffer[16384];  
+setvbuf(fp, buffer, _IOFBF, sizeof(buffer));  
 
 // Maintenant les écritures utilisent ce buffer
 fprintf(fp, "...");
@@ -397,8 +399,8 @@ FILE *fp = fopen("output.txt", "w");
 // Activer le line buffering
 setvbuf(fp, NULL, _IOLBF, 0);
 
-fprintf(fp, "Ligne 1");   // → Buffer
-fprintf(fp, "\n");        // → Écrit immédiatement
+fprintf(fp, "Ligne 1");   // → Buffer  
+fprintf(fp, "\n");        // → Écrit immédiatement  
 ```
 
 ### Vider le buffer manuellement avec `fflush()`
@@ -413,8 +415,8 @@ int fflush(FILE *stream);
 ```c
 FILE *fp = fopen("data.txt", "w");
 
-fprintf(fp, "Données importantes\n");
-fflush(fp);  // ✅ Force l'écriture immédiate sur disque
+fprintf(fp, "Données importantes\n");  
+fflush(fp);  // ✅ Force l'écriture immédiate sur disque  
 
 fprintf(fp, "Autres données\n");
 // Reste dans le buffer jusqu'à fclose() ou fflush()
@@ -432,6 +434,7 @@ fflush(NULL);  // Vide tous les fichiers ouverts en écriture
 ```c
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 void log_message(const char *msg) {
     static FILE *log_fp = NULL;
@@ -442,7 +445,9 @@ void log_message(const char *msg) {
     }
 
     time_t now = time(NULL);
-    fprintf(log_fp, "[%s] %s\n", ctime(&now), msg);
+    char *timestr = ctime(&now);
+    timestr[strlen(timestr) - 1] = '\0';  // Enlever le \n de ctime()
+    fprintf(log_fp, "[%s] %s\n", timestr, msg);
 
     // Force l'écriture immédiate (en cas de crash)
     fflush(log_fp);
@@ -462,6 +467,7 @@ int main(void) {
 ### Benchmark : Écriture de 10 000 lignes
 
 ```c
+#define _POSIX_C_SOURCE 199309L
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -571,18 +577,18 @@ Benchmark avec 10000 itérations
 ### Visualisation de l'impact
 
 ```
-Non bufferisé (10 000 écritures) :
-write() → [Syscall] → Kernel (100 µs)
-write() → [Syscall] → Kernel (100 µs)
+Non bufferisé (10 000 écritures) :  
+write() → [Syscall] → Kernel (100 µs)  
+write() → [Syscall] → Kernel (100 µs)  
 ... (10 000 fois)
 Total : ~1 000 000 µs = 1 seconde
 
-Bufferisé (10 000 écritures) :
-fprintf() → Buffer (1 ns)
-fprintf() → Buffer (1 ns)
+Bufferisé (10 000 écritures) :  
+fprintf() → Buffer (1 ns)  
+fprintf() → Buffer (1 ns)  
 ... (10 000 fois dans buffer)
-fclose() → [1 Syscall] → Kernel (100 µs)
-Total : ~10 000 ns + 100 µs ≈ 110 µs
+fclose() → [1 Syscall] → Kernel (100 µs)  
+Total : ~10 000 ns + 100 µs ≈ 110 µs  
 
 Gain : ~9000x plus rapide !
 ```
@@ -593,8 +599,8 @@ Gain : ~9000x plus rapide !
 
 ✅ **Fichiers texte avec beaucoup de petites écritures**
 ```c
-FILE *fp = fopen("rapport.txt", "w");
-for (int i = 0; i < 10000; i++) {
+FILE *fp = fopen("rapport.txt", "w");  
+for (int i = 0; i < 10000; i++) {  
     fprintf(fp, "Ligne %d: données...\n", i);
 }
 fclose(fp);
@@ -608,8 +614,8 @@ fprintf(fp, "Nom: %s, Age: %d, Score: %.2f\n", nom, age, score);
 
 ✅ **Lecture ligne par ligne**
 ```c
-char ligne[256];
-while (fgets(ligne, sizeof(ligne), fp) != NULL) {
+char ligne[256];  
+while (fgets(ligne, sizeof(ligne), fp) != NULL) {  
     // Traiter chaque ligne
 }
 ```
@@ -624,8 +630,8 @@ while (fgets(ligne, sizeof(ligne), fp) != NULL) {
 ✅ **Gros transferts de données**
 ```c
 // Copier un fichier de 1 Go
-char buffer[1024 * 1024];  // Buffer de 1 Mo
-while ((n = read(fd_in, buffer, sizeof(buffer))) > 0) {
+char buffer[1024 * 1024];  // Buffer de 1 Mo  
+while ((n = read(fd_in, buffer, sizeof(buffer))) > 0) {  
     write(fd_out, buffer, n);
 }
 ```
@@ -633,16 +639,16 @@ while ((n = read(fd_in, buffer, sizeof(buffer))) > 0) {
 ✅ **Contrôle précis du timing**
 ```c
 // Communication en temps réel, protocoles réseau
-int sock = socket(...);
-write(sock, data, size);  // Envoi immédiat
+int sock = socket(...);  
+write(sock, data, size);  // Envoi immédiat  
 ```
 
 ✅ **Programmation système bas niveau**
 ```c
 // Sockets, pipes, fichiers spéciaux
-int pipe_fd[2];
-pipe(pipe_fd);
-write(pipe_fd[1], data, size);
+int pipe_fd[2];  
+pipe(pipe_fd);  
+write(pipe_fd[1], data, size);  
 ```
 
 ✅ **Opérations non-standard**
@@ -655,27 +661,27 @@ int fd = open("file", O_RDONLY | O_DIRECT | O_NOATIME);
 
 ✅ **Logs critiques**
 ```c
-fprintf(log_fp, "ERREUR CRITIQUE: %s\n", message);
-fflush(log_fp);  // En cas de crash, le log est écrit
+fprintf(log_fp, "ERREUR CRITIQUE: %s\n", message);  
+fflush(log_fp);  // En cas de crash, le log est écrit  
 ```
 
 ✅ **Debugging interactif**
 ```c
-printf("Valeur de x = %d", x);
-fflush(stdout);  // Affichage immédiat sans \n
+printf("Valeur de x = %d", x);  
+fflush(stdout);  // Affichage immédiat sans \n  
 ```
 
 ✅ **Avant fork() ou exec()**
 ```c
-printf("Avant fork...");
-fflush(stdout);  // Évite la duplication du buffer
-pid_t pid = fork();
+printf("Avant fork...");  
+fflush(stdout);  // Évite la duplication du buffer  
+pid_t pid = fork();  
 ```
 
 ✅ **Communication inter-processus via fichiers**
 ```c
-fprintf(shared_file, "message");
-fflush(shared_file);  // L'autre processus peut lire immédiatement
+fprintf(shared_file, "message");  
+fflush(shared_file);  // L'autre processus peut lire immédiatement  
 ```
 
 ## Pièges courants
@@ -684,34 +690,34 @@ fflush(shared_file);  // L'autre processus peut lire immédiatement
 
 ```c
 // ❌ DANGEREUX
-FILE *log = fopen("app.log", "a");
-fprintf(log, "Opération critique commencée\n");
+FILE *log = fopen("app.log", "a");  
+fprintf(log, "Opération critique commencée\n");  
 // Si crash ici → log perdu !
 operation_dangereuse();
 
 // ✅ SÉCURISÉ
-FILE *log = fopen("app.log", "a");
-fprintf(log, "Opération critique commencée\n");
-fflush(log);  // Ou : setbuf(log, NULL);
-operation_dangereuse();
+FILE *log = fopen("app.log", "a");  
+fprintf(log, "Opération critique commencée\n");  
+fflush(log);  // Ou : setbuf(log, NULL);  
+operation_dangereuse();  
 ```
 
 ### 2. Mélanger I/O bufferisé et non bufferisé
 
 ```c
 // ❌ PROBLÉMATIQUE
-FILE *fp = fopen("file.txt", "r+");
-int fd = fileno(fp);
+FILE *fp = fopen("file.txt", "r+");  
+int fd = fileno(fp);  
 
-fgets(line, sizeof(line), fp);  // Lit avec buffer
-read(fd, buf, size);            // Lit sans buffer → désynchronisé !
+fgets(line, sizeof(line), fp);  // Lit avec buffer  
+read(fd, buf, size);            // Lit sans buffer → désynchronisé !  
 ```
 
 **Solution :** Utilisez `fflush()` avant de passer à l'autre niveau :
 ```c
-fgets(line, sizeof(line), fp);
-fflush(fp);  // Synchronise
-read(fd, buf, size);  // OK maintenant
+fgets(line, sizeof(line), fp);  
+fflush(fp);  // Synchronise  
+read(fd, buf, size);  // OK maintenant  
 ```
 
 ### 3. Buffer sur la pile qui disparaît
@@ -726,8 +732,8 @@ void mauvaise_fonction(void) {
 }  // buffer est détruit ici, mais fp l'utilise encore !
 
 // ✅ CORRECT
-static char buffer[8192];  // ou malloc()
-void bonne_fonction(void) {
+static char buffer[8192];  // ou malloc()  
+void bonne_fonction(void) {  
     FILE *fp = fopen("file.txt", "w");
     setvbuf(fp, buffer, _IOFBF, sizeof(buffer));
     // ...
@@ -738,14 +744,14 @@ void bonne_fonction(void) {
 
 ```c
 // ❌ INCOMPLET
-FILE *fp = fopen("file.txt", "w");
-fprintf(fp, "données importantes");
-fclose(fp);  // Peut échouer (disque plein, etc.)
+FILE *fp = fopen("file.txt", "w");  
+fprintf(fp, "données importantes");  
+fclose(fp);  // Peut échouer (disque plein, etc.)  
 
 // ✅ COMPLET
-FILE *fp = fopen("file.txt", "w");
-fprintf(fp, "données importantes");
-if (fclose(fp) == EOF) {
+FILE *fp = fopen("file.txt", "w");  
+fprintf(fp, "données importantes");  
+if (fclose(fp) == EOF) {  
     perror("fclose");  // Les données n'ont peut-être pas été écrites !
     return -1;
 }
@@ -760,8 +766,8 @@ for (int i = 0; i < 1000000; i++) {
 }
 
 // ✅ RAPIDE
-FILE *fp = fopen("log.txt", "w");
-for (int i = 0; i < 1000000; i++) {
+FILE *fp = fopen("log.txt", "w");  
+for (int i = 0; i < 1000000; i++) {  
     fprintf(fp, "Traitement %d\n", i);  // Buffering complet
 }
 fclose(fp);
@@ -786,38 +792,38 @@ fprintf(fp, "Transaction: +1000€ sur compte A\n");
 
 1. **Utiliser fflush() après chaque opération critique**
 ```c
-fprintf(fp, "Transaction: +1000€ sur compte A\n");
-fflush(fp);  // Force l'écriture
+fprintf(fp, "Transaction: +1000€ sur compte A\n");  
+fflush(fp);  // Force l'écriture  
 ```
 
 2. **Désactiver le buffering pour les logs critiques**
 ```c
-FILE *fp = fopen("transactions.log", "a");
-setbuf(fp, NULL);  // Unbuffered
-fprintf(fp, "Transaction: +1000€\n");  // Écrit immédiatement
+FILE *fp = fopen("transactions.log", "a");  
+setbuf(fp, NULL);  // Unbuffered  
+fprintf(fp, "Transaction: +1000€\n");  // Écrit immédiatement  
 ```
 
 3. **Utiliser fsync() pour garantir l'écriture physique**
 ```c
-fprintf(fp, "Transaction: +1000€\n");
-fflush(fp);                // Vide le buffer stdio
-fsync(fileno(fp));         // Force l'écriture sur disque
+fprintf(fp, "Transaction: +1000€\n");  
+fflush(fp);                // Vide le buffer stdio  
+fsync(fileno(fp));         // Force l'écriture sur disque  
 ```
 
 ### Buffering et multiprocessing
 
 **Problème avec fork() :**
 ```c
-printf("Avant fork");  // Reste dans le buffer
-pid_t pid = fork();
+printf("Avant fork");  // Reste dans le buffer  
+pid_t pid = fork();  
 // Le buffer est dupliqué → "Avant fork" sera affiché 2 fois !
 ```
 
 **Solution :**
 ```c
-printf("Avant fork");
-fflush(stdout);  // Vide le buffer avant fork()
-pid_t pid = fork();
+printf("Avant fork");  
+fflush(stdout);  // Vide le buffer avant fork()  
+pid_t pid = fork();  
 ```
 
 ## Exemple complet : Logger flexible
