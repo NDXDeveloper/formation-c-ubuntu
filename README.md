@@ -98,7 +98,7 @@ Cette formation propose une approche complète du langage C dans l'écosystème 
 
 ### Prérequis
 
-- **Système** : Ubuntu 22.04+ ou toute distribution Linux récente
+- **Système** : Ubuntu 24.04 LTS ou toute distribution Linux récente
 - **Niveau** : Aucun prérequis pour les modules débutants
 - **Temps** : 30 min à 1h par jour recommandé
 
@@ -106,33 +106,33 @@ Cette formation propose une approche complète du langage C dans l'écosystème 
 
 ```bash
 # Installation de la toolchain C
-sudo apt update
-sudo apt install build-essential gcc gdb cmake valgrind clang-format
+sudo apt update  
+sudo apt install build-essential gcc gdb cmake valgrind clang-format  
 
 # Vérification
-gcc --version
-cmake --version
+gcc --version  
+cmake --version  
 ```
 
 ### Cloner cette formation
 
 ```bash
-git clone https://github.com/NDXDeveloper/formation-c-ubuntu.git
-cd formation-c-ubuntu
+git clone https://github.com/NDXDeveloper/formation-c-ubuntu.git  
+cd formation-c-ubuntu  
 ```
 
 ### Premier programme
 
 ```bash
 # Créer un fichier hello.c
-echo '#include <stdio.h>
-int main(void) {
+echo '#include <stdio.h>  
+int main(void) {  
     printf("Hello, C World!\\n");
     return 0;
 }' > hello.c
 
 # Compiler et exécuter
-gcc -Wall -Wextra hello.c -o hello
+gcc -Wall -Wextra -std=c17 hello.c -o hello
 ./hello
 ```
 
@@ -248,7 +248,7 @@ Après cette formation, vous serez capable de :
 
 Cette formation adopte une approche **pratique et moderne** :
 
-- **Qualité avant quantité** : Accent sur les outils et pratiques 2025 (sanitizers, CMake, CI/CD)
+- **Qualité avant quantité** : Accent sur les outils et pratiques actuels (sanitizers, CMake, CI/CD)
 - **DevOps-first** : Intégration continue dès le début, pas seulement à la fin
 - **Sécurité par défaut** : `-Wall -Werror`, validation des entrées, code défensif
 - **Observabilité** : eBPF et outils modernes de monitoring
@@ -264,9 +264,9 @@ Ce projet est sous licence **CC BY 4.0** (Creative Commons Attribution 4.0 Inter
 
 **Attribution suggérée :**
 ```
-Formation C Ubuntu par Nicolas DEOUX
-https://github.com/NDXDeveloper/formation-c-ubuntu
-Licence CC BY 4.0
+Formation C Ubuntu par Nicolas DEOUX  
+https://github.com/NDXDeveloper/formation-c-ubuntu  
+Licence CC BY 4.0  
 ```
 
 Voir le fichier [LICENSE](LICENSE) pour les détails complets.
@@ -302,6 +302,6 @@ Un grand merci à la communauté C et Linux, aux mainteneurs de GCC, Valgrind, C
 
 **[⬆ Retour en haut](#-maîtriser-c-sur-ubuntu--de-la-syntaxe-au-système)**
 
-*Dernière mise à jour : Novembre 2025*
+*Dernière mise à jour : Février 2026*
 
 </div>
