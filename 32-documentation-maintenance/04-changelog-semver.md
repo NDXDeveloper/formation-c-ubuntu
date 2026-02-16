@@ -28,10 +28,10 @@ Dans cette section, nous allons apprendre :
 ```
 Versions disponibles : 0.3, 0.8, 1.0, 1.2, 1.5, 2.0
 
-Utilisateur : "Quelle est la différence entre 1.2 et 1.5 ?"
-Mainteneur : "Euh... plein de trucs ?"
-Utilisateur : "Est-ce que je peux upgrader sans casser mon code ?"
-Mainteneur : "Probablement ? Essaie et tu verras."
+Utilisateur : "Quelle est la différence entre 1.2 et 1.5 ?"  
+Mainteneur : "Euh... plein de trucs ?"  
+Utilisateur : "Est-ce que je peux upgrader sans casser mon code ?"  
+Mainteneur : "Probablement ? Essaie et tu verras."  
 ```
 
 **Résultat** :
@@ -88,12 +88,12 @@ Un **CHANGELOG** (littéralement "journal des changements") est un fichier qui d
 
 **Git log** :
 ```
-commit a3f7d2c Fix typo in comment
-commit b8e4f1a Update README
-commit c9d2e5b Fix memory leak
-commit d1f3g4h Add new feature
-commit e2g4h5i Fix another typo
-commit f3h5i6j Refactor code
+commit a3f7d2c Fix typo in comment  
+commit b8e4f1a Update README  
+commit c9d2e5b Fix memory leak  
+commit d1f3g4h Add new feature  
+commit e2g4h5i Fix another typo  
+commit f3h5i6j Refactor code  
 ```
 
 - 📝 Détails techniques
@@ -129,8 +129,8 @@ Le standard de facto pour les changelogs est **Keep a Changelog** (https://keepa
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
 
 ## [Unreleased]
 ### Added
@@ -258,9 +258,9 @@ Incrémentez MINOR quand vous ajoutez des **nouvelles fonctionnalités** sans ca
 int parse_json(char *json);
 
 // v1.3.0 (MINOR)
-int parse_json(char *json);
-int parse_json_file(const char *filename);  // ← Nouvelle fonction
-void json_set_strict_mode(bool strict);     // ← Nouvelle fonction
+int parse_json(char *json);  
+int parse_json_file(const char *filename);  // ← Nouvelle fonction  
+void json_set_strict_mode(bool strict);     // ← Nouvelle fonction  
 ```
 
 **Impact utilisateur** : Code existant fonctionne sans modification. Nouvelles fonctionnalités disponibles si besoin.
@@ -309,10 +309,10 @@ Pour les versions de test ou pré-releases :
 
 **Exemples** :
 ```bash
-git tag v1.0.0-alpha.1
-git tag v1.0.0-beta.1
-git tag v1.0.0-rc.1
-git tag v1.0.0
+git tag v1.0.0-alpha.1  
+git tag v1.0.0-beta.1  
+git tag v1.0.0-rc.1  
+git tag v1.0.0  
 ```
 
 ---
@@ -390,8 +390,8 @@ typedef struct {
 } json_t;
 
 // ← Nouvelles fonctions
-json_t* json_format(json_t *json, int indent);
-void json_minify(json_t *json);
+json_t* json_format(json_t *json, int indent);  
+void json_minify(json_t *json);  
 ```
 
 **Changelog** :
@@ -528,12 +528,12 @@ git checkout -b hotfix-1.2.1 v1.2.0
 **Format recommandé** : `v` + numéro de version SemVer
 
 ```bash
-v1.0.0
-v1.0.1
-v1.1.0
-v2.0.0
-v2.0.0-rc.1
-v2.0.0-beta.1
+v1.0.0  
+v1.0.1  
+v1.1.0  
+v2.0.0  
+v2.0.0-rc.1  
+v2.0.0-beta.1  
 ```
 
 **Pourquoi le `v` ?**
@@ -547,8 +547,8 @@ Processus typique pour publier une nouvelle version :
 
 ```bash
 # 1. Finaliser le code sur main
-git checkout main
-git pull origin main
+git checkout main  
+git pull origin main  
 
 # 2. Mettre à jour le CHANGELOG.md
 vim CHANGELOG.md
@@ -557,13 +557,13 @@ vim CHANGELOG.md
 # - Créer nouvelle section [Unreleased]
 
 # 3. Mettre à jour le numéro de version dans le code
-vim CMakeLists.txt  # PROJECT_VERSION
-vim configure.ac    # AC_INIT version
-vim src/version.h   # #define VERSION "1.3.0"
+vim CMakeLists.txt  # PROJECT_VERSION  
+vim configure.ac    # AC_INIT version  
+vim src/version.h   # #define VERSION "1.3.0"  
 
 # 4. Commiter les changements de version
-git add CHANGELOG.md CMakeLists.txt src/version.h
-git commit -m "Bump version to 1.3.0"
+git add CHANGELOG.md CMakeLists.txt src/version.h  
+git commit -m "Bump version to 1.3.0"  
 
 # 5. Créer le tag
 git tag -a v1.3.0 -m "Release version 1.3.0
@@ -577,8 +577,8 @@ Bug fixes:
 - Crash on deeply nested objects"
 
 # 6. Pousser
-git push origin main
-git push origin v1.3.0
+git push origin main  
+git push origin v1.3.0  
 
 # 7. Créer une release sur GitHub
 gh release create v1.3.0 \
@@ -748,10 +748,10 @@ Format standardisé de messages de commit :
 
 **Exemples** :
 ```bash
-git commit -m "feat: add json_validate() function"
-git commit -m "fix: prevent buffer overflow in parse_string()"
-git commit -m "docs: update README with new examples"
-git commit -m "feat!: change parse_json() return type
+git commit -m "feat: add json_validate() function"  
+git commit -m "fix: prevent buffer overflow in parse_string()"  
+git commit -m "docs: update README with new examples"  
+git commit -m "feat!: change parse_json() return type  
 
 BREAKING CHANGE: parse_json() now returns NULL on error instead of -1"
 ```
@@ -799,9 +799,9 @@ standard-version
 standard-version --dry-run
 
 # Pour une version spécifique
-standard-version --release-as major
-standard-version --release-as minor
-standard-version --release-as patch
+standard-version --release-as major  
+standard-version --release-as minor  
+standard-version --release-as patch  
 ```
 
 #### Script simple maison
@@ -810,8 +810,8 @@ standard-version --release-as patch
 #!/bin/bash
 # scripts/generate_changelog.sh
 
-VERSION=$1
-PREVIOUS_VERSION=$2
+VERSION=$1  
+PREVIOUS_VERSION=$2  
 
 if [ -z "$VERSION" ]; then
     echo "Usage: $0 <version> [previous_version]"
@@ -822,19 +822,19 @@ if [ -z "$PREVIOUS_VERSION" ]; then
     PREVIOUS_VERSION=$(git describe --tags --abbrev=0)
 fi
 
-echo "## [$VERSION] - $(date +%Y-%m-%d)"
-echo ""
+echo "## [$VERSION] - $(date +%Y-%m-%d)"  
+echo ""  
 
-echo "### Added"
-git log ${PREVIOUS_VERSION}..HEAD --oneline | grep "^[a-f0-9]* feat:" | sed 's/^[a-f0-9]* feat: /- /'
-echo ""
+echo "### Added"  
+git log ${PREVIOUS_VERSION}..HEAD --oneline | grep "^[a-f0-9]* feat:" | sed 's/^[a-f0-9]* feat: /- /'  
+echo ""  
 
-echo "### Fixed"
-git log ${PREVIOUS_VERSION}..HEAD --oneline | grep "^[a-f0-9]* fix:" | sed 's/^[a-f0-9]* fix: /- /'
-echo ""
+echo "### Fixed"  
+git log ${PREVIOUS_VERSION}..HEAD --oneline | grep "^[a-f0-9]* fix:" | sed 's/^[a-f0-9]* fix: /- /'  
+echo ""  
 
-echo "### Changed"
-git log ${PREVIOUS_VERSION}..HEAD --oneline | grep "BREAKING CHANGE" | sed 's/^[a-f0-9]* /- ⚠️ BREAKING: /'
+echo "### Changed"  
+git log ${PREVIOUS_VERSION}..HEAD --oneline | grep "BREAKING CHANGE" | sed 's/^[a-f0-9]* /- ⚠️ BREAKING: /'  
 ```
 
 **Usage** :
@@ -851,8 +851,8 @@ git log ${PREVIOUS_VERSION}..HEAD --oneline | grep "BREAKING CHANGE" | sed 's/^[
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
 
 ## [Unreleased]
 
@@ -1051,8 +1051,8 @@ Chaque fois que vous mergez une PR/feature :
 Le fichier `CHANGELOG.md` doit être versionné dans Git :
 
 ```bash
-git add CHANGELOG.md
-git commit -m "Update CHANGELOG for v1.5.0"
+git add CHANGELOG.md  
+git commit -m "Update CHANGELOG for v1.5.0"  
 ```
 
 ### 3. Un CHANGELOG par projet
@@ -1086,8 +1086,8 @@ Privilégiez la compatibilité :
 
 ```c
 // v1.5.0 - Ajouter une fonctionnalité sans casser l'existant
-int parse_json(const char *input);                      // Existant
-int parse_json_ex(const char *input, json_opts_t *opts); // Nouveau
+int parse_json(const char *input);                      // Existant  
+int parse_json_ex(const char *input, json_opts_t *opts); // Nouveau  
 
 // v2.0.0 - Si vraiment nécessaire de casser
 json_t* parse_json(const char *input, json_error_t *err);
@@ -1095,9 +1095,9 @@ json_t* parse_json(const char *input, json_error_t *err);
 
 **Période de transition** :
 ```
-v1.5.0 : Introduire nouvelle API, déprécier l'ancienne
-v1.6.0 : Avertissements de dépréciation
-v2.0.0 : Supprimer ancienne API
+v1.5.0 : Introduire nouvelle API, déprécier l'ancienne  
+v1.6.0 : Avertissements de dépréciation  
+v2.0.0 : Supprimer ancienne API  
 ```
 
 ### 6. Documentation de migration
@@ -1113,18 +1113,18 @@ Pour les breaking changes, fournissez un guide de migration :
 
 **Before (v1.x):**
 ```c
-json_t *result;
-int ret = json_parse(input, &result);
-if (ret < 0) {
+json_t *result;  
+int ret = json_parse(input, &result);  
+if (ret < 0) {  
     fprintf(stderr, "Parse error\n");
 }
 ```
 
 **After (v2.0):**
 ```c
-json_error_t error;
-json_t *result = json_parse(input, &error);
-if (result == NULL) {
+json_error_t error;  
+json_t *result = json_parse(input, &error);  
+if (result == NULL) {  
     fprintf(stderr, "Parse error: %s at line %d\n",
             error.message, error.line);
 }
@@ -1193,7 +1193,7 @@ jobs:
           sed -n "/## \[${{ steps.version.outputs.VERSION }}\]/,/## \[/p" CHANGELOG.md | head -n -1 > release_notes.md
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           body_path: release_notes.md
           files: |
@@ -1272,8 +1272,8 @@ Avant de publier une nouvelle version :
 
 ❌ **Symptôme** :
 ```
-Release v1.5.0
-CHANGELOG.md : dernière version = v1.3.0
+Release v1.5.0  
+CHANGELOG.md : dernière version = v1.3.0  
 ```
 
 ✅ **Solution** : Automatiser avec un script CI qui vérifie la cohérence.
@@ -1296,14 +1296,14 @@ v1.5.0 : Ajout d'une fonction
 
 ❌ **Mauvais** :
 ```
-v1.5.0 → v1.6.0
-Changement de signature de fonction (breaking!)
+v1.5.0 → v1.6.0  
+Changement de signature de fonction (breaking!)  
 ```
 
 ✅ **Bon** :
 ```
-v1.5.0 → v2.0.0
-Changement de signature (breaking change → MAJOR)
+v1.5.0 → v2.0.0  
+Changement de signature (breaking change → MAJOR)  
 ```
 
 ### Erreur 4 : CHANGELOG vague

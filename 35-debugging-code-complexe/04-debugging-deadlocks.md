@@ -49,8 +49,8 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 Un thread détient une ressource et attend d'en acquérir d'autres.
 
 ```c
-pthread_mutex_lock(&mutex_A);  // Thread détient A
-pthread_mutex_lock(&mutex_B);  // Thread attend B (tout en détenant A)
+pthread_mutex_lock(&mutex_A);  // Thread détient A  
+pthread_mutex_lock(&mutex_B);  // Thread attend B (tout en détenant A)  
 ```
 
 ### 3. Non-préemption (No Preemption)
@@ -67,8 +67,8 @@ Les ressources ne peuvent pas être arrachées de force à un thread qui les dé
 Une chaîne circulaire de threads existe, où chaque thread attend une ressource détenue par le suivant.
 
 ```
-Thread 1 détient A, attend B
-Thread 2 détient B, attend A
+Thread 1 détient A, attend B  
+Thread 2 détient B, attend A  
 ```
 
 **Pour prévenir les deadlocks, il suffit de casser une de ces quatre conditions.**
@@ -86,8 +86,8 @@ Le cas classique : deux threads qui verrouillent deux mutex dans un ordre diffé
 #include <stdio.h>
 #include <unistd.h>
 
-pthread_mutex_t mutex_A = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mutex_B = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_A = PTHREAD_MUTEX_INITIALIZER;  
+pthread_mutex_t mutex_B = PTHREAD_MUTEX_INITIALIZER;  
 
 void* thread1_func(void* arg) {
     printf("Thread 1: Locking A...\n");
@@ -134,10 +134,10 @@ int main() {
 
 **Exécution** :
 ```
-Thread 1: Locking A...
-Thread 2: Locking B...
-Thread 1: Locking B...
-Thread 2: Locking A...
+Thread 1: Locking A...  
+Thread 2: Locking B...  
+Thread 1: Locking B...  
+Thread 2: Locking A...  
 [Blocage infini - aucun thread ne progresse]
 ```
 
@@ -180,8 +180,8 @@ void function() {
 Mauvaise utilisation des variables de condition.
 
 ```c
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;  
 
 void* waiter(void* arg) {
     pthread_mutex_lock(&mutex);
@@ -386,11 +386,11 @@ Créez un fichier `detect_deadlock.gdb` :
 # detect_deadlock.gdb
 set pagination off
 
-echo ===== THREAD INFORMATION =====\n
-info threads
+echo ===== THREAD INFORMATION =====\n  
+info threads  
 
-echo \n===== BACKTRACES =====\n
-thread apply all bt
+echo \n===== BACKTRACES =====\n  
+thread apply all bt  
 
 echo \n===== MUTEX OWNERS =====\n
 # Script personnalisé pour afficher les propriétaires de mutex
@@ -420,8 +420,8 @@ typedef struct {
     int balance;
 } Account;
 
-Account account_A = {PTHREAD_MUTEX_INITIALIZER, 1000};
-Account account_B = {PTHREAD_MUTEX_INITIALIZER, 2000};
+Account account_A = {PTHREAD_MUTEX_INITIALIZER, 1000};  
+Account account_B = {PTHREAD_MUTEX_INITIALIZER, 2000};  
 
 void transfer(Account *from, Account *to, int amount) {
     pthread_mutex_lock(&from->lock);
@@ -489,8 +489,8 @@ void transfer(Account *from, Account *to, int amount) {
 ```c
 typedef void (*Callback)(void);
 
-pthread_mutex_t data_lock = PTHREAD_MUTEX_INITIALIZER;
-Callback notify_callback = NULL;
+pthread_mutex_t data_lock = PTHREAD_MUTEX_INITIALIZER;  
+Callback notify_callback = NULL;  
 
 void set_data(int value) {
     pthread_mutex_lock(&data_lock);
@@ -519,10 +519,10 @@ int main() {
 **Solution 1** : Mutex récursif
 
 ```c
-pthread_mutexattr_t attr;
-pthread_mutexattr_init(&attr);
-pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-pthread_mutex_init(&data_lock, &attr);
+pthread_mutexattr_t attr;  
+pthread_mutexattr_init(&attr);  
+pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);  
+pthread_mutex_init(&data_lock, &attr);  
 
 // Maintenant le même thread peut locker plusieurs fois
 ```
@@ -549,9 +549,9 @@ void set_data(int value) {
 **Code problématique** :
 
 ```c
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
-int ready = 0;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;  
+int ready = 0;  
 
 void* producer(void* arg) {
     sleep(1);
@@ -724,22 +724,22 @@ Minimiser le code exécuté sous lock.
 
 ```c
 // ❌ MAL : Lock trop large
-pthread_mutex_lock(&mutex);
-int value = shared_data;
-int result = expensive_function(value);  // Calcul long sous lock
-shared_data = result;
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+int value = shared_data;  
+int result = expensive_function(value);  // Calcul long sous lock  
+shared_data = result;  
+pthread_mutex_unlock(&mutex);  
 
 // ✅ BIEN : Lock minimal
-pthread_mutex_lock(&mutex);
-int value = shared_data;
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+int value = shared_data;  
+pthread_mutex_unlock(&mutex);  
 
 int result = expensive_function(value);  // Calcul hors lock
 
-pthread_mutex_lock(&mutex);
-shared_data = result;
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+shared_data = result;  
+pthread_mutex_unlock(&mutex);  
 ```
 
 ### 5. Reader-Writer Locks
@@ -821,8 +821,8 @@ gcc -g -fsanitize=thread -o myapp myapp.c -lpthread
 Annotations pour vérifier statiquement l'absence de deadlock.
 
 ```c
-pthread_mutex_t mutex_A __attribute__((capability("mutex")));
-pthread_mutex_t mutex_B __attribute__((capability("mutex")));
+pthread_mutex_t mutex_A __attribute__((capability("mutex")));  
+pthread_mutex_t mutex_B __attribute__((capability("mutex")));  
 
 void function_A() __attribute__((requires_capability(mutex_A)))
                   __attribute__((requires_capability(mutex_B))) {
@@ -853,11 +853,11 @@ Instrumenter le code pour tracer les acquisitions de locks.
 #endif
 
 // Utilisation
-LOCK(&mutex_A);
-LOCK(&mutex_B);
+LOCK(&mutex_A);  
+LOCK(&mutex_B);  
 // ...
-UNLOCK(&mutex_B);
-UNLOCK(&mutex_A);
+UNLOCK(&mutex_B);  
+UNLOCK(&mutex_A);  
 ```
 
 ---
@@ -933,11 +933,11 @@ Détecter automatiquement les deadlocks dans les tests.
 #!/bin/bash
 # test_deadlock.sh
 
-timeout 10s ./myapp &
-PID=$!
+timeout 10s ./myapp &  
+PID=$!  
 
-sleep 10
-if ps -p $PID > /dev/null; then
+sleep 10  
+if ps -p $PID > /dev/null; then  
     echo "❌ DEADLOCK DETECTED: Process still running after 10s"
     kill -9 $PID
     exit 1

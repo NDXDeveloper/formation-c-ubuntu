@@ -541,8 +541,8 @@ add_executable(integration_tests
     src/database.c
 )
 
-target_link_libraries(integration_tests sqlite3)
-add_test(NAME IntegrationTests COMMAND integration_tests)
+target_link_libraries(integration_tests sqlite3)  
+add_test(NAME IntegrationTests COMMAND integration_tests)  
 
 # Exécuter séparément
 # make && ctest -R UnitTests           # Tests unitaires seulement
@@ -715,8 +715,8 @@ sleep 3
 ./integration_tests
 
 # Nettoyer
-docker stop test_postgres
-docker rm test_postgres
+docker stop test_postgres  
+docker rm test_postgres  
 ```
 
 ---
@@ -1112,7 +1112,7 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |

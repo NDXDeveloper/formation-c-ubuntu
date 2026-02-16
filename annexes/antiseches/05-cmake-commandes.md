@@ -282,7 +282,7 @@ set(SOURCES main.c utils.c)
 list(APPEND SOURCES helper.c)
 
 # Standard C
-set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD 17)  
 set(CMAKE_C_STANDARD_REQUIRED ON)
 ```
 
@@ -713,7 +713,7 @@ cmake_minimum_required(VERSION 3.10)
 project(MonProjet VERSION 1.0.0 LANGUAGES C)  
 
 # Standard C17
-set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD 17)  
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Option pour les tests
@@ -946,7 +946,7 @@ target_compile_options(mon_programme PRIVATE -Wall)
 find_package(Threads REQUIRED)
 
 # Sans REQUIRED : vérifier manuellement
-find_package(MyOptionalLib)
+find_package(MyOptionalLib)  
 if(NOT MyOptionalLib_FOUND)
     message(WARNING "MyOptionalLib non trouvé, fonctionnalité désactivée")
 endif()

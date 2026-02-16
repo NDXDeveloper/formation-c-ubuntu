@@ -532,11 +532,6 @@ test:coverage:
     - lcov --capture --directory . --output-file coverage.info
     - lcov --list coverage.info
   coverage: '/lines\.*: (\d+\.\d+)%/'
-  artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: build/coverage.info
 ```
 
 **Résultat** : Pourcentage de couverture affiché dans l'interface GitLab.
@@ -844,7 +839,7 @@ jobs:
         EOF
 
     - name: Publier sur GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: .
@@ -1024,11 +1019,11 @@ if time.time() - last_notification > 3600:
 ```
 ❌ Build échoué
 ━━━━━━━━━━━━━━━━━━
-Projet: mon-projet-c
-Branche: feature/nouvelle-fonction
-Commit: abc123 "Ajouter nouvelle API"
-Auteur: @johndoe
-Erreur: Tests unitaires échoués (3/42)
+Projet: mon-projet-c  
+Branche: feature/nouvelle-fonction  
+Commit: abc123 "Ajouter nouvelle API"  
+Auteur: @johndoe  
+Erreur: Tests unitaires échoués (3/42)  
 ━━━━━━━━━━━━━━━━━━
 🔗 Voir les logs
 ```

@@ -370,7 +370,7 @@ gcc main.c -L. -lutils -o programme
 cmake_minimum_required(VERSION 3.15)  
 project(MonProjet VERSION 1.0.0 LANGUAGES C)  
 
-set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD 17)  
 set(CMAKE_C_STANDARD_REQUIRED ON)  
 
 # Options

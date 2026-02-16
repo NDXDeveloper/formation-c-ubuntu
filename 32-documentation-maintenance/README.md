@@ -230,9 +230,9 @@ Une ligne qui explique le projet
 
 ## Installation
 ```bash
-git clone ...
-cmake ...
-make install
+git clone ...  
+cmake ...  
+make install  
 ```
 
 ## Utilisation rapide
@@ -272,14 +272,14 @@ MIT
 git checkout -b feature/json-export
 
 # Développer avec commits atomiques
-git add parser.c
-git commit -m "Add JSON export function"
-git add tests.c
-git commit -m "Add tests for JSON export"
+git add parser.c  
+git commit -m "Add JSON export function"  
+git add tests.c  
+git commit -m "Add tests for JSON export"  
 
 # Merger dans main
-git checkout main
-git merge feature/json-export
+git checkout main  
+git merge feature/json-export  
 ```
 
 ### 32.4 Changelog et versioning sémantique
@@ -342,7 +342,7 @@ int p(char *s) {
     // 500 lignes incompréhensibles
 }
 
-// Après refactoring progressif (C11, 2025)
+// Après refactoring progressif (C17, 2025)
 bool parse_csv(const char *input,
                parse_result_t *result,
                error_t *error) {
@@ -416,7 +416,7 @@ Retour à Documentation
 - Techniques avancées de documentation (Doxygen)
 - Workflows Git professionnels (Git Flow)
 - Maintenance du code legacy
-- Modernisation vers C11/C23
+- Modernisation vers C17/C23
 
 ### Étudiants
 
@@ -462,16 +462,16 @@ Sur un projet de 2 ans, la documentation économise **des mois** de travail.
 
 **Sans maintenance** :
 ```
-An 1 : Code propre
-An 5 : Dette technique
-An 10 : Réécriture ($$$)
+An 1 : Code propre  
+An 5 : Dette technique  
+An 10 : Réécriture ($$$)  
 ```
 
 **Avec maintenance** :
 ```
-An 1 : Code propre
-An 5 : Code propre (maintenance continue)
-An 10 : Code propre (toujours maintenable)
+An 1 : Code propre  
+An 5 : Code propre (maintenance continue)  
+An 10 : Code propre (toujours maintenable)  
 ```
 
 Maintenance continue coûte **10x moins cher** qu'une réécriture.
@@ -505,7 +505,7 @@ Maintenance continue coûte **10x moins cher** qu'une réécriture.
 - ✅ **Appliquer** le versioning sémantique
 - ✅ **Refactoriser** du code legacy progressivement
 - ✅ **Ajouter** des tests au code existant
-- ✅ **Moderniser** du C89 vers C11/C23
+- ✅ **Moderniser** du C89 vers C17/C23
 
 ### Compétences professionnelles
 
@@ -707,11 +707,11 @@ Le code est d'abord écrit pour être **lu** par des humains. La documentation e
 Suivez les sections dans l'ordre :
 
 ```
-Semaine 1 : 32.1 Doxygen (4h)
-Semaine 2 : 32.2 README (3h)
-Semaine 3 : 32.3 Git (6h)
-Semaine 4 : 32.4 Changelog (2h)
-Semaine 5-6 : 32.5 Maintenance legacy (6h)
+Semaine 1 : 32.1 Doxygen (4h)  
+Semaine 2 : 32.2 README (3h)  
+Semaine 3 : 32.3 Git (6h)  
+Semaine 4 : 32.4 Changelog (2h)  
+Semaine 5-6 : 32.5 Maintenance legacy (6h)  
 ```
 
 ### Approche par besoin
@@ -729,13 +729,13 @@ Allez directement à ce qui vous concerne :
 Appliquez au fur et à mesure sur un projet réel :
 
 ```
-Jour 1 : Créer un petit projet C
-Jour 2 : Ajouter commentaires Doxygen (32.1)
-Jour 3 : Générer doc HTML
-Jour 4 : Écrire README (32.2)
-Jour 5 : Mettre sous Git (32.3)
-Jour 6 : Créer première release avec changelog (32.4)
-Jour 7-14 : Ajouter tests et refactoriser (32.5)
+Jour 1 : Créer un petit projet C  
+Jour 2 : Ajouter commentaires Doxygen (32.1)  
+Jour 3 : Générer doc HTML  
+Jour 4 : Écrire README (32.2)  
+Jour 5 : Mettre sous Git (32.3)  
+Jour 6 : Créer première release avec changelog (32.4)  
+Jour 7-14 : Ajouter tests et refactoriser (32.5)  
 ```
 
 ---
@@ -770,7 +770,7 @@ Utilisez cette checklist pour suivre votre progression :
 ### Maintenance (32.5)
 - [ ] J'ai ajouté des tests à du code existant
 - [ ] J'ai refactorisé du code legacy
-- [ ] J'ai modernisé du C89 vers C99/C11
+- [ ] J'ai modernisé du C89 vers C17
 - [ ] Je mesure la complexité de mon code
 - [ ] J'applique le principe "Boy Scout"
 

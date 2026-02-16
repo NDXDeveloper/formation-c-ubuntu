@@ -87,9 +87,9 @@ Les commentaires mentent, s'ils existent.
 
 ```makefile
 # Ne pas mettre à jour ces versions ! Ça casse tout !
-OPENSSL_VERSION = 0.9.8
-MYSQL_VERSION = 3.23
-GCC_VERSION = 4.1.2
+OPENSSL_VERSION = 0.9.8  
+MYSQL_VERSION = 3.23  
+GCC_VERSION = 4.1.2  
 ```
 
 Coincé avec des versions de 2006, avec toutes leurs failles de sécurité.
@@ -202,12 +202,12 @@ D'après diverses études :
 **Réaction typique** face au code legacy :
 
 ```
-Développeur Junior : "Ce code est horrible ! Il faut tout réécrire !"
-CTO : "OK, combien de temps ?"
-Développeur Junior : "3-6 mois"
+Développeur Junior : "Ce code est horrible ! Il faut tout réécrire !"  
+CTO : "OK, combien de temps ?"  
+Développeur Junior : "3-6 mois"  
 [2 ans plus tard]
-CTO : "Vous avez fini ?"
-Développeur Junior : "Presque... encore 6 mois..."
+CTO : "Vous avez fini ?"  
+Développeur Junior : "Presque... encore 6 mois..."  
 ```
 
 **Problèmes de la grande réécriture** :
@@ -281,7 +281,7 @@ Amélioration continue > réécriture totale.
 
 ### Principe de l'amélioration continue
 
-**Philosophy** : Améliorer le code **petit à petit**, sans réécriture massive.
+**Philosophie** : Améliorer le code **petit à petit**, sans réécriture massive.
 
 ```
 ┌─────────────────────────────────────┐
@@ -452,7 +452,7 @@ void test_parse_normal_input() {
 
 **Contenu** :
 - Évolution des standards C
-- Migration C89 → C99 → C11 → C23
+- Migration C89 → C99 → C11 → C17 → C23
 - Techniques de modernisation
 - Outils pour faciliter la migration
 - Pièges à éviter
@@ -465,7 +465,7 @@ Code ancien (C89) :
 - ❌ Moins lisible
 - ❌ Moins sûr
 
-Code moderne (C11/C23) :
+Code moderne (C17/C23) :
 - ✅ Standards récents
 - ✅ Types explicites
 - ✅ Plus lisible
@@ -475,8 +475,8 @@ Code moderne (C11/C23) :
 
 ```c
 // C89 (1990)
-int i;
-typedef int bool;
+int i;  
+typedef int bool;  
 #define TRUE 1
 #define FALSE 0
 
@@ -566,8 +566,8 @@ Ce code est nul. Je vais tout refaire en bien."
 **Bon mindset** :
 ```
 "Ce code fonctionne depuis 15 ans.
-Il contient 15 ans de connaissances métier.
-Je vais l'améliorer progressivement tout en respectant son histoire."
+Il contient 15 ans de connaissances métier.  
+Je vais l'améliorer progressivement tout en respectant son histoire."  
 ```
 
 ### 2. Empathie envers les prédécesseurs
@@ -818,7 +818,7 @@ Apprendre à maintenir le legacy, c'est apprendre à **aller vite en faisant bie
 
 Les trois sections suivantes vont vous donner les outils concrets pour transformer du code legacy en code moderne, testé et maintenable.
 
-**➡️ Section 32.5.1 : [Refactoring progressif](32.5.1_refactoring_progressif.md)**
+**➡️ Section 32.5.1 : [Refactoring progressif](/32-documentation-maintenance/05.1-refactoring-progressif.md)**
 
 Commençons par apprendre à améliorer la structure du code sans tout casser.
 

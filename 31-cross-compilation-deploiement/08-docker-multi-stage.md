@@ -52,9 +52,9 @@ RUN apt-get update && apt-get install -y \
     cmake
 
 # Copier et compiler
-COPY . /app
-WORKDIR /app
-RUN make
+COPY . /app  
+WORKDIR /app  
+RUN make  
 
 CMD ["./mon-programme"]
 ```
@@ -76,10 +76,10 @@ CMD ["./mon-programme"]
 # === STAGE 1 : Build ===
 FROM ubuntu:22.04 AS builder
 
-RUN apt-get update && apt-get install -y gcc make
-COPY . /app
-WORKDIR /app
-RUN make
+RUN apt-get update && apt-get install -y gcc make  
+COPY . /app  
+WORKDIR /app  
+RUN make  
 
 # === STAGE 2 : Runtime ===
 FROM ubuntu:22.04
@@ -126,8 +126,8 @@ int main(void) {
 **Makefile**
 
 ```makefile
-CC = gcc
-CFLAGS = -Wall -O2
+CC = gcc  
+CFLAGS = -Wall -O2  
 
 all: app
 
@@ -153,8 +153,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copier les sources
-COPY . /build
-WORKDIR /build
+COPY . /build  
+WORKDIR /build  
 
 # Compiler
 RUN make
@@ -206,9 +206,9 @@ FROM alpine:3.18 AS builder
 RUN apk add --no-cache gcc musl-dev make
 
 # Copier et compiler
-COPY . /build
-WORKDIR /build
-RUN make
+COPY . /build  
+WORKDIR /build  
+RUN make  
 
 # === Stage 2: Runtime ===
 FROM alpine:3.18
@@ -233,8 +233,8 @@ FROM alpine:3.18 AS builder
 
 RUN apk add --no-cache gcc musl-dev make
 
-COPY . /build
-WORKDIR /build
+COPY . /build  
+WORKDIR /build  
 
 # Compiler statiquement
 RUN gcc -static -O2 main.c -o app
@@ -281,9 +281,9 @@ int main(void) {
 **Makefile**
 
 ```makefile
-CC = gcc
-CFLAGS = -Wall -O2
-LDFLAGS = -lcurl
+CC = gcc  
+CFLAGS = -Wall -O2  
+LDFLAGS = -lcurl  
 
 all: app
 
@@ -309,8 +309,8 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . /build
-WORKDIR /build
+COPY . /build  
+WORKDIR /build  
 
 RUN make
 
@@ -340,10 +340,10 @@ CMD ["app"]
 **CMakeLists.txt**
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(MonApp C)
+cmake_minimum_required(VERSION 3.10)  
+project(MonApp C)  
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 17)
 
 # Trouver libcurl
 find_package(CURL REQUIRED)
@@ -370,8 +370,8 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . /build
-WORKDIR /build
+COPY . /build  
+WORKDIR /build  
 
 # Build avec CMake
 RUN mkdir build && cd build && \
@@ -407,8 +407,8 @@ RUN apt-get update && apt-get install -y \
     make \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . /build
-WORKDIR /build
+COPY . /build  
+WORKDIR /build  
 
 # Cross-compiler pour ARM64
 RUN aarch64-linux-gnu-gcc -o app main.c
@@ -428,10 +428,10 @@ CMD ["app"]
 docker buildx build --platform linux/arm64 -t mon-app:arm64 .
 
 # Ou builder sur x86_64 et copier le binaire
-docker build -t mon-app-builder .
-docker create --name temp mon-app-builder
-docker cp temp:/usr/local/bin/app ./app-arm64
-docker rm temp
+docker build -t mon-app-builder .  
+docker create --name temp mon-app-builder  
+docker cp temp:/usr/local/bin/app ./app-arm64  
+docker rm temp  
 ```
 
 ### Buildx pour multi-architecture
@@ -457,8 +457,8 @@ docker buildx build \
 FROM --platform=$BUILDPLATFORM ubuntu:22.04 AS builder
 
 # Arguments automatiques de buildx
-ARG TARGETARCH
-ARG BUILDPLATFORM
+ARG TARGETARCH  
+ARG BUILDPLATFORM  
 
 RUN echo "Building on $BUILDPLATFORM for $TARGETARCH"
 
@@ -473,8 +473,8 @@ RUN apt-get update && \
     fi && \
     rm -rf /var/lib/apt/lists/*
 
-COPY . /build
-WORKDIR /build
+COPY . /build  
+WORKDIR /build  
 
 # Compiler selon l'architecture
 RUN if [ "$TARGETARCH" = "arm64" ]; then \
@@ -518,8 +518,8 @@ FROM ubuntu:22.04 AS builder
 RUN apt-get update && apt-get install -y gcc make && \
     rm -rf /var/lib/apt/lists/*
 
-COPY . /build
-WORKDIR /build
+COPY . /build  
+WORKDIR /build  
 
 # Compiler tous les binaires
 RUN make all
@@ -528,13 +528,13 @@ RUN make all
 FROM ubuntu:22.04
 
 # Copier tous les binaires
-COPY --from=builder /build/server /usr/local/bin/
-COPY --from=builder /build/client /usr/local/bin/
-COPY --from=builder /build/utils /usr/local/bin/
+COPY --from=builder /build/server /usr/local/bin/  
+COPY --from=builder /build/client /usr/local/bin/  
+COPY --from=builder /build/utils /usr/local/bin/  
 
 # Point d'entrée flexible
-ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["server"]
+ENTRYPOINT ["/bin/bash", "-c"]  
+CMD ["server"]  
 ```
 
 **Utilisation :**
@@ -561,9 +561,9 @@ FROM ubuntu:22.04 AS builder
 RUN apt-get update && apt-get install -y gcc && \
     rm -rf /var/lib/apt/lists/*
 
-COPY . /build
-WORKDIR /build
-RUN gcc -o app main.c
+COPY . /build  
+WORKDIR /build  
+RUN gcc -o app main.c  
 
 # === Stage 2: Runtime ===
 FROM ubuntu:22.04
@@ -571,9 +571,9 @@ FROM ubuntu:22.04
 COPY --from=builder /build/app /usr/local/bin/app
 
 # Variables d'environnement par défaut
-ENV APP_MODE=production
-ENV APP_PORT=8080
-ENV APP_LOG_LEVEL=info
+ENV APP_MODE=production  
+ENV APP_PORT=8080  
+ENV APP_LOG_LEVEL=info  
 
 # Créer les répertoires nécessaires
 RUN mkdir -p /var/log/app /etc/app
@@ -582,8 +582,8 @@ RUN mkdir -p /var/log/app /etc/app
 EXPOSE 8080
 
 # Utilisateur non-root (sécurité)
-RUN useradd -m -u 1000 appuser
-USER appuser
+RUN useradd -m -u 1000 appuser  
+USER appuser  
 
 CMD ["app"]
 ```
@@ -611,9 +611,9 @@ FROM ubuntu:22.04 AS builder
 RUN apt-get update && apt-get install -y gcc && \
     rm -rf /var/lib/apt/lists/*
 
-COPY . /build
-WORKDIR /build
-RUN gcc -o app main.c
+COPY . /build  
+WORKDIR /build  
+RUN gcc -o app main.c  
 
 # === Runtime stage ===
 FROM ubuntu:22.04
@@ -636,8 +636,8 @@ CMD ["app"]
 
 ```bash
 # Créer des volumes Docker
-docker volume create app-data
-docker volume create app-config
+docker volume create app-data  
+docker volume create app-config  
 
 # Lancer avec volumes
 docker run -d \
@@ -663,9 +663,9 @@ FROM ubuntu:22.04 AS builder
 RUN apt-get update && apt-get install -y gcc && \
     rm -rf /var/lib/apt/lists/*
 
-COPY . /build
-WORKDIR /build
-RUN gcc -o server server.c
+COPY . /build  
+WORKDIR /build  
+RUN gcc -o server server.c  
 
 # === Runtime stage ===
 FROM ubuntu:22.04
@@ -750,36 +750,36 @@ networks:
 
 ```dockerfile
 # === Build ===
-FROM ubuntu:22.04 AS builder
-RUN apt-get update && apt-get install -y gcc && rm -rf /var/lib/apt/lists/*
-COPY server.c /build/
-WORKDIR /build
-RUN gcc -o server server.c
+FROM ubuntu:22.04 AS builder  
+RUN apt-get update && apt-get install -y gcc && rm -rf /var/lib/apt/lists/*  
+COPY server.c /build/  
+WORKDIR /build  
+RUN gcc -o server server.c  
 
 # === Runtime ===
-FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
-COPY --from=builder /build/server /usr/local/bin/
-EXPOSE 8080
-CMD ["server"]
+FROM ubuntu:22.04  
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*  
+COPY --from=builder /build/server /usr/local/bin/  
+EXPOSE 8080  
+CMD ["server"]  
 ```
 
 **Dockerfile.client**
 
 ```dockerfile
 # === Build ===
-FROM ubuntu:22.04 AS builder
-RUN apt-get update && apt-get install -y gcc libcurl4-openssl-dev && \
+FROM ubuntu:22.04 AS builder  
+RUN apt-get update && apt-get install -y gcc libcurl4-openssl-dev && \  
     rm -rf /var/lib/apt/lists/*
-COPY client.c /build/
-WORKDIR /build
-RUN gcc -o client client.c -lcurl
+COPY client.c /build/  
+WORKDIR /build  
+RUN gcc -o client client.c -lcurl  
 
 # === Runtime ===
-FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y libcurl4 && rm -rf /var/lib/apt/lists/*
-COPY --from=builder /build/client /usr/local/bin/
-CMD ["client"]
+FROM ubuntu:22.04  
+RUN apt-get update && apt-get install -y libcurl4 && rm -rf /var/lib/apt/lists/*  
+COPY --from=builder /build/client /usr/local/bin/  
+CMD ["client"]  
 ```
 
 **Utilisation :**
@@ -827,14 +827,14 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v3
 
     - name: Log in to Container Registry
       if: github.event_name != 'pull_request'
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
@@ -842,7 +842,7 @@ jobs:
 
     - name: Extract metadata
       id: meta
-      uses: docker/metadata-action@v4
+      uses: docker/metadata-action@v5
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         tags: |
@@ -853,7 +853,7 @@ jobs:
           type=sha
 
     - name: Build and push
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v6
       with:
         context: .
         platforms: linux/amd64,linux/arm64
@@ -944,9 +944,9 @@ FROM random-user/ubuntu-custom
 
 ```dockerfile
 # ✗ Mauvais - 3 layers
-RUN apt-get update
-RUN apt-get install -y gcc
-RUN apt-get install -y make
+RUN apt-get update  
+RUN apt-get install -y gcc  
+RUN apt-get install -y make  
 
 # ✓ Bon - 1 layer
 RUN apt-get update && apt-get install -y \
@@ -1008,9 +1008,9 @@ tests/
 COPY . /build
 
 # ✓ Bon - copie seulement ce qui est nécessaire
-COPY src/ /build/src/
-COPY Makefile /build/
-COPY CMakeLists.txt /build/
+COPY src/ /build/src/  
+COPY Makefile /build/  
+COPY CMakeLists.txt /build/  
 ```
 
 ### 6. Exécuter en tant qu'utilisateur non-root
@@ -1078,11 +1078,11 @@ RUN make
 ```dockerfile
 FROM ubuntu:22.04
 
-LABEL org.opencontainers.image.title="Mon Application"
-LABEL org.opencontainers.image.description="Application C de démonstration"
-LABEL org.opencontainers.image.version="1.0.0"
-LABEL org.opencontainers.image.authors="Votre Nom <email@example.com>"
-LABEL org.opencontainers.image.source="https://github.com/user/projet"
+LABEL org.opencontainers.image.title="Mon Application"  
+LABEL org.opencontainers.image.description="Application C de démonstration"  
+LABEL org.opencontainers.image.version="1.0.0"  
+LABEL org.opencontainers.image.authors="Votre Nom <email@example.com>"  
+LABEL org.opencontainers.image.source="https://github.com/user/projet"  
 
 # ... reste du Dockerfile
 ```
@@ -1093,48 +1093,48 @@ LABEL org.opencontainers.image.source="https://github.com/user/projet"
 
 ```dockerfile
 # Test 1 : Ubuntu avec build complet
-FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y gcc make git cmake
-COPY . /app
-WORKDIR /app
-RUN make
-CMD ["./app"]
+FROM ubuntu:22.04  
+RUN apt-get update && apt-get install -y gcc make git cmake  
+COPY . /app  
+WORKDIR /app  
+RUN make  
+CMD ["./app"]  
 # Taille : ~400 MB
 
 # Test 2 : Ubuntu multi-stage
-FROM ubuntu:22.04 AS builder
-RUN apt-get update && apt-get install -y gcc make
-COPY . /app
-WORKDIR /app
-RUN make
+FROM ubuntu:22.04 AS builder  
+RUN apt-get update && apt-get install -y gcc make  
+COPY . /app  
+WORKDIR /app  
+RUN make  
 
-FROM ubuntu:22.04
-COPY --from=builder /app/app /usr/local/bin/
-CMD ["app"]
+FROM ubuntu:22.04  
+COPY --from=builder /app/app /usr/local/bin/  
+CMD ["app"]  
 # Taille : ~77 MB
 
 # Test 3 : Alpine multi-stage
-FROM alpine:3.18 AS builder
-RUN apk add --no-cache gcc musl-dev make
-COPY . /app
-WORKDIR /app
-RUN make
+FROM alpine:3.18 AS builder  
+RUN apk add --no-cache gcc musl-dev make  
+COPY . /app  
+WORKDIR /app  
+RUN make  
 
-FROM alpine:3.18
-COPY --from=builder /app/app /usr/local/bin/
-CMD ["app"]
+FROM alpine:3.18  
+COPY --from=builder /app/app /usr/local/bin/  
+CMD ["app"]  
 # Taille : ~8 MB
 
 # Test 4 : Scratch avec binaire statique
-FROM alpine:3.18 AS builder
-RUN apk add --no-cache gcc musl-dev make
-COPY . /app
-WORKDIR /app
-RUN gcc -static -o app main.c
+FROM alpine:3.18 AS builder  
+RUN apk add --no-cache gcc musl-dev make  
+COPY . /app  
+WORKDIR /app  
+RUN gcc -static -o app main.c  
 
-FROM scratch
-COPY --from=builder /app/app /app
-CMD ["/app"]
+FROM scratch  
+COPY --from=builder /app/app /app  
+CMD ["/app"]  
 # Taille : ~2 MB
 ```
 
@@ -1148,22 +1148,22 @@ RUN gcc -o app main.c && strip app
 RUN gcc -O3 -DNDEBUG -o app main.c
 
 # 3. Utiliser upx (compression)
-FROM alpine AS builder
-RUN apk add --no-cache gcc musl-dev upx
-RUN gcc -o app main.c
-RUN upx --best --lzma app
+FROM alpine AS builder  
+RUN apk add --no-cache gcc musl-dev upx  
+RUN gcc -o app main.c  
+RUN upx --best --lzma app  
 
 # 4. Multi-stage avec plusieurs builders
-FROM alpine AS deps-builder
-RUN # ... build des dépendances
+FROM alpine AS deps-builder  
+RUN # ... build des dépendances  
 
-FROM alpine AS app-builder
-COPY --from=deps-builder /libs /libs
-RUN # ... build de l'app
+FROM alpine AS app-builder  
+COPY --from=deps-builder /libs /libs  
+RUN # ... build de l'app  
 
-FROM alpine
-COPY --from=deps-builder /libs /usr/lib
-COPY --from=app-builder /app /usr/local/bin
+FROM alpine  
+COPY --from=deps-builder /libs /usr/lib  
+COPY --from=app-builder /app /usr/local/bin  
 ```
 
 ## Dépannage
@@ -1226,35 +1226,35 @@ docker run --rm -it \
 
 ```bash
 # Build
-docker build -t mon-app:latest .
-docker build --no-cache -t mon-app .
+docker build -t mon-app:latest .  
+docker build --no-cache -t mon-app .  
 
 # Run
-docker run --rm mon-app
-docker run -d --name mon-conteneur mon-app
-docker run -p 8080:8080 mon-app
+docker run --rm mon-app  
+docker run -d --name mon-conteneur mon-app  
+docker run -p 8080:8080 mon-app  
 
 # Gestion
-docker ps                    # Conteneurs actifs
-docker ps -a                # Tous les conteneurs
-docker images               # Lister les images
-docker logs conteneur       # Voir les logs
-docker exec -it conteneur bash  # Shell dans conteneur
+docker ps                    # Conteneurs actifs  
+docker ps -a                # Tous les conteneurs  
+docker images               # Lister les images  
+docker logs conteneur       # Voir les logs  
+docker exec -it conteneur bash  # Shell dans conteneur  
 
 # Nettoyage
-docker stop conteneur
-docker rm conteneur
-docker rmi image
-docker system prune -a      # Nettoyage complet
+docker stop conteneur  
+docker rm conteneur  
+docker rmi image  
+docker system prune -a      # Nettoyage complet  
 
 # Registry
-docker login
-docker push username/image:tag
-docker pull username/image:tag
+docker login  
+docker push username/image:tag  
+docker pull username/image:tag  
 
 # Multi-architecture
-docker buildx create --name multiarch --use
-docker buildx build --platform linux/amd64,linux/arm64 -t image .
+docker buildx create --name multiarch --use  
+docker buildx build --platform linux/amd64,linux/arm64 -t image .  
 ```
 
 ## Conclusion

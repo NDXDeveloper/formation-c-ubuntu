@@ -439,8 +439,8 @@ gcc -O2 -ffast-math fichier.c
 ```bash
 gcc -std=c89 fichier.c    # C89/C90 (ANSI C)  
 gcc -std=c99 fichier.c    # C99  
-gcc -std=c11 fichier.c    # C11
-gcc -std=c17 fichier.c    # C17 (recommandé)
+gcc -std=c11 fichier.c    # C11  
+gcc -std=c17 fichier.c    # C17 (recommandé)  
 gcc -std=c2x fichier.c    # C23 (expérimental)  
 ```
 

@@ -32,10 +32,10 @@ Un fichier **.rpm** est une archive qui contient :
 **Sans package :**
 ```bash
 # L'utilisateur doit faire :
-git clone https://github.com/user/projet.git
-cd projet
-make
-sudo make install
+git clone https://github.com/user/projet.git  
+cd projet  
+make  
+sudo make install  
 ```
 
 **Avec package :**
@@ -83,8 +83,8 @@ rpmbuild --version
 **Sur CentOS/RHEL :**
 ```bash
 # Installer les outils de développement
-sudo yum groupinstall "Development Tools"
-sudo yum install rpm-build rpmdevtools rpmlint
+sudo yum groupinstall "Development Tools"  
+sudo yum install rpm-build rpmdevtools rpmlint  
 ```
 
 ## Structure RPM : rpmbuild
@@ -130,21 +130,21 @@ Le fichier **.spec** est le cœur du packaging RPM. C'est un **script** qui déc
 
 ```spec
 # === Métadonnées ===
-Name:           mon-programme
-Version:        1.0.0
-Release:        1%{?dist}
-Summary:        Description courte en une ligne
+Name:           mon-programme  
+Version:        1.0.0  
+Release:        1%{?dist}  
+Summary:        Description courte en une ligne  
 
-License:        MIT
-URL:            https://github.com/user/mon-programme
-Source0:        %{name}-%{version}.tar.gz
+License:        MIT  
+URL:            https://github.com/user/mon-programme  
+Source0:        %{name}-%{version}.tar.gz  
 
-BuildRequires:  gcc
-Requires:       glibc
+BuildRequires:  gcc  
+Requires:       glibc  
 
 %description
-Description longue et détaillée du programme.
-Peut s'étendre sur plusieurs lignes.
+Description longue et détaillée du programme.  
+Peut s'étendre sur plusieurs lignes.  
 
 # === Préparation ===
 %prep
@@ -156,8 +156,8 @@ gcc %{optflags} src/main.c -o %{name}
 
 # === Installation ===
 %install
-mkdir -p %{buildroot}%{_bindir}
-install -m 755 %{name} %{buildroot}%{_bindir}/%{name}
+mkdir -p %{buildroot}%{_bindir}  
+install -m 755 %{name} %{buildroot}%{_bindir}/%{name}  
 
 # === Liste des fichiers ===
 %files
@@ -176,17 +176,17 @@ install -m 755 %{name} %{buildroot}%{_bindir}/%{name}
 #### En-tête (métadonnées)
 
 ```spec
-Name:           mon-programme           # Nom du package
-Version:        1.0.0                   # Version du logiciel
-Release:        1%{?dist}               # Numéro de release (1.fc39, 1.el9, etc.)
-Summary:        Description courte      # Une ligne, < 80 caractères
+Name:           mon-programme           # Nom du package  
+Version:        1.0.0                   # Version du logiciel  
+Release:        1%{?dist}               # Numéro de release (1.fc39, 1.el9, etc.)  
+Summary:        Description courte      # Une ligne, < 80 caractères  
 
-License:        MIT                     # Licence du logiciel
-URL:            https://...             # Site web du projet
-Source0:        %{name}-%{version}.tar.gz  # Archive source
+License:        MIT                     # Licence du logiciel  
+URL:            https://...             # Site web du projet  
+Source0:        %{name}-%{version}.tar.gz  # Archive source  
 
-BuildRequires:  gcc                     # Dépendances de build
-Requires:       glibc                   # Dépendances d'exécution
+BuildRequires:  gcc                     # Dépendances de build  
+Requires:       glibc                   # Dépendances d'exécution  
 ```
 
 **Tags importants :**
@@ -203,8 +203,8 @@ Requires:       glibc                   # Dépendances d'exécution
 
 ```spec
 %description
-Description complète du programme sur plusieurs lignes.
-Peut inclure :
+Description complète du programme sur plusieurs lignes.  
+Peut inclure :  
 - Fonctionnalités principales
 - Cas d'usage
 - Informations importantes
@@ -255,14 +255,14 @@ make %{?_smp_mflags}
 ```spec
 %install
 # Créer les répertoires dans buildroot
-mkdir -p %{buildroot}%{_bindir}
-mkdir -p %{buildroot}%{_mandir}/man1
-mkdir -p %{buildroot}%{_docdir}/%{name}
+mkdir -p %{buildroot}%{_bindir}  
+mkdir -p %{buildroot}%{_mandir}/man1  
+mkdir -p %{buildroot}%{_docdir}/%{name}  
 
 # Copier les fichiers
-install -m 755 %{name} %{buildroot}%{_bindir}/%{name}
-install -m 644 %{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
-install -m 644 README.md %{buildroot}%{_docdir}/%{name}/
+install -m 755 %{name} %{buildroot}%{_bindir}/%{name}  
+install -m 644 %{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1  
+install -m 644 README.md %{buildroot}%{_docdir}/%{name}/  
 
 # Ou utiliser make install
 make install DESTDIR=%{buildroot}
@@ -324,8 +324,8 @@ make install DESTDIR=%{buildroot}
 
 ```bash
 # Créer la structure du projet
-mkdir -p mon-programme-1.0.0/src
-cd mon-programme-1.0.0
+mkdir -p mon-programme-1.0.0/src  
+cd mon-programme-1.0.0  
 
 # Code source simple
 cat > src/main.c << 'EOF'
@@ -339,11 +339,11 @@ int main(void) {
 EOF
 
 # Makefile simple
-cat > Makefile << 'EOF'
-CC = gcc
-CFLAGS = -Wall -O2
-PREFIX = /usr
-BINDIR = $(PREFIX)/bin
+cat > Makefile << 'EOF'  
+CC = gcc  
+CFLAGS = -Wall -O2  
+PREFIX = /usr  
+BINDIR = $(PREFIX)/bin  
 
 all: mon-programme
 
@@ -373,13 +373,13 @@ sudo dnf install mon-programme
 EOF
 
 # Licence
-cat > LICENSE << 'EOF'
-MIT License
+cat > LICENSE << 'EOF'  
+MIT License  
 
 Copyright (c) 2024 Votre Nom
 
-Permission is hereby granted...
-EOF
+Permission is hereby granted...  
+EOF  
 ```
 
 ### Créer l'archive source
@@ -400,22 +400,22 @@ cp mon-programme-1.0.0.tar.gz ~/rpmbuild/SOURCES/
 **~/rpmbuild/SPECS/mon-programme.spec**
 
 ```spec
-Name:           mon-programme
-Version:        1.0.0
-Release:        1%{?dist}
-Summary:        Programme de démonstration RPM
+Name:           mon-programme  
+Version:        1.0.0  
+Release:        1%{?dist}  
+Summary:        Programme de démonstration RPM  
 
-License:        MIT
-URL:            https://github.com/user/mon-programme
-Source0:        %{name}-%{version}.tar.gz
+License:        MIT  
+URL:            https://github.com/user/mon-programme  
+Source0:        %{name}-%{version}.tar.gz  
 
-BuildRequires:  gcc
-BuildRequires:  make
-Requires:       glibc
+BuildRequires:  gcc  
+BuildRequires:  make  
+Requires:       glibc  
 
 %description
-Programme simple de démonstration pour le packaging RPM.
-Illustre les concepts de base de création de packages RPM.
+Programme simple de démonstration pour le packaging RPM.  
+Illustre les concepts de base de création de packages RPM.  
 
 %prep
 %setup -q
@@ -440,8 +440,8 @@ make install DESTDIR=%{buildroot}
 
 ```bash
 # Builder le package RPM
-cd ~/rpmbuild/SPECS
-rpmbuild -ba mon-programme.spec
+cd ~/rpmbuild/SPECS  
+rpmbuild -ba mon-programme.spec  
 
 # Options :
 # -ba : Build All (binaire + source)
@@ -469,8 +469,8 @@ sudo rpm -ivh ~/rpmbuild/RPMS/x86_64/mon-programme-1.0.0-1.*.rpm
 mon-programme
 
 # Vérifier l'installation
-rpm -qi mon-programme
-rpm -ql mon-programme
+rpm -qi mon-programme  
+rpm -ql mon-programme  
 
 # Désinstaller
 sudo rpm -e mon-programme
@@ -503,21 +503,21 @@ $1 = Nombre de packages après l'opération
 **mon-daemon.spec**
 
 ```spec
-Name:           mon-daemon
-Version:        1.0.0
-Release:        1%{?dist}
-Summary:        Daemon de démonstration
+Name:           mon-daemon  
+Version:        1.0.0  
+Release:        1%{?dist}  
+Summary:        Daemon de démonstration  
 
-License:        MIT
-URL:            https://github.com/user/mon-daemon
-Source0:        %{name}-%{version}.tar.gz
-Source1:        %{name}.service
+License:        MIT  
+URL:            https://github.com/user/mon-daemon  
+Source0:        %{name}-%{version}.tar.gz  
+Source1:        %{name}.service  
 
-BuildRequires:  gcc systemd-rpm-macros
-Requires:       glibc
-Requires(post): systemd
-Requires(preun): systemd
-Requires(postun): systemd
+BuildRequires:  gcc systemd-rpm-macros  
+Requires:       glibc  
+Requires(post): systemd  
+Requires(preun): systemd  
+Requires(postun): systemd  
 
 %description
 Un daemon de démonstration avec service systemd.
@@ -530,21 +530,21 @@ gcc %{optflags} src/daemon.c -o %{name}
 
 %install
 # Installer le binaire
-mkdir -p %{buildroot}%{_bindir}
-install -m 755 %{name} %{buildroot}%{_bindir}/%{name}
+mkdir -p %{buildroot}%{_bindir}  
+install -m 755 %{name} %{buildroot}%{_bindir}/%{name}  
 
 # Installer le fichier service
-mkdir -p %{buildroot}%{_unitdir}
-install -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
+mkdir -p %{buildroot}%{_unitdir}  
+install -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service  
 
 # Créer les répertoires
-mkdir -p %{buildroot}%{_localstatedir}/log/%{name}
-mkdir -p %{buildroot}%{_sysconfdir}/%{name}
+mkdir -p %{buildroot}%{_localstatedir}/log/%{name}  
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}  
 
 %pre
 # Créer l'utilisateur système
-getent group %{name} >/dev/null || groupadd -r %{name}
-getent passwd %{name} >/dev/null || \
+getent group %{name} >/dev/null || groupadd -r %{name}  
+getent passwd %{name} >/dev/null || \  
     useradd -r -g %{name} -d %{_localstatedir}/lib/%{name} \
     -s /sbin/nologin -c "Daemon user" %{name}
 exit 0
@@ -622,31 +622,31 @@ fi
 
 ```spec
 # Dépendances de build (compilation)
-BuildRequires:  gcc
-BuildRequires:  make
-BuildRequires:  cmake
-BuildRequires:  pkgconfig(openssl)
+BuildRequires:  gcc  
+BuildRequires:  make  
+BuildRequires:  cmake  
+BuildRequires:  pkgconfig(openssl)  
 
 # Dépendances d'exécution (runtime)
-Requires:       glibc
-Requires:       openssl-libs >= 3.0.0
+Requires:       glibc  
+Requires:       openssl-libs >= 3.0.0  
 
 # Dépendances spécifiques pour les scripts
-Requires(pre):    shadow-utils
-Requires(post):   systemd
-Requires(preun):  systemd
-Requires(postun): systemd
+Requires(pre):    shadow-utils  
+Requires(post):   systemd  
+Requires(preun):  systemd  
+Requires(postun): systemd  
 ```
 
 ### Opérateurs de version
 
 ```spec
-Requires: paquet                    # N'importe quelle version
-Requires: paquet >= 1.0.0           # Version minimale
-Requires: paquet <= 2.0.0           # Version maximale
-Requires: paquet = 1.5.0            # Version exacte
-Requires: paquet < 3.0.0            # Strictement inférieure
-Requires: paquet > 0.5.0            # Strictement supérieure
+Requires: paquet                    # N'importe quelle version  
+Requires: paquet >= 1.0.0           # Version minimale  
+Requires: paquet <= 2.0.0           # Version maximale  
+Requires: paquet = 1.5.0            # Version exacte  
+Requires: paquet < 3.0.0            # Strictement inférieure  
+Requires: paquet > 0.5.0            # Strictement supérieure  
 ```
 
 ### Dépendances automatiques
@@ -666,12 +666,12 @@ rpm -qpR mon-programme.rpm
 
 ```spec
 # Fournir une fonctionnalité virtuelle
-Provides: webserver
-Provides: mon-ancienne-lib = 2.0
+Provides: webserver  
+Provides: mon-ancienne-lib = 2.0  
 
 # Conflits avec d'autres packages
-Conflicts: autre-webserver
-Conflicts: ancien-programme
+Conflicts: autre-webserver  
+Conflicts: ancien-programme  
 
 # Obsolète (remplace) un ancien package
 Obsoletes: ancien-nom < 2.0
@@ -697,8 +697,8 @@ Obsoletes: ancien-nom < 2.0
 # Dans le .spec
 BuildArch:      noarch        # Pour scripts, données
 # Ou
-ExcludeArch:    i686          # Exclure certaines architectures
-ExclusiveArch:  x86_64 aarch64  # Limiter aux architectures listées
+ExcludeArch:    i686          # Exclure certaines architectures  
+ExclusiveArch:  x86_64 aarch64  # Limiter aux architectures listées  
 ```
 
 ### Cross-compiler pour ARM
@@ -710,14 +710,14 @@ ExclusiveArch:  x86_64 aarch64  # Limiter aux architectures listées
 sudo dnf install gcc-aarch64-linux-gnu
 
 # Modifier le .spec pour cross-compilation
-cat > mon-programme.spec << 'EOF'
-Name:           mon-programme
-Version:        1.0.0
-Release:        1%{?dist}
-Summary:        Programme cross-compilé pour ARM
+cat > mon-programme.spec << 'EOF'  
+Name:           mon-programme  
+Version:        1.0.0  
+Release:        1%{?dist}  
+Summary:        Programme cross-compilé pour ARM  
 
-License:        MIT
-Source0:        %{name}-%{version}.tar.gz
+License:        MIT  
+Source0:        %{name}-%{version}.tar.gz  
 
 BuildRequires:  gcc-aarch64-linux-gnu
 
@@ -731,8 +731,8 @@ Programme cross-compilé pour architecture ARM64.
 aarch64-linux-gnu-gcc %{optflags} src/main.c -o %{name}
 
 %install
-mkdir -p %{buildroot}%{_bindir}
-install -m 755 %{name} %{buildroot}%{_bindir}/%{name}
+mkdir -p %{buildroot}%{_bindir}  
+install -m 755 %{name} %{buildroot}%{_bindir}/%{name}  
 
 %files
 %{_bindir}/%{name}
@@ -797,9 +797,9 @@ mock -r fedora-39-x86_64 ~/rpmbuild/SRPMS/mon-programme-1.0.0-1.src.rpm
 
 ```bash
 # Builder pour plusieurs distributions
-mock -r fedora-39-x86_64 mon-programme.src.rpm
-mock -r fedora-38-x86_64 mon-programme.src.rpm
-mock -r centos-stream-9-x86_64 mon-programme.src.rpm
+mock -r fedora-39-x86_64 mon-programme.src.rpm  
+mock -r fedora-38-x86_64 mon-programme.src.rpm  
+mock -r centos-stream-9-x86_64 mon-programme.src.rpm  
 
 # Builder pour plusieurs architectures (si configuré)
 mock -r fedora-39-aarch64 mon-programme.src.rpm
@@ -826,25 +826,25 @@ rpmlint mon-programme-1.0.0-1.fc39.src.rpm
 ### Comprendre les messages
 
 ```
-E: error          → Erreur critique (doit être corrigée)
-W: warning        → Avertissement (devrait être corrigé)
-I: info           → Information
+E: error          → Erreur critique (doit être corrigée)  
+W: warning        → Avertissement (devrait être corrigé)  
+I: info           → Information  
 ```
 
 **Exemples de messages courants :**
 
 ```bash
 # Bon
-rpmlint mon-programme.rpm
-mon-programme.x86_64: I: checking
-mon-programme.x86_64: W: no-documentation
+rpmlint mon-programme.rpm  
+mon-programme.x86_64: I: checking  
+mon-programme.x86_64: W: no-documentation  
 1 packages and 0 specfiles checked; 0 errors, 1 warnings.
 
 # Erreurs à corriger
-E: invalid-spec-name    # Nom du .spec incorrect
-E: no-description       # Description manquante
-W: no-manual-page-for-binary  # Pas de page man
-W: unstripped-binary-or-object  # Binaire non strippé
+E: invalid-spec-name    # Nom du .spec incorrect  
+E: no-description       # Description manquante  
+W: no-manual-page-for-binary  # Pas de page man  
+W: unstripped-binary-or-object  # Binaire non strippé  
 ```
 
 ### Configuration personnalisée
@@ -853,8 +853,8 @@ W: unstripped-binary-or-object  # Binaire non strippé
 
 ```ini
 # Ignorer certains warnings
-addFilter("no-manual-page-for-binary")
-addFilter("no-documentation")
+addFilter("no-manual-page-for-binary")  
+addFilter("no-documentation")  
 ```
 
 ## Distribution des packages RPM
@@ -863,8 +863,8 @@ addFilter("no-documentation")
 
 ```bash
 # Sur GitHub Releases ou site web
-wget https://example.com/mon-programme-1.0.0-1.fc39.x86_64.rpm
-sudo dnf install ./mon-programme-1.0.0-1.fc39.x86_64.rpm
+wget https://example.com/mon-programme-1.0.0-1.fc39.x86_64.rpm  
+sudo dnf install ./mon-programme-1.0.0-1.fc39.x86_64.rpm  
 ```
 
 ### Méthode 2 : Dépôt YUM/DNF
@@ -919,10 +919,10 @@ scp -r mon-repo/ user@server:/var/www/html/repo/
 
 ```ini
 [mon-repo]
-name=Mon Dépôt Personnel
-baseurl=https://example.com/repo/x86_64/
-enabled=1
-gpgcheck=0
+name=Mon Dépôt Personnel  
+baseurl=https://example.com/repo/x86_64/  
+enabled=1  
+gpgcheck=0  
 ```
 
 Puis :
@@ -951,8 +951,8 @@ sudo dnf install copr-cli
 copr-cli build username/projet mon-programme-1.0.0-1.src.rpm
 
 # Les utilisateurs peuvent installer avec :
-sudo dnf copr enable username/projet
-sudo dnf install mon-programme
+sudo dnf copr enable username/projet  
+sudo dnf install mon-programme  
 ```
 
 ## Intégration CI/CD
@@ -980,7 +980,7 @@ jobs:
         arch: [x86_64, aarch64]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install build dependencies
       run: |
@@ -1021,14 +1021,14 @@ jobs:
         fi
 
     - name: Upload RPM artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: rpm-packages-${{ matrix.arch }}
         path: ~/rpmbuild/RPMS/**/*.rpm
 
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: ~/rpmbuild/RPMS/**/*.rpm
       env:
@@ -1260,33 +1260,33 @@ rpmbuild -ba mon-programme.spec --verbose
 
 ```bash
 # Setup
-rpmdev-setuptree
-rpmdev-newspec mon-programme
+rpmdev-setuptree  
+rpmdev-newspec mon-programme  
 
 # Build
-rpmbuild -ba mon-programme.spec         # Build all
-rpmbuild -bb mon-programme.spec         # Binary only
-rpmbuild -bs mon-programme.spec         # Source only
+rpmbuild -ba mon-programme.spec         # Build all  
+rpmbuild -bb mon-programme.spec         # Binary only  
+rpmbuild -bs mon-programme.spec         # Source only  
 
 # Vérification
-rpm -qip package.rpm                    # Info
-rpm -qlp package.rpm                    # Contenu
-rpmlint package.rpm                     # Validation
+rpm -qip package.rpm                    # Info  
+rpm -qlp package.rpm                    # Contenu  
+rpmlint package.rpm                     # Validation  
 
 # Installation
-sudo rpm -ivh package.rpm               # Install
-sudo rpm -Uvh package.rpm               # Upgrade
-sudo rpm -e package                     # Erase (remove)
+sudo rpm -ivh package.rpm               # Install  
+sudo rpm -Uvh package.rpm               # Upgrade  
+sudo rpm -e package                     # Erase (remove)  
 
 # Gestion avec DNF
-sudo dnf install ./package.rpm
-sudo dnf remove package
+sudo dnf install ./package.rpm  
+sudo dnf remove package  
 
 # Queries
-rpm -qa                                 # Tous les packages
-rpm -qi package                         # Info d'un package installé
-rpm -ql package                         # Fichiers d'un package
-rpm -qf /usr/bin/command                # Quel package fournit ce fichier?
+rpm -qa                                 # Tous les packages  
+rpm -qi package                         # Info d'un package installé  
+rpm -ql package                         # Fichiers d'un package  
+rpm -qf /usr/bin/command                # Quel package fournit ce fichier?  
 
 # Mock
 mock -r fedora-39-x86_64 package.src.rpm

@@ -850,8 +850,8 @@ Créez `asan.supp`, `lsan.supp`, `valgrind.supp` pour ignorer les faux positifs 
 man gcc | grep -A 2 fsanitize
 
 # Options d'un sanitizer (affiche toutes les options reconnues)
-ASAN_OPTIONS=help=1 ./programme
-TSAN_OPTIONS=help=1 ./programme
+ASAN_OPTIONS=help=1 ./programme  
+TSAN_OPTIONS=help=1 ./programme  
 UBSAN_OPTIONS=help=1 ./programme
 
 # Version de Valgrind

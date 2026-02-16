@@ -111,8 +111,8 @@ project/
 #ifndef MATH_UTILS_H
 #define MATH_UTILS_H
 
-int add(int a, int b);
-int multiply(int a, int b);
+int add(int a, int b);  
+int multiply(int a, int b);  
 
 #endif
 ```
@@ -194,9 +194,9 @@ gcc -o test_runner \
 **Sortie :**
 
 ```
-test_math_utils.c:12:test_add_positive_numbers:PASS
-test_math_utils.c:17:test_add_with_zero:PASS
-test_math_utils.c:23:test_multiply:PASS
+test_math_utils.c:12:test_add_positive_numbers:PASS  
+test_math_utils.c:17:test_add_with_zero:PASS  
+test_math_utils.c:23:test_multiply:PASS  
 
 -----------------------
 3 Tests 0 Failures 0 Ignored
@@ -207,26 +207,26 @@ OK
 
 ```c
 // Égalité de valeurs
-TEST_ASSERT_EQUAL_INT(expected, actual);
-TEST_ASSERT_EQUAL_UINT(expected, actual);
-TEST_ASSERT_EQUAL_FLOAT(expected, actual);
+TEST_ASSERT_EQUAL_INT(expected, actual);  
+TEST_ASSERT_EQUAL_UINT(expected, actual);  
+TEST_ASSERT_EQUAL_FLOAT(expected, actual);  
 
 // Comparaisons
-TEST_ASSERT_GREATER_THAN(threshold, actual);
-TEST_ASSERT_LESS_THAN(threshold, actual);
+TEST_ASSERT_GREATER_THAN(threshold, actual);  
+TEST_ASSERT_LESS_THAN(threshold, actual);  
 
 // Pointeurs
-TEST_ASSERT_NULL(pointer);
-TEST_ASSERT_NOT_NULL(pointer);
-TEST_ASSERT_EQUAL_PTR(expected, actual);
+TEST_ASSERT_NULL(pointer);  
+TEST_ASSERT_NOT_NULL(pointer);  
+TEST_ASSERT_EQUAL_PTR(expected, actual);  
 
 // Chaînes de caractères
-TEST_ASSERT_EQUAL_STRING("expected", actual);
-TEST_ASSERT_EQUAL_MEMORY(expected, actual, num_bytes);
+TEST_ASSERT_EQUAL_STRING("expected", actual);  
+TEST_ASSERT_EQUAL_MEMORY(expected, actual, num_bytes);  
 
 // Booléens
-TEST_ASSERT_TRUE(condition);
-TEST_ASSERT_FALSE(condition);
+TEST_ASSERT_TRUE(condition);  
+TEST_ASSERT_FALSE(condition);  
 
 // Tableaux
 TEST_ASSERT_EQUAL_INT_ARRAY(expected, actual, num_elements);
@@ -344,7 +344,7 @@ gcc -o test_runner \
 **Sortie :**
 
 ```
-Running suite Math
+Running suite(s): Math
 100%: Checks: 2, Failures: 0, Errors: 0
 ```
 
@@ -405,19 +405,19 @@ tcase_set_timeout(tc_core, 2);
 
 ```c
 // Entiers
-ck_assert_int_eq(expected, actual);
-ck_assert_int_ne(expected, actual);
-ck_assert_int_lt(actual, threshold);
-ck_assert_int_gt(actual, threshold);
+ck_assert_int_eq(expected, actual);  
+ck_assert_int_ne(expected, actual);  
+ck_assert_int_lt(actual, threshold);  
+ck_assert_int_gt(actual, threshold);  
 
 // Chaînes
-ck_assert_str_eq("expected", actual);
-ck_assert_str_ne("not_expected", actual);
+ck_assert_str_eq("expected", actual);  
+ck_assert_str_ne("not_expected", actual);  
 
 // Pointeurs
-ck_assert_ptr_null(pointer);
-ck_assert_ptr_nonnull(pointer);
-ck_assert_ptr_eq(expected, actual);
+ck_assert_ptr_null(pointer);  
+ck_assert_ptr_nonnull(pointer);  
+ck_assert_ptr_eq(expected, actual);  
 
 // Mémoire
 ck_assert_mem_eq(expected, actual, num_bytes);
@@ -561,23 +561,23 @@ gcc -o test_runner test.c \
 
 ```c
 // Égalité
-assert_int_equal(expected, actual);
-assert_int_not_equal(expected, actual);
-assert_string_equal("expected", actual);
-assert_memory_equal(expected, actual, size);
+assert_int_equal(expected, actual);  
+assert_int_not_equal(expected, actual);  
+assert_string_equal("expected", actual);  
+assert_memory_equal(expected, actual, size);  
 
 // Comparaisons
-assert_in_range(value, min, max);
-assert_not_in_range(value, min, max);
+assert_in_range(value, min, max);  
+assert_not_in_range(value, min, max);  
 
 // Booléens
-assert_true(condition);
-assert_false(condition);
+assert_true(condition);  
+assert_false(condition);  
 
 // Pointeurs
-assert_null(pointer);
-assert_non_null(pointer);
-assert_ptr_equal(expected, actual);
+assert_null(pointer);  
+assert_non_null(pointer);  
+assert_ptr_equal(expected, actual);  
 ```
 
 ---
@@ -671,6 +671,7 @@ sudo apt install libcriterion-dev
 
 ```c
 #include <criterion/criterion.h>
+#include <criterion/parameterized.h>
 #include "math_utils.h"
 
 Test(math, add) {
@@ -681,22 +682,26 @@ Test(math, multiply) {
     cr_assert_eq(multiply(4, 5), 20);
 }
 
+// Struct nommée pour le test paramétrique
+struct add_params {
+    int a;
+    int b;
+    int expected;
+};
+
 // Test paramétrique
 ParameterizedTestParameters(math, parametric_add) {
-    static struct {
-        int a;
-        int b;
-        int expected;
-    } params[] = {
+    static struct add_params params[] = {
         {1, 2, 3},
         {5, 5, 10},
         {-1, 1, 0},
     };
 
-    return cr_make_param_array(params, sizeof(params));
+    return cr_make_param_array(struct add_params, params,
+                               sizeof(params) / sizeof(params[0]));
 }
 
-ParameterizedTest(struct {int a; int b; int expected;} *param, math, parametric_add) {
+ParameterizedTest(struct add_params *param, math, parametric_add) {
     cr_assert_eq(add(param->a, param->b), param->expected);
 }
 ```
@@ -756,12 +761,12 @@ Quel que soit le framework choisi, CMake facilite grandement l'intégration des 
 **Fichier : `CMakeLists.txt`**
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(MyProject C)
+cmake_minimum_required(VERSION 3.10)  
+project(MyProject C)  
 
 # Options de compilation
-set(CMAKE_C_STANDARD 11)
-add_compile_options(-Wall -Wextra -Werror)
+set(CMAKE_C_STANDARD 17)  
+add_compile_options(-Wall -Wextra -Werror)  
 
 # Bibliothèque à tester
 add_library(math_utils src/math_utils.c)
@@ -773,8 +778,8 @@ enable_testing()
 add_subdirectory(unity)
 
 # Test exécutable
-add_executable(test_math tests/test_math_utils.c)
-target_link_libraries(test_math math_utils unity)
+add_executable(test_math tests/test_math_utils.c)  
+target_link_libraries(test_math math_utils unity)  
 
 # Déclarer le test
 add_test(NAME MathTests COMMAND test_math)
@@ -783,21 +788,21 @@ add_test(NAME MathTests COMMAND test_math)
 **Exécution :**
 
 ```bash
-mkdir build && cd build
-cmake ..
-make
-ctest --verbose
+mkdir build && cd build  
+cmake ..  
+make  
+ctest --verbose  
 ```
 
 ### Exemple avec Check
 
 ```cmake
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(CHECK REQUIRED check)
+find_package(PkgConfig REQUIRED)  
+pkg_check_modules(CHECK REQUIRED check)  
 
-add_executable(test_math tests/check_math_utils.c)
-target_link_libraries(test_math math_utils ${CHECK_LIBRARIES})
-target_include_directories(test_math PUBLIC ${CHECK_INCLUDE_DIRS})
+add_executable(test_math tests/check_math_utils.c)  
+target_link_libraries(test_math math_utils ${CHECK_LIBRARIES})  
+target_include_directories(test_math PUBLIC ${CHECK_INCLUDE_DIRS})  
 
 add_test(NAME MathTests COMMAND test_math)
 ```
@@ -819,9 +824,9 @@ tests/
 
 ```c
 // Convention : test_<fonction>_<cas>
-void test_add_positive_numbers(void);
-void test_add_with_zero(void);
-void test_add_negative_numbers(void);
+void test_add_positive_numbers(void);  
+void test_add_with_zero(void);  
+void test_add_negative_numbers(void);  
 ```
 
 ### 3. Tests indépendants
@@ -875,7 +880,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
@@ -897,9 +902,9 @@ jobs:
 ### Exemple avec Check (sortie XML)
 
 ```c
-// Modifier le runner pour sortir en XML
+// Configurer la sortie XML avant d'exécuter les tests
+srunner_set_xml(sr, "check_results.xml");  
 srunner_run_all(sr, CK_NORMAL);
-srunner_print(sr, CK_XML_LOG_FILE);
 ```
 
 Cela génère un fichier `check_results.xml` compatible avec Jenkins/GitLab CI.

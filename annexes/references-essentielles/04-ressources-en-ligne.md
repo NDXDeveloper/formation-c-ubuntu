@@ -240,8 +240,8 @@ Recherche Google : "malloc cppreference"
 ### 3. **Modern C** par Jens Gustedt
 **URL :** [https://www.manning.com/books/modern-c](https://www.manning.com/books/modern-c)
 
-**Type :** Livre publié chez Manning (2019)
-**Format :** PDF disponible, version papier payante
+**Type :** Livre publié chez Manning (2019)  
+**Format :** PDF disponible, version papier payante  
 **Niveau :** Débutant à Avancé
 
 **Points forts :**
@@ -256,7 +256,7 @@ Recherche Google : "malloc cppreference"
 ### 4. **C FAQ** - Steve Summit
 **URL :** [https://c-faq.com/](https://c-faq.com/)
 
-**Type :** FAQ et notes de cours
+**Type :** FAQ et notes de cours  
 **Niveau :** Débutant à Intermédiaire
 
 **Points forts :**
@@ -269,7 +269,7 @@ Recherche Google : "malloc cppreference"
 ### 5. **GNU C Reference Manual**
 **URL :** [https://www.gnu.org/software/gnu-c-manual/](https://www.gnu.org/software/gnu-c-manual/)
 
-**Type :** Documentation en ligne (HTML)
+**Type :** Documentation en ligne (HTML)  
 **Niveau :** Débutant à Intermédiaire
 
 **Points forts :**

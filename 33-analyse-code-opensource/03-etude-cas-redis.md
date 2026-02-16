@@ -37,13 +37,13 @@ Redis est utilisé par des millions de serveurs dans le monde pour :
 ### Statistiques (Redis 7.x)
 
 ```
-Taille du projet   : ~80 000 lignes de code C
-Nombre de fichiers : ~200 fichiers .c et .h
-Contributeurs      : 600+ développeurs
-Première version   : 2009
-Langage            : C (99%), Tcl (tests)
-Performance        : 100K+ ops/sec sur matériel standard
-Latence            : <1ms (percentile 99)
+Taille du projet   : ~80 000 lignes de code C  
+Nombre de fichiers : ~200 fichiers .c et .h  
+Contributeurs      : 600+ développeurs  
+Première version   : 2009  
+Langage            : C (99%), Tcl (tests)  
+Performance        : 100K+ ops/sec sur matériel standard  
+Latence            : <1ms (percentile 99)  
 ```
 
 ### Philosophie de Redis
@@ -65,9 +65,9 @@ Redis se distingue par plusieurs principes :
 Clonez Redis pour explorer son code :
 
 ```bash
-git clone https://github.com/redis/redis.git
-cd redis
-tree -L 1 -d
+git clone https://github.com/redis/redis.git  
+cd redis  
+tree -L 1 -d  
 ```
 
 ```
@@ -268,9 +268,9 @@ Mémoire :
 
 ```c
 // Création
-sds s = sdsnew("hello");           // Crée "hello"
-s = sdscat(s, " world");           // Concatène, s = "hello world"
-printf("Length: %zu\n", sdslen(s)); // O(1) !
+sds s = sdsnew("hello");           // Crée "hello"  
+s = sdscat(s, " world");           // Concatène, s = "hello world"  
+printf("Length: %zu\n", sdslen(s)); // O(1) !  
 
 // Modification sécurisée
 s = sdscatprintf(s, " %d", 2024);  // Comme sprintf, mais sûr
@@ -350,16 +350,16 @@ typedef struct dict {
 
 ```
 État normal (pas de rehashing) :
-ht[0] : [utilisée]
-ht[1] : [vide]
+ht[0] : [utilisée]  
+ht[1] : [vide]  
 
-Pendant le rehashing :
-ht[0] : [partiellement vidée] ← Ancienne table
-ht[1] : [partiellement remplie] ← Nouvelle table
+Pendant le rehashing :  
+ht[0] : [partiellement vidée] ← Ancienne table  
+ht[1] : [partiellement remplie] ← Nouvelle table  
 
-Après le rehashing :
-ht[0] : [nouvelle table]
-ht[1] : [vide]
+Après le rehashing :  
+ht[0] : [nouvelle table]  
+ht[1] : [vide]  
 ```
 
 **Pourquoi deux tables ?** Pour éviter de bloquer Redis pendant le rehashing d'une énorme table. Redis déplace les entrées **progressivement** lors des accès.
@@ -441,9 +441,9 @@ Les Sorted Sets de Redis utilisent une **skiplist** pour des insertions/recherch
 **Qu'est-ce qu'une skiplist ?** Une liste chaînée avec des "raccourcis" sur plusieurs niveaux.
 
 ```
-Niveau 3:  [1] ---------------------------------> [9]
-Niveau 2:  [1] -------> [4] -----------------> [9]
-Niveau 1:  [1] -> [2] -> [4] -> [5] -> [7] -> [9]
+Niveau 3:  [1] ---------------------------------> [9]  
+Niveau 2:  [1] -------> [4] -----------------> [9]  
+Niveau 1:  [1] -> [2] -> [4] -> [5] -> [7] -> [9]  
 ```
 
 **Implémentation Redis** :
@@ -921,7 +921,7 @@ void createSharedObjects(void) {
     shared.czero = createObject(OBJ_STRING, sdsnew(":0\r\n"));
     shared.cone = createObject(OBJ_STRING, sdsnew(":1\r\n"));
 
-    // Petits entiers (-1 à 10000)
+    // Petits entiers (0 à 9999)
     for (int j = 0; j < OBJ_SHARED_INTEGERS; j++) {
         shared.integers[j] = createObject(OBJ_STRING, (void*)(long)j);
         shared.integers[j]->encoding = OBJ_ENCODING_INT;
@@ -1185,8 +1185,8 @@ static unsigned long _dictNextPower(unsigned long size) {
 Redis a des milliers de tests dans `tests/`.
 
 ```bash
-cd redis/tests
-./test-redis.tcl
+cd redis
+./runtest        # ou simplement : make test
 ```
 
 Tests unitaires ET tests d'intégration :
@@ -1204,12 +1204,12 @@ Redis inclut des outils de profiling intégrés.
 
 ```bash
 # Dans redis-cli
-INFO stats
-INFO memory
+INFO stats  
+INFO memory  
 
 # Profiling des commandes lentes
-CONFIG SET slowlog-log-slower-than 10000
-SLOWLOG GET 10
+CONFIG SET slowlog-log-slower-than 10000  
+SLOWLOG GET 10  
 
 # Latency monitoring
 LATENCY DOCTOR
@@ -1241,8 +1241,8 @@ void call(client *c, int flags) {
 ### 8.1 Compiler Redis
 
 ```bash
-cd redis
-make
+cd redis  
+make  
 
 # Avec symboles de débogage
 make noopt  # Équivalent de CFLAGS="-g -O0"
@@ -1274,9 +1274,9 @@ redis-cli SET mykey hello
 
 ```bash
 # Dans redis-cli
-MEMORY USAGE mykey
-MEMORY DOCTOR
-MEMORY STATS
+MEMORY USAGE mykey  
+MEMORY DOCTOR  
+MEMORY STATS  
 ```
 
 ### 8.4 Lire le code source
@@ -1304,24 +1304,22 @@ Redis a **d'excellents commentaires** dans le code. Lisez :
 // dict.c
 /* -------------------------- private prototypes ---------------------------- */
 
-static int _dictExpandIfNeeded(dict *ht);
-static unsigned long _dictNextPower(unsigned long size);
-static long _dictKeyIndex(dict *ht, const void *key, uint64_t hash, dictEntry **existing);
-static int _dictInit(dict *ht, dictType *type, void *privDataPtr);
+static int _dictExpandIfNeeded(dict *ht);  
+static unsigned long _dictNextPower(unsigned long size);  
+static long _dictKeyIndex(dict *ht, const void *key, uint64_t hash, dictEntry **existing);  
+static int _dictInit(dict *ht, dictType *type, void *privDataPtr);  
 
 /* -------------------------- hash functions -------------------------------- */
 
-/* Generic hash function (djb2 by Dan Bernstein).
- * This is an algorithm known to be fast and effective.
- * A different version is djb2a where the + is replaced by ^. */
-uint64_t dictGenHashFunction(const void *key, int len) {
-    /* 'M', start with ... */
-    uint32_t hash = 5381;
+/* Hash function using SipHash (since Redis 4.0).
+ * SipHash provides protection against hash-flooding attacks
+ * while maintaining excellent performance. */
+uint64_t dictGenHashFunction(const void *key, size_t len) {
+    return siphash(key, len, dict_hash_function_seed);
+}
 
-    for (int i = 0; i < len; i++)
-        hash = ((hash << 5) + hash) + key[i]; /* hash * 33 + c */
-
-    return hash;
+uint64_t dictGenCaseHashFunction(const unsigned char *buf, size_t len) {
+    return siphash_nocase(buf, len, dict_hash_function_seed);
 }
 ```
 

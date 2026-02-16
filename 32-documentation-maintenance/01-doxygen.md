@@ -44,7 +44,7 @@ Code source avec commentaires spéciaux
 
 ### Pourquoi Doxygen est incontournable
 
-1. **Standard industriel** : Utilisé dans des milliers de projets open-source (Linux kernel, Git, Nginx, Redis, etc.)
+1. **Standard industriel** : Utilisé dans des milliers de projets open-source (FFmpeg, VLC, OpenSSL, DPDK, etc.)
 2. **Automatisation** : Une fois configuré, génère la doc en une commande
 3. **Richesse** : Crée des graphes de dépendances, des diagrammes de classes, des call graphs
 4. **Intégration** : S'intègre parfaitement dans les pipelines CI/CD
@@ -340,8 +340,8 @@ Pour avoir un aperçu immédiat, installez Doxygen :
 
 ```bash
 # Ubuntu/Debian
-sudo apt update
-sudo apt install doxygen
+sudo apt update  
+sudo apt install doxygen  
 
 # Vérifier l'installation
 doxygen --version
@@ -378,8 +378,8 @@ doxygen -g
 Modifiez juste deux lignes dans le `Doxyfile` :
 
 ```bash
-INPUT                  = test.c
-EXTRACT_ALL            = YES
+INPUT                  = test.c  
+EXTRACT_ALL            = YES  
 ```
 
 Générez la doc :
@@ -388,7 +388,7 @@ Générez la doc :
 doxygen
 ```
 
-Ouvrez `docs/html/index.html` dans votre navigateur. Vous venez de créer votre première documentation Doxygen ! 🎉
+Ouvrez `html/index.html` dans votre navigateur. Vous venez de créer votre première documentation Doxygen ! 🎉
 
 ---
 
@@ -491,17 +491,17 @@ int multiplication(int a, int b) { return a * b; }  ← Mais c'est une multiplic
 
 Si vous voulez voir Doxygen en action dans de vrais projets :
 
-1. **Redis** : Documentation API générée par Doxygen
-   Voir : https://redis.io/docs/
-
-2. **FFmpeg** : Projet multimédia complexe, excellente doc
+1. **FFmpeg** : Projet multimédia complexe, excellente doc Doxygen
    Voir : https://ffmpeg.org/doxygen/trunk/
+
+2. **VLC** : Lecteur multimédia, documentation API complète
+   Voir : https://www.videolan.org/developers/vlc/doc/doxygen/html/
 
 3. **OpenCV** : Bibliothèque de vision par ordinateur
    Voir : https://docs.opencv.org/
 
-4. **Libevent** : Bibliothèque d'événements réseau
-   Voir : http://www.wangafu.net/~nickm/libevent-book/
+4. **OpenSSL** : Bibliothèque cryptographique de référence
+   Voir : https://www.openssl.org/docs/
 
 Ces projets montrent ce qu'on peut accomplir avec Doxygen : documentation claire, navigable, et complète.
 
@@ -533,11 +533,11 @@ Pour maîtriser Doxygen selon votre niveau :
 Voici les trois fichiers que vous allez étudier :
 
 ```
-32.1_documentation_doxygen/
-├── 32.1.0_introduction.md          ← Vous êtes ici
-├── 32.1.1_syntaxe_commentaires.md  ← Prochain fichier
-├── 32.1.2_generation_html_pdf.md   ← Puis celui-ci
-└── 32.1.3_integration_ci.md        ← Enfin celui-ci
+32-documentation-maintenance/
+├── 01-doxygen.md                   ← Vous êtes ici
+├── 01.1-syntaxe-commentaires.md    ← Prochain fichier
+├── 01.2-generation-html-pdf.md     ← Puis celui-ci
+└── 01.3-integration-ci.md          ← Enfin celui-ci
 ```
 
 Chaque fichier est autonome mais s'appuie sur les précédents. Suivez l'ordre pour une progression optimale.

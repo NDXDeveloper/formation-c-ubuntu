@@ -431,7 +431,7 @@ Pour suivre ce chapitre, vous devez maîtriser :
 ### Environnement de développement
 
 **Système d'exploitation :**
-- Linux (Ubuntu 20.04+ recommandé)
+- Linux (Ubuntu 24.04+ recommandé)
 - Debian, Fedora, Arch aussi OK
 - Note : epoll est spécifique à Linux (pour BSD/macOS, utiliser kqueue)
 
@@ -447,8 +447,8 @@ sudo apt install net-tools curl wget
 sudo apt install apache2-utils  # pour ab (Apache Bench)
 
 # Optionnel : wrk pour benchmarks avancés
-git clone https://github.com/wg/wrk.git
-cd wrk && make
+git clone https://github.com/wg/wrk.git  
+cd wrk && make  
 ```
 
 **Vérification :**
@@ -517,9 +517,9 @@ grep epoll /usr/include/sys/epoll.h
 ```
 Métrique           Notre serveur    nginx
 ──────────────────────────────────────────
-Req/sec (static)   15k-30k          30k-50k
-Latence (P50)      1-2 ms           0.5-1 ms
-Mémoire (base)     2-5 Mo           10-20 Mo
+Req/sec (static)   15k-30k          30k-50k  
+Latence (P50)      1-2 ms           0.5-1 ms  
+Mémoire (base)     2-5 Mo           10-20 Mo  
 ```
 
 **Note :** nginx est plus optimisé, mais notre serveur est dans le même ordre de grandeur !
@@ -548,8 +548,8 @@ int main() {
 **Phase 2 : Ajout de epoll**
 ```c
 // Gérer plusieurs clients avec event loop
-int epoll_fd = epoll_create1(0);
-while (1) {
+int epoll_fd = epoll_create1(0);  
+while (1) {  
     int n = epoll_wait(epoll_fd, events, MAX, -1);
     for (int i = 0; i < n; i++) {
         handle_event(events[i]);
@@ -560,17 +560,17 @@ while (1) {
 **Phase 3 : Parser HTTP**
 ```c
 // Lire et parser les requêtes HTTP
-http_request_t req;
-parse_http_request(buffer, &req);
-printf("GET %s HTTP/1.1\n", req.uri);
+http_request_t req;  
+parse_http_request(buffer, &req);  
+printf("GET %s HTTP/1.1\n", req.uri);  
 ```
 
 **Phase 4 : Servir des fichiers**
 ```c
 // Lire et envoyer des fichiers
-char path[PATH_MAX];
-uri_to_path(req.uri, DOCUMENT_ROOT, path);
-sendfile(client_fd, file_fd, NULL, file_size);
+char path[PATH_MAX];  
+uri_to_path(req.uri, DOCUMENT_ROOT, path);  
+sendfile(client_fd, file_fd, NULL, file_size);  
 ```
 
 **Phase 5 : Intégration et polish**
@@ -806,10 +806,10 @@ webserver/
 └── Total: ~1300 lignes de code C
 ```
 
-**Temps de développement :** 3-5 jours pour un développeur C intermédiaire
-**Binaire compilé :** ~80-150 Ko (statique), ~40-60 Ko (dynamique)
-**Consommation RAM :** ~2-5 Mo en fonctionnement
-**Performance :** 10 000-30 000 requêtes/seconde (fichiers <10 KB)
+**Temps de développement :** 3-5 jours pour un développeur C intermédiaire  
+**Binaire compilé :** ~80-150 Ko (statique), ~40-60 Ko (dynamique)  
+**Consommation RAM :** ~2-5 Mo en fonctionnement  
+**Performance :** 10 000-30 000 requêtes/seconde (fichiers <10 KB)  
 
 **C'est un projet réaliste, déployable en production pour des cas d'usage simples, et extraordinairement pédagogique.**
 
@@ -845,13 +845,13 @@ make
 ./webserver --port 8080 --root /var/www/html --workers 4
 
 # Test
-curl http://localhost:8080/
-curl http://localhost:8080/style.css
-curl http://localhost:8080/images/logo.png
+curl http://localhost:8080/  
+curl http://localhost:8080/style.css  
+curl http://localhost:8080/images/logo.png  
 
 # Benchmark
-ab -n 10000 -c 100 http://localhost:8080/index.html
-wrk -t4 -c400 -d30s http://localhost:8080/
+ab -n 10000 -c 100 http://localhost:8080/index.html  
+wrk -t4 -c400 -d30s http://localhost:8080/  
 
 # Résultat attendu:
 # Requests per second: 15000-30000 [#/sec]

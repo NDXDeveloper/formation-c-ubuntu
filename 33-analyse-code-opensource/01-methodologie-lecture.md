@@ -170,9 +170,9 @@ Pour chaque structure, identifiez :
 
 ```c
 // Exemple de cycle de vie
-server_t* server_create(int port);          // 1. Création
-void server_run(server_t *server);          // 2. Utilisation
-void server_destroy(server_t *server);      // 3. Destruction
+server_t* server_create(int port);          // 1. Création  
+void server_run(server_t *server);          // 2. Utilisation  
+void server_destroy(server_t *server);      // 3. Destruction  
 ```
 
 ---
@@ -252,8 +252,8 @@ Patterns courants en C :
 
 **Pattern 1 : Code de retour**
 ```c
-int result = do_something();
-if (result != 0) {
+int result = do_something();  
+if (result != 0) {  
     // Gestion d'erreur
     log_error("do_something failed");
     return -1;
@@ -343,8 +343,8 @@ void print_string(void) {
 
 ```c
 // Danger : Deux pointeurs vers la même mémoire
-data_t *original = create_data();
-data_t *copy = original;  // Pas une vraie copie !
+data_t *original = create_data();  
+data_t *copy = original;  // Pas une vraie copie !  
 
 free(original);
 // copy est maintenant un dangling pointer
@@ -387,15 +387,15 @@ rg "function_name\(" src/
 **cflow** : Génère un graphe d'appels
 
 ```bash
-sudo apt install cflow
-cflow -o callgraph.txt src/main.c
+sudo apt install cflow  
+cflow -o callgraph.txt src/main.c  
 ```
 
 **Doxygen** : Génère la documentation avec des graphes
 
 ```bash
-doxygen -g  # Génère Doxyfile
-doxygen     # Crée la doc HTML
+doxygen -g  # Génère Doxyfile  
+doxygen     # Crée la doc HTML  
 ```
 
 #### 7.3 Analyse statique
@@ -491,8 +491,8 @@ typedef struct node {
 
 ```c
 // Cherchez :
-pthread_mutex_t lock;
-pthread_mutex_lock(&lock);
+pthread_mutex_t lock;  
+pthread_mutex_lock(&lock);  
 // Section critique
 pthread_mutex_unlock(&lock);
 ```
@@ -707,7 +707,7 @@ Maintenant que vous avez la méthodologie, vous êtes prêt à analyser de vrais
 
 ---
 
-**💡 Astuce ** : Gardez un "journal de lecture de code" où vous documentez chaque projet analysé avec :
+**💡 Astuce** : Gardez un "journal de lecture de code" où vous documentez chaque projet analysé avec :
 - Date
 - Nom du projet et version
 - Objectif de l'analyse

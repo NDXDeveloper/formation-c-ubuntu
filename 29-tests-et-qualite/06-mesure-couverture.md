@@ -143,9 +143,9 @@ Mesure le pourcentage de **fonctions appelées** au moins une fois.
 
 ```c
 // math_utils.c
-int add(int a, int b) { return a + b; }
-int subtract(int a, int b) { return a - b; }
-int multiply(int a, int b) { return a * b; }
+int add(int a, int b) { return a + b; }  
+int subtract(int a, int b) { return a - b; }  
+int multiply(int a, int b) { return a * b; }  
 
 // Tests
 void test_add(void) {
@@ -215,8 +215,8 @@ int classify(int x, int y) {
 Sur Ubuntu, gcov est installé avec GCC :
 
 ```bash
-gcc --version
-gcov --version
+gcc --version  
+gcov --version  
 ```
 
 #### Utilisation basique
@@ -251,9 +251,9 @@ gcov math_utils.c
 **Sortie :**
 
 ```
-File 'math_utils.c'
-Lines executed:75.00% of 8
-Creating 'math_utils.c.gcov'
+File 'math_utils.c'  
+Lines executed:75.00% of 8  
+Creating 'math_utils.c.gcov'  
 ```
 
 **Étape 4 : Lire le rapport**
@@ -337,10 +337,10 @@ firefox coverage_html/index.html
 #ifndef CALCULATOR_H
 #define CALCULATOR_H
 
-int add(int a, int b);
-int subtract(int a, int b);
-int multiply(int a, int b);
-int divide_safe(int a, int b);
+int add(int a, int b);  
+int subtract(int a, int b);  
+int multiply(int a, int b);  
+int divide_safe(int a, int b);  
 
 #endif
 ```
@@ -378,8 +378,8 @@ int divide_safe(int a, int b) {
 #include "unity.h"
 #include "calculator.h"
 
-void setUp(void) {}
-void tearDown(void) {}
+void setUp(void) {}  
+void tearDown(void) {}  
 
 void test_add(void) {
     TEST_ASSERT_EQUAL_INT(5, add(2, 3));
@@ -424,9 +424,9 @@ gcc -o test_calculator \
 **Sortie :**
 
 ```
-test_calculator.c:11:test_add:PASS
-test_calculator.c:15:test_multiply:PASS
-test_calculator.c:19:test_divide:PASS
+test_calculator.c:11:test_add:PASS  
+test_calculator.c:15:test_multiply:PASS  
+test_calculator.c:19:test_divide:PASS  
 
 -----------------------
 3 Tests 0 Failures 0 Ignored
@@ -442,8 +442,8 @@ gcov calculator.c
 **Résultat :**
 
 ```
-File 'calculator.c'
-Lines executed:77.78% of 9
+File 'calculator.c'  
+Lines executed:77.78% of 9  
 ```
 
 **Voir les détails :**
@@ -521,8 +521,8 @@ gcov calculator.c
 **Nouveau résultat :**
 
 ```
-File 'calculator.c'
-Lines executed:100.00% of 9
+File 'calculator.c'  
+Lines executed:100.00% of 9  
 ```
 
 **🎉 100% de couverture !**
@@ -613,8 +613,8 @@ void debug_print_state(void) {
 
 ```bash
 # Exclure les tests et bibliothèques externes
-lcov --capture --directory . --output-file coverage.info
-lcov --remove coverage.info \
+lcov --capture --directory . --output-file coverage.info  
+lcov --remove coverage.info \  
     '/usr/*' \           # Exclure les headers système
     '*/tests/*' \        # Exclure les tests
     '*/unity/*' \        # Exclure le framework de test
@@ -630,8 +630,8 @@ genhtml coverage_filtered.info --output-directory coverage_html
 ### CMakeLists.txt avec support de couverture
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(MyProject C)
+cmake_minimum_required(VERSION 3.10)  
+project(MyProject C)  
 
 # Option pour activer la couverture
 option(ENABLE_COVERAGE "Enable code coverage" OFF)
@@ -640,8 +640,8 @@ option(ENABLE_COVERAGE "Enable code coverage" OFF)
 add_library(calculator calculator.c)
 
 # Tests
-add_executable(test_calculator test_calculator.c)
-target_link_libraries(test_calculator calculator unity)
+add_executable(test_calculator test_calculator.c)  
+target_link_libraries(test_calculator calculator unity)  
 
 # Configuration de couverture
 if(ENABLE_COVERAGE)
@@ -667,8 +667,8 @@ if(ENABLE_COVERAGE)
 endif()
 
 # Activer les tests
-enable_testing()
-add_test(NAME TestCalculator COMMAND test_calculator)
+enable_testing()  
+add_test(NAME TestCalculator COMMAND test_calculator)  
 ```
 
 ### Utilisation
@@ -676,19 +676,19 @@ add_test(NAME TestCalculator COMMAND test_calculator)
 **Build normal (sans couverture) :**
 
 ```bash
-mkdir build && cd build
-cmake ..
-make
+mkdir build && cd build  
+cmake ..  
+make  
 ./test_calculator
 ```
 
 **Build avec couverture :**
 
 ```bash
-mkdir build && cd build
-cmake -DENABLE_COVERAGE=ON ..
-make
-make coverage
+mkdir build && cd build  
+cmake -DENABLE_COVERAGE=ON ..  
+make  
+make coverage  
 ```
 
 Cela génère automatiquement le rapport dans `build/coverage/index.html`.
@@ -711,7 +711,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
@@ -736,7 +736,7 @@ jobs:
           lcov --remove coverage.info '/usr/*' '*/tests/*' --output-file coverage_filtered.info
 
       - name: Upload to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: ./build/coverage_filtered.info
           flags: unittests
@@ -748,7 +748,7 @@ jobs:
           genhtml coverage_filtered.info --output-directory coverage_html
 
       - name: Upload HTML report as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: build/coverage_html
@@ -839,10 +839,10 @@ diff-cover coverage.xml --compare-branch=main
 **Sortie :**
 
 ```
-Diff Coverage: 85.7%
-Changed lines: 14
-Covered lines: 12
-Missing lines: 2
+Diff Coverage: 85.7%  
+Changed lines: 14  
+Covered lines: 12  
+Missing lines: 2  
 ```
 
 **Avantage :** Exiger 100% de couverture sur le code nouveau sans toucher au legacy.
@@ -894,8 +894,8 @@ Outil commercial pour l'embarqué avec support de couverture avancée.
 *.gcda
 *.gcno
 *.gcov
-coverage.info
-coverage_html/
+coverage.info  
+coverage_html/  
 ```
 
 ### 2. Nettoyer les données entre exécutions
@@ -903,10 +903,10 @@ coverage_html/
 ```bash
 # Script de nettoyage
 #!/bin/bash
-find . -name '*.gcda' -delete
-find . -name '*.gcno' -delete
-find . -name '*.gcov' -delete
-rm -rf coverage_html/
+find . -name '*.gcda' -delete  
+find . -name '*.gcno' -delete  
+find . -name '*.gcov' -delete  
+rm -rf coverage_html/  
 ```
 
 ### 3. Mesurer régulièrement
@@ -1052,20 +1052,20 @@ project/
 
 ```cmake
 # Bibliothèques
-add_library(module_a src/module_a.c)
-add_library(module_b src/module_b.c)
-add_library(module_c src/module_c.c)
+add_library(module_a src/module_a.c)  
+add_library(module_b src/module_b.c)  
+add_library(module_c src/module_c.c)  
 
 # Tests individuels
-add_executable(test_module_a tests/test_module_a.c)
-target_link_libraries(test_module_a module_a unity)
+add_executable(test_module_a tests/test_module_a.c)  
+target_link_libraries(test_module_a module_a unity)  
 
-add_executable(test_module_b tests/test_module_b.c)
-target_link_libraries(test_module_b module_b unity)
+add_executable(test_module_b tests/test_module_b.c)  
+target_link_libraries(test_module_b module_b unity)  
 
 # Test global
-add_executable(test_all tests/test_all.c)
-target_link_libraries(test_all module_a module_b module_c unity)
+add_executable(test_all tests/test_all.c)  
+target_link_libraries(test_all module_a module_b module_c unity)  
 
 if(ENABLE_COVERAGE)
     foreach(target module_a module_b module_c test_module_a test_module_b test_all)
@@ -1087,10 +1087,10 @@ endif()
 **Générer la couverture globale :**
 
 ```bash
-mkdir build && cd build
-cmake -DENABLE_COVERAGE=ON ..
-make
-make coverage_all
+mkdir build && cd build  
+cmake -DENABLE_COVERAGE=ON ..  
+make  
+make coverage_all  
 ```
 
 ---

@@ -93,8 +93,8 @@ Un **mock** est un objet qui vérifie **comment** il est utilisé.
 
 ```c
 // Mock qui enregistre les appels
-static int log_write_count = 0;
-static char last_log_message[256];
+static int log_write_count = 0;  
+static char last_log_message[256];  
 
 void log_write_mock(const char *message) {
     log_write_count++;
@@ -262,8 +262,8 @@ void test_process_order(void) {
 
 ```c
 // Mock : Enregistre les appels
-static int log_call_count = 0;
-static char logged_messages[10][256];
+static int log_call_count = 0;  
+static char logged_messages[10][256];  
 
 void log_mock(const char *message) {
     if (log_call_count < 10) {
@@ -355,8 +355,8 @@ void test_send_welcome_email(void) {
 }
 
 // Mock
-static int email_sent_count = 0;
-static char last_recipient[100];
+static int email_sent_count = 0;  
+static char last_recipient[100];  
 
 int email_sender_mock(const char *to, const char *subject, const char *body) {
     email_sent_count++;
@@ -694,8 +694,8 @@ DEFINE_FFF_GLOBALS;
 
 ```c
 // Déclarer une fonction fake
-FAKE_VOID_FUNC(log_message, const char *);
-FAKE_VALUE_FUNC(int, send_email, const char *, const char *);
+FAKE_VOID_FUNC(log_message, const char *);  
+FAKE_VALUE_FUNC(int, send_email, const char *, const char *);  
 
 void test_business_logic(void) {
     RESET_FAKE(log_message);
@@ -721,8 +721,8 @@ void test_business_logic(void) {
 ### 1. Simuler un échec d'allocation
 
 ```c
-static int malloc_should_fail = 0;
-static int malloc_call_count = 0;
+static int malloc_should_fail = 0;  
+static int malloc_call_count = 0;  
 
 void *__wrap_malloc(size_t size) {
     malloc_call_count++;
@@ -786,8 +786,8 @@ typedef enum {
     CALL_CLOSE
 } CallType;
 
-static CallType call_sequence[10];
-static int call_index = 0;
+static CallType call_sequence[10];  
+static int call_index = 0;  
 
 FILE *__wrap_fopen(const char *path, const char *mode) {
     call_sequence[call_index++] = CALL_OPEN;
@@ -1016,9 +1016,9 @@ typedef struct {
     NotificationDeps deps;
 } NotificationService;
 
-NotificationService *notification_service_create(NotificationDeps deps);
-void notification_service_destroy(NotificationService *service);
-bool notify_user(NotificationService *service, const char *user_id, const char *message);
+NotificationService *notification_service_create(NotificationDeps deps);  
+void notification_service_destroy(NotificationService *service);  
+bool notify_user(NotificationService *service, const char *user_id, const char *message);  
 
 #endif
 ```
@@ -1077,10 +1077,10 @@ bool notify_user(NotificationService *service, const char *user_id, const char *
 #include "notification_service.h"
 
 // Stubs et mocks
-static int sms_sent_count = 0;
-static int email_sent_count = 0;
-static char logged_messages[10][256];
-static int log_count = 0;
+static int sms_sent_count = 0;  
+static int email_sent_count = 0;  
+static char logged_messages[10][256];  
+static int log_count = 0;  
 
 bool stub_send_sms_success(const char *phone, const char *message) {
     sms_sent_count++;
@@ -1144,7 +1144,7 @@ void test_notify_user_fallback_to_email(void) {
     TEST_ASSERT_TRUE(result);
     TEST_ASSERT_EQUAL_INT(1, sms_sent_count);
     TEST_ASSERT_EQUAL_INT(1, email_sent_count); // Fallback
-    TEST_ASSERT_EQUAL_STRING("Email sent successfully", logged_messages[2]);
+    TEST_ASSERT_EQUAL_STRING("Email sent successfully", logged_messages[1]);
 
     notification_service_destroy(service);
 }

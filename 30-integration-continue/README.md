@@ -62,26 +62,26 @@ Le langage C présente des défis uniques qui rendent la CI particulièrement im
 
 ```c
 // Bug subtil - fuite mémoire
-char *data = malloc(1024);
-if (error) {
+char *data = malloc(1024);  
+if (error) {  
     return -1;  // Oups, pas de free() !
 }
 free(data);
 ```
 
-**Sans CI** : Bug découvert en production après des jours d'utilisation
-**Avec CI** : Valgrind détecte la fuite en 5 minutes
+**Sans CI** : Bug découvert en production après des jours d'utilisation  
+**Avec CI** : Valgrind détecte la fuite en 5 minutes  
 
 #### 2. Comportements indéfinis
 
 ```c
 // Undefined behavior - débordement
-int arr[10];
-arr[15] = 42;  // Accès hors limites
+int arr[10];  
+arr[15] = 42;  // Accès hors limites  
 ```
 
-**Sans CI** : "Ça marche sur ma machine" puis crash aléatoire en production
-**Avec CI** : AddressSanitizer détecte le problème immédiatement
+**Sans CI** : "Ça marche sur ma machine" puis crash aléatoire en production  
+**Avec CI** : AddressSanitizer détecte le problème immédiatement  
 
 #### 3. Dépendance au compilateur
 
@@ -90,8 +90,8 @@ arr[15] = 42;  // Accès hors limites
 int x = ({ int y = 5; y * 2; });  // Extension GNU
 ```
 
-**Sans CI** : Utilisateur avec Clang ne peut pas compiler
-**Avec CI** : Tests sur GCC ET Clang détectent le problème
+**Sans CI** : Utilisateur avec Clang ne peut pas compiler  
+**Avec CI** : Tests sur GCC ET Clang détectent le problème  
 
 #### 4. Portabilité multi-plateformes
 
@@ -100,8 +100,8 @@ int x = ({ int y = 5; y * 2; });  // Extension GNU
 #include <unistd.h>  // N'existe pas sur Windows
 ```
 
-**Sans CI** : Découvert quand un utilisateur Windows essaye de compiler
-**Avec CI** : Tests sur Linux, macOS et Windows
+**Sans CI** : Découvert quand un utilisateur Windows essaye de compiler  
+**Avec CI** : Tests sur Linux, macOS et Windows  
 
 #### 5. Absence de runtime de sécurité
 
@@ -148,8 +148,8 @@ Coût : Serveur + sysadmin + électricité
 - Circle CI (2011)
 - Jenkins dans le cloud
 
-**Amélioration** : Plus besoin de serveur physique
-**Problème** : Configuration encore complexe, quotas limités
+**Amélioration** : Plus besoin de serveur physique  
+**Problème** : Configuration encore complexe, quotas limités  
 
 ### Aujourd'hui (2015+)
 
@@ -454,21 +454,21 @@ Voici à quoi ressemble un pipeline CI/CD mature pour un projet C :
 ### Avant la CI/CD
 
 ```
-Temps de détection d'un bug : 2-14 jours
-Temps de build : Variable (dépend du dev)
-Tests exécutés : Quand on y pense
-Coverage : Inconnue
-Régressions : Fréquentes
+Temps de détection d'un bug : 2-14 jours  
+Temps de build : Variable (dépend du dev)  
+Tests exécutés : Quand on y pense  
+Coverage : Inconnue  
+Régressions : Fréquentes  
 ```
 
 ### Après la CI/CD
 
 ```
-Temps de détection d'un bug : 5 minutes
-Temps de build : Constant (ex: 8 minutes)
-Tests exécutés : À chaque commit
-Coverage : Suivie (ex: 85%)
-Régressions : Rares (bloquées par CI)
+Temps de détection d'un bug : 5 minutes  
+Temps de build : Constant (ex: 8 minutes)  
+Tests exécutés : À chaque commit  
+Coverage : Suivie (ex: 85%)  
+Régressions : Rares (bloquées par CI)  
 ```
 
 ### ROI (Return on Investment)
@@ -491,9 +491,9 @@ Régressions : Rares (bloquées par CI)
 
 ### Étape 1 : Choisir une plateforme
 
-**Si votre projet est sur GitHub** → GitHub Actions (section 30.1)
-**Si votre projet est sur GitLab** → GitLab CI (section 30.2)
-**Si besoin spécifique** → Jenkins (section 30.3)
+**Si votre projet est sur GitHub** → GitHub Actions (section 30.1)  
+**Si votre projet est sur GitLab** → GitLab CI (section 30.2)  
+**Si besoin spécifique** → Jenkins (section 30.3)  
 
 ### Étape 2 : Pipeline minimal
 
@@ -645,12 +645,12 @@ Les templates finaux sont prêts pour une utilisation en production.
 
 ### Le futur de la CI/CD pour C
 
-**Court terme (2024-2025)** :
+**Court terme** :
 - Pipelines encore plus rapides (cache distribué)
 - Analyse de sécurité avancée (CVE scanning)
-- Integration avec AI coding assistants
+- Intégration avec AI coding assistants
 
-**Moyen terme (2025-2027)** :
+**Moyen terme** :
 - Auto-réparation de bugs simples
 - Optimisation automatique du code
 - Tests générés par IA

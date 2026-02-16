@@ -70,13 +70,13 @@ Pour nos besoins de test de programmes cross-compilés, **le mode utilisateur su
 
 ```bash
 # Installation de QEMU user mode pour plusieurs architectures
-sudo apt-get update
-sudo apt-get install qemu-user qemu-user-static
+sudo apt-get update  
+sudo apt-get install qemu-user qemu-user-static  
 
 # Vérifier l'installation
-qemu-arm --version
-qemu-aarch64 --version
-qemu-mips --version
+qemu-arm --version  
+qemu-aarch64 --version  
+qemu-mips --version  
 ```
 
 ### Vérifier les architectures supportées
@@ -347,8 +347,8 @@ echo "test" | qemu-arm -L /usr/arm-linux-gnueabihf ./programme
 qemu-arm -E MY_VAR=value -L /usr/arm-linux-gnueabihf ./programme
 
 # Ou utiliser export
-export MY_VAR=value
-qemu-arm -L /usr/arm-linux-gnueabihf ./programme
+export MY_VAR=value  
+qemu-arm -L /usr/arm-linux-gnueabihf ./programme  
 ```
 
 ## Gestion des codes de retour
@@ -377,14 +377,14 @@ int main(int argc, char *argv[]) {
 arm-linux-gnueabihf-gcc test_return.c -o test_return
 
 # Tester différents codes de retour
-qemu-arm -L /usr/arm-linux-gnueabihf ./test_return 0
-echo "Code de retour : $?"  # Affiche : 0
+qemu-arm -L /usr/arm-linux-gnueabihf ./test_return 0  
+echo "Code de retour : $?"  # Affiche : 0  
 
-qemu-arm -L /usr/arm-linux-gnueabihf ./test_return 42
-echo "Code de retour : $?"  # Affiche : 42
+qemu-arm -L /usr/arm-linux-gnueabihf ./test_return 42  
+echo "Code de retour : $?"  # Affiche : 42  
 
-qemu-arm -L /usr/arm-linux-gnueabihf ./test_return 1
-echo "Code de retour : $?"  # Affiche : 1
+qemu-arm -L /usr/arm-linux-gnueabihf ./test_return 1  
+echo "Code de retour : $?"  # Affiche : 1  
 ```
 
 ## Debugging avec QEMU et GDB
@@ -469,8 +469,8 @@ $1 = 42
 Début du programme
 6           printf("x = %d\n", x);
 (gdb) continue
-Continuing.
-x = 42
+Continuing.  
+x = 42  
 [Inferior 1 (Remote target) exited normally]
 ```
 
@@ -484,8 +484,8 @@ x = 42
 #!/bin/bash
 
 # Configuration
-PROGRAM="$1"
-ARCH="$2"
+PROGRAM="$1"  
+ARCH="$2"  
 
 if [ -z "$PROGRAM" ] || [ -z "$ARCH" ]; then
     echo "Usage: $0 <programme> <arch>"
@@ -520,20 +520,20 @@ if [ ! -f "$PROGRAM" ]; then
 fi
 
 # Vérifier que c'est un binaire pour la bonne architecture
-echo "=== Vérification du binaire ==="
-file "$PROGRAM"
+echo "=== Vérification du binaire ==="  
+file "$PROGRAM"  
 
 # Exécuter avec QEMU
-echo ""
-echo "=== Exécution avec QEMU ==="
+echo ""  
+echo "=== Exécution avec QEMU ==="  
 $QEMU -L "$SYSROOT" "$PROGRAM"
 
 # Capturer le code de retour
 EXIT_CODE=$?
 
-echo ""
-echo "=== Résultat ==="
-if [ $EXIT_CODE -eq 0 ]; then
+echo ""  
+echo "=== Résultat ==="  
+if [ $EXIT_CODE -eq 0 ]; then  
     echo "✓ Programme exécuté avec succès (code: $EXIT_CODE)"
 else
     echo "✗ Échec de l'exécution (code: $EXIT_CODE)"
@@ -564,10 +564,10 @@ chmod +x test-qemu.sh
 set -e
 
 # Couleurs
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+GREEN='\033[0;32m'  
+RED='\033[0;31m'  
+BLUE='\033[0;34m'  
+NC='\033[0m'  
 
 # Source à compiler
 SOURCE="programme.c"
@@ -583,8 +583,8 @@ declare -A QEMU_CMDS=(
     ["arm64"]="qemu-aarch64 -L /usr/aarch64-linux-gnu"
 )
 
-echo -e "${BLUE}=== Test multi-architectures avec QEMU ===${NC}"
-echo ""
+echo -e "${BLUE}=== Test multi-architectures avec QEMU ===${NC}"  
+echo ""  
 
 # Compiler et tester chaque architecture
 for arch in "${!TOOLCHAINS[@]}"; do
@@ -628,8 +628,8 @@ CMake peut utiliser QEMU automatiquement pour exécuter les tests :
 **CMakeLists.txt**
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(ProjetAvecTests C)
+cmake_minimum_required(VERSION 3.10)  
+project(ProjetAvecTests C)  
 
 # Activer les tests
 enable_testing()
@@ -660,8 +660,8 @@ endif()
 add_executable(programme main.c)
 
 # Ajouter des tests
-add_test(NAME test_basic COMMAND programme)
-add_test(NAME test_with_args COMMAND programme arg1 arg2)
+add_test(NAME test_basic COMMAND programme)  
+add_test(NAME test_with_args COMMAND programme arg1 arg2)  
 
 # Les tests s'exécuteront automatiquement via QEMU si configuré !
 ```
@@ -670,9 +670,9 @@ add_test(NAME test_with_args COMMAND programme arg1 arg2)
 
 ```bash
 # Configuration pour ARM
-mkdir build-arm && cd build-arm
-cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake ..
-make
+mkdir build-arm && cd build-arm  
+cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake ..  
+make  
 
 # Lancer les tests (utilise QEMU automatiquement)
 ctest --verbose
@@ -709,7 +709,7 @@ jobs:
           - { name: arm64, compiler: aarch64-linux-gnu-gcc, qemu: qemu-aarch64, sysroot: /usr/aarch64-linux-gnu }
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Installation des dépendances
       run: |
@@ -730,7 +730,7 @@ jobs:
           ./programme_${{ matrix.arch.name }}
 
     - name: Upload du binaire
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: programme-${{ matrix.arch.name }}
         path: programme_${{ matrix.arch.name }}
@@ -938,9 +938,9 @@ int main(void) {
 
 ```bash
 # Installer libcurl pour ARM
-sudo dpkg --add-architecture armhf
-sudo apt-get update
-sudo apt-get install libcurl4-openssl-dev:armhf
+sudo dpkg --add-architecture armhf  
+sudo apt-get update  
+sudo apt-get install libcurl4-openssl-dev:armhf  
 
 # Compiler
 arm-linux-gnueabihf-gcc programme_curl.c -o programme_curl -lcurl
@@ -1028,8 +1028,8 @@ Créez un alias ou un script pour simplifier :
 
 ```bash
 # ~/.bashrc
-alias qemu-arm-run='qemu-arm -L /usr/arm-linux-gnueabihf'
-alias qemu-arm64-run='qemu-aarch64 -L /usr/aarch64-linux-gnu'
+alias qemu-arm-run='qemu-arm -L /usr/arm-linux-gnueabihf'  
+alias qemu-arm64-run='qemu-aarch64 -L /usr/aarch64-linux-gnu'  
 
 # Utilisation
 qemu-arm-run ./programme
@@ -1068,8 +1068,8 @@ Pour tester les binaires ARM sans matériel :
 sudo apt-get install qemu-user-static
 
 # Compiler et tester
-make arm64
-qemu-aarch64 -L /usr/aarch64-linux-gnu ./programme
+make arm64  
+qemu-aarch64 -L /usr/aarch64-linux-gnu ./programme  
 ```
 ```
 
@@ -1151,10 +1151,10 @@ qemu-arm -g 1234 -L /usr/arm-linux-gnueabihf ./programme
 qemu-arm -strace -L /usr/arm-linux-gnueabihf ./programme
 
 # Différentes architectures
-qemu-arm       # ARM 32 bits
-qemu-aarch64   # ARM 64 bits
-qemu-mips      # MIPS
-qemu-riscv64   # RISC-V 64 bits
+qemu-arm       # ARM 32 bits  
+qemu-aarch64   # ARM 64 bits  
+qemu-mips      # MIPS  
+qemu-riscv64   # RISC-V 64 bits  
 ```
 
 ## Conclusion

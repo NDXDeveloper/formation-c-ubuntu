@@ -786,7 +786,7 @@ environment {
 stages {
     stage('Upload Coverage') {
         steps {
-            sh 'bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN'
+            sh 'pip install codecov-cli && codecovcli upload-process -f coverage.info -t $CODECOV_TOKEN'
         }
     }
 }
@@ -1097,9 +1097,9 @@ triggers {
 **Syntaxe cron** :
 ```
 # Minute Heure Jour Mois JourSemaine
-H 2 * * *        # Tous les jours à 2h (H = aléatoire pour répartir la charge)
-H/15 * * * *     # Toutes les 15 minutes
-H 0 * * 1-5      # Lundi à vendredi à minuit
+H 2 * * *        # Tous les jours à 2h (H = aléatoire pour répartir la charge)  
+H/15 * * * *     # Toutes les 15 minutes  
+H 0 * * 1-5      # Lundi à vendredi à minuit  
 ```
 
 ---
@@ -1224,12 +1224,12 @@ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
 
 # Installer Jenkins
-sudo apt-get update
-sudo apt-get install jenkins
+sudo apt-get update  
+sudo apt-get install jenkins  
 
 # Démarrer Jenkins
-sudo systemctl start jenkins
-sudo systemctl enable jenkins
+sudo systemctl start jenkins  
+sudo systemctl enable jenkins  
 ```
 
 ### Premier accès

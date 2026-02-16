@@ -40,9 +40,9 @@ Lorsqu'on parle de cross-compilation, trois termes reviennent constamment :
 ### Exemple simple
 
 ```
-Build:  x86_64 (votre PC)      ──┐
-Host:   x86_64 (votre PC)        ├──> Vous compilez
-Target: ARM (Raspberry Pi)     ──┘    Le binaire ARM sera exécuté sur le Raspberry
+Build:  x86_64 (votre PC)      ──┐  
+Host:   x86_64 (votre PC)        ├──> Vous compilez  
+Target: ARM (Raspberry Pi)     ──┘    Le binaire ARM sera exécuté sur le Raspberry  
 ```
 
 ## Les architectures courantes
@@ -188,8 +188,8 @@ uint32_t value = 0x12345678;
 ```c
 #include <stdint.h>
 
-int32_t  entier_32bits;  // Toujours 32 bits
-uint64_t entier_64bits;  // Toujours 64 bits
+int32_t  entier_32bits;  // Toujours 32 bits  
+uint64_t entier_64bits;  // Toujours 64 bits  
 ```
 
 ### 2. Les dépendances
@@ -275,8 +275,8 @@ Lors de la cross-compilation, plusieurs variables d'environnement sont utiles :
 Définissent le compilateur C et C++ à utiliser :
 
 ```bash
-export CC=arm-linux-gnueabihf-gcc
-export CXX=arm-linux-gnueabihf-g++
+export CC=arm-linux-gnueabihf-gcc  
+export CXX=arm-linux-gnueabihf-g++  
 ```
 
 ### CROSS_COMPILE
@@ -397,11 +397,11 @@ scp hello_arm pi@raspberry:/home/pi/
 
 ```cmake
 # Fichier toolchain.cmake
-set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_PROCESSOR arm)
+set(CMAKE_SYSTEM_NAME Linux)  
+set(CMAKE_SYSTEM_PROCESSOR arm)  
 
-set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
-set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
+set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)  
+set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)  
 ```
 
 ### 2. Tester avec émulation

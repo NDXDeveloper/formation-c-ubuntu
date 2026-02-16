@@ -111,12 +111,12 @@ int pthread_join(pthread_t thread, void **retval);
 
 **Exemple :**
 ```c
-pthread_t thread;
+pthread_t thread;  
 void *resultat;
 
-pthread_create(&thread, NULL, ma_fonction, NULL);
-pthread_join(thread, &resultat);  // Bloque jusqu'à la fin du thread
-printf("Thread terminé avec résultat : %d\n", *(int*)resultat);
+pthread_create(&thread, NULL, ma_fonction, NULL);  
+pthread_join(thread, &resultat);  // Bloque jusqu'à la fin du thread  
+printf("Thread terminé avec résultat : %d\n", *(int*)resultat);  
 free(resultat);  // Libérer la mémoire allouée par le thread
 ```
 

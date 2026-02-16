@@ -364,7 +364,7 @@ BasedOnStyle: LLVM
 # -------------------- LANGUE --------------------
 
 # Langage : C (clang-format utilise Cpp pour C et C++)
-Language: Cpp
+Language: Cpp  
 Standard: Latest
 
 # -------------------- INDENTATION --------------------

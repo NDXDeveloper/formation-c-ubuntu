@@ -28,12 +28,12 @@ Dans cette étude de cas, nous allons appliquer la méthodologie de lecture de c
 ### Statistiques (version 2.40+)
 
 ```
-Taille du projet   : ~300 000 lignes de code C
-Nombre de fichiers : ~1000 fichiers .c et .h
-Contributeurs      : 2000+ développeurs
-Historique         : 70 000+ commits
-Première version   : Avril 2005
-Langage            : C (98%), Shell (scripts), Perl (anciens outils)
+Taille du projet   : ~300 000 lignes de code C  
+Nombre de fichiers : ~1000 fichiers .c et .h  
+Contributeurs      : 2000+ développeurs  
+Historique         : 70 000+ commits  
+Première version   : Avril 2005  
+Langage            : C (98%), Shell (scripts), Perl (anciens outils)  
 ```
 
 ### Objectifs de Git
@@ -54,9 +54,9 @@ Git a été conçu avec des objectifs clairs :
 Clonez Git pour explorer son code :
 
 ```bash
-git clone https://github.com/git/git.git
-cd git
-tree -L 1 -d
+git clone https://github.com/git/git.git  
+cd git  
+tree -L 1 -d  
 ```
 
 ```
@@ -85,14 +85,14 @@ git/
 | Fichier | Rôle |
 |---------|------|
 | `git.c` | Point d'entrée principal (fonction `main`) |
-| `cache.h` | Header central avec types et macros fondamentaux |
+| `strbuf.h` | Header utilitaire pour les chaînes dynamiques |
 | `object.h/c` | Gestion des objets Git (blob, tree, commit, tag) |
 | `refs.h/c` | Gestion des références (branches, tags) |
 | `repository.h/c` | Structure centrale représentant un dépôt |
 | `config.h/c` | Lecture/écriture de la configuration Git |
-| `sha1-file.c` | Lecture/écriture d'objets avec hachage SHA-1 |
+| `object-file.c` | Lecture/écriture d'objets avec hachage SHA-1/SHA-256 |
 
-**Stratégie** : Commencez par lire `git.c`, puis `cache.h` pour comprendre les types fondamentaux.
+**Stratégie** : Commencez par lire `git.c`, puis `object.h` et `strbuf.h` pour comprendre les types fondamentaux.
 
 ---
 
@@ -190,8 +190,8 @@ static int handle_builtin(int argc, const char **argv)
 ```
 
 **Leçons à retenir** :
-✅ **Table de dispatch** : Pattern élégant pour gérer de nombreuses commandes
-✅ **Flags** : `RUN_SETUP`, `NEED_WORK_TREE` configurent l'environnement
+✅ **Table de dispatch** : Pattern élégant pour gérer de nombreuses commandes  
+✅ **Flags** : `RUN_SETUP`, `NEED_WORK_TREE` configurent l'environnement  
 ✅ **Pointeurs de fonction** : Chaque commande est une fonction callback
 
 ---
@@ -241,8 +241,8 @@ struct commit {
 **Astuce** : Le premier champ est toujours `struct object`, permettant le **casting** :
 
 ```c
-struct commit *c = lookup_commit(oid);
-struct object *obj = (struct object *)c;  // Cast valide !
+struct commit *c = lookup_commit(oid);  
+struct object *obj = (struct object *)c;  // Cast valide !  
 ```
 
 ---
@@ -451,9 +451,9 @@ int parse_commit(struct commit *item)
 **Usage** :
 
 ```c
-struct commit *c = lookup_commit(repo, oid);  // Rapide : juste alloc
-parse_commit(c);                               // Lent : lecture disque
-printf("Message: %s\n", c->buffer);
+struct commit *c = lookup_commit(repo, oid);  // Rapide : juste alloc  
+parse_commit(c);                               // Lent : lecture disque  
+printf("Message: %s\n", c->buffer);  
 ```
 
 ---
@@ -478,9 +478,9 @@ struct strbuf {
 ```c
 struct strbuf path = STRBUF_INIT;
 
-strbuf_addstr(&path, "/home/user");
-strbuf_addch(&path, '/');
-strbuf_addf(&path, "repo-%d", id);  // Comme sprintf, mais sûr
+strbuf_addstr(&path, "/home/user");  
+strbuf_addch(&path, '/');  
+strbuf_addf(&path, "repo-%d", id);  // Comme sprintf, mais sûr  
 
 printf("Path: %s\n", path.buf);
 
@@ -712,8 +712,8 @@ builtin/
 Git a **plus de 7000 fichiers de tests** dans `t/`.
 
 ```bash
-cd git/t
-ls -1 | wc -l
+cd git/t  
+ls -1 | wc -l  
 # 7000+
 
 # Exemple de test
@@ -806,8 +806,8 @@ if (critical_operation() < 0)
 **ctags** : Générer un index pour navigation
 
 ```bash
-cd git
-ctags -R .
+cd git  
+ctags -R .  
 
 # Dans vim
 vim builtin/commit.c
@@ -853,8 +853,8 @@ git blame builtin/commit.c -L 100,110
 **Compiler Git** :
 
 ```bash
-cd git
-make
+cd git  
+make  
 
 # Avec symboles de débogage
 make CFLAGS="-g -O0"
@@ -910,7 +910,7 @@ Pour approfondir, lisez ces fichiers dans l'ordre :
 
 ### Niveau avancé
 9. `pack-objects.c` - Compression et packing
-10. `merge-recursive.c` - Algorithme de merge
+10. `merge-ort.c` - Algorithme de merge (remplace `merge-recursive.c` depuis Git 2.34)
 11. `xdiff/` - Bibliothèque de diff bas niveau
 12. `upload-pack.c` - Protocole réseau Git
 
@@ -973,8 +973,8 @@ test_expect_success 'git hello works' '
 
 1. **Clonez le dépôt** : `git clone https://github.com/git/git.git`
 2. **Lisez CONTRIBUTING.md** : Standards de code et workflow
-3. **Trouvez un "Good First Issue"** : https://github.com/git/git/labels/good%20first%20issue
-4. **Rejoignez la mailing list** : git@vger.kernel.org
+3. **Rejoignez la mailing list** : git@vger.kernel.org (tout le développement passe par la mailing list, pas par GitHub Issues)
+4. **Consultez les micro-projets** : https://git.github.io/SoC/ (idées pour débutants)
 
 ### Ressources externes
 

@@ -399,11 +399,11 @@ awk '{print $9}' access.log | sort | uniq -c | sort -rn | head -10
 ### 6.2 Parser Python
 
 ```python
-import re
-from collections import Counter
+import re  
+from collections import Counter  
 
-pattern = re.compile(r'(\d+\.\d+\.\d+\.\d+).*?" (\d+) ')
-codes = Counter()
+pattern = re.compile(r'(\d+\.\d+\.\d+\.\d+).*?" (\d+) ')  
+codes = Counter()  
 
 with open('access.log') as f:
     for ligne in f:
@@ -431,8 +431,8 @@ for code, count in codes.most_common(10):
 
 ```c
 // Pseudo-code simplifié
-HashMap *codes = creer_hashmap();
-char *data = mmap(fichier);
+HashMap *codes = creer_hashmap();  
+char *data = mmap(fichier);  
 
 for (ligne dans data) {
     char *code = extraire_code_http(ligne);
@@ -681,10 +681,10 @@ Avant de commencer à coder votre parser, planifiez :
 
 ```bash
 # Pages de manuel
-man 3 fread
-man 2 mmap
-man 3 regcomp
-man 3 qsort
+man 3 fread  
+man 2 mmap  
+man 3 regcomp  
+man 3 qsort  
 
 # Standards
 man 7 regex
@@ -703,12 +703,12 @@ man 7 regex
 gcc -O3 -march=native -o logparser logparser.c
 
 # Debug
-gcc -g -O0 -o logparser logparser.c
-gdb ./logparser
+gcc -g -O0 -o logparser logparser.c  
+gdb ./logparser  
 
 # Analyse statique
-cppcheck logparser.c
-clang-tidy logparser.c
+cppcheck logparser.c  
+clang-tidy logparser.c  
 
 # Sanitizers
 gcc -fsanitize=address -g logparser.c

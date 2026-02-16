@@ -167,8 +167,8 @@ Notre agent collectera les métriques système suivantes :
 | `node_disk_writes_completed_total`    | Counter | Nombre d'écritures              |
 | `node_disk_io_time_seconds_total`     | Counter | Temps I/O cumulé                |
 
-**Source :** `/proc/diskstats`
-**Label :** `device` (ex: sda, nvme0n1)
+**Source :** `/proc/diskstats`  
+**Label :** `device` (ex: sda, nvme0n1)  
 
 ### Métriques Réseau
 
@@ -181,8 +181,8 @@ Notre agent collectera les métriques système suivantes :
 | `node_network_receive_errors_total`       | Counter | Erreurs de réception            |
 | `node_network_transmit_errors_total`      | Counter | Erreurs de transmission         |
 
-**Source :** `/proc/net/dev`
-**Label :** `interface` (ex: eth0, wlan0)
+**Source :** `/proc/net/dev`  
+**Label :** `interface` (ex: eth0, wlan0)  
 
 ### Métriques Système
 
@@ -445,7 +445,7 @@ Pour suivre ce chapitre, vous devez maîtriser :
 ### Environnement de développement
 
 **Système d'exploitation :**
-- Ubuntu 20.04 LTS ou supérieur
+- Ubuntu 24.04 LTS ou supérieur
 - Debian 11+ également compatible
 - Adaptable à d'autres distributions Linux
 
@@ -535,8 +535,8 @@ int main(int argc, char *argv[]) {
 ```ini
 # Fichier monitoring-agent.service
 [Service]
-ExecStart=/usr/local/bin/monitoring-agent
-Restart=always
+ExecStart=/usr/local/bin/monitoring-agent  
+Restart=always  
 ```
 
 ### Tests continus
@@ -586,9 +586,9 @@ sum(rate(node_network_transmit_bytes_total[5m]))
 
 **Exemple de DaemonSet :**
 ```yaml
-apiVersion: apps/v1
-kind: DaemonSet
-metadata:
+apiVersion: apps/v1  
+kind: DaemonSet  
+metadata:  
   name: monitoring-agent
 spec:
   selector:
@@ -764,10 +764,10 @@ monitoring-agent/
 └── Total: ~1150 lignes de code C
 ```
 
-**Temps de développement estimé :** 2-3 jours pour un développeur C intermédiaire.
-**Empreinte binaire :** ~150 Ko (statique), ~50 Ko (dynamique)
-**Consommation RAM :** ~5-10 Mo en fonctionnement
-**Charge CPU :** <1% en moyenne sur un système moderne
+**Temps de développement estimé :** 2-3 jours pour un développeur C intermédiaire.  
+**Empreinte binaire :** ~150 Ko (statique), ~50 Ko (dynamique)  
+**Consommation RAM :** ~5-10 Mo en fonctionnement  
+**Charge CPU :** <1% en moyenne sur un système moderne  
 
 C'est un projet **réaliste et déployable en production** tout en restant pédagogique et compréhensible.
 

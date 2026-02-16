@@ -843,11 +843,11 @@ void test_all_math_operations(void) {
 
 ```c
 // ✅ Ordre recommandé
-void test_divide_normal(void);           // 1. Cas normal
-void test_divide_by_one(void);           // 2. Cas trivial
-void test_divide_by_zero(void);          // 3. Cas limite
-void test_divide_negative(void);         // 4. Variation
-void test_divide_large_numbers(void);    // 5. Cas extrême
+void test_divide_normal(void);           // 1. Cas normal  
+void test_divide_by_one(void);           // 2. Cas trivial  
+void test_divide_by_zero(void);          // 3. Cas limite  
+void test_divide_negative(void);         // 4. Variation  
+void test_divide_large_numbers(void);    // 5. Cas extrême  
 ```
 
 ### 3. Baby steps (petits pas)
@@ -859,10 +859,10 @@ void test_divide_large_numbers(void);    // 5. Cas extrême
 void test_linked_list_complete(void);
 
 // ✅ Petit pas : Un concept à la fois
-void test_list_create(void);        // 2 minutes
-void test_list_insert(void);        // 3 minutes
-void test_list_remove(void);        // 4 minutes
-void test_list_find(void);          // 3 minutes
+void test_list_create(void);        // 2 minutes  
+void test_list_insert(void);        // 3 minutes  
+void test_list_remove(void);        // 4 minutes  
+void test_list_find(void);          // 3 minutes  
 ```
 
 ### 4. Ne pas sauter le refactoring
@@ -901,13 +901,13 @@ bool is_palindrome(const char *str) {
 
 ```c
 // ❌ Nom vague
-void test1(void);
-void test2(void);
+void test1(void);  
+void test2(void);  
 
 // ✅ Nom descriptif
-void test_email_validation_accepts_valid_email(void);
-void test_email_validation_rejects_missing_at_sign(void);
-void test_email_validation_rejects_empty_string(void);
+void test_email_validation_accepts_valid_email(void);  
+void test_email_validation_rejects_missing_at_sign(void);  
+void test_email_validation_rejects_empty_string(void);  
 ```
 
 ---
@@ -1260,10 +1260,10 @@ Le Test-Driven Development est plus qu'une technique : c'est une **philosophie d
 
 ### Comment démarrer avec le TDD
 
-**Semaine 1 :** Appliquer le TDD sur une fonction simple (ex: calculatrice)
-**Semaine 2 :** Appliquer sur une structure de données (ex: liste, pile)
-**Semaine 3 :** Appliquer sur un module complet (ex: parser)
-**Semaine 4 :** Intégrer dans vos projets quotidiens
+**Semaine 1 :** Appliquer le TDD sur une fonction simple (ex: calculatrice)  
+**Semaine 2 :** Appliquer sur une structure de données (ex: liste, pile)  
+**Semaine 3 :** Appliquer sur un module complet (ex: parser)  
+**Semaine 4 :** Intégrer dans vos projets quotidiens  
 
 ### Citation inspirante
 

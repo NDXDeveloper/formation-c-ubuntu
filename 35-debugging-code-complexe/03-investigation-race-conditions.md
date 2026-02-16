@@ -53,17 +53,17 @@ int main() {
 }
 ```
 
-**Résultat attendu** : 200 000
-**Résultat réel** : 187 432 (varie à chaque exécution)
+**Résultat attendu** : 200 000  
+**Résultat réel** : 187 432 (varie à chaque exécution)  
 
 ### Pourquoi counter++ n'est pas atomique
 
 L'opération `counter++` se décompose en 3 instructions assembleur :
 
 ```asm
-mov eax, [counter]    # 1. Lire la valeur
-add eax, 1            # 2. Incrémenter
-mov [counter], eax    # 3. Écrire la nouvelle valeur
+mov eax, [counter]    # 1. Lire la valeur  
+add eax, 1            # 2. Incrémenter  
+mov [counter], eax    # 3. Écrire la nouvelle valeur  
 ```
 
 **Scénario de race condition** :
@@ -90,9 +90,9 @@ L'exemple ci-dessus : lecture, modification, écriture sans protection.
 counter++;
 
 // ✅ SOLUTION : Mutex
-pthread_mutex_lock(&mutex);
-counter++;
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+counter++;  
+pthread_mutex_unlock(&mutex);  
 ```
 
 #### 2. Check-Then-Act
@@ -210,8 +210,8 @@ WARNING: ThreadSanitizer: data race (pid=12345)
 
 SUMMARY: ThreadSanitizer: data race race_example.c:7 in increment
 ==================
-Counter: 178432
-ThreadSanitizer: reported 1 warnings
+Counter: 178432  
+ThreadSanitizer: reported 1 warnings  
 ```
 
 ### Interpréter la sortie TSan
@@ -261,7 +261,7 @@ valgrind --tool=helgrind ./race_example
 
 | Critère | ThreadSanitizer | Helgrind |
 |---------|-----------------|----------|
-| **Vitesse** | Rapide (2-5x) | Très lent (20-50x) |
+| **Vitesse** | Rapide (5-15x) | Très lent (20-50x) |
 | **Recompilation** | Requise | Non requise |
 | **Détection** | Excellente | Très bonne |
 | **Faux positifs** | Peu | Quelques-uns |
@@ -298,8 +298,8 @@ Créer plus de threads que de cœurs CPU :
 ```c
 #define NUM_THREADS 100  // Sur une machine à 8 cœurs
 
-pthread_t threads[NUM_THREADS];
-for (int i = 0; i < NUM_THREADS; i++) {
+pthread_t threads[NUM_THREADS];  
+for (int i = 0; i < NUM_THREADS; i++) {  
     pthread_create(&threads[i], NULL, worker, NULL);
 }
 ```
@@ -490,8 +490,8 @@ int main() {
 
 ```c
 // Optimisation par le compilateur
-int temp = should_stop;  // Lecture une seule fois
-while (!temp) {          // Boucle infinie si temp = 0
+int temp = should_stop;  // Lecture une seule fois  
+while (!temp) {          // Boucle infinie si temp = 0  
     process_item();
 }
 ```
@@ -535,8 +535,8 @@ int main() {
 **Code problématique** :
 
 ```c
-Config *global_config = NULL;
-pthread_mutex_t config_mutex = PTHREAD_MUTEX_INITIALIZER;
+Config *global_config = NULL;  
+pthread_mutex_t config_mutex = PTHREAD_MUTEX_INITIALIZER;  
 
 Config* get_config() {
     if (global_config == NULL) {  // ❌ Check non protégé
@@ -555,12 +555,12 @@ Config* get_config() {
 
 ```c
 // Ce que vous écrivez
-global_config = malloc(sizeof(Config));
-init_config(global_config);
+global_config = malloc(sizeof(Config));  
+init_config(global_config);  
 
 // Ce que le CPU peut exécuter
-global_config = <adresse>;  // Assignation visible AVANT l'initialisation
-init_config(global_config);
+global_config = <adresse>;  // Assignation visible AVANT l'initialisation  
+init_config(global_config);  
 ```
 
 Résultat : Un autre thread voit `global_config != NULL` mais l'objet n'est pas encore initialisé.
@@ -568,8 +568,8 @@ Résultat : Un autre thread voit `global_config != NULL` mais l'objet n'est pas 
 **Solution** : Utiliser `pthread_once` (pattern idiomatique)
 
 ```c
-Config *global_config = NULL;
-pthread_once_t config_once = PTHREAD_ONCE_INIT;
+Config *global_config = NULL;  
+pthread_once_t config_once = PTHREAD_ONCE_INIT;  
 
 void init_config_once() {
     global_config = malloc(sizeof(Config));
@@ -652,8 +652,8 @@ Protection classique avec verrous.
 ```c
 #include <pthread.h>
 
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-int shared_data = 0;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+int shared_data = 0;  
 
 void* worker(void* arg) {
     pthread_mutex_lock(&mutex);
@@ -664,8 +664,8 @@ void* worker(void* arg) {
 }
 ```
 
-**Avantages** : Simple, fiable
-**Inconvénients** : Overhead, risque de deadlock
+**Avantages** : Simple, fiable  
+**Inconvénients** : Overhead, risque de deadlock  
 
 ### 2. Atomiques (C11)
 
@@ -682,8 +682,8 @@ void* worker(void* arg) {
 }
 ```
 
-**Avantages** : Rapide, pas de deadlock
-**Inconvénients** : Limité aux opérations simples
+**Avantages** : Rapide, pas de deadlock  
+**Inconvénients** : Limité aux opérations simples  
 
 ### 3. Read-Write Locks
 
@@ -692,8 +692,8 @@ Permettent plusieurs lecteurs simultanés, mais un seul écrivain.
 ```c
 #include <pthread.h>
 
-pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
-int shared_data = 0;
+pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;  
+int shared_data = 0;  
 
 void* reader(void* arg) {
     pthread_rwlock_rdlock(&rwlock);  // Plusieurs readers OK
@@ -710,8 +710,8 @@ void* writer(void* arg) {
 }
 ```
 
-**Avantages** : Optimisé pour lectures fréquentes
-**Inconvénients** : Plus complexe
+**Avantages** : Optimisé pour lectures fréquentes  
+**Inconvénients** : Plus complexe  
 
 ### 4. Thread-Local Storage
 
@@ -728,8 +728,8 @@ void* worker(void* arg) {
 }
 ```
 
-**Avantages** : Aucune synchronisation nécessaire
-**Inconvénients** : Données non partagées
+**Avantages** : Aucune synchronisation nécessaire  
+**Inconvénients** : Données non partagées  
 
 ### 5. Message Passing
 
@@ -756,8 +756,8 @@ void* consumer(void* arg) {
 }
 ```
 
-**Avantages** : Découplage, moins de bugs
-**Inconvénients** : Overhead de la queue
+**Avantages** : Découplage, moins de bugs  
+**Inconvénients** : Overhead de la queue  
 
 ---
 
@@ -851,22 +851,22 @@ Minimiser la taille des sections critiques.
 
 ```c
 // ❌ MAL : Lock trop large
-pthread_mutex_lock(&mutex);
-int value = shared_data;
-int result = expensive_computation(value);  // Calcul long sous lock
-shared_data = result;
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+int value = shared_data;  
+int result = expensive_computation(value);  // Calcul long sous lock  
+shared_data = result;  
+pthread_mutex_unlock(&mutex);  
 
 // ✅ MIEUX : Lock minimal
-pthread_mutex_lock(&mutex);
-int value = shared_data;
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+int value = shared_data;  
+pthread_mutex_unlock(&mutex);  
 
 int result = expensive_computation(value);  // Calcul hors lock
 
-pthread_mutex_lock(&mutex);
-shared_data = result;
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+shared_data = result;  
+pthread_mutex_unlock(&mutex);  
 ```
 
 ### 5. Convention d'ordre de lock
@@ -922,8 +922,8 @@ rr replay
 Outil commercial puissant pour détecter les races et deadlocks.
 
 ```bash
-inspxe-cl -collect ti3 -- ./myapp
-inspxe-cl -report problems -report-output report.txt
+inspxe-cl -collect ti3 -- ./myapp  
+inspxe-cl -report problems -report-output report.txt  
 ```
 
 ### 3. Clang Thread Safety Analysis
@@ -934,8 +934,8 @@ Annotations pour vérifier statiquement la protection des données.
 #include <pthread.h>
 
 // Annotations Clang
-int shared_data __attribute__((guarded_by(mutex)));
-pthread_mutex_t mutex;
+int shared_data __attribute__((guarded_by(mutex)));  
+pthread_mutex_t mutex;  
 
 void access_data() __attribute__((requires_capability(mutex))) {
     shared_data++;  // ✅ Compilateur vérifie que mutex est locké
@@ -969,9 +969,9 @@ clang -Wthread-safety -o myapp myapp.c -lpthread
 (gdb) run
 
 # GDB s'arrête à chaque modification
-Hardware watchpoint 1: shared_data
-Old value = 0
-New value = 1
+Hardware watchpoint 1: shared_data  
+Old value = 0  
+New value = 1  
 ```
 
 #### 2. Thread-specific breakpoints
@@ -1064,8 +1064,8 @@ typedef struct {
     char *buffer;
 } Request;
 
-Request *pending_requests[MAX_REQUESTS];
-int request_count = 0;
+Request *pending_requests[MAX_REQUESTS];  
+int request_count = 0;  
 
 void enqueue_request(Request *req) {
     pending_requests[request_count++] = req;  // ❌ RACE

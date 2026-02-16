@@ -103,9 +103,9 @@ MonApplication.AppImage (fichier exécutable)
 Quand une AppImage s'exécute, plusieurs variables sont définies :
 
 ```bash
-APPIMAGE=/path/to/MonApplication.AppImage    # Chemin de l'AppImage
-APPDIR=/tmp/.mount_MonAppXXXXXX              # Répertoire monté
-OWD=/path/where/appimage/was/called          # Répertoire de lancement
+APPIMAGE=/path/to/MonApplication.AppImage    # Chemin de l'AppImage  
+APPDIR=/tmp/.mount_MonAppXXXXXX              # Répertoire monté  
+OWD=/path/where/appimage/was/called          # Répertoire de lancement  
 ```
 
 ## Outils pour créer des AppImages
@@ -117,8 +117,8 @@ OWD=/path/where/appimage/was/called          # Répertoire de lancement
 **Installation :**
 ```bash
 # Télécharger appimagetool
-wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-chmod +x appimagetool-x86_64.AppImage
+wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage  
+chmod +x appimagetool-x86_64.AppImage  
 
 # Optionnel : déplacer dans PATH
 sudo mv appimagetool-x86_64.AppImage /usr/local/bin/appimagetool
@@ -131,8 +131,8 @@ sudo mv appimagetool-x86_64.AppImage /usr/local/bin/appimagetool
 **Installation :**
 ```bash
 # Télécharger linuxdeploy
-wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-chmod +x linuxdeploy-x86_64.AppImage
+wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage  
+chmod +x linuxdeploy-x86_64.AppImage  
 
 # Optionnel : déplacer dans PATH
 sudo mv linuxdeploy-x86_64.AppImage /usr/local/bin/linuxdeploy
@@ -144,8 +144,8 @@ Des plugins existent pour différents frameworks :
 
 ```bash
 # Plugin Qt
-wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
-chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
+wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage  
+chmod +x linuxdeploy-plugin-qt-x86_64.AppImage  
 
 # Plugin GTK (via appimage-builder)
 # Plugin Python
@@ -157,10 +157,10 @@ chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
 
 ```bash
 # Créer la structure
-mkdir -p MonApp.AppDir/usr/bin
-mkdir -p MonApp.AppDir/usr/lib
-mkdir -p MonApp.AppDir/usr/share/applications
-mkdir -p MonApp.AppDir/usr/share/icons/hicolor/256x256/apps
+mkdir -p MonApp.AppDir/usr/bin  
+mkdir -p MonApp.AppDir/usr/lib  
+mkdir -p MonApp.AppDir/usr/share/applications  
+mkdir -p MonApp.AppDir/usr/share/icons/hicolor/256x256/apps  
 ```
 
 ### Étape 2 : Copier votre application
@@ -184,12 +184,12 @@ cp /usr/lib/x86_64-linux-gnu/libcurl.so.4 MonApp.AppDir/usr/lib/
 
 ```ini
 [Desktop Entry]
-Name=Mon Application
-Exec=mon-programme
-Icon=mon-app
-Type=Application
-Categories=Utility;
-Comment=Mon application formidable
+Name=Mon Application  
+Exec=mon-programme  
+Icon=mon-app  
+Type=Application  
+Categories=Utility;  
+Comment=Mon application formidable  
 ```
 
 **Important :** Le fichier .desktop doit être à la racine de AppDir.
@@ -343,9 +343,9 @@ int main(int argc, char *argv[]) {
 **Makefile**
 
 ```makefile
-CC = gcc
-CFLAGS = -Wall -O2
-TARGET = mon-app
+CC = gcc  
+CFLAGS = -Wall -O2  
+TARGET = mon-app  
 
 all: $(TARGET)
 
@@ -369,13 +369,13 @@ appimage: $(TARGET)
 
 ```ini
 [Desktop Entry]
-Type=Application
-Name=Mon Application
-Comment=Application de démonstration AppImage
-Exec=mon-app
-Icon=mon-app
-Categories=Utility;Development;
-Terminal=false
+Type=Application  
+Name=Mon Application  
+Comment=Application de démonstration AppImage  
+Exec=mon-app  
+Icon=mon-app  
+Categories=Utility;Development;  
+Terminal=false  
 ```
 
 ### Script de build
@@ -388,16 +388,16 @@ Terminal=false
 set -e
 
 # Configuration
-APP_NAME="mon-app"
-VERSION="1.0.0"
-ARCH="x86_64"
+APP_NAME="mon-app"  
+VERSION="1.0.0"  
+ARCH="x86_64"  
 
 echo "=== Création de l'AppImage de ${APP_NAME} ==="
 
 # 1. Compiler l'application
-echo "Compilation..."
-make clean
-make
+echo "Compilation..."  
+make clean  
+make  
 
 # 2. Créer l'AppImage avec linuxdeploy
 echo "Création de l'AppImage..."
@@ -422,13 +422,13 @@ if [ -f ${APP_NAME}-${ARCH}.AppImage ]; then
     mv ${APP_NAME}-${ARCH}.AppImage ${APP_NAME}-${VERSION}-${ARCH}.AppImage
 fi
 
-echo ""
-echo "=== AppImage créée avec succès ==="
-ls -lh ${APP_NAME}-${VERSION}-${ARCH}.AppImage
-echo ""
-echo "Pour tester :"
-echo "  chmod +x ${APP_NAME}-${VERSION}-${ARCH}.AppImage"
-echo "  ./${APP_NAME}-${VERSION}-${ARCH}.AppImage"
+echo ""  
+echo "=== AppImage créée avec succès ==="  
+ls -lh ${APP_NAME}-${VERSION}-${ARCH}.AppImage  
+echo ""  
+echo "Pour tester :"  
+echo "  chmod +x ${APP_NAME}-${VERSION}-${ARCH}.AppImage"  
+echo "  ./${APP_NAME}-${VERSION}-${ARCH}.AppImage"  
 ```
 
 ```bash
@@ -484,15 +484,15 @@ ldd mon-programme
 
 ```bash
 # Créer une liste d'exclusions
-cat > excludelist << 'EOF'
-libc.so.6
-libdl.so.2
-libm.so.6
-libpthread.so.0
-librt.so.1
-libstdc++.so.6
-libgcc_s.so.1
-EOF
+cat > excludelist << 'EOF'  
+libc.so.6  
+libdl.so.2  
+libm.so.6  
+libpthread.so.0  
+librt.so.1  
+libstdc++.so.6  
+libgcc_s.so.1  
+EOF  
 
 # Utiliser avec linuxdeploy
 linuxdeploy-x86_64.AppImage \
@@ -512,8 +512,8 @@ Pour des applications complexes avec beaucoup de dépendances :
 
 ```bash
 # Installer appimage-builder
-sudo apt install python3-pip
-pip3 install appimage-builder
+sudo apt install python3-pip  
+pip3 install appimage-builder  
 
 # Créer un fichier de configuration
 appimage-builder --generate
@@ -586,13 +586,13 @@ Pour une meilleure intégration, personnalisez AppRun :
 HERE="$(dirname "$(readlink -f "${0}")")"
 
 # Configuration de l'environnement
-export LD_LIBRARY_PATH="${HERE}/usr/lib:${LD_LIBRARY_PATH}"
-export PATH="${HERE}/usr/bin:${PATH}"
-export XDG_DATA_DIRS="${HERE}/usr/share:${XDG_DATA_DIRS}"
+export LD_LIBRARY_PATH="${HERE}/usr/lib:${LD_LIBRARY_PATH}"  
+export PATH="${HERE}/usr/bin:${PATH}"  
+export XDG_DATA_DIRS="${HERE}/usr/share:${XDG_DATA_DIRS}"  
 
 # Support du thème GTK
-export GTK_THEME="${GTK_THEME:-Adwaita}"
-export GTK2_RC_FILES="${HERE}/usr/share/themes/Adwaita/gtk-2.0/gtkrc"
+export GTK_THEME="${GTK_THEME:-Adwaita}"  
+export GTK2_RC_FILES="${HERE}/usr/share/themes/Adwaita/gtk-2.0/gtkrc"  
 
 # Support Qt
 export QT_PLUGIN_PATH="${HERE}/usr/plugins:${QT_PLUGIN_PATH}"
@@ -610,13 +610,13 @@ exec "${HERE}/usr/bin/mon-app" "$@"
 
 ```bash
 # Installer appimaged (optionnel)
-wget https://github.com/probonopd/go-appimage/releases/download/continuous/appimaged-x86_64.AppImage
-chmod +x appimaged-x86_64.AppImage
+wget https://github.com/probonopd/go-appimage/releases/download/continuous/appimaged-x86_64.AppImage  
+chmod +x appimaged-x86_64.AppImage  
 ./appimaged-x86_64.AppImage --install
 
 # Les AppImages dans ~/Applications ou ~/Downloads seront automatiquement intégrées
-mkdir -p ~/Applications
-mv MonApp.AppImage ~/Applications/
+mkdir -p ~/Applications  
+mv MonApp.AppImage ~/Applications/  
 ```
 
 ### Fichier .desktop intégré
@@ -625,17 +625,17 @@ Pour une meilleure intégration, incluez des informations complètes :
 
 ```ini
 [Desktop Entry]
-Type=Application
-Name=Mon Application
-GenericName=Outil de démonstration
-Comment=Application exemple pour AppImage
-Exec=mon-app %U
-Icon=mon-app
-Terminal=false
-Categories=Utility;Development;
-MimeType=text/plain;
-Keywords=exemple;demo;appimage;
-StartupNotify=true
+Type=Application  
+Name=Mon Application  
+GenericName=Outil de démonstration  
+Comment=Application exemple pour AppImage  
+Exec=mon-app %U  
+Icon=mon-app  
+Terminal=false  
+Categories=Utility;Development;  
+MimeType=text/plain;  
+Keywords=exemple;demo;appimage;  
+StartupNotify=true  
 ```
 
 ## Mises à jour avec AppImageUpdate
@@ -666,8 +666,8 @@ X-AppImage-Update-Information=zsync|https://example.com/mon-app-latest-x86_64.Ap
 
 ```bash
 # Télécharger AppImageUpdate
-wget https://github.com/AppImage/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage
-chmod +x AppImageUpdate-x86_64.AppImage
+wget https://github.com/AppImage/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage  
+chmod +x AppImageUpdate-x86_64.AppImage  
 
 # Mettre à jour une AppImage
 ./AppImageUpdate-x86_64.AppImage mon-app-1.0.0-x86_64.AppImage
@@ -682,8 +682,8 @@ chmod +x AppImageUpdate-x86_64.AppImage
 aarch64-linux-gnu-gcc mon-programme.c -o mon-programme
 
 # Télécharger linuxdeploy pour ARM64
-wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-aarch64.AppImage
-chmod +x linuxdeploy-aarch64.AppImage
+wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-aarch64.AppImage  
+chmod +x linuxdeploy-aarch64.AppImage  
 
 # Créer l'AppImage ARM64 (nécessite QEMU pour l'exécution)
 ./linuxdeploy-aarch64.AppImage \
@@ -702,8 +702,8 @@ chmod +x linuxdeploy-aarch64.AppImage
 
 ```bash
 # Les utilisateurs téléchargent
-wget https://github.com/user/projet/releases/download/v1.0.0/MonApp-1.0.0-x86_64.AppImage
-chmod +x MonApp-1.0.0-x86_64.AppImage
+wget https://github.com/user/projet/releases/download/v1.0.0/MonApp-1.0.0-x86_64.AppImage  
+chmod +x MonApp-1.0.0-x86_64.AppImage  
 ./MonApp-1.0.0-x86_64.AppImage
 ```
 
@@ -737,8 +737,8 @@ chmod +x MonApp-1.0.0-x86_64.AppImage
 Déplacez le fichier dans `~/Applications` :
 
 ```bash
-mkdir -p ~/Applications
-mv MonApp-1.0.0-x86_64.AppImage ~/Applications/
+mkdir -p ~/Applications  
+mv MonApp-1.0.0-x86_64.AppImage ~/Applications/  
 ```
 
 Si vous avez appimaged installé, l'application apparaîtra dans votre menu.
@@ -761,10 +761,10 @@ on:
 
 jobs:
   build-appimage:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -803,14 +803,14 @@ jobs:
         ./mon-app-${{ steps.version.outputs.version }}-x86_64.AppImage --version
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: appimage
         path: '*.AppImage'
 
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: '*.AppImage'
       env:
@@ -822,7 +822,7 @@ jobs:
 **.gitlab-ci.yml**
 
 ```yaml
-image: ubuntu:20.04
+image: ubuntu:22.04
 
 stages:
   - build
@@ -869,9 +869,9 @@ package:appimage:
 
 ```bash
 # Tester avec Docker
-docker run -it --rm -v $(pwd):/test ubuntu:20.04 /test/MonApp.AppImage
-docker run -it --rm -v $(pwd):/test fedora:latest /test/MonApp.AppImage
-docker run -it --rm -v $(pwd):/test archlinux:latest /test/MonApp.AppImage
+docker run -it --rm -v $(pwd):/test ubuntu:20.04 /test/MonApp.AppImage  
+docker run -it --rm -v $(pwd):/test fedora:latest /test/MonApp.AppImage  
+docker run -it --rm -v $(pwd):/test archlinux:latest /test/MonApp.AppImage  
 ```
 
 ### 2. Minimiser la taille
@@ -1030,8 +1030,8 @@ gcc -O3 -DNDEBUG ...
 
 ```bash
 # Créer manuellement
-mkdir -p AppDir/usr/bin
-cp mon-app AppDir/usr/bin/
+mkdir -p AppDir/usr/bin  
+cp mon-app AppDir/usr/bin/  
 # ... copier ressources ...
 appimagetool AppDir
 

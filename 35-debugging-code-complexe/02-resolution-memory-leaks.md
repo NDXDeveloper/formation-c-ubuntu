@@ -229,8 +229,8 @@ int main() {
 
 **Compilation et exécution** :
 ```bash
-gcc -g -o leak_example leak_example.c
-valgrind --leak-check=full --show-leak-kinds=all ./leak_example
+gcc -g -o leak_example leak_example.c  
+valgrind --leak-check=full --show-leak-kinds=all ./leak_example  
 ```
 
 **Sortie Valgrind** :
@@ -415,8 +415,8 @@ char* get_data();
 Après correction, **toujours** revérifier avec Valgrind :
 
 ```bash
-valgrind --leak-check=full --error-exitcode=1 ./myapp
-echo $?  # Doit retourner 0 si aucune fuite
+valgrind --leak-check=full --error-exitcode=1 ./myapp  
+echo $?  # Doit retourner 0 si aucune fuite  
 ```
 
 ---
@@ -624,8 +624,8 @@ Plus léger que ASan complet, se concentre uniquement sur les fuites.
 Analyse la **croissance** de la mémoire au fil du temps :
 
 ```bash
-valgrind --tool=massif ./myapp
-ms_print massif.out.12345
+valgrind --tool=massif ./myapp  
+ms_print massif.out.12345  
 ```
 
 Génère un graphique textuel de l'utilisation mémoire :
@@ -673,15 +673,15 @@ int main() {
 
 ```bash
 # Compiler et exécuter
-gcc -o myapp myapp.c
-MALLOC_TRACE=mtrace.log ./myapp
+gcc -o myapp myapp.c  
+MALLOC_TRACE=mtrace.log ./myapp  
 
 # Analyser
 mtrace myapp mtrace.log
 ```
 
-**Avantage** : Pas besoin d'outils externes.
-**Inconvénient** : Moins puissant que Valgrind.
+**Avantage** : Pas besoin d'outils externes.  
+**Inconvénient** : Moins puissant que Valgrind.  
 
 ### 4. Electric Fence
 
@@ -727,8 +727,8 @@ void example() {
 char* create_buffer() {
     return malloc(1024);
 }
-void use_buffer(char *buf) { /* ... */ }
-void destroy_buffer(char *buf) {
+void use_buffer(char *buf) { /* ... */ }  
+void destroy_buffer(char *buf) {  
     free(buf);
 }
 
@@ -749,13 +749,13 @@ Indiquez clairement qui est responsable de la libération :
 
 ```c
 // Suffixes explicites
-char* string_alloc();     // Appelant doit free
-char* string_get();       // Pointeur vers donnée statique/partagée, NE PAS free
-char* string_dup();       // Duplique, appelant doit free
+char* string_alloc();     // Appelant doit free  
+char* string_get();       // Pointeur vers donnée statique/partagée, NE PAS free  
+char* string_dup();       // Duplique, appelant doit free  
 
 // Préfixes
-void take_ownership(char *data);   // Prend la responsabilité, libérera
-void borrow(const char *data);     // Emprunte, ne libérera pas
+void take_ownership(char *data);   // Prend la responsabilité, libérera  
+void borrow(const char *data);     // Emprunte, ne libérera pas  
 ```
 
 ### 3. Documentation Doxygen
@@ -800,8 +800,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "✅ Aucune fuite détectée."
-exit 0
+echo "✅ Aucune fuite détectée."  
+exit 0  
 ```
 
 #### Intégration dans le CI/CD
@@ -816,7 +816,7 @@ jobs:
   valgrind:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Install Valgrind
         run: sudo apt-get install -y valgrind
@@ -830,7 +830,7 @@ jobs:
 
       - name: Upload Valgrind report
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: valgrind-report
           path: valgrind.log
@@ -940,22 +940,25 @@ Certaines bibliothèques (OpenSSL, X11, etc.) ont des "fuites" normales : elles 
 **Exemple avec OpenSSL** :
 ```c
 #include <openssl/ssl.h>
+#include <openssl/evp.h>
 
 int main() {
-    SSL_library_init();
-    SSL_load_error_strings();
+    // OpenSSL 1.1.0+ : initialisation et cleanup automatiques
+    SSL_CTX *ctx = SSL_CTX_new(TLS_client_method());
 
     // ... utilisation SSL ...
 
-    // ❌ FUITE apparente si on oublie :
-    EVP_cleanup();
-    ERR_free_strings();
+    SSL_CTX_free(ctx);
 
+    // Certaines allocations internes d'OpenSSL ne sont libérées
+    // qu'à la terminaison du processus. Valgrind les signale comme
+    // "still reachable" : ce sont des allocations intentionnelles,
+    // pas de vraies fuites.
     return 0;
 }
 ```
 
-**Valgrind montrera une fuite, mais c'est un faux positif si on n'appelle pas les fonctions de cleanup.**
+**Valgrind signalera ces allocations internes. Pour éviter le bruit dans les rapports, utilisez un fichier de suppression.**
 
 ### Créer un fichier de suppression
 
@@ -990,8 +993,8 @@ valgrind --suppressions=openssl.supp --leak-check=full ./myapp
 
 ```bash
 # Voir l'utilisation mémoire d'un processus
-ps aux | grep myapp
-top -p $(pidof myapp)
+ps aux | grep myapp  
+top -p $(pidof myapp)  
 
 # Détails RSS (Resident Set Size)
 cat /proc/$(pidof myapp)/status | grep VmRSS
@@ -1003,8 +1006,8 @@ cat /proc/$(pidof myapp)/status | grep VmRSS
 #!/bin/bash
 # monitor_memory.sh
 
-PID=$(pidof myapp)
-LOG="/var/log/myapp_memory.log"
+PID=$(pidof myapp)  
+LOG="/var/log/myapp_memory.log"  
 
 while true; do
     MEM=$(ps -o rss= -p $PID)

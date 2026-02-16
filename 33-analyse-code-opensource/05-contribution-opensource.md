@@ -56,15 +56,15 @@ Contrairement aux projets personnels ou professionnels privés, vos contribution
 **Impact sur votre carrière** :
 
 ```
-Avant l'open-source :
-CV : "Maîtrise du langage C"
-Recruteur : "Prouvez-le."
-Vous : [silence]
+Avant l'open-source :  
+CV : "Maîtrise du langage C"  
+Recruteur : "Prouvez-le."  
+Vous : [silence]  
 
-Après l'open-source :
-CV : "Contributeur à Redis, Git, et curl"
-Recruteur : "Impressionnant ! Parlez-moi de vos contributions."
-Vous : "J'ai corrigé un bug dans le parser HTTP de curl, voici le lien..."
+Après l'open-source :  
+CV : "Contributeur à Redis, Git, et curl"  
+Recruteur : "Impressionnant ! Parlez-moi de vos contributions."  
+Vous : "J'ai corrigé un bug dans le parser HTTP de curl, voici le lien..."  
 ```
 
 **Réseau professionnel** :
@@ -248,11 +248,11 @@ Ces compétences sont **transférables** à n'importe quel emploi tech.
 
 ✅ **Git de base**
 ```bash
-git clone
-git add
-git commit
-git push
-git pull
+git clone  
+git add  
+git commit  
+git push  
+git pull  
 ```
 
 ✅ **C de base**
@@ -276,11 +276,11 @@ git pull
 
 ✅ **Git avancé**
 ```bash
-git branch
-git checkout
-git rebase
-git cherry-pick
-git stash
+git branch  
+git checkout  
+git rebase  
+git cherry-pick  
+git stash  
 ```
 
 ✅ **C intermédiaire**
@@ -340,8 +340,8 @@ git stash
 
 ```bash
 # Identité
-git config --global user.name "Votre Nom"
-git config --global user.email "votre.email@example.com"
+git config --global user.name "Votre Nom"  
+git config --global user.email "votre.email@example.com"  
 
 # Éditeur par défaut
 git config --global core.editor "vim"  # ou nano, code, etc.
@@ -350,10 +350,10 @@ git config --global core.editor "vim"  # ou nano, code, etc.
 git config --global color.ui auto
 
 # Aliases utiles
-git config --global alias.st "status -sb"
-git config --global alias.co "checkout"
-git config --global alias.br "branch"
-git config --global alias.lg "log --oneline --graph --decorate"
+git config --global alias.st "status -sb"  
+git config --global alias.co "checkout"  
+git config --global alias.br "branch"  
+git config --global alias.lg "log --oneline --graph --decorate"  
 ```
 
 ---
@@ -372,8 +372,8 @@ git config --global alias.lg "log --oneline --graph --decorate"
 ssh-keygen -t ed25519 -C "votre.email@example.com"
 
 # Ajouter à l'agent SSH
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
+eval "$(ssh-agent -s)"  
+ssh-add ~/.ssh/id_ed25519  
 
 # Copier la clé publique
 cat ~/.ssh/id_ed25519.pub
@@ -389,8 +389,8 @@ gpg --full-generate-key
 gpg --list-secret-keys --keyid-format LONG
 
 # Configurer Git
-git config --global user.signingkey VOTRE_KEY_ID
-git config --global commit.gpgsign true
+git config --global user.signingkey VOTRE_KEY_ID  
+git config --global commit.gpgsign true  
 
 # Exporter et ajouter sur GitHub
 gpg --armor --export VOTRE_KEY_ID
@@ -418,17 +418,17 @@ gpg --armor --export VOTRE_KEY_ID
 **Vim** (pour les puristes)
 ```vim
 " .vimrc minimal pour C
-syntax on
-set number
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set autoindent
+syntax on  
+set number  
+set tabstop=4  
+set shiftwidth=4  
+set expandtab  
+set autoindent  
 
 " Plugins recommandés (avec vim-plug)
-Plug 'tpope/vim-fugitive'        " Git
-Plug 'preservim/nerdtree'        " Explorateur de fichiers
-Plug 'dense-analysis/ale'        " Linting
+Plug 'tpope/vim-fugitive'        " Git  
+Plug 'preservim/nerdtree'        " Explorateur de fichiers  
+Plug 'dense-analysis/ale'        " Linting  
 ```
 
 ---
@@ -437,8 +437,8 @@ Plug 'dense-analysis/ale'        " Linting
 
 ```bash
 # Installation des outils essentiels
-sudo apt update
-sudo apt install -y \
+sudo apt update  
+sudo apt install -y \  
     build-essential \
     git \
     clang-format \
@@ -448,10 +448,10 @@ sudo apt install -y \
     cmake
 
 # Vérification
-gcc --version
-git --version
-clang-format --version
-valgrind --version
+gcc --version  
+git --version  
+clang-format --version  
+valgrind --version  
 ```
 
 ---
@@ -497,26 +497,26 @@ fi
 PROJECT_NAME=$(basename $PROJECT .git)
 
 # Fork (vous devez le faire manuellement sur GitHub)
-echo "1. Fork $PROJECT on GitHub"
-echo "2. Press Enter when done"
-read
+echo "1. Fork $PROJECT on GitHub"  
+echo "2. Press Enter when done"  
+read  
 
 # Clone
-cd ~/opensource/contributions
-git clone $PROJECT
-cd $PROJECT_NAME
+cd ~/opensource/contributions  
+git clone $PROJECT  
+cd $PROJECT_NAME  
 
 # Ajouter upstream
-UPSTREAM=$(echo $PROJECT | sed 's|github.com/[^/]*/|github.com/ORIGINAL_OWNER/|')
-git remote add upstream $UPSTREAM
+UPSTREAM=$(echo $PROJECT | sed 's|github.com/[^/]*/|github.com/ORIGINAL_OWNER/|')  
+git remote add upstream $UPSTREAM  
 
 # Synchroniser
-git fetch upstream
-git merge upstream/main
+git fetch upstream  
+git merge upstream/main  
 
-echo "✅ Setup complete!"
-echo "📂 Project: ~/opensource/contributions/$PROJECT_NAME"
-echo "🌿 Create a branch: git checkout -b your-branch-name"
+echo "✅ Setup complete!"  
+echo "📂 Project: ~/opensource/contributions/$PROJECT_NAME"  
+echo "🌿 Create a branch: git checkout -b your-branch-name"  
 ```
 
 ---
@@ -801,8 +801,8 @@ Avant de passer aux sections suivantes, assurez-vous d'avoir :
 - **"The Beginner's Guide to Contributing to Open Source"** : https://www.freecodecamp.org/news/how-to-contribute-to-open-source/
 
 **Git et GitHub** :
-- **"Git Handbook"** : https://guides.github.com/introduction/git-handbook/
-- **"GitHub Flow"** : https://guides.github.com/introduction/flow/
+- **"Git Handbook"** : https://docs.github.com/en/get-started/getting-started-with-git
+- **"GitHub Flow"** : https://docs.github.com/en/get-started/using-github/github-flow
 - **"Pro Git Book"** : https://git-scm.com/book/en/v2 (gratuit)
 
 **Culture open-source** :
@@ -836,12 +836,12 @@ Chaque ligne de code open-source que vous écrivez peut potentiellement être ut
 
 **L'open-source est démocratique.** Peu importe votre âge, votre diplôme, votre pays d'origine. Ce qui compte, c'est la qualité de votre code et votre volonté d'apprendre.
 
-**Beaucoup de développeurs célèbres ont commencé exactement où vous êtes maintenant :**
-- Linus Torvalds (Linux, Git) a commencé avec de petits patches
-- Guido van Rossum (Python) a contribué à d'autres projets avant
-- Salvatore Sanfilippo (Redis) a appris en contribuant
+**Beaucoup de développeurs reconnus se sont fait remarquer grâce à leurs contributions open-source :**
+- Daniel Stenberg a commencé curl comme un petit outil HTTP personnel, devenu essentiel partout
+- Jeff Geerling est devenu expert Linux embarqué en contribuant à des projets communautaires
+- De nombreux mainteneurs de Git, Redis ou Nginx ont commencé par de simples corrections de bugs
 
-**Leur secret ?** Ils ont commencé. Ils ont fait leur première PR. Et vous allez faire de même.
+**Leur secret ?** Ils ont commencé. Ils ont fait leur première contribution. Et vous allez faire de même.
 
 **Les sections suivantes vont vous guider pas à pas. Prenez votre temps. Lisez attentivement. Et surtout, lancez-vous.**
 

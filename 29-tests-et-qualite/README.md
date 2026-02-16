@@ -21,8 +21,8 @@ int *ptr = malloc(100 * sizeof(int));
 // Oubli de vérifier si malloc a réussi
 ptr[0] = 42;  // Crash potentiel si malloc a échoué
 
-free(ptr);
-ptr[50] = 10;  // Use-after-free : comportement indéfini
+free(ptr);  
+ptr[50] = 10;  // Use-after-free : comportement indéfini  
 ```
 
 **Sans tests :**
@@ -355,8 +355,8 @@ Pour suivre ce chapitre efficacement, préparez votre environnement :
 
 ```bash
 # Sur Ubuntu/Debian
-sudo apt update
-sudo apt install -y \
+sudo apt update  
+sudo apt install -y \  
     gcc \
     make \
     cmake \
@@ -508,9 +508,9 @@ Le contenu est conçu pour être **accessible aux débutants** :
 ### Le testing est un investissement
 
 ```
-Temps initial : +20%
-Temps de debugging : -70%
-Temps de maintenance : -50%
+Temps initial : +20%  
+Temps de debugging : -70%  
+Temps de maintenance : -50%  
 ─────────────────────────
 Gain net : +30% de productivité
 ```
@@ -566,7 +566,7 @@ Le testing peut sembler contre-intuitif au début :
 
 ## Prêt à commencer ?
 
-Le testing n'est pas une option en 2025. C'est une **compétence fondamentale** qui sépare les amateurs des professionnels. Ce chapitre vous donnera tous les outils pour rejoindre les rangs des développeurs C qui produisent du code de qualité industrielle.
+Le testing n'est pas une option aujourd'hui. C'est une **compétence fondamentale** qui sépare les amateurs des professionnels. Ce chapitre vous donnera tous les outils pour rejoindre les rangs des développeurs C qui produisent du code de qualité industrielle.
 
 **Commençons par comprendre la philosophie du testing en C.**
 

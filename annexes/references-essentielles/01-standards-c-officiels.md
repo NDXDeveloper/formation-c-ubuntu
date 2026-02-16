@@ -323,11 +323,11 @@ int* ptr = nullptr;  // Meilleur que NULL
 **Vérifier le support :**
 ```bash
 # GCC 14+ supporte -std=c23, GCC 13 utilise -std=c2x
-gcc --version
+gcc --version  
 gcc -std=c2x -E -dM - < /dev/null | grep __STDC_VERSION__
 
 # Clang 16+
-clang --version
+clang --version  
 clang -std=c23 -E -dM - < /dev/null | grep __STDC_VERSION__
 ```
 
@@ -417,9 +417,9 @@ int main(void) {
 # GCC : Spécifier le standard
 gcc -std=c89 program.c    # Force C89  
 gcc -std=c99 program.c    # Force C99  
-gcc -std=c11 program.c    # Force C11
-gcc -std=c17 program.c    # Force C17 (recommandé)
-gcc -std=c2x program.c    # Force C23 (GCC 13, expérimental)
+gcc -std=c11 program.c    # Force C11  
+gcc -std=c17 program.c    # Force C17 (recommandé)  
+gcc -std=c2x program.c    # Force C23 (GCC 13, expérimental)  
 gcc -std=c23 program.c    # Force C23 (GCC 14+, expérimental)
 
 # Extensions GNU (non portable)

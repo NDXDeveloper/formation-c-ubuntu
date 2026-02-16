@@ -36,10 +36,10 @@ Un bug en production dans du code C peut avoir des conséquences graves :
 Le coût de correction d'un bug augmente exponentiellement avec le temps :
 
 ```
-Bug trouvé pendant le codage       →  5 minutes de fix
-Bug trouvé en phase de test        →  30 minutes à 1 heure
-Bug trouvé en production           →  Plusieurs heures + impact client
-Bug causant une faille de sécurité →  Jours de travail + dégâts réputationnels
+Bug trouvé pendant le codage       →  5 minutes de fix  
+Bug trouvé en phase de test        →  30 minutes à 1 heure  
+Bug trouvé en production           →  Plusieurs heures + impact client  
+Bug causant une faille de sécurité →  Jours de travail + dégâts réputationnels  
 ```
 
 ---
@@ -453,8 +453,8 @@ void test_everything(void) {
 ```c
 static int counter = 0;
 
-void test_1(void) { counter++; }
-void test_2(void) { assert(counter == 1); } // Échoue si test_2 est lancé seul
+void test_1(void) { counter++; }  
+void test_2(void) { assert(counter == 1); } // Échoue si test_2 est lancé seul  
 ```
 
 **Solution :** Chaque test doit être indépendant.
@@ -489,9 +489,11 @@ Tester du code C demande plus de rigueur que dans d'autres langages, mais c'est 
 
 Dans les sections suivantes, nous verrons :
 - **29.2** : Les frameworks de tests unitaires concrets (Unity, Check, cmocka)
-- **29.3** : Comment écrire des assertions efficaces
+- **29.3** : L'écriture de tests efficaces et les bonnes pratiques
 - **29.4** : Le mocking et le stubbing pour isoler les dépendances
 - **29.5** : Les tests d'intégration et leur automatisation
+- **29.6** : La mesure de couverture de code
+- **29.7** : Le Test-Driven Development (TDD) en pratique
 
 ---
 

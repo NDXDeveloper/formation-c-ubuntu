@@ -86,9 +86,9 @@ libmath/
 #define MYMATH_H
 
 // API publique de la bibliothèque
-int add(int a, int b);
-int multiply(int a, int b);
-int power(int base, int exponent);
+int add(int a, int b);  
+int multiply(int a, int b);  
+int power(int base, int exponent);  
 
 // Obtenir la version de la bibliothèque
 const char* mymath_version(void);
@@ -136,31 +136,31 @@ const char* mymath_version(void) {
 
 ```makefile
 # Configuration
-LIB_NAME = mymath
-VERSION = 1.0.0
-MAJOR = 1
-MINOR = 0
-PATCH = 0
+LIB_NAME = mymath  
+VERSION = 1.0.0  
+MAJOR = 1  
+MINOR = 0  
+PATCH = 0  
 
 # Fichiers
-SOURCES = src/add.c src/multiply.c src/power.c
-OBJECTS = $(SOURCES:.c=.o)
-HEADER = include/mymath.h
+SOURCES = src/add.c src/multiply.c src/power.c  
+OBJECTS = $(SOURCES:.c=.o)  
+HEADER = include/mymath.h  
 
 # Noms des bibliothèques
-LIB_SO = lib$(LIB_NAME).so
-LIB_SO_VERSION = $(LIB_SO).$(VERSION)
-LIB_SO_MAJOR = $(LIB_SO).$(MAJOR)
+LIB_SO = lib$(LIB_NAME).so  
+LIB_SO_VERSION = $(LIB_SO).$(VERSION)  
+LIB_SO_MAJOR = $(LIB_SO).$(MAJOR)  
 
 # Compilateur et flags
-CC = gcc
-CFLAGS = -Wall -Werror -O2 -fPIC -Iinclude
-LDFLAGS = -shared
+CC = gcc  
+CFLAGS = -Wall -Werror -O2 -fPIC -Iinclude  
+LDFLAGS = -shared  
 
 # Répertoires d'installation
-PREFIX ?= /usr/local
-LIBDIR = $(PREFIX)/lib
-INCLUDEDIR = $(PREFIX)/include
+PREFIX ?= /usr/local  
+LIBDIR = $(PREFIX)/lib  
+INCLUDEDIR = $(PREFIX)/include  
 
 # Règle par défaut
 all: $(LIB_SO_VERSION)
@@ -270,9 +270,9 @@ Exemple : libmymath.so.1.2.3
 ### Structure des liens symboliques
 
 ```
-libmymath.so           → libmymath.so.1         [Lien de développement]
-libmymath.so.1         → libmymath.so.1.2.3     [SONAME]
-libmymath.so.1.2.3                              [Fichier réel]
+libmymath.so           → libmymath.so.1         [Lien de développement]  
+libmymath.so.1         → libmymath.so.1.2.3     [SONAME]  
+libmymath.so.1.2.3                              [Fichier réel]  
 ```
 
 **Utilisation :**
@@ -309,8 +309,8 @@ gcc -shared -Wl,-soname,libmymath.so.1 \
     add.o multiply.o power.o
 
 # Créer les liens symboliques
-ln -sf libmymath.so.1.2.3 libmymath.so.1
-ln -sf libmymath.so.1 libmymath.so
+ln -sf libmymath.so.1.2.3 libmymath.so.1  
+ln -sf libmymath.so.1 libmymath.so  
 
 # Vérifier
 readelf -d libmymath.so.1.2.3 | grep SONAME
@@ -457,17 +457,17 @@ ldd ./test_mymath
 **mymath.pc.in** (template)
 
 ```
-prefix=@PREFIX@
-exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
-includedir=${prefix}/include
+prefix=@PREFIX@  
+exec_prefix=${prefix}  
+libdir=${exec_prefix}/lib  
+includedir=${prefix}/include  
 
-Name: MyMath
-Description: Bibliothèque mathématique de démonstration
-Version: @VERSION@
-Requires:
-Libs: -L${libdir} -lmymath
-Cflags: -I${includedir}
+Name: MyMath  
+Description: Bibliothèque mathématique de démonstration  
+Version: @VERSION@  
+Requires:  
+Libs: -L${libdir} -lmymath  
+Cflags: -I${includedir}  
 ```
 
 **Générer mymath.pc :**
@@ -479,8 +479,8 @@ sed -e "s|@PREFIX@|/usr/local|g" \
     mymath.pc.in > mymath.pc
 
 # Installer
-sudo mkdir -p /usr/local/lib/pkgconfig
-sudo install -m 644 mymath.pc /usr/local/lib/pkgconfig/
+sudo mkdir -p /usr/local/lib/pkgconfig  
+sudo install -m 644 mymath.pc /usr/local/lib/pkgconfig/  
 ```
 
 **Ou dans le Makefile :**
@@ -524,8 +524,8 @@ gcc test_mymath.c -o test_mymath \
 
 ```makefile
 # Utiliser pkg-config
-CFLAGS += $(shell pkg-config --cflags mymath)
-LDFLAGS += $(shell pkg-config --libs mymath)
+CFLAGS += $(shell pkg-config --cflags mymath)  
+LDFLAGS += $(shell pkg-config --libs mymath)  
 
 test: test_mymath.c
 	$(CC) $(CFLAGS) test_mymath.c -o test $(LDFLAGS)
@@ -535,15 +535,15 @@ test: test_mymath.c
 
 ```cmake
 # Trouver la bibliothèque avec pkg-config
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(MYMATH REQUIRED mymath)
+find_package(PkgConfig REQUIRED)  
+pkg_check_modules(MYMATH REQUIRED mymath)  
 
 # Utiliser les variables générées
-include_directories(${MYMATH_INCLUDE_DIRS})
-link_directories(${MYMATH_LIBRARY_DIRS})
+include_directories(${MYMATH_INCLUDE_DIRS})  
+link_directories(${MYMATH_LIBRARY_DIRS})  
 
-add_executable(test test_mymath.c)
-target_link_libraries(test ${MYMATH_LIBRARIES})
+add_executable(test test_mymath.c)  
+target_link_libraries(test ${MYMATH_LIBRARIES})  
 ```
 
 ## Visibilité des symboles
@@ -570,10 +570,10 @@ Par défaut, **tous les symboles** sont exportés. Pour une meilleure encapsulat
 #endif
 
 // API publique
-MYMATH_EXPORT int add(int a, int b);
-MYMATH_EXPORT int multiply(int a, int b);
-MYMATH_EXPORT int power(int base, int exponent);
-MYMATH_EXPORT const char* mymath_version(void);
+MYMATH_EXPORT int add(int a, int b);  
+MYMATH_EXPORT int multiply(int a, int b);  
+MYMATH_EXPORT int power(int base, int exponent);  
+MYMATH_EXPORT const char* mymath_version(void);  
 
 #endif
 ```
@@ -625,21 +625,21 @@ libmymath-1.2.3/
 **debian/control**
 
 ```
-Source: libmymath
-Section: libs
-Priority: optional
+Source: libmymath  
+Section: libs  
+Priority: optional  
 
-Package: libmymath1
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Bibliothèque mathématique - runtime
+Package: libmymath1  
+Architecture: any  
+Depends: ${shlibs:Depends}, ${misc:Depends}  
+Description: Bibliothèque mathématique - runtime  
  Bibliothèque partagée pour les fonctions mathématiques.
 
-Package: libmymath-dev
-Section: libdevel
-Architecture: any
-Depends: libmymath1 (= ${binary:Version}), ${misc:Depends}
-Description: Bibliothèque mathématique - fichiers de développement
+Package: libmymath-dev  
+Section: libdevel  
+Architecture: any  
+Depends: libmymath1 (= ${binary:Version}), ${misc:Depends}  
+Description: Bibliothèque mathématique - fichiers de développement  
  Headers et fichiers nécessaires pour développer avec libmymath.
 ```
 
@@ -652,9 +652,9 @@ usr/lib/*/libmymath.so.*
 **debian/libmymath-dev.install**
 
 ```
-usr/lib/*/libmymath.so
-usr/include/*
-usr/lib/*/pkgconfig/*
+usr/lib/*/libmymath.so  
+usr/include/*  
+usr/lib/*/pkgconfig/*  
 ```
 
 **Résultat :**
@@ -666,14 +666,14 @@ usr/lib/*/pkgconfig/*
 **libmymath.spec**
 
 ```spec
-Name:           libmymath
-Version:        1.2.3
-Release:        1%{?dist}
-Summary:        Bibliothèque mathématique
+Name:           libmymath  
+Version:        1.2.3  
+Release:        1%{?dist}  
+Summary:        Bibliothèque mathématique  
 
-License:        MIT
-URL:            https://github.com/user/libmymath
-Source0:        %{name}-%{version}.tar.gz
+License:        MIT  
+URL:            https://github.com/user/libmymath  
+Source0:        %{name}-%{version}.tar.gz  
 
 BuildRequires:  gcc make
 
@@ -681,8 +681,8 @@ BuildRequires:  gcc make
 Bibliothèque partagée pour les fonctions mathématiques.
 
 %package        devel
-Summary:        Fichiers de développement pour %{name}
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+Summary:        Fichiers de développement pour %{name}  
+Requires:       %{name}%{?_isa} = %{version}-%{release}  
 
 %description    devel
 Headers et fichiers nécessaires pour développer avec libmymath.
@@ -721,18 +721,18 @@ make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
 ```bash
 # Workflow classique
 ./configure --prefix=/usr/local
-make
-make check
-sudo make install
-sudo ldconfig
+make  
+make check  
+sudo make install  
+sudo ldconfig  
 ```
 
 **Avec CMake :**
 
 ```cmake
 # CMakeLists.txt
-cmake_minimum_required(VERSION 3.10)
-project(mymath VERSION 1.2.3 LANGUAGES C)
+cmake_minimum_required(VERSION 3.10)  
+project(mymath VERSION 1.2.3 LANGUAGES C)  
 
 # Options
 option(BUILD_SHARED_LIBS "Build shared libraries" ON)
@@ -764,8 +764,8 @@ install(TARGETS mymath
 )
 
 # Générer le fichier .pc
-configure_file(mymath.pc.in mymath.pc @ONLY)
-install(FILES ${CMAKE_BINARY_DIR}/mymath.pc
+configure_file(mymath.pc.in mymath.pc @ONLY)  
+install(FILES ${CMAKE_BINARY_DIR}/mymath.pc  
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
 
@@ -777,8 +777,8 @@ install(EXPORT mymathTargets
 )
 
 # Config pour CMake
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
+include(CMakePackageConfigHelpers)  
+write_basic_package_version_file(  
     mymathConfigVersion.cmake
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY SameMajorVersion
@@ -793,11 +793,11 @@ install(FILES
 **Utilisation :**
 
 ```bash
-mkdir build && cd build
-cmake ..
-make
-sudo make install
-sudo ldconfig
+mkdir build && cd build  
+cmake ..  
+make  
+sudo make install  
+sudo ldconfig  
 ```
 
 ## Cross-compilation de bibliothèques
@@ -820,8 +820,8 @@ file libmymath.so.1.2.3
 
 ```bash
 # Utiliser un fichier toolchain
-cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake ..
-make
+cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake ..  
+make  
 
 # Résultat : bibliothèque ARM64
 ```
@@ -909,8 +909,8 @@ ldd ./mon-programme
 export LD_LIBRARY_PATH=/path/to/lib
 
 # 2. Ajouter au cache système
-sudo sh -c 'echo "/path/to/lib" > /etc/ld.so.conf.d/mylib.conf'
-sudo ldconfig
+sudo sh -c 'echo "/path/to/lib" > /etc/ld.so.conf.d/mylib.conf'  
+sudo ldconfig  
 
 # 3. Compiler avec RPATH
 gcc -Wl,-rpath,/path/to/lib ...
@@ -1010,8 +1010,8 @@ int add(int a, int b);
 
 ```c
 // ✓ Bon - évite les conflits
-int mymath_add(int a, int b);
-int mymath_multiply(int a, int b);
+int mymath_add(int a, int b);  
+int mymath_multiply(int a, int b);  
 
 // ✗ Mauvais - risque de conflit
 int add(int a, int b);
@@ -1068,21 +1068,21 @@ libmymath/
 ### CMakeLists.txt production
 
 ```cmake
-cmake_minimum_required(VERSION 3.15)
-project(mymath VERSION 1.2.3 LANGUAGES C)
+cmake_minimum_required(VERSION 3.15)  
+project(mymath VERSION 1.2.3 LANGUAGES C)  
 
 # Options
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
-option(BUILD_TESTING "Build tests" ON)
-option(BUILD_EXAMPLES "Build examples" ON)
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)  
+option(BUILD_TESTING "Build tests" ON)  
+option(BUILD_EXAMPLES "Build examples" ON)  
 
 # Standard C
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 17)  
+set(CMAKE_C_STANDARD_REQUIRED ON)  
 
 # Sources
-file(GLOB SOURCES src/*.c)
-list(FILTER SOURCES EXCLUDE REGEX ".*internal.*")
+file(GLOB SOURCES src/*.c)  
+list(FILTER SOURCES EXCLUDE REGEX ".*internal.*")  
 
 # Bibliothèque
 add_library(mymath ${SOURCES})
@@ -1123,8 +1123,8 @@ install(TARGETS mymath
 )
 
 # pkg-config
-configure_file(mymath.pc.in mymath.pc @ONLY)
-install(FILES ${CMAKE_BINARY_DIR}/mymath.pc
+configure_file(mymath.pc.in mymath.pc @ONLY)  
+install(FILES ${CMAKE_BINARY_DIR}/mymath.pc  
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
 
@@ -1135,9 +1135,9 @@ install(EXPORT mymathTargets
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mymath
 )
 
-configure_file(cmake/mymathConfig.cmake.in mymathConfig.cmake @ONLY)
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
+configure_file(cmake/mymathConfig.cmake.in mymathConfig.cmake @ONLY)  
+include(CMakePackageConfigHelpers)  
+write_basic_package_version_file(  
     mymathConfigVersion.cmake
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY SameMajorVersion
@@ -1179,17 +1179,17 @@ endif()
 gcc -fPIC -shared -Wl,-soname,libname.so.1 -o libname.so.1.0.0 sources.c
 
 # Installation
-sudo make install
-sudo ldconfig
+sudo make install  
+sudo ldconfig  
 
 # Utilisation
-pkg-config --cflags --libs libname
-gcc app.c $(pkg-config --cflags --libs libname)
+pkg-config --cflags --libs libname  
+gcc app.c $(pkg-config --cflags --libs libname)  
 
 # Diagnostic
-ldd ./app
-nm -D libname.so
-readelf -d libname.so
+ldd ./app  
+nm -D libname.so  
+readelf -d libname.so  
 ```
 
 La distribution de bibliothèques partagées nécessite rigueur et attention au versioning pour assurer compatibilité et stabilité dans le temps.

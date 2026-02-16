@@ -80,8 +80,8 @@ L'automatisation de la distribution et du déploiement du code validé par la CI
 10. Publication automatique (artifacts, releases)
 ```
 
-**Sans CI/CD** : Étapes 3-9 sont manuelles, sujettes à oubli, inconsistantes.
-**Avec CI/CD** : Tout est automatique, reproductible, fiable.
+**Sans CI/CD** : Étapes 3-9 sont manuelles, sujettes à oubli, inconsistantes.  
+**Avec CI/CD** : Tout est automatique, reproductible, fiable.  
 
 ---
 
@@ -325,9 +325,9 @@ Pour tirer le meilleur parti de ce module, vous devriez avoir :
 Si vous le faites plus d'une fois, automatisez-le.
 
 ```
-Compilation manuelle → workflow build
-Tests manuels → workflow test
-Distribution manuelle → workflow release
+Compilation manuelle → workflow build  
+Tests manuels → workflow test  
+Distribution manuelle → workflow release  
 ```
 
 #### 2. **Détecter les problèmes tôt**
@@ -357,11 +357,11 @@ Mieux vaut savoir en 5 minutes qu'un commit casse le build plutôt qu'en découv
 **Shift-left** signifie déplacer les tests "vers la gauche" dans le cycle de développement, c'est-à-dire **le plus tôt possible**.
 
 ```
-Avant (shift-right) :
-Code → Développement → Review → QA → Production → Bug découvert 😱
+Avant (shift-right) :  
+Code → Développement → Review → QA → Production → Bug découvert 😱  
 
-Après (shift-left) :
-Code → CI (tests immédiats) → Bug découvert ✅ → Correction → Review → Production
+Après (shift-left) :  
+Code → CI (tests immédiats) → Bug découvert ✅ → Correction → Review → Production  
 ```
 
 Pour les projets C, cela signifie :
@@ -382,7 +382,7 @@ Pour les projets C, cela signifie :
 - `actions/checkout@v4` : Récupérer le code
 - `actions/upload-artifact@v4` : Publier des artifacts
 - `codecov/codecov-action@v4` : Upload couverture
-- `softprops/action-gh-release@v1` : Créer des releases
+- `softprops/action-gh-release@v2` : Créer des releases
 
 **Avantage** : Ne pas réinventer la roue, utiliser des solutions éprouvées.
 
@@ -602,8 +602,8 @@ Voici à quoi ressemble un pipeline CI/CD mature pour un projet C :
             └─────────────────────┘
 ```
 
-**Temps total** : 5-15 minutes
-**Confiance** : Maximale
+**Temps total** : 5-15 minutes  
+**Confiance** : Maximale  
 
 ---
 

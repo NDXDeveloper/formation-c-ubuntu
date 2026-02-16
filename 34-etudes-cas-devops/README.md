@@ -147,19 +147,19 @@ Avant de commencer ces études de cas, assurez-vous de maîtriser :
 ### Environnement de développement
 ```bash
 # Vérifiez que vous avez les outils nécessaires
-gcc --version        # GCC 9.0+
-cmake --version      # CMake 3.15+
-gdb --version        # GDB 8.0+
-valgrind --version   # Valgrind 3.15+
-git --version        # Git 2.0+
+gcc --version        # GCC 9.0+  
+cmake --version      # CMake 3.15+  
+gdb --version        # GDB 8.0+  
+valgrind --version   # Valgrind 3.15+  
+git --version        # Git 2.0+  
 ```
 
 ### Bibliothèques et headers
 ```bash
 # Sur Ubuntu/Debian
-sudo apt-get install build-essential cmake
-sudo apt-get install libpcre2-dev  # Pour le parser de logs
-sudo apt-get install check          # Framework de tests
+sudo apt-get install build-essential cmake  
+sudo apt-get install libpcre2-dev  # Pour le parser de logs  
+sudo apt-get install check          # Framework de tests  
 ```
 
 ---
@@ -173,7 +173,7 @@ sudo apt-get install check          # Framework de tests
 
 ### Projets open-source pour inspiration
 - [htop](https://github.com/htop-dev/htop) - Monitoring interactif
-- [jq](https://github.com/stedolan/jq) - Parser JSON en C
+- [jq](https://github.com/jqlang/jq) - Parser JSON en C
 - [nginx](https://github.com/nginx/nginx) - Serveur web event-driven
 - [redis](https://github.com/redis/redis) - Architecture réseau performante
 

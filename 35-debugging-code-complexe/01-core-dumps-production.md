@@ -63,8 +63,8 @@ echo "/var/crash/core.%e.%p.%t" | sudo tee /proc/sys/kernel/core_pattern
 ### Créer le répertoire de stockage
 
 ```bash
-sudo mkdir -p /var/crash
-sudo chmod 1777 /var/crash  # Accessible à tous, mais chacun ne voit que ses fichiers
+sudo mkdir -p /var/crash  
+sudo chmod 1777 /var/crash  # Sticky bit : chacun ne peut supprimer que ses propres fichiers
 ```
 
 ---
@@ -157,8 +157,8 @@ int main() {
 
 **Compilation avec symboles** :
 ```bash
-gcc -g -o myapp myapp.c
-ulimit -c unlimited
+gcc -g -o myapp myapp.c  
+ulimit -c unlimited  
 ./myapp
 # Segmentation fault (core dumped)
 ```
@@ -295,7 +295,7 @@ $1 = {
 # Trouver le PID
 ps aux | grep myapp
 
-# Générer un core dump sans tuer le processus (Linux >= 3.18)
+# Générer un core dump sans tuer le processus
 sudo gcore -o /var/crash/myapp 12345
 
 # Analyser
@@ -351,8 +351,8 @@ En production, vous ne voulez pas inclure les symboles de debug dans le binaire 
 gcc -g -o myapp myapp.c
 
 # Séparer les symboles
-objcopy --only-keep-debug myapp myapp.debug
-strip --strip-debug --strip-unneeded myapp
+objcopy --only-keep-debug myapp myapp.debug  
+strip --strip-debug --strip-unneeded myapp  
 
 # Créer un lien entre le binaire et les symboles
 objcopy --add-gnu-debuglink=myapp.debug myapp
@@ -377,7 +377,9 @@ Les core dumps prennent de la place. Automatisez leur nettoyage :
 Ajoutez des signaux handlers pour logger avant de crasher :
 
 ```c
+#include <stdio.h>
 #include <signal.h>
+#include <unistd.h>
 #include <execinfo.h>
 
 void signal_handler(int sig) {
@@ -407,16 +409,16 @@ Script pour analyser automatiquement les nouveaux core dumps :
 #!/bin/bash
 # auto_analyze_core.sh
 
-CORE_FILE=$1
-EXECUTABLE=$2
+CORE_FILE=$1  
+EXECUTABLE=$2  
 
 if [ ! -f "$CORE_FILE" ]; then
     echo "Core file not found: $CORE_FILE"
     exit 1
 fi
 
-echo "=== Analyzing $CORE_FILE ==="
-gdb -batch -ex "bt full" -ex "info registers" -ex "thread apply all bt" \
+echo "=== Analyzing $CORE_FILE ==="  
+gdb -batch -ex "bt full" -ex "info registers" -ex "thread apply all bt" \  
     "$EXECUTABLE" "$CORE_FILE" > "${CORE_FILE}.analysis.txt"
 
 echo "Analysis saved to ${CORE_FILE}.analysis.txt"
@@ -476,7 +478,7 @@ lldb ./myapp -c core.12345
 
 Si le programme a beaucoup de mémoire mappée, le core peut être tronqué.
 
-**Solution** : Configurer `/proc/sys/kernel/core_pipe_limit`
+**Solutions** : Augmenter `ulimit -c`, vérifier l'espace disque, et ajuster `/proc/PID/coredump_filter` pour inclure les mappings nécessaires
 
 ### 2. Binaire et core dump désynchronisés
 

@@ -308,8 +308,8 @@ void afficher_aide() {
 
 ```c
 // ✅ BON : Messages d'erreur explicites
-FILE *fp = fopen(chemin, "r");
-if (fp == NULL) {
+FILE *fp = fopen(chemin, "r");  
+if (fp == NULL) {  
     fprintf(stderr, "Erreur: impossible d'ouvrir '%s': %s\n",
             chemin, strerror(errno));
     return -1;
@@ -326,8 +326,8 @@ if (fp == NULL) {
 
 ```c
 // ✅ BON : Validation complète
-int port = atoi(port_str);
-if (port < 1 || port > 65535) {
+int port = atoi(port_str);  
+if (port < 1 || port > 65535) {  
     fprintf(stderr, "Erreur: port invalide (doit être entre 1 et 65535)\n");
     return 1;
 }
@@ -385,8 +385,8 @@ Voici un template de base que vous pouvez utiliser comme point de départ :
 #define VERSION "1.0.0"
 
 // Variables globales pour les options
-static int verbose = 0;
-static char *output_file = NULL;
+static int verbose = 0;  
+static char *output_file = NULL;  
 
 void afficher_version(const char *nom_prog) {
     printf("%s version %s\n", nom_prog, VERSION);
@@ -526,8 +526,8 @@ gcc -Wall -Wextra -o mon_outil mon_outil.c
 
 ```bash
 # Vérification statique
-cppcheck mon_outil.c
-clang-tidy mon_outil.c
+cppcheck mon_outil.c  
+clang-tidy mon_outil.c  
 
 # Détection de fuites mémoire
 valgrind --leak-check=full ./mon_outil
@@ -544,12 +544,12 @@ gcc -fsanitize=address -g mon_outil.c -o mon_outil
 
 ```bash
 # Installation locale
-sudo cp mon_outil /usr/local/bin/
-sudo chmod +x /usr/local/bin/mon_outil
+sudo cp mon_outil /usr/local/bin/  
+sudo chmod +x /usr/local/bin/mon_outil  
 
 # Vérification
-which mon_outil
-mon_outil --version
+which mon_outil  
+mon_outil --version  
 ```
 
 ### Complétion bash
@@ -655,11 +655,11 @@ Avant de considérer votre outil CLI comme "terminé", vérifiez :
 
 ```bash
 # Pages de manuel
-man 3 getopt
-man 3 printf
-man 2 open
-man 2 stat
-man 7 signal
+man 3 getopt  
+man 3 printf  
+man 2 open  
+man 2 stat  
+man 7 signal  
 
 # Standards
 man 7 posix

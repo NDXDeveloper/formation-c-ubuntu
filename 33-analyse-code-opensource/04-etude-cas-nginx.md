@@ -39,14 +39,14 @@ Nginx n'est pas qu'un simple serveur web - c'est aussi :
 ### Statistiques (Nginx 1.24+)
 
 ```
-Taille du projet   : ~150 000 lignes de code C
-Nombre de fichiers : ~400 fichiers .c et .h
-Contributeurs      : 300+ développeurs
-Première version   : 2004
-Langage            : C (99%), Perl (scripts de config)
-Architecture       : Multi-process, event-driven
-Performance        : 10K+ connexions simultanées
-Part de marché     : ~33% des serveurs web actifs
+Taille du projet   : ~150 000 lignes de code C  
+Nombre de fichiers : ~400 fichiers .c et .h  
+Contributeurs      : 300+ développeurs  
+Première version   : 2004  
+Langage            : C (99%), Perl (scripts de config)  
+Architecture       : Multi-process, event-driven  
+Performance        : 10K+ connexions simultanées  
+Part de marché     : ~33% des serveurs web actifs  
 ```
 
 ### Philosophie de Nginx
@@ -78,13 +78,10 @@ Nginx a été conçu pour résoudre le **problème C10K** (gérer 10 000 connexi
 Clonez Nginx pour explorer son code :
 
 ```bash
-# Nginx officiel
-hg clone http://hg.nginx.org/nginx
-
-# Ou via le mirror GitHub (plus facile)
-git clone https://github.com/nginx/nginx.git
-cd nginx
-tree -L 1 -d
+# Nginx officiel (GitHub, dépôt principal depuis 2024)
+git clone https://github.com/nginx/nginx.git  
+cd nginx  
+tree -L 1 -d  
 ```
 
 ```
@@ -115,7 +112,6 @@ nginx/
 | `nginx.c` | Point d'entrée, gestion master | ~1500 |
 | `ngx_cycle.c` | Cycle de vie du serveur | ~1200 |
 | `ngx_connection.c` | Gestion des connexions | ~1200 |
-| `ngx_event.c` | Abstraction des événements | ~1000 |
 | `ngx_palloc.c` | Pool allocator (mémoire) | ~300 |
 | `ngx_array.c` | Tableaux dynamiques | ~200 |
 | `ngx_list.c` | Listes | ~100 |
@@ -424,9 +420,9 @@ Pool 2:
 ngx_pool_t *pool = ngx_create_pool(16384, log);  // 16 KB
 
 // Allouer depuis le pool
-void *ptr = ngx_palloc(pool, 256);        // Aligné
-void *ptr2 = ngx_pnalloc(pool, 128);      // Non aligné (plus rapide)
-void *ptr3 = ngx_pcalloc(pool, 512);      // Mis à zéro
+void *ptr = ngx_palloc(pool, 256);        // Aligné  
+void *ptr2 = ngx_pnalloc(pool, 128);      // Non aligné (plus rapide)  
+void *ptr3 = ngx_pcalloc(pool, 512);      // Mis à zéro  
 
 // Détruire le pool (libère TOUT d'un coup)
 ngx_destroy_pool(pool);
@@ -490,8 +486,8 @@ Nginx utilise des **chaînes de buffers** pour les I/O.
 
 ```c
 // core/ngx_buf.h
-typedef struct ngx_buf_s  ngx_buf_t;
-typedef struct ngx_chain_s ngx_chain_t;
+typedef struct ngx_buf_s  ngx_buf_t;  
+typedef struct ngx_chain_s ngx_chain_t;  
 
 struct ngx_buf_s {
     u_char          *pos;      // Position de lecture
@@ -591,8 +587,8 @@ struct ngx_rbtree_s {
 
 ```c
 // event/ngx_event_timer.c
-ngx_rbtree_t              ngx_event_timer_rbtree;
-static ngx_rbtree_node_t  ngx_event_timer_sentinel;
+ngx_rbtree_t              ngx_event_timer_rbtree;  
+static ngx_rbtree_node_t  ngx_event_timer_sentinel;  
 
 void ngx_event_timer_init(ngx_log_t *log)
 {
@@ -996,7 +992,7 @@ static ngx_int_t ngx_http_static_handler(ngx_http_request_t *r)
     ngx_http_core_loc_conf_t  *clcf;
 
     // Seules GET et HEAD sont supportées
-    if (!(r->method & (NGX_HTTP_GET|NGX_HTTP_HEAD|NGX_HTTP_POST))) {
+    if (!(r->method & (NGX_HTTP_GET|NGX_HTTP_HEAD))) {
         return NGX_HTTP_NOT_ALLOWED;
     }
 
@@ -1048,10 +1044,12 @@ static ngx_int_t ngx_http_static_handler(ngx_http_request_t *r)
         return rc;
     }
 
-    // Si c'est un répertoire
+    // Si c'est un répertoire → redirection 301 avec '/' final
     if (of.is_dir) {
-        // Rediriger vers index.html ou liste de répertoire
-        return ngx_http_static_directory(r);
+        ngx_http_clear_location(r);
+        r->headers_out.location = ngx_list_push(&r->headers_out.headers);
+        // Construire l'URL avec '/' final...
+        return NGX_HTTP_MOVED_PERMANENTLY;
     }
 
     // Configurer les headers de réponse
@@ -1170,13 +1168,13 @@ ssize_t ngx_linux_sendfile(ngx_connection_t *c, ngx_buf_t *file, size_t size)
 **Avantage** : Pas de copie user-space → kernel → socket. Direct kernel → socket.
 
 ```
-Méthode classique :
-read(file) → buffer user-space → write(socket)
+Méthode classique :  
+read(file) → buffer user-space → write(socket)  
      ↑              ↑                   ↑
   2 copies    buffer inutile      2 syscalls
 
-Avec sendfile :
-sendfile(file → socket)
+Avec sendfile :  
+sendfile(file → socket)  
      ↑
   0 copie, 1 syscall
 ```
@@ -1398,8 +1396,8 @@ sudo make install
 ### 8.2 Déboguer avec GDB
 
 ```bash
-# Lancer en mode single-process
-gdb --args ./objs/nginx -c conf/nginx.conf -g
+# Lancer en mode single-process (daemon off + master_process off)
+gdb --args ./objs/nginx -c conf/nginx.conf -g "daemon off; master_process off;"
 
 (gdb) break ngx_http_process_request
 (gdb) run
@@ -1429,8 +1427,8 @@ Nginx génère des logs très détaillés en mode debug.
 sudo strace -p $(pgrep -f "nginx: worker")
 
 # Perf pour profiling
-sudo perf record -p $(pgrep -f "nginx: worker") -g
-sudo perf report
+sudo perf record -p $(pgrep -f "nginx: worker") -g  
+sudo perf report  
 ```
 
 ---
@@ -1545,7 +1543,7 @@ static void rate_limit_timer_handler(ngx_event_t *ev) {
 
 ### Contribuer à Nginx
 
-1. **Clonez le dépôt** : `hg clone http://hg.nginx.org/nginx`
+1. **Clonez le dépôt** : `git clone https://github.com/nginx/nginx.git`
 2. **Lisez le guide** : https://nginx.org/en/docs/dev/development_guide.html
 3. **Mailing list** : nginx-devel@nginx.org
 

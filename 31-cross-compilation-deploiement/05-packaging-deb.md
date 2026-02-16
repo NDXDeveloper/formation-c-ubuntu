@@ -22,10 +22,10 @@ Un fichier `.deb` est une **archive** qui contient :
 **Sans package :**
 ```bash
 # L'utilisateur doit faire :
-git clone https://github.com/user/projet.git
-cd projet
-make
-sudo make install
+git clone https://github.com/user/projet.git  
+cd projet  
+make  
+sudo make install  
 # Et espérer que ça fonctionne...
 ```
 
@@ -117,10 +117,10 @@ mon-projet/
 
 ```bash
 # Créer la structure du package
-mkdir -p debian-package/DEBIAN
-mkdir -p debian-package/usr/bin
-mkdir -p debian-package/usr/share/doc/mon-programme
-mkdir -p debian-package/usr/share/man/man1
+mkdir -p debian-package/DEBIAN  
+mkdir -p debian-package/usr/bin  
+mkdir -p debian-package/usr/share/doc/mon-programme  
+mkdir -p debian-package/usr/share/man/man1  
 ```
 
 ### Étape 2 : Copier les fichiers
@@ -141,14 +141,14 @@ cp README.md debian-package/usr/share/doc/mon-programme/README
 **debian-package/DEBIAN/control**
 
 ```
-Package: mon-programme
-Version: 1.0.0
-Section: utils
-Priority: optional
-Architecture: amd64
-Depends: libc6 (>= 2.31)
-Maintainer: Votre Nom <votre.email@example.com>
-Description: Description courte en une ligne
+Package: mon-programme  
+Version: 1.0.0  
+Section: utils  
+Priority: optional  
+Architecture: amd64  
+Depends: libc6 (>= 2.31)  
+Maintainer: Votre Nom <votre.email@example.com>  
+Description: Description courte en une ligne  
  Description longue sur plusieurs lignes.
  Chaque ligne doit commencer par un espace.
  .
@@ -178,8 +178,8 @@ dpkg-deb --build debian-package
 mv debian-package.deb mon-programme_1.0.0_amd64.deb
 
 # Vérifier le package
-dpkg-deb --info mon-programme_1.0.0_amd64.deb
-dpkg-deb --contents mon-programme_1.0.0_amd64.deb
+dpkg-deb --info mon-programme_1.0.0_amd64.deb  
+dpkg-deb --contents mon-programme_1.0.0_amd64.deb  
 ```
 
 ### Étape 5 : Installer et tester
@@ -189,8 +189,8 @@ dpkg-deb --contents mon-programme_1.0.0_amd64.deb
 sudo dpkg -i mon-programme_1.0.0_amd64.deb
 
 # Vérifier l'installation
-which mon-programme
-mon-programme --version
+which mon-programme  
+mon-programme --version  
 
 # Lister les fichiers installés
 dpkg -L mon-programme
@@ -204,30 +204,30 @@ sudo dpkg -r mon-programme
 ### Champs obligatoires
 
 ```
-Package: mon-programme
-Version: 1.0.0
-Architecture: amd64
-Maintainer: Votre Nom <email@example.com>
-Description: Description courte
+Package: mon-programme  
+Version: 1.0.0  
+Architecture: amd64  
+Maintainer: Votre Nom <email@example.com>  
+Description: Description courte  
 ```
 
 ### Champs recommandés
 
 ```
-Section: utils
-Priority: optional
-Homepage: https://github.com/user/projet
-Depends: libc6 (>= 2.31), libssl3 (>= 3.0.0)
+Section: utils  
+Priority: optional  
+Homepage: https://github.com/user/projet  
+Depends: libc6 (>= 2.31), libssl3 (>= 3.0.0)  
 ```
 
 ### Champs optionnels utiles
 
 ```
-Recommends: autre-paquet
-Suggests: paquet-optionnel
-Conflicts: ancien-paquet
-Replaces: ancien-paquet
-Provides: interface-virtuelle
+Recommends: autre-paquet  
+Suggests: paquet-optionnel  
+Conflicts: ancien-paquet  
+Replaces: ancien-paquet  
+Provides: interface-virtuelle  
 ```
 
 ### Exemples de sections
@@ -261,15 +261,15 @@ Depends: paquet1, paquet2 (>= 2.0), paquet3 (< 3.0) | paquet4
 **Exemple complet :**
 
 ```
-Package: mon-serveur-web
-Version: 2.1.0
-Architecture: amd64
-Depends: libc6 (>= 2.31),
+Package: mon-serveur-web  
+Version: 2.1.0  
+Architecture: amd64  
+Depends: libc6 (>= 2.31),  
          libssl3 (>= 3.0.0),
          libcurl4 (>= 7.68.0)
-Recommends: logrotate, systemd
-Suggests: mon-serveur-web-plugins
-Conflicts: ancien-serveur-web
+Recommends: logrotate, systemd  
+Suggests: mon-serveur-web-plugins  
+Conflicts: ancien-serveur-web  
 ```
 
 ## Scripts de maintenance
@@ -301,17 +301,17 @@ if ! id -u mon-programme-user &>/dev/null; then
 fi
 
 # Créer les répertoires nécessaires
-mkdir -p /var/log/mon-programme
-chown mon-programme-user:mon-programme-user /var/log/mon-programme
+mkdir -p /var/log/mon-programme  
+chown mon-programme-user:mon-programme-user /var/log/mon-programme  
 
 # Créer les fichiers de configuration par défaut
 if [ ! -f /etc/mon-programme/config.conf ]; then
     cat > /etc/mon-programme/config.conf << 'EOF'
 # Configuration par défaut
-port=8080
-log_level=info
-EOF
-fi
+port=8080  
+log_level=info  
+EOF  
+fi  
 
 # Recharger systemd si on a installé un service
 if [ -d /run/systemd/system ]; then
@@ -410,22 +410,22 @@ debian-package/
 
 ```ini
 [Unit]
-Description=Mon Daemon en C
-After=network.target
+Description=Mon Daemon en C  
+After=network.target  
 
 [Service]
-Type=simple
-User=mon-daemon-user
-Group=mon-daemon-user
-ExecStart=/usr/bin/mon-daemon
-Restart=on-failure
-RestartSec=5s
+Type=simple  
+User=mon-daemon-user  
+Group=mon-daemon-user  
+ExecStart=/usr/bin/mon-daemon  
+Restart=on-failure  
+RestartSec=5s  
 
 # Sécurité
-NoNewPrivileges=true
-PrivateTmp=true
-ProtectSystem=strict
-ProtectHome=true
+NoNewPrivileges=true  
+PrivateTmp=true  
+ProtectSystem=strict  
+ProtectHome=true  
 
 [Install]
 WantedBy=multi-user.target
@@ -467,8 +467,8 @@ exit 0
 
 set -e
 
-PROJECT_NAME="mon-programme"
-VERSION="1.0.0"
+PROJECT_NAME="mon-programme"  
+VERSION="1.0.0"  
 
 # Architectures à compiler
 declare -A ARCHS=(
@@ -506,14 +506,14 @@ build_deb() {
 
     # Créer le fichier control
     cat > "$pkg_dir/DEBIAN/control" << EOF
-Package: ${PROJECT_NAME}
-Version: ${VERSION}
-Section: utils
-Priority: optional
-Architecture: ${arch}
-Depends: libc6 (>= 2.31)
-Maintainer: Votre Nom <email@example.com>
-Description: Description courte
+Package: ${PROJECT_NAME}  
+Version: ${VERSION}  
+Section: utils  
+Priority: optional  
+Architecture: ${arch}  
+Depends: libc6 (>= 2.31)  
+Maintainer: Votre Nom <email@example.com>  
+Description: Description courte  
  Description longue sur plusieurs lignes.
 EOF
 
@@ -536,8 +536,8 @@ for arch in "${!ARCHS[@]}"; do
     echo ""
 done
 
-echo "=== Packages créés ==="
-ls -lh *.deb
+echo "=== Packages créés ==="  
+ls -lh *.deb  
 ```
 
 **Utilisation :**
@@ -574,16 +574,16 @@ sudo apt-get install dh-make devscripts build-essential
 
 ```bash
 # Structure du projet source
-mkdir mon-programme-1.0.0
-cd mon-programme-1.0.0
+mkdir mon-programme-1.0.0  
+cd mon-programme-1.0.0  
 
 # Copier vos sources
 cp /path/to/src/* .
 
 # Créer une archive source
-cd ..
-tar czf mon-programme_1.0.0.orig.tar.gz mon-programme-1.0.0/
-cd mon-programme-1.0.0
+cd ..  
+tar czf mon-programme_1.0.0.orig.tar.gz mon-programme-1.0.0/  
+cd mon-programme-1.0.0  
 
 # Initialiser le packaging Debian
 dh_make -s --createorig
@@ -615,18 +615,18 @@ mon-programme-1.0.0/
 **debian/control**
 
 ```
-Source: mon-programme
-Section: utils
-Priority: optional
-Maintainer: Votre Nom <email@example.com>
-Build-Depends: debhelper-compat (= 13), gcc
-Standards-Version: 4.6.0
-Homepage: https://github.com/user/mon-programme
+Source: mon-programme  
+Section: utils  
+Priority: optional  
+Maintainer: Votre Nom <email@example.com>  
+Build-Depends: debhelper-compat (= 13), gcc  
+Standards-Version: 4.6.0  
+Homepage: https://github.com/user/mon-programme  
 
-Package: mon-programme
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Description courte en une ligne
+Package: mon-programme  
+Architecture: any  
+Depends: ${shlibs:Depends}, ${misc:Depends}  
+Description: Description courte en une ligne  
  Description longue détaillée sur plusieurs lignes.
  .
  Fonctionnalités principales :
@@ -684,8 +684,8 @@ dpkg-buildpackage -us -uc -b
 # -b : build binaire seulement (pas de source)
 
 # Le package est créé dans le répertoire parent
-cd ..
-ls -l *.deb
+cd ..  
+ls -l *.deb  
 ```
 
 ## Vérification et validation des packages
@@ -721,8 +721,8 @@ dpkg-deb --info mon-programme_1.0.0_amd64.deb
 dpkg-deb --contents mon-programme_1.0.0_amd64.deb
 
 # Extraire le contenu
-dpkg-deb --extract mon-programme_1.0.0_amd64.deb extracted/
-dpkg-deb --control mon-programme_1.0.0_amd64.deb extracted/DEBIAN
+dpkg-deb --extract mon-programme_1.0.0_amd64.deb extracted/  
+dpkg-deb --control mon-programme_1.0.0_amd64.deb extracted/DEBIAN  
 
 # Vérifier l'architecture
 dpkg-deb --field mon-programme_1.0.0_amd64.deb Architecture
@@ -764,9 +764,9 @@ sudo dpkg --purge mon-programme
 # Uploader les fichiers .deb
 
 # Les utilisateurs peuvent installer avec :
-wget https://github.com/user/projet/releases/download/v1.0.0/mon-programme_1.0.0_amd64.deb
-sudo dpkg -i mon-programme_1.0.0_amd64.deb
-sudo apt-get install -f  # Installer les dépendances manquantes
+wget https://github.com/user/projet/releases/download/v1.0.0/mon-programme_1.0.0_amd64.deb  
+sudo dpkg -i mon-programme_1.0.0_amd64.deb  
+sudo apt-get install -f  # Installer les dépendances manquantes  
 ```
 
 ### Méthode 2 : Dépôt APT personnel
@@ -799,18 +799,18 @@ sudo apt-get install reprepro
 mkdir -p mon-depot/conf
 
 # Configurer le dépôt
-cat > mon-depot/conf/distributions << 'EOF'
-Origin: Mon Dépôt
-Label: mon-depot
-Codename: stable
-Architectures: amd64 arm64 armhf
-Components: main
-Description: Dépôt personnel
-EOF
+cat > mon-depot/conf/distributions << 'EOF'  
+Origin: Mon Dépôt  
+Label: mon-depot  
+Codename: stable  
+Architectures: amd64 arm64 armhf  
+Components: main  
+Description: Dépôt personnel  
+EOF  
 
 # Ajouter un package
-cd mon-depot
-reprepro includedeb stable ../mon-programme_1.0.0_amd64.deb
+cd mon-depot  
+reprepro includedeb stable ../mon-programme_1.0.0_amd64.deb  
 
 # Générer les métadonnées
 reprepro export
@@ -822,9 +822,9 @@ reprepro export
 
 ```bash
 # Dans le dépôt Git
-git add .
-git commit -m "Add packages"
-git push
+git add .  
+git commit -m "Add packages"  
+git push  
 
 # Activer GitHub Pages sur le dépôt
 ```
@@ -853,9 +853,9 @@ Pour distribuer sur Ubuntu via un PPA (Personal Package Archive) :
 # 3. Signer et uploader les packages
 
 # Les utilisateurs pourront installer avec :
-sudo add-apt-repository ppa:username/ppa-name
-sudo apt-get update
-sudo apt-get install mon-programme
+sudo add-apt-repository ppa:username/ppa-name  
+sudo apt-get update  
+sudo apt-get install mon-programme  
 ```
 
 ## Intégration CI/CD
@@ -885,7 +885,7 @@ jobs:
           - { name: armhf, compiler: arm-linux-gnueabihf-gcc, cross: gcc-arm-linux-gnueabihf }
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -940,14 +940,14 @@ jobs:
       run: lintian mon-programme_${{ steps.version.outputs.version }}_${{ matrix.arch.name }}.deb || true
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: deb-packages
         path: '*.deb'
 
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: '*.deb'
       env:
@@ -1073,11 +1073,11 @@ Affiche l'aide
 Affiche la version
 .SH EXAMPLES
 .TP
-mon-programme \-\-option
-Description de l'exemple
+mon-programme \-\-option  
+Description de l'exemple  
 .SH AUTHOR
-Votre Nom <email@example.com>
-EOF
+Votre Nom <email@example.com>  
+EOF  
 
 # Compresser
 gzip debian-package/usr/share/man/man1/mon-programme.1
@@ -1088,14 +1088,14 @@ gzip debian-package/usr/share/man/man1/mon-programme.1
 **debian-package/usr/share/doc/mon-programme/copyright**
 
 ```
-Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: mon-programme
-Upstream-Contact: Votre Nom <email@example.com>
-Source: https://github.com/user/mon-programme
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/  
+Upstream-Name: mon-programme  
+Upstream-Contact: Votre Nom <email@example.com>  
+Source: https://github.com/user/mon-programme  
 
-Files: *
-Copyright: 2024 Votre Nom <email@example.com>
-License: MIT
+Files: *  
+Copyright: 2024 Votre Nom <email@example.com>  
+License: MIT  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction...
@@ -1106,8 +1106,8 @@ License: MIT
 
 ```bash
 # Format du changelog
-cat > changelog << 'EOF'
-mon-programme (1.0.1-1) stable; urgency=medium
+cat > changelog << 'EOF'  
+mon-programme (1.0.1-1) stable; urgency=medium  
 
   * Correction du bug #123
   * Amélioration des performances
@@ -1122,8 +1122,8 @@ mon-programme (1.0.0-1) stable; urgency=low
 EOF
 
 # Compresser
-gzip -9 changelog
-mv changelog.gz debian-package/usr/share/doc/mon-programme/
+gzip -9 changelog  
+mv changelog.gz debian-package/usr/share/doc/mon-programme/  
 ```
 
 ### 6. Tests avant distribution
@@ -1136,8 +1136,8 @@ lintian -i -I --pedantic mon-programme_1.0.0_amd64.deb
 sudo dpkg -i mon-programme_1.0.0_amd64.deb
 
 # 3. Tester le programme
-mon-programme --version
-mon-programme --help
+mon-programme --version  
+mon-programme --help  
 
 # 4. Vérifier les fichiers installés
 dpkg -L mon-programme
@@ -1146,8 +1146,8 @@ dpkg -L mon-programme
 sudo dpkg -r mon-programme
 
 # 6. Tester la purge
-sudo dpkg -i mon-programme_1.0.0_amd64.deb
-sudo dpkg --purge mon-programme
+sudo dpkg -i mon-programme_1.0.0_amd64.deb  
+sudo dpkg --purge mon-programme  
 ```
 
 ### 7. Conventions de nommage
@@ -1176,8 +1176,8 @@ sudo dpkg --purge mon-programme
 **Solution :**
 ```bash
 # Installer le package et ses dépendances
-sudo dpkg -i mon-programme.deb
-sudo apt-get install -f  # Résout les dépendances
+sudo dpkg -i mon-programme.deb  
+sudo apt-get install -f  # Résout les dépendances  
 ```
 
 ### Erreur : "package is for architecture 'amd64'"
@@ -1209,29 +1209,29 @@ journalctl -xe
 
 ```bash
 # Création manuelle
-mkdir -p debian-pkg/{DEBIAN,usr/bin}
-cat > debian-pkg/DEBIAN/control << EOF
+mkdir -p debian-pkg/{DEBIAN,usr/bin}  
+cat > debian-pkg/DEBIAN/control << EOF  
 # Contenu du control
-EOF
-dpkg-deb --build debian-pkg mon-programme_1.0.0_amd64.deb
+EOF  
+dpkg-deb --build debian-pkg mon-programme_1.0.0_amd64.deb  
 
 # Vérification
-dpkg-deb --info mon-programme.deb
-dpkg-deb --contents mon-programme.deb
-lintian mon-programme.deb
+dpkg-deb --info mon-programme.deb  
+dpkg-deb --contents mon-programme.deb  
+lintian mon-programme.deb  
 
 # Installation
-sudo dpkg -i mon-programme.deb
-sudo apt-get install -f  # Dépendances
+sudo dpkg -i mon-programme.deb  
+sudo apt-get install -f  # Dépendances  
 
 # Gestion
-dpkg -l mon-programme          # Statut
-dpkg -L mon-programme          # Fichiers
-dpkg -S /usr/bin/mon-programme # Recherche
+dpkg -l mon-programme          # Statut  
+dpkg -L mon-programme          # Fichiers  
+dpkg -S /usr/bin/mon-programme # Recherche  
 
 # Désinstallation
-sudo dpkg -r mon-programme     # Garder config
-sudo dpkg --purge mon-programme # Tout supprimer
+sudo dpkg -r mon-programme     # Garder config  
+sudo dpkg --purge mon-programme # Tout supprimer  
 ```
 
 ## Conclusion

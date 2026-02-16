@@ -86,9 +86,9 @@ L'outil le plus basique mais très utile pour commencer.
 time ./myapp
 
 # Sortie typique:
-real    0m5.234s   # Temps total (wall-clock time)
-user    0m4.567s   # Temps CPU en mode utilisateur
-sys     0m0.234s   # Temps CPU en mode noyau
+real    0m5.234s   # Temps total (wall-clock time)  
+user    0m4.567s   # Temps CPU en mode utilisateur  
+sys     0m0.234s   # Temps CPU en mode noyau  
 ```
 
 **Interprétation** :
@@ -217,8 +217,8 @@ perf record ./myapp
 perf report
 
 # Profiler avec call graph
-perf record -g ./myapp
-perf report -g
+perf record -g ./myapp  
+perf report -g  
 ```
 
 #### Exemple de sortie
@@ -529,14 +529,14 @@ void process_items_optimized(Item *items, int count) {
 ```c
 typedef struct {
     int id;
-    char padding[124];  // Structure de 128 bytes
+    char padding[124];  // Structure de 132 bytes
     int value;
 } Data;
 
 int sum_values(Data *array, int count) {
     int sum = 0;
     for (int i = 0; i < count; i++) {
-        sum += array[i].value;  // ❌ Accède à value (offset 124)
+        sum += array[i].value;  // ❌ Accède à value (offset 128)
     }
     return sum;
 }
@@ -739,8 +739,8 @@ for (int i = 0; i < 1000; i++) {
 }
 
 // ✅ BIEN : Calcul une seule fois
-double factor = expensive_calculation();
-for (int i = 0; i < 1000; i++) {
+double factor = expensive_calculation();  
+for (int i = 0; i < 1000; i++) {  
     double result = factor * array[i];
 }
 ```
@@ -775,9 +775,9 @@ for (int i = 0; i < size; i++) {
 }
 
 // ✅ MIEUX : Séparer les cas
-int even_count = 0, odd_count = 0;
-int *even = malloc(size * sizeof(int));
-int *odd = malloc(size * sizeof(int));
+int even_count = 0, odd_count = 0;  
+int *even = malloc(size * sizeof(int));  
+int *odd = malloc(size * sizeof(int));  
 
 for (int i = 0; i < size; i++) {
     if (array[i] % 2 == 0) {
@@ -915,8 +915,8 @@ for (int run = 0; run < 10; run++) {
 }
 
 // ✅ Exclure les premières itérations
-process_data();  // Warmup
-process_data();  // Warmup
+process_data();  // Warmup  
+process_data();  // Warmup  
 
 for (int run = 0; run < 10; run++) {
     start = get_time();
@@ -942,10 +942,10 @@ for (int i = 0; i < ITERATIONS; i++) {
 }
 
 // Calculer médiane et percentiles
-qsort(times, ITERATIONS, sizeof(double), compare_double);
-printf("Median: %f\n", times[ITERATIONS/2]);
-printf("P95: %f\n", times[(int)(ITERATIONS * 0.95)]);
-printf("P99: %f\n", times[(int)(ITERATIONS * 0.99)]);
+qsort(times, ITERATIONS, sizeof(double), compare_double);  
+printf("Median: %f\n", times[ITERATIONS/2]);  
+printf("P95: %f\n", times[(int)(ITERATIONS * 0.95)]);  
+printf("P99: %f\n", times[(int)(ITERATIONS * 0.99)]);  
 ```
 
 ### Micro-benchmark robuste
@@ -1097,9 +1097,9 @@ void handle_request(int socket) {
 
 ```c
 #define POOL_SIZE 100
-char buffer_pool[POOL_SIZE][4096];
-int pool_available[POOL_SIZE] = {1, 1, ...};
-pthread_mutex_t pool_mutex = PTHREAD_MUTEX_INITIALIZER;
+char buffer_pool[POOL_SIZE][4096];  
+int pool_available[POOL_SIZE] = {1, 1, ...};  
+pthread_mutex_t pool_mutex = PTHREAD_MUTEX_INITIALIZER;  
 
 char* get_buffer() {
     pthread_mutex_lock(&pool_mutex);
@@ -1166,10 +1166,10 @@ StringView parse_header(const char *request) {
 ```c
 int epoll_fd = epoll_create1(0);
 
-struct epoll_event event;
-event.events = EPOLLIN;
-event.data.fd = listen_socket;
-epoll_ctl(epoll_fd, EPOLL_CTL_ADD, listen_socket, &event);
+struct epoll_event event;  
+event.events = EPOLLIN;  
+event.data.fd = listen_socket;  
+epoll_ctl(epoll_fd, EPOLL_CTL_ADD, listen_socket, &event);  
 
 while (1) {
     struct epoll_event events[MAX_EVENTS];

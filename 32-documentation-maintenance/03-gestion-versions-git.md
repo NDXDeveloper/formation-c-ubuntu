@@ -26,8 +26,8 @@ Git est une **machine à remonter le temps** pour votre code. À tout moment, vo
 **Exemple concret** :
 ```bash
 # Oh non, j'ai tout cassé !
-git status           # Voir ce qui a changé
-git checkout .       # Tout annuler, revenir à la dernière version stable
+git status           # Voir ce qui a changé  
+git checkout .       # Tout annuler, revenir à la dernière version stable  
 
 # Ou revenir 3 commits en arrière
 git reset --hard HEAD~3
@@ -41,8 +41,8 @@ Git permet à plusieurs développeurs de travailler sur le même projet **simult
 
 **Sans Git** :
 ```
-Alice modifie parser.c
-Bob modifie parser.c en même temps
+Alice modifie parser.c  
+Bob modifie parser.c en même temps  
 → Qui a la bonne version ?
 → Comment fusionner les changements ?
 → Conflit, perte de code, frustration
@@ -50,8 +50,8 @@ Bob modifie parser.c en même temps
 
 **Avec Git** :
 ```
-Alice travaille sur sa branche : feature/json-export
-Bob travaille sur sa branche : bugfix/memory-leak
+Alice travaille sur sa branche : feature/json-export  
+Bob travaille sur sa branche : bugfix/memory-leak  
 → Chacun avance indépendamment
 → Git fusionne automatiquement les changements
 → Les conflits sont détectés et résolus proprement
@@ -67,9 +67,9 @@ Chaque changement dans Git est documenté :
 
 **Exemple d'historique Git** :
 ```
-commit a3f7d2c
-Author: Alice <alice@example.com>
-Date:   2025-01-15 14:32:10
+commit a3f7d2c  
+Author: Alice <alice@example.com>  
+Date:   2025-01-15 14:32:10  
 
     Fix buffer overflow in parse_line()
 
@@ -386,8 +386,8 @@ Voici le workflow typique d'un développeur C avec Git, qui intègre les trois s
 
 **Ubuntu/Debian** :
 ```bash
-sudo apt update
-sudo apt install git
+sudo apt update  
+sudo apt install git  
 ```
 
 **Fedora** :
@@ -417,8 +417,8 @@ Avant votre premier commit, configurez votre identité :
 
 ```bash
 # Nom et email (obligatoire)
-git config --global user.name "Votre Nom"
-git config --global user.email "votre.email@example.com"
+git config --global user.name "Votre Nom"  
+git config --global user.email "votre.email@example.com"  
 
 # Éditeur par défaut (optionnel)
 git config --global core.editor "vim"
@@ -552,9 +552,9 @@ Que corrige-t-on ? Impossible à savoir.
 ```bash
 git commit -m "Fix buffer overflow in parse_line()
 
-The function was not checking buffer bounds before strcpy(),
-causing crashes with long input lines. Now uses strncpy()
-with proper size validation.
+The function was not checking buffer bounds before strcpy(),  
+causing crashes with long input lines. Now uses strncpy()  
+with proper size validation.  
 
 Fixes: #789"
 ```
@@ -585,13 +585,13 @@ Créez `.gitignore` **avant** votre premier commit.
 
 - **Learn Git Branching** : https://learngitbranching.js.org/
 - **Git Immersion** : https://gitimmersion.com/
-- **GitHub Learning Lab** : https://lab.github.com/
+- **GitHub Skills** : https://skills.github.com/
 
 ### Communautés
 
 - **Stack Overflow** : Tag [git]
 - **Reddit** : r/git
-- **GitHub Community** : https://github.community/
+- **GitHub Community** : https://github.com/orgs/community/discussions
 
 ---
 
@@ -621,14 +621,14 @@ La ligne de commande est **plus puissante** et **universelle**. Vous la retrouve
 
 **Commandes essentielles** à connaître :
 ```bash
-git status       # État actuel
-git add          # Ajouter au staging
-git commit       # Créer un commit
-git push         # Envoyer vers remote
-git pull         # Récupérer depuis remote
-git branch       # Gérer les branches
-git log          # Voir l'historique
-git diff         # Voir les différences
+git status       # État actuel  
+git add          # Ajouter au staging  
+git commit       # Créer un commit  
+git push         # Envoyer vers remote  
+git pull         # Récupérer depuis remote  
+git branch       # Gérer les branches  
+git log          # Voir l'historique  
+git diff         # Voir les différences  
 ```
 
 Nous les verrons toutes en détail dans les sections suivantes.
@@ -703,16 +703,16 @@ Git peut sembler intimidant au début. Il y a beaucoup de commandes, de concepts
 80% de votre utilisation quotidienne de Git se résume à environ **10 commandes** :
 
 ```bash
-git status
-git add
-git commit
-git push
-git pull
-git branch
-git checkout / git switch
-git merge
-git log
-git diff
+git status  
+git add  
+git commit  
+git push  
+git pull  
+git branch  
+git checkout / git switch  
+git merge  
+git log  
+git diff  
 ```
 
 Le reste ? Vous l'apprendrez progressivement, au fur et à mesure des besoins.
@@ -745,38 +745,38 @@ Bonne découverte de Git ! 🚀
 
 ```bash
 # Configuration
-git config --global user.name "Nom"
-git config --global user.email "email@example.com"
+git config --global user.name "Nom"  
+git config --global user.email "email@example.com"  
 
 # Initialiser un dépôt
-git init
-git clone <url>
+git init  
+git clone <url>  
 
 # Workflow de base
-git status              # Voir l'état
-git add <fichier>       # Ajouter au staging
-git add .               # Ajouter tout
-git commit -m "message" # Créer un commit
-git push                # Envoyer vers remote
-git pull                # Récupérer depuis remote
+git status              # Voir l'état  
+git add <fichier>       # Ajouter au staging  
+git add .               # Ajouter tout  
+git commit -m "message" # Créer un commit  
+git push                # Envoyer vers remote  
+git pull                # Récupérer depuis remote  
 
 # Branches
-git branch              # Lister les branches
-git branch <nom>        # Créer une branche
-git checkout <branche>  # Changer de branche
-git checkout -b <nom>   # Créer et changer
-git merge <branche>     # Fusionner une branche
+git branch              # Lister les branches  
+git branch <nom>        # Créer une branche  
+git checkout <branche>  # Changer de branche  
+git checkout -b <nom>   # Créer et changer  
+git merge <branche>     # Fusionner une branche  
 
 # Historique
-git log                 # Voir l'historique
-git log --oneline       # Version compacte
-git show <commit>       # Voir un commit
-git diff                # Voir les différences
+git log                 # Voir l'historique  
+git log --oneline       # Version compacte  
+git show <commit>       # Voir un commit  
+git diff                # Voir les différences  
 
 # Annulation
-git checkout .          # Annuler modifications locales
-git reset HEAD~1        # Annuler dernier commit
-git revert <commit>     # Créer un commit inverse
+git checkout .          # Annuler modifications locales  
+git reset HEAD~1        # Annuler dernier commit  
+git revert <commit>     # Créer un commit inverse  
 ```
 
 Cette antisèche sera votre compagnon tout au long de votre apprentissage.

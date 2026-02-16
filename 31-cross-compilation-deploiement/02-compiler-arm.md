@@ -57,8 +57,8 @@ Ubuntu fournit des toolchains ARM prêtes à l'emploi :
 
 ```bash
 # Installation de la toolchain ARM 32 bits
-sudo apt-get update
-sudo apt-get install gcc-arm-linux-gnueabihf \
+sudo apt-get update  
+sudo apt-get install gcc-arm-linux-gnueabihf \  
                      g++-arm-linux-gnueabihf \
                      binutils-arm-linux-gnueabihf
 
@@ -70,8 +70,8 @@ arm-linux-gnueabihf-gcc --version
 
 ```bash
 # Installation de la toolchain ARM 64 bits
-sudo apt-get update
-sudo apt-get install gcc-aarch64-linux-gnu \
+sudo apt-get update  
+sudo apt-get install gcc-aarch64-linux-gnu \  
                      g++-aarch64-linux-gnu \
                      binutils-aarch64-linux-gnu
 
@@ -93,8 +93,8 @@ sudo apt-get install gcc-arm-linux-gnueabihf \
 
 ```bash
 # Vérifier les compilateurs disponibles
-which arm-linux-gnueabihf-gcc
-which aarch64-linux-gnu-gcc
+which arm-linux-gnueabihf-gcc  
+which aarch64-linux-gnu-gcc  
 
 # Afficher l'architecture cible
 arm-linux-gnueabihf-gcc -dumpmachine
@@ -160,9 +160,9 @@ file hello_arm32
 
 **Résultat attendu :**
 ```
-hello_arm32: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV),
-dynamically linked, interpreter /lib/ld-linux-armhf.so.3,
-for GNU/Linux 3.2.0, not stripped
+hello_arm32: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV),  
+dynamically linked, interpreter /lib/ld-linux-armhf.so.3,  
+for GNU/Linux 3.2.0, not stripped  
 ```
 
 ### Étape 3 : Compilation pour ARM 64 bits
@@ -177,9 +177,9 @@ file hello_arm64
 
 **Résultat attendu :**
 ```
-hello_arm64: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV),
-dynamically linked, interpreter /lib/ld-linux-aarch64.so.1,
-for GNU/Linux 3.7.0, not stripped
+hello_arm64: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV),  
+dynamically linked, interpreter /lib/ld-linux-aarch64.so.1,  
+for GNU/Linux 3.7.0, not stripped  
 ```
 
 ### Étape 4 : Tentative d'exécution (échouera)
@@ -316,8 +316,8 @@ int main(void) {
 
 ```bash
 # Compilation des fichiers objets
-arm-linux-gnueabihf-gcc -c -Iinclude src/utils.c -o utils.o
-arm-linux-gnueabihf-gcc -c -Iinclude src/main.c -o main.o
+arm-linux-gnueabihf-gcc -c -Iinclude src/utils.c -o utils.o  
+arm-linux-gnueabihf-gcc -c -Iinclude src/main.c -o main.o  
 
 # Linkage
 arm-linux-gnueabihf-gcc utils.o main.o -o programme
@@ -331,16 +331,16 @@ file programme
 **Makefile**
 ```makefile
 # Choix de la toolchain
-CROSS_COMPILE ?= arm-linux-gnueabihf-
-CC = $(CROSS_COMPILE)gcc
+CROSS_COMPILE ?= arm-linux-gnueabihf-  
+CC = $(CROSS_COMPILE)gcc  
 
 # Options de compilation
-CFLAGS = -Wall -Werror -O2 -Iinclude
-LDFLAGS =
+CFLAGS = -Wall -Werror -O2 -Iinclude  
+LDFLAGS =  
 
 # Fichiers sources
-SRCS = src/main.c src/utils.c
-OBJS = $(SRCS:.c=.o)
+SRCS = src/main.c src/utils.c  
+OBJS = $(SRCS:.c=.o)  
 
 # Cible principale
 TARGET = programme
@@ -422,8 +422,8 @@ sudo apt-get install libcurl4-openssl-dev:arm64
 
 ```bash
 # Ajouter l'architecture ARM
-sudo dpkg --add-architecture armhf
-sudo apt-get update
+sudo dpkg --add-architecture armhf  
+sudo apt-get update  
 ```
 
 ### Solution 2 : Utiliser un sysroot
@@ -516,14 +516,14 @@ chmod +x mon_programme
 #!/bin/bash
 
 # Configuration
-TARGET_HOST="pi@192.168.1.100"
-TARGET_DIR="/home/pi/bin"
-PROGRAM="mon_programme"
-SOURCE="mon_programme.c"
+TARGET_HOST="pi@192.168.1.100"  
+TARGET_DIR="/home/pi/bin"  
+PROGRAM="mon_programme"  
+SOURCE="mon_programme.c"  
 
 # Compilation
-echo "Compilation pour ARM64..."
-aarch64-linux-gnu-gcc -O2 -Wall $SOURCE -o $PROGRAM
+echo "Compilation pour ARM64..."  
+aarch64-linux-gnu-gcc -O2 -Wall $SOURCE -o $PROGRAM  
 
 if [ $? -ne 0 ]; then
     echo "Erreur de compilation!"
@@ -531,12 +531,12 @@ if [ $? -ne 0 ]; then
 fi
 
 # Vérification
-echo "Vérification du binaire..."
-file $PROGRAM
+echo "Vérification du binaire..."  
+file $PROGRAM  
 
 # Transfert
-echo "Transfert vers le Raspberry Pi..."
-scp $PROGRAM $TARGET_HOST:$TARGET_DIR/
+echo "Transfert vers le Raspberry Pi..."  
+scp $PROGRAM $TARGET_HOST:$TARGET_DIR/  
 
 if [ $? -eq 0 ]; then
     echo "Déploiement réussi!"
@@ -687,8 +687,8 @@ arm-linux-gnueabihf-readelf -d programme | grep NEEDED
 sudo apt-get install qemu-user qemu-user-static
 
 # Vérifier l'installation
-qemu-arm --version
-qemu-aarch64 --version
+qemu-arm --version  
+qemu-aarch64 --version  
 ```
 
 ### Exécuter un binaire ARM sur x86_64
@@ -774,8 +774,8 @@ uname -m
 ### 2. Utiliser un Makefile avec variable CROSS_COMPILE
 
 ```makefile
-CROSS_COMPILE ?= arm-linux-gnueabihf-
-CC = $(CROSS_COMPILE)gcc
+CROSS_COMPILE ?= arm-linux-gnueabihf-  
+CC = $(CROSS_COMPILE)gcc  
 ```
 
 Permet de changer facilement :
@@ -848,8 +848,8 @@ aarch64-linux-gnu-gcc programme.c -o programme
 file programme
 
 # Test avec QEMU
-qemu-arm -L /usr/arm-linux-gnueabihf ./programme_arm32
-qemu-aarch64 -L /usr/aarch64-linux-gnu ./programme_arm64
+qemu-arm -L /usr/arm-linux-gnueabihf ./programme_arm32  
+qemu-aarch64 -L /usr/aarch64-linux-gnu ./programme_arm64  
 
 # Transfert SSH
 scp programme user@target:/path/

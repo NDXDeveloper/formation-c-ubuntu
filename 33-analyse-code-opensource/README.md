@@ -69,8 +69,8 @@ Réponse via l'open-source :
 
 ```c
 // Théorie : "Utilisez malloc() pour l'allocation dynamique"
-void *ptr = malloc(size);
-if (ptr == NULL) {
+void *ptr = malloc(size);  
+if (ptr == NULL) {  
     // Gérer l'erreur
 }
 ```
@@ -90,8 +90,8 @@ void *zmalloc(size_t size) {
 }
 
 // Nginx (src/core/ngx_palloc.c) : Memory pools
-ngx_pool_t *pool = ngx_create_pool(16384, log);
-void *ptr = ngx_palloc(pool, size);  // Ultra-rapide
+ngx_pool_t *pool = ngx_create_pool(16384, log);  
+void *ptr = ngx_palloc(pool, size);  // Ultra-rapide  
 // Tout libéré en une fois : ngx_destroy_pool(pool);
 
 // Git (git-compat-util.h) : Macros pour sécurité
@@ -120,8 +120,8 @@ shared.integers[42];  // Pré-alloué, partagé entre toutes les clés
 **Pattern 2 : Lazy Loading (Git)**
 ```c
 // Ne charger que quand nécessaire
-struct commit *c = lookup_commit(oid);  // Rapide (juste alloc)
-parse_commit(c);  // Lent (lecture disque) - seulement si nécessaire
+struct commit *c = lookup_commit(oid);  // Rapide (juste alloc)  
+parse_commit(c);  // Lent (lecture disque) - seulement si nécessaire  
 ```
 
 **Pattern 3 : Event Loop (Nginx, Redis)**
@@ -164,13 +164,13 @@ cleanup:
 ❌ **Anti-pattern 1 : String concatenation avec strcat()**
 ```c
 // MAUVAIS : Buffer overflow facile
-char buf[100];
-strcpy(buf, str1);
-strcat(buf, str2);  // ❌ Pas de vérification de taille
+char buf[100];  
+strcpy(buf, str1);  
+strcat(buf, str2);  // ❌ Pas de vérification de taille  
 
 // BON : Redis utilise sds (Simple Dynamic String)
-sds s = sdsnew(str1);
-s = sdscat(s, str2);  // ✅ Agrandissement automatique
+sds s = sdsnew(str1);  
+s = sdscat(s, str2);  // ✅ Agrandissement automatique  
 ```
 
 ❌ **Anti-pattern 2 : Pas de vérification de malloc()**
@@ -420,8 +420,8 @@ Pour tirer le maximum de ce module, vous devriez avoir :
 
 ```bash
 # Installation des outils essentiels
-sudo apt update
-sudo apt install -y \
+sudo apt update  
+sudo apt install -y \  
     git \
     build-essential \
     ctags \
@@ -470,9 +470,8 @@ sudo apt install -y \
 **Vim** avec plugins :
 ```vim
 " Navigation de code
-Plug 'preservim/tagbar'
-Plug 'majutsushi/tagbar'
-Plug 'mileszs/ack.vim'
+Plug 'preservim/tagbar'  
+Plug 'mileszs/ack.vim'  
 
 " Git integration
 Plug 'tpope/vim-fugitive'
@@ -569,8 +568,8 @@ Option C : Focus Nginx
   └─ 33.1 (Méthodologie) → 33.4 (Nginx) → Contribution à Nginx (33.5)
 ```
 
-**Avantage** : Vous devenez expert d'un projet
-**Inconvénient** : Moins de diversité de patterns
+**Avantage** : Vous devenez expert d'un projet  
+**Inconvénient** : Moins de diversité de patterns  
 
 ---
 
@@ -592,8 +591,8 @@ Pattern : Performance
   └─ Redis (optimisations in-memory) + Nginx (zero-copy)
 ```
 
-**Avantage** : Approche thématique
-**Inconvénient** : Saute entre les projets
+**Avantage** : Approche thématique  
+**Inconvénient** : Saute entre les projets  
 
 ---
 
@@ -798,15 +797,15 @@ Répondez honnêtement à ces questions :
 
 Avant d'attaquer Git/Redis/Nginx, pratiquez sur des projets plus petits :
 
-**Niveau 1** : Petits outils (< 1000 lignes)
-- `jq` : Parser JSON
-- `less` : Pager
-- `tree` : Visualisateur de répertoires
+**Niveau 1** : Petits projets (< 5000 lignes)
+- `cJSON` : Parser JSON (~1500 lignes)
+- `tree` : Visualisateur de répertoires (~3000 lignes)
+- `sds` : Simple Dynamic Strings de Redis (~2000 lignes)
 
-**Niveau 2** : Bibliothèques (1000-5000 lignes)
-- `zlib` : Compression
-- `sqlite` (module vdbe) : Base de données
-- `libuv` : Event loop
+**Niveau 2** : Projets moyens (5000-50000 lignes)
+- `zlib` : Compression (~15000 lignes)
+- `jq` : Processeur JSON (~25000 lignes)
+- `libuv` : Event loop (~30000 lignes)
 
 **Niveau 3** : Prêt pour Git/Redis/Nginx !
 

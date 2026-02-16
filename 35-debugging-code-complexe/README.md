@@ -97,10 +97,10 @@ Ce chapitre couvre cinq catégories majeures de bugs complexes que vous rencontr
 
 **Exemple de scénario** :
 ```
-Lundi 9h     : Application démarre avec 200 MB de RAM
-Mardi 9h     : 1.2 GB de RAM
-Mercredi 9h  : 2.8 GB de RAM
-Jeudi 8h     : Application tuée par OOM killer
+Lundi 9h     : Application démarre avec 200 MB de RAM  
+Mardi 9h     : 1.2 GB de RAM  
+Mercredi 9h  : 2.8 GB de RAM  
+Jeudi 8h     : Application tuée par OOM killer  
 ```
 
 **Impact** : Une fuite de 1 Ko par requête peut sembler négligeable, mais sur 1 million de requêtes par jour = 1 GB de fuite par jour. En production longue durée, c'est **catastrophique**.
@@ -121,10 +121,10 @@ Jeudi 8h     : Application tuée par OOM killer
 
 **Exemple de scénario** :
 ```
-Tests unitaires    : ✅ 100% pass
-Tests d'intégration: ✅ Pass
-Staging            : ✅ Aucun problème détecté
-Production (J+2)   : ❌ Données corrompues dans 0.1% des transactions
+Tests unitaires    : ✅ 100% pass  
+Tests d'intégration: ✅ Pass  
+Staging            : ✅ Aucun problème détecté  
+Production (J+2)   : ❌ Données corrompues dans 0.1% des transactions  
                      ❌ Impossible à reproduire en dev
 ```
 
@@ -171,9 +171,9 @@ Production (J+2)   : ❌ Données corrompues dans 0.1% des transactions
 
 **Exemple de scénario** :
 ```
-Objectif : API capable de traiter 1000 req/s
-Réalité  : API plafonne à 150 req/s
-Question : Où sont les bottlenecks ?
+Objectif : API capable de traiter 1000 req/s  
+Réalité  : API plafonne à 150 req/s  
+Question : Où sont les bottlenecks ?  
 
 Profiling révèle :
 - 45% du temps dans malloc/free
@@ -215,13 +215,13 @@ Quelle que soit la catégorie du bug, voici une approche systématique qui fonct
 Sur la base des données collectées, formulez des **hypothèses testables** :
 
 ```
-Symptôme : Application qui ralentit progressivement
-Données  : RAM croissante, CPU stable, aucun log d'erreur
+Symptôme : Application qui ralentit progressivement  
+Données  : RAM croissante, CPU stable, aucun log d'erreur  
 
-Hypothèses possibles :
-H1: Fuite mémoire → Tester avec Valgrind
-H2: Fragmentation mémoire → Analyser les patterns d'allocation
-H3: Cache qui grossit sans limite → Examiner la taille du cache
+Hypothèses possibles :  
+H1: Fuite mémoire → Tester avec Valgrind  
+H2: Fragmentation mémoire → Analyser les patterns d'allocation  
+H3: Cache qui grossit sans limite → Examiner la taille du cache  
 ```
 
 ### Phase 3 : Tests ciblés
@@ -402,19 +402,19 @@ sudo apt install linux-tools-generic linux-tools-$(uname -r)
 sudo apt install kcachegrind graphviz
 
 # Compilateur avec sanitizers
-gcc --version  # >= 4.8 pour ASan, >= 5.0 pour TSan
+gcc --version  # >= 4.8 pour ASan et TSan
 ```
 
 ### Configuration recommandée
 
 ```bash
 # Activer les core dumps
-ulimit -c unlimited
-echo "/var/crash/core.%e.%p.%t" | sudo tee /proc/sys/kernel/core_pattern
+ulimit -c unlimited  
+echo "/var/crash/core.%e.%p.%t" | sudo tee /proc/sys/kernel/core_pattern  
 
 # Créer le répertoire
-sudo mkdir -p /var/crash
-sudo chmod 1777 /var/crash
+sudo mkdir -p /var/crash  
+sudo chmod 1777 /var/crash  
 ```
 
 ### Accès root

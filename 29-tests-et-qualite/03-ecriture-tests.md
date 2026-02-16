@@ -124,9 +124,9 @@ void test_float_assertions(void) {
 Les opérations en virgule flottante introduisent des erreurs d'arrondi :
 
 ```c
-float result = 0.1f + 0.2f; // Résultat: 0.30000001 (pas exactement 0.3)
-TEST_ASSERT_FLOAT_WITHIN(0.0001f, 0.3f, result); // ✅ Passe
-TEST_ASSERT_EQUAL_FLOAT(0.3f, result);            // ❌ Échoue
+float result = 0.1f + 0.2f; // Résultat: 0.30000001 (pas exactement 0.3)  
+TEST_ASSERT_FLOAT_WITHIN(0.0001f, 0.3f, result); // ✅ Passe  
+TEST_ASSERT_EQUAL_FLOAT(0.3f, result);            // ❌ Échoue  
 ```
 
 ### Assertions de chaînes de caractères
@@ -709,32 +709,32 @@ Un bon nom de test doit indiquer :
 
 ```c
 // ✅ Bons noms
-void test_add_positive_numbers_returns_sum(void);
-void test_divide_by_zero_returns_error(void);
-void test_malloc_failure_returns_null(void);
-void test_empty_list_has_zero_size(void);
+void test_add_positive_numbers_returns_sum(void);  
+void test_divide_by_zero_returns_error(void);  
+void test_malloc_failure_returns_null(void);  
+void test_empty_list_has_zero_size(void);  
 
 // ❌ Mauvais noms
-void test1(void);              // Pas de contexte
-void test_add(void);           // Trop vague
-void test_stuff(void);         // Pas descriptif
-void my_test(void);            // Pas de convention
+void test1(void);              // Pas de contexte  
+void test_add(void);           // Trop vague  
+void test_stuff(void);         // Pas descriptif  
+void my_test(void);            // Pas de convention  
 ```
 
 ### Grouper les tests par fonctionnalité
 
 ```c
 // Tests pour la fonction add()
-void test_add_positive_numbers(void);
-void test_add_negative_numbers(void);
-void test_add_with_zero(void);
-void test_add_overflow(void);
+void test_add_positive_numbers(void);  
+void test_add_negative_numbers(void);  
+void test_add_with_zero(void);  
+void test_add_overflow(void);  
 
 // Tests pour la fonction multiply()
-void test_multiply_positive_numbers(void);
-void test_multiply_by_zero(void);
-void test_multiply_by_one(void);
-void test_multiply_negative_numbers(void);
+void test_multiply_positive_numbers(void);  
+void test_multiply_by_zero(void);  
+void test_multiply_by_one(void);  
+void test_multiply_negative_numbers(void);  
 ```
 
 ---
@@ -946,20 +946,23 @@ void test_add_multiple_cases(void) {
 Si vous utilisez Criterion, les tests paramétriques sont intégrés :
 
 ```c
+struct add_params {
+    int a;
+    int b;
+    int expected;
+};
+
 ParameterizedTestParameters(math, add) {
-    static struct {
-        int a;
-        int b;
-        int expected;
-    } params[] = {
+    static struct add_params params[] = {
         {2, 3, 5},
         {-1, 1, 0},
         {0, 0, 0},
     };
-    return cr_make_param_array(params, sizeof(params));
+    return cr_make_param_array(struct add_params, params,
+                               sizeof(params) / sizeof(params[0]));
 }
 
-ParameterizedTest(struct {int a; int b; int expected;} *param, math, add) {
+ParameterizedTest(struct add_params *param, math, add) {
     cr_assert_eq(add(param->a, param->b), param->expected);
 }
 ```

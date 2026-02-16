@@ -591,14 +591,14 @@ Le Dockerfile définit l'environnement système. Voici une configuration complè
 # ============================================
 
 # Image de base
-ARG VARIANT=24.04
+ARG VARIANT=24.04  
 FROM ubuntu:${VARIANT}  
 
 # Éviter les prompts interactifs
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Arguments de build
-ARG GCC_VERSION=13
+ARG GCC_VERSION=13  
 ARG USERNAME=vscode  
 ARG USER_UID=1000  
 ARG USER_GID=$USER_UID  

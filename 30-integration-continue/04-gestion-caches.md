@@ -40,26 +40,26 @@ Le **cache** est un mécanisme qui sauvegarde des fichiers entre les exécutions
 La compilation C peut être coûteuse :
 
 ```
-Petit projet (10 fichiers) : 5-10 secondes
-Projet moyen (100 fichiers) : 1-5 minutes
-Grand projet (1000+ fichiers) : 10-60 minutes
-Très grand projet (type Chromium) : Plusieurs heures
+Petit projet (10 fichiers) : 5-10 secondes  
+Projet moyen (100 fichiers) : 1-5 minutes  
+Grand projet (1000+ fichiers) : 10-60 minutes  
+Très grand projet (type Chromium) : Plusieurs heures  
 ```
 
 ### Impact du cache
 
 **Sans cache** :
 ```
-Commit 1 : Compile 100 fichiers → 3 minutes
-Commit 2 : Compile 100 fichiers → 3 minutes (même si 1 seul fichier modifié !)
-Commit 3 : Compile 100 fichiers → 3 minutes
+Commit 1 : Compile 100 fichiers → 3 minutes  
+Commit 2 : Compile 100 fichiers → 3 minutes (même si 1 seul fichier modifié !)  
+Commit 3 : Compile 100 fichiers → 3 minutes  
 ```
 
 **Avec cache** :
 ```
-Commit 1 : Compile 100 fichiers → 3 minutes (cache créé)
-Commit 2 : Compile 1 fichier modifié → 10 secondes (99 depuis le cache)
-Commit 3 : Compile 2 fichiers modifiés → 20 secondes
+Commit 1 : Compile 100 fichiers → 3 minutes (cache créé)  
+Commit 2 : Compile 1 fichier modifié → 10 secondes (99 depuis le cache)  
+Commit 3 : Compile 2 fichiers modifiés → 20 secondes  
 ```
 
 **Gain** : 90% de temps économisé !
@@ -230,8 +230,8 @@ Clé unique identifiant ce cache. Si la clé change, un nouveau cache est créé
 Clés de fallback si la clé exacte n'existe pas :
 
 ```yaml
-key: Linux-build-a3f5d9e8-main
-restore-keys: |
+key: Linux-build-a3f5d9e8-main  
+restore-keys: |  
   Linux-build-a3f5d9e8-
   Linux-build-
 ```
@@ -250,8 +250,8 @@ restore-keys: |
 key: ${{ runner.os }}-${{ hashFiles('src/**/*.c', 'include/**/*.h') }}
 ```
 
-**Avantage** : Cache invalidé seulement si le code change
-**Inconvénient** : Hash peut être coûteux sur gros projets
+**Avantage** : Cache invalidé seulement si le code change  
+**Inconvénient** : Hash peut être coûteux sur gros projets  
 
 #### 2. Par branche
 
@@ -259,25 +259,25 @@ key: ${{ runner.os }}-${{ hashFiles('src/**/*.c', 'include/**/*.h') }}
 key: ${{ runner.os }}-${{ github.ref_name }}-build
 ```
 
-**Avantage** : Chaque branche a son cache
-**Inconvénient** : Pas de réutilisation entre branches
+**Avantage** : Chaque branche a son cache  
+**Inconvénient** : Pas de réutilisation entre branches  
 
 #### 3. Par date
 
 ```yaml
-key: ${{ runner.os }}-build-${{ github.run_number }}
-restore-keys: |
+key: ${{ runner.os }}-build-${{ github.run_number }}  
+restore-keys: |  
   ${{ runner.os }}-build-
 ```
 
-**Avantage** : Cache toujours utilisé
-**Inconvénient** : Nouveau cache à chaque run
+**Avantage** : Cache toujours utilisé  
+**Inconvénient** : Nouveau cache à chaque run  
 
 #### 4. Hybride (recommandé)
 
 ```yaml
-key: ${{ runner.os }}-${{ github.ref_name }}-${{ hashFiles('**/CMakeLists.txt', 'src/**') }}
-restore-keys: |
+key: ${{ runner.os }}-${{ github.ref_name }}-${{ hashFiles('**/CMakeLists.txt', 'src/**') }}  
+restore-keys: |  
   ${{ runner.os }}-${{ github.ref_name }}-
   ${{ runner.os }}-
 ```
@@ -351,8 +351,8 @@ jobs:
 
 **CMakeLists.txt**
 ```cmake
-find_program(CCACHE_PROGRAM ccache)
-if(CCACHE_PROGRAM)
+find_program(CCACHE_PROGRAM ccache)  
+if(CCACHE_PROGRAM)  
     message(STATUS "ccache trouvé: ${CCACHE_PROGRAM}")
     set(CMAKE_C_COMPILER_LAUNCHER ${CCACHE_PROGRAM})
     set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE_PROGRAM})
@@ -745,12 +745,12 @@ set(CMAKE_UNITY_BUILD ON)
 
 ```yaml
 # Premier build (sans cache)
-Build time: 180s
-ccache hit rate: 0%
+Build time: 180s  
+ccache hit rate: 0%  
 
 # Deuxième build (avec cache, 1 fichier modifié)
-Build time: 15s  # 92% plus rapide !
-ccache hit rate: 95%
+Build time: 15s  # 92% plus rapide !  
+ccache hit rate: 95%  
 ```
 
 ---
@@ -871,8 +871,8 @@ key: ${{ github.sha }}
 ### 3. restore-keys appropriés
 
 ```yaml
-key: Linux-main-abc123
-restore-keys: |
+key: Linux-main-abc123  
+restore-keys: |  
   Linux-main-
   Linux-
 ```
@@ -916,9 +916,9 @@ Dans le README :
 ```markdown
 ## Cache CI/CD
 
-Ce projet utilise ccache pour accélérer les builds.
-Clé de cache : `OS-branch-hash(CMakeLists.txt)`
-Durée : 7 jours
+Ce projet utilise ccache pour accélérer les builds.  
+Clé de cache : `OS-branch-hash(CMakeLists.txt)`  
+Durée : 7 jours  
 ```
 
 ---

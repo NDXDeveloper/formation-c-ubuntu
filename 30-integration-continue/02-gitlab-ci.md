@@ -233,8 +233,8 @@ deploy:artifacts:
 
 ```bash
 # 1. Télécharger le runner
-curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
-sudo apt-get install gitlab-runner
+curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash  
+sudo apt-get install gitlab-runner  
 
 # 2. Enregistrer le runner
 sudo gitlab-runner register
@@ -823,7 +823,8 @@ test:coverage:
     - cmake --build build
     - cd build && ctest
     - lcov --capture --directory . --output-file coverage.info
-    - bash <(curl -s https://codecov.io/bash) -f coverage.info
+    - pip install codecov-cli
+    - codecovcli upload-process -f coverage.info -t $CODECOV_TOKEN
   coverage: '/lines\.*: \d+\.\d+%/'
 ```
 
@@ -957,10 +958,6 @@ test:coverage:
   artifacts:
     paths:
       - $BUILD_DIR/coverage.info
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: $BUILD_DIR/coverage.info
 
 # ===== ANALYZE STAGE =====
 
@@ -1101,7 +1098,7 @@ artifacts:
 parallel:
   matrix:
     - GCC: ["11", "12", "13"]
-      OS: ["ubuntu:20.04", "ubuntu:22.04"]
+      OS: ["ubuntu:22.04", "ubuntu:24.04"]
 ```
 
 ### 5. allow_failure pour analyses

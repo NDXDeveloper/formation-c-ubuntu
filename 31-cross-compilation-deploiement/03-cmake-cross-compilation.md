@@ -21,10 +21,10 @@ Dans cette section, nous verrons comment utiliser CMake pour cross-compiler vers
 
 ```makefile
 # Makefile
-CROSS_COMPILE ?= arm-linux-gnueabihf-
-CC = $(CROSS_COMPILE)gcc
-CFLAGS = -Wall -O2 -I/usr/arm-linux-gnueabihf/include
-LDFLAGS = -L/usr/arm-linux-gnueabihf/lib
+CROSS_COMPILE ?= arm-linux-gnueabihf-  
+CC = $(CROSS_COMPILE)gcc  
+CFLAGS = -Wall -O2 -I/usr/arm-linux-gnueabihf/include  
+LDFLAGS = -L/usr/arm-linux-gnueabihf/lib  
 
 # Règles complexes à maintenir...
 # Difficile à porter sur d'autres systèmes
@@ -34,8 +34,8 @@ LDFLAGS = -L/usr/arm-linux-gnueabihf/lib
 
 ```cmake
 # CMakeLists.txt
-cmake_minimum_required(VERSION 3.10)
-project(MonProjet C)
+cmake_minimum_required(VERSION 3.10)  
+project(MonProjet C)  
 
 add_executable(programme main.c)
 
@@ -58,8 +58,8 @@ add_executable(programme main.c)
 
 ```bash
 # Installation via apt
-sudo apt-get update
-sudo apt-get install cmake
+sudo apt-get update  
+sudo apt-get install cmake  
 
 # Vérification
 cmake --version
@@ -116,8 +116,8 @@ CMake recommande de compiler en dehors du répertoire source :
 
 ```bash
 # Créer un répertoire de build
-mkdir build
-cd build
+mkdir build  
+cd build  
 
 # Configurer le projet
 cmake ..
@@ -150,21 +150,21 @@ Un **fichier toolchain** (ou toolchain file) est un fichier CMake qui indique :
 
 ```cmake
 # Système cible
-set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_PROCESSOR arm)
+set(CMAKE_SYSTEM_NAME Linux)  
+set(CMAKE_SYSTEM_PROCESSOR arm)  
 
 # Compilateurs
-set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
-set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
+set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)  
+set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)  
 
 # Outils de build
 set(CMAKE_FIND_ROOT_PATH /usr/arm-linux-gnueabihf)
 
 # Configuration de recherche
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)  
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)  
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)  
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)  
 ```
 
 ### Explication des variables
@@ -185,8 +185,8 @@ Définit l'architecture cible :
 #### CMAKE_C_COMPILER / CMAKE_CXX_COMPILER
 Spécifie les compilateurs à utiliser :
 ```cmake
-set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
-set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
+set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)  
+set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)  
 ```
 
 #### CMAKE_FIND_ROOT_PATH
@@ -219,24 +219,24 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 **cmake/toolchain-arm32.cmake**
 
 ```cmake
-set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_PROCESSOR arm)
+set(CMAKE_SYSTEM_NAME Linux)  
+set(CMAKE_SYSTEM_PROCESSOR arm)  
 
 # Toolchain ARM 32 bits
-set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
-set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
+set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)  
+set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)  
 
 # Sysroot
 set(CMAKE_FIND_ROOT_PATH /usr/arm-linux-gnueabihf)
 
 # Configuration de recherche
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)  
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)  
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)  
 
 # Options de compilation spécifiques ARM
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard")  
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard")  
 ```
 
 ### Toolchain ARM 64 bits (Raspberry Pi 4)
@@ -244,24 +244,24 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=armv7-a -mfpu=neon-vfpv4 -mfloat-
 **cmake/toolchain-arm64.cmake**
 
 ```cmake
-set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_PROCESSOR aarch64)
+set(CMAKE_SYSTEM_NAME Linux)  
+set(CMAKE_SYSTEM_PROCESSOR aarch64)  
 
 # Toolchain ARM 64 bits
-set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)
-set(CMAKE_CXX_COMPILER aarch64-linux-gnu-g++)
+set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)  
+set(CMAKE_CXX_COMPILER aarch64-linux-gnu-g++)  
 
 # Sysroot
 set(CMAKE_FIND_ROOT_PATH /usr/aarch64-linux-gnu)
 
 # Configuration de recherche
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)  
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)  
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)  
 
 # Options spécifiques ARM64
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=armv8-a")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=armv8-a")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=armv8-a")  
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=armv8-a")  
 ```
 
 ### Toolchain avec sysroot personnalisé
@@ -271,28 +271,28 @@ Si vous avez un sysroot personnalisé (par exemple, copié depuis votre Raspberr
 **cmake/toolchain-rpi-custom.cmake**
 
 ```cmake
-set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_PROCESSOR aarch64)
+set(CMAKE_SYSTEM_NAME Linux)  
+set(CMAKE_SYSTEM_PROCESSOR aarch64)  
 
 # Chemin vers votre sysroot personnalisé
 set(RPI_SYSROOT /home/user/raspberry-sysroot)
 
 # Compilateurs
-set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)
-set(CMAKE_CXX_COMPILER aarch64-linux-gnu-g++)
+set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)  
+set(CMAKE_CXX_COMPILER aarch64-linux-gnu-g++)  
 
 # Utiliser le sysroot personnalisé
-set(CMAKE_SYSROOT ${RPI_SYSROOT})
-set(CMAKE_FIND_ROOT_PATH ${RPI_SYSROOT})
+set(CMAKE_SYSROOT ${RPI_SYSROOT})  
+set(CMAKE_FIND_ROOT_PATH ${RPI_SYSROOT})  
 
 # Configuration de recherche
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)  
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)  
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)  
 
 # Flags du compilateur avec sysroot
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --sysroot=${RPI_SYSROOT}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --sysroot=${RPI_SYSROOT}")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --sysroot=${RPI_SYSROOT}")  
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --sysroot=${RPI_SYSROOT}")  
 ```
 
 ## Utilisation du fichier toolchain
@@ -301,8 +301,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --sysroot=${RPI_SYSROOT}")
 
 ```bash
 # Créer le répertoire de build
-mkdir build-arm
-cd build-arm
+mkdir build-arm  
+cd build-arm  
 
 # Configurer avec le fichier toolchain
 cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake ..
@@ -321,9 +321,9 @@ file programme
 export CMAKE_TOOLCHAIN_FILE=/path/to/toolchain-arm64.cmake
 
 # Configurer normalement
-mkdir build-arm && cd build-arm
-cmake ..
-make
+mkdir build-arm && cd build-arm  
+cmake ..  
+make  
 ```
 
 ### Méthode 3 : Script de build
@@ -334,15 +334,15 @@ make
 #!/bin/bash
 
 # Configuration
-BUILD_DIR="build-arm64"
-TOOLCHAIN_FILE="cmake/toolchain-arm64.cmake"
+BUILD_DIR="build-arm64"  
+TOOLCHAIN_FILE="cmake/toolchain-arm64.cmake"  
 
 # Nettoyer si nécessaire
 rm -rf $BUILD_DIR
 
 # Créer et entrer dans le répertoire de build
-mkdir -p $BUILD_DIR
-cd $BUILD_DIR
+mkdir -p $BUILD_DIR  
+cd $BUILD_DIR  
 
 # Configurer avec CMake
 cmake -DCMAKE_TOOLCHAIN_FILE=../$TOOLCHAIN_FILE \
@@ -353,9 +353,9 @@ cmake -DCMAKE_TOOLCHAIN_FILE=../$TOOLCHAIN_FILE \
 make -j$(nproc)
 
 # Afficher le résultat
-echo "=== Binaire généré ==="
-file programme
-ls -lh programme
+echo "=== Binaire généré ==="  
+file programme  
+ls -lh programme  
 ```
 
 **Utilisation :**
@@ -386,15 +386,15 @@ projet/
 ### CMakeLists.txt
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(MonProjet C)
+cmake_minimum_required(VERSION 3.10)  
+project(MonProjet C)  
 
 # Version du projet
 set(PROJECT_VERSION "1.0.0")
 
 # Standard C
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 17)  
+set(CMAKE_C_STANDARD_REQUIRED ON)  
 
 # Options de compilation
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
@@ -412,12 +412,12 @@ set(SOURCES
 add_executable(programme ${SOURCES})
 
 # Afficher des informations de configuration
-message(STATUS "=== Configuration ===")
-message(STATUS "System: ${CMAKE_SYSTEM_NAME}")
-message(STATUS "Processor: ${CMAKE_SYSTEM_PROCESSOR}")
-message(STATUS "C Compiler: ${CMAKE_C_COMPILER}")
-message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
-message(STATUS "Project Version: ${PROJECT_VERSION}")
+message(STATUS "=== Configuration ===")  
+message(STATUS "System: ${CMAKE_SYSTEM_NAME}")  
+message(STATUS "Processor: ${CMAKE_SYSTEM_PROCESSOR}")  
+message(STATUS "C Compiler: ${CMAKE_C_COMPILER}")  
+message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")  
+message(STATUS "Project Version: ${PROJECT_VERSION}")  
 ```
 
 ### src/main.c
@@ -473,29 +473,29 @@ void afficher_info_systeme(void) {
 
 ```bash
 # Compilation native (x86_64)
-mkdir build-native && cd build-native
-cmake -DCMAKE_BUILD_TYPE=Release ..
-make
-cd ..
+mkdir build-native && cd build-native  
+cmake -DCMAKE_BUILD_TYPE=Release ..  
+make  
+cd ..  
 
 # Compilation pour ARM 32 bits
-mkdir build-arm32 && cd build-arm32
-cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm32.cmake \
+mkdir build-arm32 && cd build-arm32  
+cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm32.cmake \  
       -DCMAKE_BUILD_TYPE=Release ..
-make
-cd ..
+make  
+cd ..  
 
 # Compilation pour ARM 64 bits
-mkdir build-arm64 && cd build-arm64
-cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake \
+mkdir build-arm64 && cd build-arm64  
+cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake \  
       -DCMAKE_BUILD_TYPE=Release ..
-make
-cd ..
+make  
+cd ..  
 
 # Vérifier les binaires
-file build-native/programme
-file build-arm32/programme
-file build-arm64/programme
+file build-native/programme  
+file build-arm32/programme  
+file build-arm64/programme  
 ```
 
 ## Gestion des bibliothèques externes
@@ -507,8 +507,8 @@ CMake peut automatiquement trouver les bibliothèques, même en cross-compilatio
 **CMakeLists.txt**
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(ProjetAvecLibs C)
+cmake_minimum_required(VERSION 3.10)  
+project(ProjetAvecLibs C)  
 
 # Chercher la bibliothèque CURL
 find_package(CURL REQUIRED)
@@ -523,8 +523,8 @@ endif()
 add_executable(programme main.c)
 
 # Lier avec CURL
-target_link_libraries(programme CURL::libcurl)
-target_include_directories(programme PRIVATE ${CURL_INCLUDE_DIRS})
+target_link_libraries(programme CURL::libcurl)  
+target_include_directories(programme PRIVATE ${CURL_INCLUDE_DIRS})  
 ```
 
 ### Avec pkg-config
@@ -532,8 +532,8 @@ target_include_directories(programme PRIVATE ${CURL_INCLUDE_DIRS})
 Pour les bibliothèques qui supportent pkg-config :
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(ProjetPkgConfig C)
+cmake_minimum_required(VERSION 3.10)  
+project(ProjetPkgConfig C)  
 
 # Utiliser pkg-config
 find_package(PkgConfig REQUIRED)
@@ -545,9 +545,9 @@ pkg_check_modules(OPENSSL REQUIRED openssl)
 add_executable(programme main.c)
 
 # Lier avec OpenSSL
-target_link_libraries(programme ${OPENSSL_LIBRARIES})
-target_include_directories(programme PRIVATE ${OPENSSL_INCLUDE_DIRS})
-target_compile_options(programme PRIVATE ${OPENSSL_CFLAGS_OTHER})
+target_link_libraries(programme ${OPENSSL_LIBRARIES})  
+target_include_directories(programme PRIVATE ${OPENSSL_INCLUDE_DIRS})  
+target_compile_options(programme PRIVATE ${OPENSSL_CFLAGS_OTHER})  
 ```
 
 ### Installation manuelle de dépendances ARM
@@ -559,8 +559,8 @@ Si CMake ne trouve pas les bibliothèques :
 sudo dpkg --add-architecture armhf
 
 # Installer les dépendances pour ARM
-sudo apt-get update
-sudo apt-get install libcurl4-openssl-dev:armhf
+sudo apt-get update  
+sudo apt-get install libcurl4-openssl-dev:armhf  
 
 # CMake devrait maintenant les trouver
 ```
@@ -617,21 +617,21 @@ endif()
 
 ```cmake
 # Afficher des informations sur le système
-message(STATUS "System Name: ${CMAKE_SYSTEM_NAME}")
-message(STATUS "System Processor: ${CMAKE_SYSTEM_PROCESSOR}")
-message(STATUS "System Version: ${CMAKE_SYSTEM_VERSION}")
+message(STATUS "System Name: ${CMAKE_SYSTEM_NAME}")  
+message(STATUS "System Processor: ${CMAKE_SYSTEM_PROCESSOR}")  
+message(STATUS "System Version: ${CMAKE_SYSTEM_VERSION}")  
 
 # Chemin du compilateur
-message(STATUS "C Compiler: ${CMAKE_C_COMPILER}")
-message(STATUS "C Compiler ID: ${CMAKE_C_COMPILER_ID}")
-message(STATUS "C Compiler Version: ${CMAKE_C_COMPILER_VERSION}")
+message(STATUS "C Compiler: ${CMAKE_C_COMPILER}")  
+message(STATUS "C Compiler ID: ${CMAKE_C_COMPILER_ID}")  
+message(STATUS "C Compiler Version: ${CMAKE_C_COMPILER_VERSION}")  
 
 # Build type
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 
 # Répertoires
-message(STATUS "Source Dir: ${CMAKE_SOURCE_DIR}")
-message(STATUS "Binary Dir: ${CMAKE_BINARY_DIR}")
+message(STATUS "Source Dir: ${CMAKE_SOURCE_DIR}")  
+message(STATUS "Binary Dir: ${CMAKE_BINARY_DIR}")  
 ```
 
 ### Variables de contrôle
@@ -654,8 +654,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 **CMakeLists.txt**
 
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(ProjetAvecTests C)
+cmake_minimum_required(VERSION 3.10)  
+project(ProjetAvecTests C)  
 
 # Activer les tests
 enable_testing()
@@ -664,20 +664,20 @@ enable_testing()
 add_executable(programme main.c utils.c)
 
 # Tests
-add_executable(test_utils test_utils.c utils.c)
-add_test(NAME TestUtils COMMAND test_utils)
+add_executable(test_utils test_utils.c utils.c)  
+add_test(NAME TestUtils COMMAND test_utils)  
 
 # Test qui doit échouer (pour validation)
-add_test(NAME TestShouldPass COMMAND programme --test)
-set_tests_properties(TestShouldPass PROPERTIES PASS_REGULAR_EXPRESSION "SUCCESS")
+add_test(NAME TestShouldPass COMMAND programme --test)  
+set_tests_properties(TestShouldPass PROPERTIES PASS_REGULAR_EXPRESSION "SUCCESS")  
 ```
 
 **Exécution des tests :**
 
 ```bash
 # Compiler
-cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake ..
-make
+cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake ..  
+make  
 
 # Attention : les tests ne peuvent pas s'exécuter en cross-compilation !
 # Il faut soit :
@@ -713,8 +713,8 @@ if(CMAKE_CROSSCOMPILING)
         "${QEMU_ARM};-L;${QEMU_ARM_SYSROOT}")
 endif()
 
-enable_testing()
-add_test(NAME MonTest COMMAND programme)
+enable_testing()  
+add_test(NAME MonTest COMMAND programme)  
 # Le test sera automatiquement exécuté via QEMU
 ```
 
@@ -735,8 +735,8 @@ projet/
 
 ```cmake
 # Définir des variables
-set(PROJECT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
-set(PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
+set(PROJECT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)  
+set(PROJECT_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)  
 
 # Utiliser les variables
 include_directories(${PROJECT_INCLUDE_DIR})
@@ -746,8 +746,8 @@ include_directories(${PROJECT_INCLUDE_DIR})
 
 ```cmake
 # Options configurables
-option(BUILD_TESTS "Build tests" ON)
-option(ENABLE_OPTIMIZATIONS "Enable ARM optimizations" ON)
+option(BUILD_TESTS "Build tests" ON)  
+option(ENABLE_OPTIMIZATIONS "Enable ARM optimizations" ON)  
 
 if(BUILD_TESTS)
     enable_testing()
@@ -768,12 +768,12 @@ cmake -DBUILD_TESTS=OFF -DENABLE_OPTIMIZATIONS=ON ..
 
 **CMakeLists.txt (racine)**
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(GrosProjet C)
+cmake_minimum_required(VERSION 3.10)  
+project(GrosProjet C)  
 
-add_subdirectory(src)
-add_subdirectory(tests)
-add_subdirectory(tools)
+add_subdirectory(src)  
+add_subdirectory(tests)  
+add_subdirectory(tools)  
 ```
 
 **src/CMakeLists.txt**
@@ -799,10 +799,10 @@ sudo apt-get install gcc-aarch64-linux-gnu cmake
 
 ### Build manuel
 ```bash
-mkdir build-arm64
-cd build-arm64
-cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake ..
-make
+mkdir build-arm64  
+cd build-arm64  
+cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake ..  
+make  
 ```
 ```
 
@@ -815,8 +815,8 @@ make
 message(STATUS "Compilateur: ${CMAKE_C_COMPILER}")
 
 # Afficher toutes les variables
-get_cmake_property(_variableNames VARIABLES)
-foreach(_variableName ${_variableNames})
+get_cmake_property(_variableNames VARIABLES)  
+foreach(_variableName ${_variableNames})  
     message(STATUS "${_variableName}=${${_variableName}}")
 endforeach()
 ```
@@ -853,15 +853,15 @@ Génère `compile_commands.json` utilisable par les IDE et outils d'analyse.
 set -e  # Arrêter en cas d'erreur
 
 # Couleurs pour l'affichage
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+RED='\033[0;31m'  
+GREEN='\033[0;32m'  
+BLUE='\033[0;34m'  
+NC='\033[0m' # No Color  
 
 # Configuration
-PROJECT_NAME="MonProjet"
-BUILD_TYPES=("Debug" "Release")
-ARCHITECTURES=("native" "arm32" "arm64")
+PROJECT_NAME="MonProjet"  
+BUILD_TYPES=("Debug" "Release")  
+ARCHITECTURES=("native" "arm32" "arm64")  
 
 # Fonction de build
 build() {
@@ -898,8 +898,8 @@ build() {
 }
 
 # Nettoyer tous les builds
-echo -e "${BLUE}=== Nettoyage ===${NC}"
-rm -rf build-*
+echo -e "${BLUE}=== Nettoyage ===${NC}"  
+rm -rf build-*  
 
 # Compiler toutes les combinaisons
 for arch in "${ARCHITECTURES[@]}"; do
@@ -908,9 +908,9 @@ for arch in "${ARCHITECTURES[@]}"; do
     done
 done
 
-echo -e "${GREEN}=== Build terminé avec succès ! ===${NC}"
-echo "Binaires disponibles dans :"
-ls -d build-*
+echo -e "${GREEN}=== Build terminé avec succès ! ===${NC}"  
+echo "Binaires disponibles dans :"  
+ls -d build-*  
 ```
 
 **Utilisation :**
@@ -940,7 +940,7 @@ jobs:
         build_type: [Debug, Release]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install ARM toolchains
       run: |
@@ -971,7 +971,7 @@ jobs:
         fi
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: programme-${{ matrix.arch }}-${{ matrix.build_type }}
         path: build/programme
@@ -1004,14 +1004,14 @@ cmake .
 
 ```bash
 # Build native
-mkdir build-native && cd build-native
-cmake .. && make
-cd ..
+mkdir build-native && cd build-native  
+cmake .. && make  
+cd ..  
 
 # Build ARM
-mkdir build-arm64 && cd build-arm64
-cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake .. && make
-cd ..
+mkdir build-arm64 && cd build-arm64  
+cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/toolchain-arm64.cmake .. && make  
+cd ..  
 ```
 
 ## Avantages de CMake en cross-compilation

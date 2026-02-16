@@ -3,9 +3,9 @@
 ## Compilation avec CMake
 
 ```bash
-mkdir build && cd build
-cmake ..
-cmake --build .
+mkdir build && cd build  
+cmake ..  
+cmake --build .  
 ctest --verbose
 ```
 

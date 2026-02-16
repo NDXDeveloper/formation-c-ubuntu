@@ -261,8 +261,8 @@ Ce chapitre est structuré en **trois grandes parties** :
 
 ```bash
 # Sur Ubuntu
-sudo apt-get update
-sudo apt-get install -y \
+sudo apt-get update  
+sudo apt-get install -y \  
     build-essential \
     gcc-aarch64-linux-gnu \
     gcc-arm-linux-gnueabihf \
@@ -382,11 +382,11 @@ QEMU est excellent pour tester, mais :
 
 ```bash
 # L'utilisateur devait faire :
-tar -xzf myapp-1.0.tar.gz
-cd myapp-1.0
+tar -xzf myapp-1.0.tar.gz  
+cd myapp-1.0  
 ./configure
-make
-sudo make install
+make  
+sudo make install  
 
 # Problèmes :
 # - Compilation sur chaque machine
@@ -450,15 +450,15 @@ docker run myapp:latest
 Chaque section de ce chapitre est un fichier markdown séparé :
 
 ```
-31.1-cross-compilation-principes.md
-31.2-compiler-arm-depuis-x86.md
-31.3-cmake-cross-compilation.md
-31.4-qemu-test-binaires.md
-31.5-packaging-deb.md
-31.6-packaging-rpm.md
-31.7-appimage.md
-31.8-docker-multi-stage.md
-31.9-distribution-bibliotheques.md
+01-principes-cross-compilation.md
+02-compiler-arm.md
+03-cmake-cross-compilation.md
+04-qemu-tests.md
+05-packaging-deb.md
+06-packaging-rpm.md
+07-appimage.md
+08-docker-multi-stage.md
+09-distribution-bibliotheques.md
 ```
 
 **Navigation :**

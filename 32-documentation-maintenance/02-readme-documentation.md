@@ -20,8 +20,8 @@ Dans cette section, nous allons apprendre à :
 
 ### Documentation technique (Doxygen)
 
-**Pour qui ?** Développeurs qui travaillent sur le code
-**Contenu** :
+**Pour qui ?** Développeurs qui travaillent sur le code  
+**Contenu** :  
 - Signatures de fonctions
 - Paramètres et types de retour
 - Algorithmes et structures de données internes
@@ -41,8 +41,8 @@ int parse_config_line(char *line, char **key, char **value);
 
 ### Documentation utilisateur (README, guides)
 
-**Pour qui ?** Utilisateurs finaux qui utilisent le logiciel
-**Contenu** :
+**Pour qui ?** Utilisateurs finaux qui utilisent le logiciel  
+**Contenu** :  
 - Ce que fait le logiciel
 - Comment l'installer
 - Comment l'utiliser (commandes, options)
@@ -60,10 +60,10 @@ sudo apt install mon-outil
 
 ### Compilation depuis les sources
 ```bash
-git clone https://github.com/user/mon-outil
-cd mon-outil
-make
-sudo make install
+git clone https://github.com/user/mon-outil  
+cd mon-outil  
+make  
+sudo make install  
 ```
 
 ## Utilisation
@@ -250,9 +250,9 @@ Un programme que j'ai fait pour parser des logs.
 
 ✅ Bon :
 ```markdown
-LogParser est un outil en ligne de commande écrit en C qui analyse les fichiers
-de logs système (syslog, Apache, Nginx) et génère des statistiques détaillées
-en temps réel. Il est capable de traiter 1 Go/s sur du matériel standard.
+LogParser est un outil en ligne de commande écrit en C qui analyse les fichiers  
+de logs système (syslog, Apache, Nginx) et génère des statistiques détaillées  
+en temps réel. Il est capable de traiter 1 Go/s sur du matériel standard.  
 ```
 
 **Astuce** : Ajoutez un GIF ou une capture d'écran après la description. Une image vaut mille mots :
@@ -306,7 +306,7 @@ Soyez explicite sur ce qui est nécessaire :
 ```markdown
 ## Prérequis
 
-- **Système d'exploitation** : Linux (Ubuntu 20.04+, Debian 11+)
+- **Système d'exploitation** : Linux (Ubuntu 22.04+, Debian 12+)
 - **Compilateur** : GCC 9.0+ ou Clang 10.0+
 - **Bibliothèques** :
   - libcurl4-openssl-dev
@@ -328,8 +328,8 @@ Si votre projet est packagé :
 
 ### Ubuntu/Debian
 ```bash
-sudo apt update
-sudo apt install mon-outil
+sudo apt update  
+sudo apt install mon-outil  
 ```
 
 ### Fedora
@@ -427,10 +427,10 @@ Résultat :
 ```
 📊 Analyse de /var/log/syslog
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Lignes analysées : 15,432
-Erreurs détectées : 3
-Warnings : 47
-Durée : 0.23s
+Lignes analysées : 15,432  
+Erreurs détectées : 3  
+Warnings : 47  
+Durée : 0.23s  
 ```
 ```
 
@@ -472,8 +472,8 @@ mon-outil analyze /var/log/apache2/access.log \
   --output /var/www/html/logs-report.html
 ```
 
-Cela génère un rapport HTML avec graphiques accessible via :
-http://localhost/logs-report.html
+Cela génère un rapport HTML avec graphiques accessible via :  
+http://localhost/logs-report.html  
 
 #### 2. Surveillance en temps réel
 
@@ -505,9 +505,9 @@ Exemple de configuration :
 
 ```yaml
 # ~/.config/mon-outil/config.yml
-output_format: html
-verbosity: info
-max_lines: 100000
+output_format: html  
+verbosity: info  
+max_lines: 100000  
 
 filters:
   - level: error
@@ -590,8 +590,8 @@ et est optimisé pour les gros fichiers de logs (>1 Go).
 
 ### Est-ce que ça fonctionne sur Windows ?
 
-Actuellement, seul Linux est officiellement supporté. Une version Windows est
-prévue dans la roadmap v2.0.
+Actuellement, seul Linux est officiellement supporté. Une version Windows est  
+prévue dans la roadmap v2.0.  
 
 ### Comment contribuer à la traduction ?
 
@@ -821,8 +821,8 @@ Affiche l'aide.
 
 **Exemple** :
 ```bash
-mon-outil --help
-mon-outil analyze --help
+mon-outil --help  
+mon-outil analyze --help  
 ```
 
 ### `-v, --version`
@@ -863,13 +863,13 @@ mon-outil analyze [OPTIONS] <fichier...>
 #### `-f, --format <format>`
 Format de sortie.
 
-**Valeurs acceptées** : `text`, `json`, `html`, `xml`
-**Défaut** : `text`
+**Valeurs acceptées** : `text`, `json`, `html`, `xml`  
+**Défaut** : `text`  
 
 **Exemples** :
 ```bash
-mon-outil analyze access.log --format json
-mon-outil analyze access.log -f html
+mon-outil analyze access.log --format json  
+mon-outil analyze access.log -f html  
 ```
 
 #### `-o, --output <fichier>`
@@ -877,15 +877,15 @@ Fichier de sortie. Si non spécifié, affiche sur stdout.
 
 **Exemples** :
 ```bash
-mon-outil analyze access.log -o rapport.txt
-mon-outil analyze access.log --format json --output results.json
+mon-outil analyze access.log -o rapport.txt  
+mon-outil analyze access.log --format json --output results.json  
 ```
 
 #### `--filter <expression>`
 Filtre les logs selon une expression.
 
-**Syntaxe** : `champ operateur valeur`
-**Opérateurs** : `=`, `!=`, `>`, `<`, `contains`, `regex`
+**Syntaxe** : `champ operateur valeur`  
+**Opérateurs** : `=`, `!=`, `>`, `<`, `contains`, `regex`  
 
 **Exemples** :
 ```bash
@@ -946,8 +946,8 @@ which mon-outil
 export PATH="/usr/local/bin:$PATH"
 
 # Ajouter de manière permanente dans ~/.bashrc
-echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
+echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bashrc  
+source ~/.bashrc  
 ```
 
 ### Erreur de dépendances manquantes
@@ -1124,8 +1124,8 @@ projet/
 
 **Configuration (`mkdocs.yml`)** :
 ```yaml
-site_name: Mon Outil Documentation
-theme:
+site_name: Mon Outil Documentation  
+theme:  
   name: material
   palette:
     primary: indigo
@@ -1144,8 +1144,8 @@ markdown_extensions:
 
 **Générer et visualiser** :
 ```bash
-mkdocs serve   # Serveur local sur http://127.0.0.1:8000
-mkdocs build   # Génère le site dans site/
+mkdocs serve   # Serveur local sur http://127.0.0.1:8000  
+mkdocs build   # Génère le site dans site/  
 ```
 
 **Déployer sur GitHub Pages** :
@@ -1170,7 +1170,7 @@ mkdocs:
   configuration: mkdocs.yml
 
 python:
-  version: 3.8
+  version: "3.12"
   install:
     - requirements: docs/requirements.txt
 ```
@@ -1184,8 +1184,8 @@ Accessible à : `https://mon-projet.readthedocs.io/`
 Sphinx est plus puissant mais plus complexe. Utilisé par Python, NumPy, Django.
 
 ```bash
-pip install sphinx
-sphinx-quickstart docs
+pip install sphinx  
+sphinx-quickstart docs  
 ```
 
 Voir la documentation officielle : https://www.sphinx-doc.org/
@@ -1208,8 +1208,8 @@ pandoc guide.md -o guide.pdf --toc --number-sections
 
 ### 1. Écrivez pour votre public
 
-**Pour développeurs** : Détails techniques, références API
-**Pour utilisateurs finaux** : Simplicité, exemples concrets, captures d'écran
+**Pour développeurs** : Détails techniques, références API  
+**Pour utilisateurs finaux** : Simplicité, exemples concrets, captures d'écran  
 
 ### 2. Montrez, ne dites pas
 
@@ -1383,7 +1383,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: 3.x
 
