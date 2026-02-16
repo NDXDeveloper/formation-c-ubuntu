@@ -39,9 +39,9 @@ Type d'attachement définissant comment et où un programme eBPF se connecte. Ex
 Framework facilitant l'écriture de programmes eBPF en Python ou Lua, avec compilation à la volée du code eBPF (écrit en C restreint). Développé par IO Visor Project.
 ```python
 # Exemple BCC simple
-from bcc import BPF
-prog = """
-int hello(void *ctx) {
+from bcc import BPF  
+prog = """  
+int hello(void *ctx) {  
     bpf_trace_printk("Hello, eBPF!\\n");
     return 0;
 }
@@ -88,9 +88,9 @@ int bpf(int cmd, union bpf_attr *attr, unsigned int size);
 ### **bpftool**
 Outil en ligne de commande pour inspecter et manipuler les objets eBPF (programmes, maps, liens). Indispensable pour le débogage et l'exploration.
 ```bash
-bpftool prog list        # Liste les programmes eBPF chargés
-bpftool map dump id 42   # Affiche le contenu d'une map
-bpftool prog load obj.o /sys/fs/bpf/mon_prog
+bpftool prog list        # Liste les programmes eBPF chargés  
+bpftool map dump id 42   # Affiche le contenu d'une map  
+bpftool prog load obj.o /sys/fs/bpf/mon_prog  
 ```
 
 ### **BTF (BPF Type Format)**
@@ -115,8 +115,8 @@ clang -O2 -target bpf -c program.bpf.c -o program.bpf.o
 ### **Context (ctx)**
 Paramètre passé à un programme eBPF lors de son exécution. Contient des informations spécifiques au type de programme (pointeur vers `sk_buff` pour le réseau, `pt_regs` pour les kprobes, etc.).
 ```c
-SEC("kprobe/sys_execve")
-int my_kprobe(struct pt_regs *ctx) {
+SEC("kprobe/sys_execve")  
+int my_kprobe(struct pt_regs *ctx) {  
     // ctx contient l'état des registres CPU
 }
 ```
@@ -179,8 +179,8 @@ Espace d'exécution privilégié du noyau Linux. Les programmes eBPF s'exécuten
 ### **Kprobe (Kernel probe)**
 Point d'instrumentation dynamique permettant d'attacher un programme eBPF à l'entrée de (presque) n'importe quelle fonction du noyau Linux.
 ```c
-SEC("kprobe/do_sys_open")
-int trace_open(struct pt_regs *ctx) {
+SEC("kprobe/do_sys_open")  
+int trace_open(struct pt_regs *ctx) {  
     char filename[256];
     bpf_probe_read_user_str(filename, sizeof(filename), (void *)PT_REGS_PARM2(ctx));
     bpf_trace_printk("Opening: %s\n", filename);
@@ -191,8 +191,8 @@ int trace_open(struct pt_regs *ctx) {
 ### **Kretprobe (Kernel return probe)**
 Point d'instrumentation dynamique s'attachant à la sortie (return) d'une fonction du noyau. Permet de capturer la valeur de retour.
 ```c
-SEC("kretprobe/do_sys_open")
-int trace_open_return(struct pt_regs *ctx) {
+SEC("kretprobe/do_sys_open")  
+int trace_open_return(struct pt_regs *ctx) {  
     int ret = PT_REGS_RC(ctx); // Valeur de retour
     bpf_trace_printk("File descriptor: %d\n", ret);
     return 0;
@@ -208,9 +208,9 @@ Bibliothèque C officielle pour interagir avec eBPF depuis l'espace utilisateur.
 ```c
 #include <bpf/libbpf.h>
 
-struct bpf_object *obj = bpf_object__open("program.bpf.o");
-bpf_object__load(obj);
-struct bpf_link *link = bpf_program__attach(prog);
+struct bpf_object *obj = bpf_object__open("program.bpf.o");  
+bpf_object__load(obj);  
+struct bpf_link *link = bpf_program__attach(prog);  
 ```
 
 ### **Linux kernel**
@@ -300,9 +300,9 @@ Type de map moderne (kernel 5.8+) pour transférer efficacement des données du 
 ### **SEC() macro**
 Macro utilisée dans les programmes eBPF pour spécifier le type et le point d'attachement du programme via les sections ELF.
 ```c
-SEC("kprobe/sys_execve")  // Attache à l'entrée de sys_execve
-SEC("xdp")                 // Programme XDP
-SEC("tracepoint/syscalls/sys_enter_open")  // Tracepoint
+SEC("kprobe/sys_execve")  // Attache à l'entrée de sys_execve  
+SEC("xdp")                 // Programme XDP  
+SEC("tracepoint/syscalls/sys_enter_open")  // Tracepoint  
 ```
 
 ### **Socket filter**
@@ -339,8 +339,8 @@ Type de programme eBPF s'attachant à l'infrastructure Linux Traffic Control pou
 ### **Tracepoint**
 Point d'instrumentation statique dans le noyau Linux, défini explicitement par les développeurs du noyau. Plus stables que les kprobes (ne changent pas entre versions du noyau).
 ```c
-SEC("tracepoint/syscalls/sys_enter_execve")
-int trace_execve(struct trace_event_raw_sys_enter *ctx) {
+SEC("tracepoint/syscalls/sys_enter_execve")  
+int trace_execve(struct trace_event_raw_sys_enter *ctx) {  
     // Tracer les appels à execve
     return 0;
 }
@@ -356,8 +356,8 @@ Processus d'enregistrement détaillé des événements système (appels de fonct
 ### **Uprobe (User-space probe)**
 Point d'instrumentation dynamique dans les programmes en espace utilisateur. Permet d'attacher un programme eBPF à l'entrée de fonctions d'applications ou de bibliothèques.
 ```c
-SEC("uprobe//usr/lib/x86_64-linux-gnu/libc.so.6:malloc")
-int trace_malloc(struct pt_regs *ctx) {
+SEC("uprobe//usr/lib/x86_64-linux-gnu/libc.so.6:malloc")  
+int trace_malloc(struct pt_regs *ctx) {  
     size_t size = PT_REGS_PARM1(ctx);
     bpf_trace_printk("malloc(%zu)\n", size);
     return 0;
@@ -391,8 +391,8 @@ Fichier d'en-tête généré automatiquement contenant toutes les structures de 
 ```c
 #include "vmlinux.h"  // Une seule ligne remplace des dizaines d'includes
 
-SEC("kprobe/do_sys_open")
-int my_prog(struct pt_regs *ctx) {
+SEC("kprobe/do_sys_open")  
+int my_prog(struct pt_regs *ctx) {  
     struct task_struct *task = (struct task_struct *)bpf_get_current_task();
     // Accès direct aux structures du noyau
 }
@@ -418,8 +418,8 @@ Actions XDP possibles :
 - **XDP_ABORTED** : Erreur, supprimer le paquet
 
 ```c
-SEC("xdp")
-int xdp_drop_tcp(struct xdp_md *ctx) {
+SEC("xdp")  
+int xdp_drop_tcp(struct xdp_md *ctx) {  
     void *data = (void *)(long)ctx->data;
     void *data_end = (void *)(long)ctx->data_end;
 
@@ -589,19 +589,19 @@ uname -r  # Kernel 4.8+ minimum, 5.x+ recommandé
 apt install linux-tools-generic bpftool  # Ubuntu/Debian
 
 # Lister les programmes eBPF chargés
-bpftool prog list
-bpftool prog show id 42
+bpftool prog list  
+bpftool prog show id 42  
 
 # Lister les maps
-bpftool map list
-bpftool map dump name my_map
+bpftool map list  
+bpftool map dump name my_map  
 
 # Afficher les logs eBPF (bpf_trace_printk)
 cat /sys/kernel/debug/tracing/trace_pipe
 
 # Désassembler un programme
-bpftool prog dump xlated id 42
-llvm-objdump -d program.bpf.o
+bpftool prog dump xlated id 42  
+llvm-objdump -d program.bpf.o  
 
 # Générer vmlinux.h
 bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
@@ -617,13 +617,13 @@ bpftool btf list
 ### **1. Oublier les vérifications de bornes**
 ```c
 // ❌ MAUVAIS : Le verifier va rejeter
-void *data = (void *)(long)ctx->data;
-struct iphdr *ip = data + sizeof(struct ethhdr);
+void *data = (void *)(long)ctx->data;  
+struct iphdr *ip = data + sizeof(struct ethhdr);  
 // Accès sans vérification !
 
 // ✅ BON : Toujours vérifier avant d'accéder
-void *data_end = (void *)(long)ctx->data_end;
-if ((void *)(ip + 1) > data_end)
+void *data_end = (void *)(long)ctx->data_end;  
+if ((void *)(ip + 1) > data_end)  
     return XDP_PASS;
 // Maintenant l'accès est safe
 ```
@@ -642,7 +642,7 @@ struct {
 } buffer_map SEC(".maps");
 ```
 
-### **3. Boucles non bornées (ancien noyaux)**
+### **3. Boucles non bornées (anciens noyaux)**
 ```c
 // ❌ MAUVAIS (kernel < 5.3)
 while (condition) {  // Boucle potentiellement infinie
@@ -662,8 +662,8 @@ for (int i = 0; i < 10; i++) {  // Borne fixe
 int my_program(struct xdp_md *ctx) { }
 
 // ✅ BON
-SEC("xdp")
-int my_program(struct xdp_md *ctx) { }
+SEC("xdp")  
+int my_program(struct xdp_md *ctx) { }  
 ```
 
 ---

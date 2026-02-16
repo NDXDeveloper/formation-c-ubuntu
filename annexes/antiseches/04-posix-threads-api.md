@@ -58,8 +58,9 @@ int main() {
     pthread_t thread;
     int id = 1;
 
-    if (pthread_create(&thread, NULL, ma_fonction, &id) != 0) {
-        perror("Erreur création thread");
+    int ret = pthread_create(&thread, NULL, ma_fonction, &id);
+    if (ret != 0) {
+        fprintf(stderr, "Erreur création thread: %s\n", strerror(ret));
         return 1;
     }
 
@@ -85,10 +86,13 @@ void pthread_exit(void *retval);
 **Exemple :**
 ```c
 void *ma_fonction(void *arg) {
-    int resultat = 42;
-    pthread_exit(&resultat);  // Termine le thread avec une valeur
+    int *resultat = malloc(sizeof(int));
+    *resultat = 42;
+    pthread_exit(resultat);  // Termine le thread avec une valeur
 }
 ```
+
+⚠️ **Important :** Ne passez jamais un pointeur vers une variable locale de la stack du thread. Utilisez `malloc()` ou un cast `(void*)(intptr_t)valeur`.
 
 ---
 
@@ -113,6 +117,7 @@ void *resultat;
 pthread_create(&thread, NULL, ma_fonction, NULL);
 pthread_join(thread, &resultat);  // Bloque jusqu'à la fin du thread
 printf("Thread terminé avec résultat : %d\n", *(int*)resultat);
+free(resultat);  // Libérer la mémoire allouée par le thread
 ```
 
 ---
@@ -133,9 +138,9 @@ int pthread_detach(pthread_t thread);
 
 **Exemple :**
 ```c
-pthread_t thread;
-pthread_create(&thread, NULL, ma_fonction, NULL);
-pthread_detach(thread);  // Le thread se nettoie tout seul à la fin
+pthread_t thread;  
+pthread_create(&thread, NULL, ma_fonction, NULL);  
+pthread_detach(thread);  // Le thread se nettoie tout seul à la fin  
 ```
 
 ---
@@ -149,8 +154,8 @@ pthread_t pthread_self(void);
 
 **Exemple :**
 ```c
-pthread_t mon_id = pthread_self();
-printf("Mon ID de thread : %lu\n", (unsigned long)mon_id);
+pthread_t mon_id = pthread_self();  
+printf("Mon ID de thread : %lu\n", (unsigned long)mon_id);  
 ```
 
 ---
@@ -178,8 +183,8 @@ int pthread_mutex_init(pthread_mutex_t *mutex,
 
 **Exemple :**
 ```c
-pthread_mutex_t mutex;
-pthread_mutex_init(&mutex, NULL);
+pthread_mutex_t mutex;  
+pthread_mutex_init(&mutex, NULL);  
 ```
 
 ---
@@ -197,8 +202,8 @@ int pthread_mutex_lock(pthread_mutex_t *mutex);
 ```c
 pthread_mutex_lock(&mutex);
 // Section critique : un seul thread à la fois
-compteur++;
-pthread_mutex_unlock(&mutex);
+compteur++;  
+pthread_mutex_unlock(&mutex);  
 ```
 
 ---
@@ -245,10 +250,11 @@ int pthread_mutex_destroy(pthread_mutex_t *mutex);
 
 **Exemple complet :**
 ```c
-pthread_mutex_t mutex;
-int compteur_partage = 0;
+pthread_mutex_t mutex;  
+int compteur_partage = 0;  
 
 void *incrementer(void *arg) {
+    (void)arg;
     for (int i = 0; i < 1000; i++) {
         pthread_mutex_lock(&mutex);
         compteur_partage++;
@@ -310,8 +316,8 @@ int pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex);
 
 **Exemple :**
 ```c
-pthread_mutex_lock(&mutex);
-while (!condition_verifiee) {
+pthread_mutex_lock(&mutex);  
+while (!condition_verifiee) {  
     pthread_cond_wait(&cond, &mutex);  // Attend le signal
 }
 // La condition est maintenant vraie
@@ -329,10 +335,10 @@ int pthread_cond_signal(pthread_cond_t *cond);
 
 **Exemple :**
 ```c
-pthread_mutex_lock(&mutex);
-condition_verifiee = 1;
-pthread_cond_signal(&cond);  // Réveille un thread
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+condition_verifiee = 1;  
+pthread_cond_signal(&cond);  // Réveille un thread  
+pthread_mutex_unlock(&mutex);  
 ```
 
 ---
@@ -346,10 +352,10 @@ int pthread_cond_broadcast(pthread_cond_t *cond);
 
 **Exemple :**
 ```c
-pthread_mutex_lock(&mutex);
-condition_verifiee = 1;
-pthread_cond_broadcast(&cond);  // Réveille tous les threads
-pthread_mutex_unlock(&mutex);
+pthread_mutex_lock(&mutex);  
+condition_verifiee = 1;  
+pthread_cond_broadcast(&cond);  // Réveille tous les threads  
+pthread_mutex_unlock(&mutex);  
 ```
 
 ---
@@ -363,10 +369,10 @@ int pthread_cond_destroy(pthread_cond_t *cond);
 
 **Exemple complet (producteur-consommateur) :**
 ```c
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
-int buffer = 0;
-int buffer_plein = 0;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;  
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;  
+int buffer = 0;  
+int buffer_plein = 0;  
 
 void *producteur(void *arg) {
     pthread_mutex_lock(&mutex);
@@ -415,8 +421,8 @@ int sem_init(sem_t *sem, int pshared, unsigned int value);
 
 **Exemple :**
 ```c
-sem_t semaphore;
-sem_init(&semaphore, 0, 1);  // Initialise à 1 (équivalent mutex)
+sem_t semaphore;  
+sem_init(&semaphore, 0, 1);  // Initialise à 1 (équivalent mutex)  
 ```
 
 ---
@@ -558,8 +564,8 @@ int pthread_rwlock_destroy(pthread_rwlock_t *rwlock);
 
 **Exemple :**
 ```c
-pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
-int donnee_partagee = 0;
+pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;  
+int donnee_partagee = 0;  
 
 void *lecteur(void *arg) {
     pthread_rwlock_rdlock(&rwlock);  // Plusieurs lecteurs OK
@@ -583,7 +589,9 @@ void *ecrivain(void *arg) {
 
 Variables propres à chaque thread (non partagées).
 
-### Déclaration avec `__thread`
+### Déclaration
+
+#### Extension GCC : `__thread`
 ```c
 __thread int variable_locale_thread = 0;
 
@@ -593,6 +601,13 @@ void *fonction(void *arg) {
     return NULL;
 }
 ```
+
+#### Standard C11 : `_Thread_local`
+```c
+_Thread_local int variable_locale_thread = 0;  // C11 standard
+```
+
+⚠️ `__thread` est une extension GCC/Clang. En C11/C17, le mot-clé standard est `_Thread_local`. En C23, `thread_local` devient un mot-clé natif.
 
 ---
 
@@ -622,13 +637,13 @@ void *fonction(void *arg) {
 ### 1. Oublier de joindre ou détacher les threads
 ```c
 // ❌ MAUVAIS : fuite de ressources
-pthread_t thread;
-pthread_create(&thread, NULL, fonction, NULL);
+pthread_t thread;  
+pthread_create(&thread, NULL, fonction, NULL);  
 // Rien d'autre
 
 // ✅ BON
-pthread_create(&thread, NULL, fonction, NULL);
-pthread_join(thread, NULL);  // OU pthread_detach(thread);
+pthread_create(&thread, NULL, fonction, NULL);  
+pthread_join(thread, NULL);  // OU pthread_detach(thread);  
 ```
 
 ---
@@ -636,15 +651,15 @@ pthread_join(thread, NULL);  // OU pthread_detach(thread);
 ### 2. Deadlock avec les mutex
 ```c
 // ❌ MAUVAIS : risque de deadlock
-pthread_mutex_lock(&mutex1);
-pthread_mutex_lock(&mutex2);  // Un autre thread peut avoir l'ordre inverse
+pthread_mutex_lock(&mutex1);  
+pthread_mutex_lock(&mutex2);  // Un autre thread peut avoir l'ordre inverse  
 
 // ✅ BON : Toujours verrouiller dans le même ordre
-pthread_mutex_lock(&mutex1);
-pthread_mutex_lock(&mutex2);
+pthread_mutex_lock(&mutex1);  
+pthread_mutex_lock(&mutex2);  
 // ...
-pthread_mutex_unlock(&mutex2);
-pthread_mutex_unlock(&mutex1);
+pthread_mutex_unlock(&mutex2);  
+pthread_mutex_unlock(&mutex1);  
 ```
 
 ---
@@ -684,11 +699,13 @@ pthread_create(&thread, NULL, fonction, id);
 
 1. **Toujours vérifier les valeurs de retour**
    ```c
-   if (pthread_mutex_lock(&mutex) != 0) {
-       perror("Erreur lock");
+   int ret = pthread_mutex_lock(&mutex);
+   if (ret != 0) {
+       fprintf(stderr, "Erreur lock: %s\n", strerror(ret));
        exit(1);
    }
    ```
+   ⚠️ Les fonctions pthread retournent un code d'erreur directement (elles ne positionnent pas `errno`). Utilisez `strerror()`, jamais `perror()`.
 
 2. **Initialiser et détruire proprement**
    - Chaque `pthread_mutex_init()` doit avoir son `pthread_mutex_destroy()`

@@ -83,8 +83,8 @@ Le formatage du code est un aspect crucial de la programmation professionnelle. 
 **Sans clang-format :**
 ```c
 // Développeur A aime cette indentation :
-if(x>0){
-printf("positif");
+if(x>0){  
+printf("positif");  
 }
 
 // Développeur B préfère celle-là :
@@ -110,8 +110,8 @@ if (x > 0) {
 
 ```bash
 # Installation depuis les dépôts officiels
-sudo apt update
-sudo apt install clang-format
+sudo apt update  
+sudo apt install clang-format  
 
 # Vérifier l'installation
 clang-format --version
@@ -193,8 +193,8 @@ Le fichier `.clang-format` utilise le format **YAML** (Yet Another Markup Langua
 ```yaml
 ---
 # Commentaire
-CleDeLOption: Valeur
-AutreOption: AutreValeur
+CleDeLOption: Valeur  
+AutreOption: AutreValeur  
 ...
 ```
 
@@ -238,8 +238,8 @@ clang-format -style=google -dump-config > .clang-format
 **Méthode 2 : Créer manuellement**
 
 ```bash
-touch .clang-format
-nano .clang-format
+touch .clang-format  
+nano .clang-format  
 # Copiez-collez votre configuration
 ```
 
@@ -296,8 +296,8 @@ int main(int argc, char* argv[]) {
 #### **Style GNU**
 
 ```c
-int
-main (int argc, char *argv[])
+int  
+main (int argc, char *argv[])  
 {
   if (argc > 1)
     {
@@ -339,9 +339,9 @@ clang-format -style=llvm fichier.c
 
 ```yaml
 ---
-BasedOnStyle: LLVM
-IndentWidth: 4          # Modifier l'indentation à 4
-ColumnLimit: 100        # Modifier la limite à 100 colonnes
+BasedOnStyle: LLVM  
+IndentWidth: 4          # Modifier l'indentation à 4  
+ColumnLimit: 100        # Modifier la limite à 100 colonnes  
 ...
 ```
 
@@ -363,9 +363,9 @@ BasedOnStyle: LLVM
 
 # -------------------- LANGUE --------------------
 
-# Langage : C (pas C++)
+# Langage : C (clang-format utilise Cpp pour C et C++)
 Language: Cpp
-Standard: c11
+Standard: Latest
 
 # -------------------- INDENTATION --------------------
 
@@ -574,12 +574,12 @@ AlwaysBreakAfterReturnType: None
 ContinuationIndentWidth: 4
 
 # Construire les paramètres sur plusieurs lignes
-BinPackParameters: false
-BinPackArguments: false
+BinPackParameters: false  
+BinPackArguments: false  
 
 # Toujours casser après la virgule des paramètres
-AllowAllParametersOfDeclarationOnNextLine: false
-AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false  
+AllowAllArgumentsOnNextLine: false  
 
 ...
 ```
@@ -659,8 +659,8 @@ switch (x) {
 }
 
 // IndentCaseLabels: false
-switch (x) {
-case 1:
+switch (x) {  
+case 1:  
     printf("One");
     break;
 case 2:
@@ -730,16 +730,16 @@ SpaceBeforeParens: ControlStatements
 
 ```c
 // Never
-if(condition)
-fonction(arg)
+if(condition)  
+fonction(arg)  
 
 // ControlStatements (recommandé)
-if (condition)
-fonction(arg)
+if (condition)  
+fonction(arg)  
 
 // Always
-if (condition)
-fonction (arg)
+if (condition)  
+fonction (arg)  
 ```
 
 #### **PointerAlignment**
@@ -752,16 +752,16 @@ PointerAlignment: Right
 
 ```c
 // Left
-int* ptr;
-char* str;
+int* ptr;  
+char* str;  
 
 // Right (recommandé pour C)
-int *ptr;
-char *str;
+int *ptr;  
+char *str;  
 
 // Middle
-int * ptr;
-char * str;
+int * ptr;  
+char * str;  
 ```
 
 **Débat classique :**
@@ -808,14 +808,14 @@ AlignConsecutiveAssignments: true
 
 ```c
 // false
-int x = 1;
-int longer_name = 2;
-int y = 3;
+int x = 1;  
+int longer_name = 2;  
+int y = 3;  
 
 // true
-int x            = 1;
-int longer_name  = 2;
-int y            = 3;
+int x            = 1;  
+int longer_name  = 2;  
+int y            = 3;  
 ```
 
 **Note :** Peut créer des diffs Git importants lors de modifications.
@@ -872,15 +872,15 @@ int get_x() { return x; }
 #include<stdlib.h>
 #include <string.h>
 
-int main(int argc,char*argv[]){
-if(argc<2){
-fprintf(stderr,"Usage: %s <name>\n",argv[0]);
-return 1;}
-char*name=argv[1];
-int len=strlen(name);
-printf("Hello, %s!\n",name);
-printf("Your name has %d characters.\n",len);
-return 0;
+int main(int argc,char*argv[]){  
+if(argc<2){  
+fprintf(stderr,"Usage: %s <name>\n",argv[0]);  
+return 1;}  
+char*name=argv[1];  
+int len=strlen(name);  
+printf("Hello, %s!\n",name);  
+printf("Your name has %d characters.\n",len);  
+return 0;  
 }
 ```
 
@@ -910,8 +910,8 @@ int main(int argc, char *argv[])
 **Avant :**
 
 ```c
-int calculate_something(int a,int b,int c,int d,int e){
-if(a>b&&c<d){return a+c;}else if(a<b&&c>d){return b+d;}else{return e;}}
+int calculate_something(int a,int b,int c,int d,int e){  
+if(a>b&&c<d){return a+c;}else if(a<b&&c>d){return b+d;}else{return e;}}  
 ```
 
 **Après :**
@@ -934,8 +934,8 @@ int calculate_something(int a, int b, int c, int d, int e)
 **Avant :**
 
 ```c
-struct Person{char name[50];int age;float salary;};
-int numbers[]={1,2,3,4,5,6,7,8,9,10};
+struct Person{char name[50];int age;float salary;};  
+int numbers[]={1,2,3,4,5,6,7,8,9,10};  
 ```
 
 **Après :**
@@ -976,14 +976,14 @@ int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
 ```yaml
 ---
-BasedOnStyle: LLVM
-IndentWidth: 4
-ColumnLimit: 100
-PointerAlignment: Right
-BreakBeforeBraces: Linux
-AllowShortFunctionsOnASingleLine: Empty
-AlignConsecutiveMacros: true
-SpaceBeforeParens: ControlStatements
+BasedOnStyle: LLVM  
+IndentWidth: 4  
+ColumnLimit: 100  
+PointerAlignment: Right  
+BreakBeforeBraces: Linux  
+AllowShortFunctionsOnASingleLine: Empty  
+AlignConsecutiveMacros: true  
+SpaceBeforeParens: ControlStatements  
 ...
 ```
 
@@ -991,11 +991,11 @@ SpaceBeforeParens: ControlStatements
 
 ```yaml
 ---
-BasedOnStyle: Google
-IndentWidth: 2
-ColumnLimit: 80
-PointerAlignment: Left
-AllowShortFunctionsOnASingleLine: Inline
+BasedOnStyle: Google  
+IndentWidth: 2  
+ColumnLimit: 80  
+PointerAlignment: Left  
+AllowShortFunctionsOnASingleLine: Inline  
 ...
 ```
 
@@ -1003,15 +1003,15 @@ AllowShortFunctionsOnASingleLine: Inline
 
 ```yaml
 ---
-BasedOnStyle: LLVM
-IndentWidth: 8
-UseTab: Always
-BreakBeforeBraces: Linux
-ColumnLimit: 80
-PointerAlignment: Right
-IndentCaseLabels: false
-AllowShortIfStatementsOnASingleLine: Never
-AllowShortLoopsOnASingleLine: false
+BasedOnStyle: LLVM  
+IndentWidth: 8  
+UseTab: Always  
+BreakBeforeBraces: Linux  
+ColumnLimit: 80  
+PointerAlignment: Right  
+IndentCaseLabels: false  
+AllowShortIfStatementsOnASingleLine: Never  
+AllowShortLoopsOnASingleLine: false  
 ...
 ```
 
@@ -1019,12 +1019,12 @@ AllowShortLoopsOnASingleLine: false
 
 ```yaml
 ---
-BasedOnStyle: GNU
-IndentWidth: 2
-ColumnLimit: 79
-BreakBeforeBraces: GNU
-AlwaysBreakAfterReturnType: All
-SpaceBeforeParens: Always
+BasedOnStyle: GNU  
+IndentWidth: 2  
+ColumnLimit: 79  
+BreakBeforeBraces: GNU  
+AlwaysBreakAfterReturnType: All  
+SpaceBeforeParens: Always  
 ...
 ```
 
@@ -1032,15 +1032,15 @@ SpaceBeforeParens: Always
 
 ```yaml
 ---
-BasedOnStyle: LLVM
-IndentWidth: 4
-UseTab: Never
-ColumnLimit: 120
-PointerAlignment: Right
-BreakBeforeBraces: Attach
-AllowShortFunctionsOnASingleLine: None
-AlignConsecutiveDeclarations: true
-AlignConsecutiveAssignments: true
+BasedOnStyle: LLVM  
+IndentWidth: 4  
+UseTab: Never  
+ColumnLimit: 120  
+PointerAlignment: Right  
+BreakBeforeBraces: Attach  
+AllowShortFunctionsOnASingleLine: None  
+AlignConsecutiveDeclarations: true  
+AlignConsecutiveAssignments: true  
 ...
 ```
 
@@ -1108,9 +1108,9 @@ Créez un script `format-all.sh` :
 # Script de formatage de tous les fichiers C/H du projet
 
 # Couleurs pour l'affichage
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m' # No Color
+RED='\033[0;31m'  
+GREEN='\033[0;32m'  
+NC='\033[0m' # No Color  
 
 # Vérifier que clang-format est installé
 if ! command -v clang-format &> /dev/null; then
@@ -1135,8 +1135,8 @@ if [ -z "$files" ]; then
     exit 1
 fi
 
-count=0
-for file in $files; do
+count=0  
+for file in $files; do  
     echo "✏️  Formatage : $file"
     clang-format -i "$file"
     ((count++))
@@ -1301,9 +1301,9 @@ chmod +x .git/hooks/pre-commit
 
 ```bash
 # Modifiez un fichier C
-echo "int main(){return 0;}" > test.c
-git add test.c
-git commit -m "Test"
+echo "int main(){return 0;}" > test.c  
+git add test.c  
+git commit -m "Test"  
 
 # Le code sera automatiquement formaté avant le commit
 ```
@@ -1349,8 +1349,8 @@ Script pour vérifier si des fichiers ne sont pas formatés :
 #!/bin/bash
 # check-format.sh
 
-files=$(find . -name "*.c" -o -name "*.h" | grep -v build)
-status=0
+files=$(find . -name "*.c" -o -name "*.h" | grep -v build)  
+status=0  
 
 for file in $files; do
     diff -u <(cat "$file") <(clang-format "$file") > /dev/null
@@ -1396,7 +1396,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install clang-format
       run: |
@@ -1434,7 +1434,7 @@ jobs:
   format:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: DoozyX/clang-format-lint-action@v0.16
       with:
         source: '.'
@@ -1452,7 +1452,7 @@ stages:
 
 format-check:
   stage: lint
-  image: ubuntu:22.04
+  image: ubuntu:24.04
 
   before_script:
     - apt-get update && apt-get install -y clang-format git
@@ -1550,9 +1550,9 @@ git clang-format main
 #!/bin/bash
 # format-report.sh
 
-files=$(find . -name "*.c" -o -name "*.h")
-total=0
-unformatted=0
+files=$(find . -name "*.c" -o -name "*.h")  
+total=0  
+unformatted=0  
 
 for file in $files; do
     ((total++))
@@ -1563,15 +1563,15 @@ for file in $files; do
     fi
 done
 
-formatted=$((total - unformatted))
-percentage=$((100 * formatted / total))
+formatted=$((total - unformatted))  
+percentage=$((100 * formatted / total))  
 
-echo ""
-echo "📊 Rapport de formatage"
-echo "Total de fichiers : $total"
-echo "Fichiers formatés : $formatted"
-echo "Fichiers non formatés : $unformatted"
-echo "Pourcentage : $percentage%"
+echo ""  
+echo "📊 Rapport de formatage"  
+echo "Total de fichiers : $total"  
+echo "Fichiers formatés : $formatted"  
+echo "Fichiers non formatés : $unformatted"  
+echo "Pourcentage : $percentage%"  
 ```
 
 ---
@@ -1591,8 +1591,8 @@ bash: clang-format: command not found
 sudo apt install clang-format
 
 # Vérifier l'installation
-which clang-format
-clang-format --version
+which clang-format  
+clang-format --version  
 ```
 
 ### **Problème 2 : Le fichier .clang-format n'est pas détecté**
@@ -1640,8 +1640,8 @@ IndentWidth:4              # Pas d'espace après :
     UseTab: Never          # Indentation incorrecte
 
 # ✅ Correct
-IndentWidth: 4
-UseTab: Never
+IndentWidth: 4  
+UseTab: Never  
 ```
 
 **Vérifier la syntaxe :**
@@ -1671,8 +1671,8 @@ AllowShortFunctionsOnASingleLine: All
 **c) Utiliser des pénalités :**
 ```yaml
 # Rendre les coupures de ligne moins agressives
-PenaltyBreakString: 1000000
-PenaltyExcessCharacter: 1000000
+PenaltyBreakString: 1000000  
+PenaltyExcessCharacter: 1000000  
 ```
 
 ### **Problème 5 : Versions incompatibles**

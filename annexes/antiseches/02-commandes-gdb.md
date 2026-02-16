@@ -199,8 +199,8 @@ Num     Type           Disp Enb Address            What
 **Comportement :** N'entre **pas** dans les fonctions appelées.
 
 ```c
-int result = calculate(x, y);  // next passe directement
-printf("Result: %d\n", result);
+int result = calculate(x, y);  // next passe directement  
+printf("Result: %d\n", result);  
 ```
 
 ---
@@ -436,7 +436,7 @@ S'arrête quand `x` est **lue**.
 # Attraper un signal
 (gdb) catch signal SIGSEGV
 
-# Attraper un throw C++ (fonctionne aussi en C pour certains événements)
+# Attraper un throw C++ (C++ uniquement)
 (gdb) catch throw
 
 # Attraper un fork
@@ -735,12 +735,12 @@ Créer un fichier `.gdbinit` ou un script :
 
 ```gdb
 # fichier: debug.gdb
-break main
-run
-next
-next
-print x
-continue
+break main  
+run  
+next  
+next  
+print x  
+continue  
 ```
 
 Utiliser :
@@ -756,10 +756,10 @@ Créer `~/.gdbinit` pour des commandes exécutées à chaque lancement :
 
 ```gdb
 # ~/.gdbinit
-set pagination off
-set print pretty on
-set history save on
-set history filename ~/.gdb_history
+set pagination off  
+set print pretty on  
+set history save on  
+set history filename ~/.gdb_history  
 ```
 
 ---
@@ -990,17 +990,17 @@ Hardware watchpoint 1: global_counter
 (gdb) run
 Hardware watchpoint 1: global_counter
 
-Old value = 0
-New value = 1
-another_function () at test.c:10
+Old value = 0  
+New value = 1  
+another_function () at test.c:10  
 10      }
 
 (gdb) continue
 Hardware watchpoint 1: global_counter
 
-Old value = 1
-New value = 99
-mysterious_function () at test.c:5
+Old value = 1  
+New value = 99  
+mysterious_function () at test.c:5  
 5       }
 
 # On a trouvé qui modifie la variable !
@@ -1359,8 +1359,8 @@ gdb ./program
 ### Documentation officielle
 
 ```bash
-man gdb
-info gdb
+man gdb  
+info gdb  
 ```
 
 ### En ligne

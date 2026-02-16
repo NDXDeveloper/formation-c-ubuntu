@@ -280,17 +280,17 @@ Créez un fichier markdown ou un cahier où vous notez :
 ## Allocation mémoire
 ### malloc + vérification erreur
 '''c
-int *array = malloc(10 * sizeof(int));
-if (array == NULL) {
+int *array = malloc(10 * sizeof(int));  
+if (array == NULL) {  
     perror("malloc");
     exit(EXIT_FAILURE);
 }
 '''
 
 ## Erreur commune : double free
-**Symptôme :** Crash aléatoire
-**Cause :** Appel à free() deux fois sur le même pointeur
-**Solution :** Mettre ptr = NULL après free()
+**Symptôme :** Crash aléatoire  
+**Cause :** Appel à free() deux fois sur le même pointeur  
+**Solution :** Mettre ptr = NULL après free()  
 ```
 
 ### 🔖 Bookmarks organisés
@@ -315,14 +315,14 @@ Créez une structure de favoris dans votre navigateur :
 ### 🗂️ Collection de code
 Créez un repository Git personnel :
 ```bash
-mkdir ~/c-learning
-cd ~/c-learning
-git init
+mkdir ~/c-learning  
+cd ~/c-learning  
+git init  
 
 # Structure suggérée
-mkdir -p {basics,pointers,memory,strings,files,processes,threads}
-mkdir -p snippets
-mkdir -p challenges/{leetcode,exercism}
+mkdir -p {basics,pointers,memory,strings,files,processes,threads}  
+mkdir -p snippets  
+mkdir -p challenges/{leetcode,exercism}  
 ```
 
 Commitez chaque concept appris avec un exemple fonctionnel.

@@ -44,10 +44,10 @@ Nous avons sélectionné ces livres selon :
 ## 🟢 Niveau Débutant
 
 ### 1. **C Programming: A Modern Approach** (2nd Edition)
-**Auteur :** K. N. King
-**Année :** 2008
-**Pages :** ~800
-**Standard :** C99
+**Auteur :** K. N. King  
+**Année :** 2008  
+**Pages :** ~800  
+**Standard :** C99  
 
 #### Pourquoi c'est le meilleur livre pour débuter
 
@@ -55,7 +55,7 @@ Nous avons sélectionné ces livres selon :
 - 📖 **Pédagogie exceptionnelle** : Explications claires et progressives
 - 🎯 **Complet** : Couvre tous les aspects du C moderne
 - 💪 **Nombreux exercices** : Questions de fin de chapitre et projets
-- 🔄 **Mises à jour** : Couvre C99, mentionne C11
+- 🔄 **Mises à jour** : Couvre C89 et C99
 - 📊 **Structure logique** : Deux parties (fondamentaux + avancé)
 - ⚠️ **Bonnes pratiques** : Insiste sur la sécurité et la portabilité
 
@@ -76,16 +76,16 @@ Nous avons sélectionné ces livres selon :
 - Programmes complets commentés
 - Pièges courants et comment les éviter
 
-**Prix :** ~40-60€
-**ISBN :** 978-0393979503
+**Prix :** ~40-60€  
+**ISBN :** 978-0393979503  
 
 ---
 
 ### 2. **Head First C**
-**Auteur :** David Griffiths, Dawn Griffiths
-**Année :** 2012
-**Pages :** ~600
-**Standard :** C99/C11
+**Auteur :** David Griffiths, Dawn Griffiths  
+**Année :** 2012  
+**Pages :** ~600  
+**Standard :** C99/C11  
 
 #### Le livre le plus accessible et visuel
 
@@ -111,16 +111,16 @@ Nous avons sélectionné ces livres selon :
 - Style inhabituel qui ne convient pas à tous
 - Quelques simplifications excessives
 
-**Prix :** ~35-50€
-**ISBN :** 978-1449399917
+**Prix :** ~35-50€  
+**ISBN :** 978-1449399917  
 
 ---
 
 ### 3. **The C Programming Language** (2nd Edition)
-**Auteur :** Brian W. Kernighan, Dennis M. Ritchie
-**Année :** 1988
-**Pages :** ~280
-**Standard :** ANSI C (C89/C90)
+**Auteur :** Brian W. Kernighan, Dennis M. Ritchie  
+**Année :** 1988  
+**Pages :** ~280  
+**Standard :** ANSI C (C89/C90)  
 
 #### La bible du C - Référence historique
 
@@ -154,8 +154,8 @@ Nous avons sélectionné ces livres selon :
 - Lisez K&R en complément pour la culture générale
 - Excellente référence une fois les bases acquises
 
-**Prix :** ~30-40€
-**ISBN :** 978-0131103627
+**Prix :** ~30-40€  
+**ISBN :** 978-0131103627  
 
 **Citation célèbre :**
 > "The only way to learn a new programming language is by writing programs in it."
@@ -163,10 +163,10 @@ Nous avons sélectionné ces livres selon :
 ---
 
 ### 4. **C Primer Plus** (6th Edition)
-**Auteur :** Stephen Prata
-**Année :** 2013
-**Pages :** ~1000
-**Standard :** C11
+**Auteur :** Stephen Prata  
+**Année :** 2013  
+**Pages :** ~1000  
+**Standard :** C11  
 
 #### Le plus exhaustif pour autodidactes
 
@@ -192,18 +192,18 @@ Nous avons sélectionné ces livres selon :
 - Parfois verbeux
 - Moins élégant que King
 
-**Prix :** ~45-65€
-**ISBN :** 978-0321928429
+**Prix :** ~45-65€  
+**ISBN :** 978-0321928429  
 
 ---
 
 ## 🟡 Niveau Intermédiaire
 
 ### 5. **Pointers on C**
-**Auteur :** Kenneth Reek
-**Année :** 1997
-**Pages :** ~600
-**Standard :** ANSI C
+**Auteur :** Kenneth Reek  
+**Année :** 1997  
+**Pages :** ~600  
+**Standard :** ANSI C  
 
 #### La référence pour maîtriser les pointeurs
 
@@ -230,16 +230,16 @@ Nous avons sélectionné ces livres selon :
 - Progression très pédagogique
 - Exercices bien conçus
 
-**Prix :** ~50-70€
-**ISBN :** 978-0673999863
+**Prix :** ~50-70€  
+**ISBN :** 978-0673999863  
 
 ---
 
 ### 6. **Expert C Programming: Deep C Secrets**
-**Auteur :** Peter van der Linden
-**Année :** 1994
-**Pages :** ~400
-**Standard :** ANSI C
+**Auteur :** Peter van der Linden  
+**Année :** 1994  
+**Pages :** ~400  
+**Standard :** ANSI C  
 
 #### Le livre le plus amusant et instructif
 
@@ -274,16 +274,16 @@ Nous avons sélectionné ces livres selon :
 - Ne couvre pas C99/C11
 - Pas pour débutants
 
-**Prix :** ~40-60€
-**ISBN :** 978-0131774292
+**Prix :** ~40-60€  
+**ISBN :** 978-0131774292  
 
 ---
 
 ### 7. **C Interfaces and Implementations**
-**Auteur :** David R. Hanson
-**Année :** 1996
-**Pages :** ~500
-**Standard :** ANSI C
+**Auteur :** David R. Hanson  
+**Année :** 1996  
+**Pages :** ~500  
+**Standard :** ANSI C  
 
 #### Architecture et design en C
 
@@ -310,18 +310,18 @@ Nous avons sélectionné ces livres selon :
 - Approche orientée interfaces
 - Applicable immédiatement en production
 
-**Prix :** ~50-70€
-**ISBN :** 978-0201498417
+**Prix :** ~50-70€  
+**ISBN :** 978-0201498417  
 
 ---
 
 ## 🔴 Niveau Avancé
 
 ### 8. **Advanced Programming in the UNIX Environment** (3rd Edition)
-**Auteur :** W. Richard Stevens, Stephen A. Rago
-**Année :** 2013
-**Pages :** ~1000+
-**Standard :** POSIX, C99
+**Auteur :** W. Richard Stevens, Stephen A. Rago  
+**Année :** 2013  
+**Pages :** ~1000+  
+**Standard :** POSIX, C99  
 
 #### La bible de la programmation système UNIX/Linux
 
@@ -356,18 +356,18 @@ Nous avons sélectionné ces livres selon :
 - Nécessite de bonnes bases en C
 - Prix élevé
 
-**Prix :** ~60-80€
-**ISBN :** 978-0321637734
+**Prix :** ~60-80€  
+**ISBN :** 978-0321637734  
 
 **Conseil :** À avoir absolument si vous faites de la programmation système.
 
 ---
 
 ### 9. **The Linux Programming Interface**
-**Auteur :** Michael Kerrisk
-**Année :** 2010
-**Pages :** ~1500
-**Standard :** Linux, POSIX
+**Auteur :** Michael Kerrisk  
+**Année :** 2010  
+**Pages :** ~1500  
+**Standard :** Linux, POSIX  
 
 #### L'encyclopédie de Linux
 
@@ -379,10 +379,9 @@ Nous avons sélectionné ces livres selon :
 - 💻 **Code abondant** : Exemples pour chaque concept
 
 **Comparaison avec Stevens :**
-- Plus récent (2010 vs 2013)
 - Focus Linux exclusivement (Stevens couvre BSD aussi)
-- Plus pédagogique
-- Plus long et détaillé
+- Plus pédagogique et accessible
+- Plus long et détaillé (1500 vs 1000 pages)
 
 **Sujets couverts :**
 - Tout ce qui est dans Stevens
@@ -395,16 +394,16 @@ Nous avons sélectionné ces livres selon :
 - Ceux qui veulent tout savoir sur Linux
 - Administrateurs système avancés
 
-**Prix :** ~50-70€
-**ISBN :** 978-1593272203
+**Prix :** ~50-70€  
+**ISBN :** 978-1593272203  
 
 ---
 
 ### 10. **Understanding and Using C Pointers**
-**Auteur :** Richard M. Reese
-**Année :** 2013
-**Pages :** ~250
-**Standard :** C99
+**Auteur :** Richard M. Reese  
+**Année :** 2013  
+**Pages :** ~250  
+**Standard :** C99  
 
 #### Tout sur les pointeurs, version moderne
 
@@ -427,18 +426,18 @@ Nous avons sélectionné ces livres selon :
 - Préparation entretiens techniques
 - Mise à niveau moderne (vs Reek 1997)
 
-**Prix :** ~30-45€
-**ISBN :** 978-1449344184
+**Prix :** ~30-45€  
+**ISBN :** 978-1449344184  
 
 ---
 
 ## 🎯 Livres spécialisés
 
 ### 11. **21st Century C** (2nd Edition)
-**Auteur :** Ben Klemens
-**Année :** 2014
-**Pages :** ~400
-**Standard :** C11
+**Auteur :** Ben Klemens  
+**Année :** 2014  
+**Pages :** ~400  
+**Standard :** C11  
 
 #### C moderne avec outils contemporains
 
@@ -465,16 +464,16 @@ Nous avons sélectionné ces livres selon :
 - Ceux qui veulent un C "2020"
 - DevOps/SRE codant en C
 
-**Prix :** ~40-55€
-**ISBN :** 978-1491903896
+**Prix :** ~40-55€  
+**ISBN :** 978-1491903896  
 
 ---
 
 ### 12. **Effective C**
-**Auteur :** Robert C. Seacord
-**Année :** 2020
-**Pages :** ~270
-**Standard :** C17, C23
+**Auteur :** Robert C. Seacord  
+**Année :** 2020  
+**Pages :** ~270  
+**Standard :** C17, C23  
 
 #### Le plus récent - C moderne et sécurisé
 
@@ -501,16 +500,16 @@ Nous avons sélectionné ces livres selon :
 - Ceux qui codent pour la production
 - Focus sécurité et qualité
 
-**Prix :** ~35-50€
-**ISBN :** 978-1718501041
+**Prix :** ~35-50€  
+**ISBN :** 978-1718501041  
 
 ---
 
 ### 13. **Programming Embedded Systems** (2nd Edition)
-**Auteur :** Michael Barr, Anthony Massa
-**Année :** 2006
-**Pages :** ~300
-**Standard :** ANSI C
+**Auteur :** Michael Barr, Anthony Massa  
+**Année :** 2006  
+**Pages :** ~300  
+**Standard :** ANSI C  
 
 #### Spécial systèmes embarqués
 
@@ -533,16 +532,16 @@ Nous avons sélectionné ces livres selon :
 - IoT, microcontrôleurs
 - Systèmes critiques
 
-**Prix :** ~45-60€
-**ISBN :** 978-0596009830
+**Prix :** ~45-60€  
+**ISBN :** 978-0596009830  
 
 ---
 
 ### 14. **Real-Time C++**
-**Auteur :** Christopher Kormanyos
-**Année :** 2021
-**Pages :** ~500
-**Standard :** C++11/14 (applicable au C)
+**Auteur :** Christopher Kormanyos  
+**Année :** 2021  
+**Pages :** ~500  
+**Standard :** C++11/14 (applicable au C)  
 
 #### Temps réel et embarqué moderne
 
@@ -558,18 +557,18 @@ Nous avons sélectionné ces livres selon :
 - IoT moderne
 - Automotive, aéronautique
 
-**Prix :** ~50-70€
-**ISBN :** 978-3662629956
+**Prix :** ~50-70€  
+**ISBN :** 978-3662629956  
 
 ---
 
 ## 📖 Livres de référence
 
 ### 15. **The C Standard Library**
-**Auteur :** P.J. Plauger
-**Année :** 1992
-**Pages :** ~500
-**Standard :** ANSI C
+**Auteur :** P.J. Plauger  
+**Année :** 1992  
+**Pages :** ~500  
+**Standard :** ANSI C  
 
 #### Implémentation de la bibliothèque standard
 
@@ -592,16 +591,16 @@ Nous avons sélectionné ces livres selon :
 - Ancien (1992)
 - Technique et dense
 
-**Prix :** ~60-80€
-**ISBN :** 978-0131315099
+**Prix :** ~60-80€  
+**ISBN :** 978-0131315099  
 
 ---
 
 ### 16. **C: A Reference Manual** (5th Edition)
-**Auteur :** Samuel P. Harbison, Guy L. Steele Jr.
-**Année :** 2002
-**Pages :** ~600
-**Standard :** C99
+**Auteur :** Samuel P. Harbison, Guy L. Steele Jr.  
+**Année :** 2002  
+**Pages :** ~600  
+**Standard :** C99  
 
 #### La référence complète du langage
 
@@ -616,18 +615,18 @@ Nous avons sélectionné ces livres selon :
 - Développeurs expérimentés
 - Vérification de syntaxe
 
-**Prix :** ~50-70€
-**ISBN :** 978-0130895929
+**Prix :** ~50-70€  
+**ISBN :** 978-0130895929  
 
 ---
 
 ## 🛡️ Livres sur la sécurité
 
 ### 17. **Secure Coding in C and C++** (2nd Edition)
-**Auteur :** Robert C. Seacord
-**Année :** 2013
-**Pages :** ~600
-**Standard :** C99
+**Auteur :** Robert C. Seacord  
+**Année :** 2013  
+**Pages :** ~600  
+**Standard :** C99  
 
 #### Sécurité et vulnérabilités
 
@@ -649,18 +648,18 @@ Nous avons sélectionné ces livres selon :
 - Sécurité, pentest
 - Code review
 
-**Prix :** ~50-70€
-**ISBN :** 978-0321822130
+**Prix :** ~50-70€  
+**ISBN :** 978-0321822130  
 
 ---
 
 ## 🧪 Livres sur le testing
 
 ### 18. **Test Driven Development for Embedded C**
-**Auteur :** James W. Grenning
-**Année :** 2011
-**Pages :** ~350
-**Standard :** ANSI C
+**Auteur :** James W. Grenning  
+**Année :** 2011  
+**Pages :** ~350  
+**Standard :** ANSI C  
 
 #### TDD appliqué au C embarqué
 
@@ -675,18 +674,18 @@ Nous avons sélectionné ces livres selon :
 - Fans de TDD
 - Qualité logicielle
 
-**Prix :** ~45-60€
-**ISBN :** 978-1934356623
+**Prix :** ~45-60€  
+**ISBN :** 978-1934356623  
 
 ---
 
 ## 🎓 Livres académiques
 
 ### 19. **Computer Systems: A Programmer's Perspective** (3rd Edition)
-**Auteur :** Randal E. Bryant, David R. O'Hallaron
-**Année :** 2015
-**Pages :** ~1100
-**Standard :** C99
+**Auteur :** Randal E. Bryant, David R. O'Hallaron  
+**Année :** 2015  
+**Pages :** ~1100  
+**Standard :** C99  
 
 #### Comprendre l'ordinateur depuis le C
 
@@ -715,18 +714,18 @@ Nous avons sélectionné ces livres selon :
 - Labs excellents (bomb lab, malloc lab, proxy lab)
 - Perspective unique
 
-**Prix :** ~70-90€
-**ISBN :** 978-0134092669
+**Prix :** ~70-90€  
+**ISBN :** 978-0134092669  
 
 ---
 
 ## 📱 Livres sur les algorithmes et structures de données
 
 ### 20. **Mastering Algorithms with C**
-**Auteur :** Kyle Loudon
-**Année :** 1999
-**Pages :** ~550
-**Standard :** ANSI C
+**Auteur :** Kyle Loudon  
+**Année :** 1999  
+**Pages :** ~550  
+**Standard :** ANSI C  
 
 #### Algorithmes implémentés en C
 
@@ -757,8 +756,8 @@ Nous avons sélectionné ces livres selon :
 - Développeurs ayant besoin d'implémenter des structures
 - Approfondissement algorithmique
 
-**Prix :** ~50-65€
-**ISBN :** 978-1565924536
+**Prix :** ~50-65€  
+**ISBN :** 978-1565924536  
 
 ---
 
@@ -769,9 +768,9 @@ Bien que cette section concerne les livres, voici quelques ressources gratuites 
 ### **Gratuit et Excellent**
 
 #### **Modern C** par Jens Gustedt
-- **Lien :** [http://modernc.gforge.inria.fr/](http://modernc.gforge.inria.fr/)
-- **Standard :** C11, C17, mentionne C23
-- **Format :** PDF gratuit
+- **Lien :** [https://www.manning.com/books/modern-c](https://www.manning.com/books/modern-c)
+- **Standard :** C17, mentionne C23
+- **Format :** Livre Manning (2019), PDF disponible
 - **Qualité :** Excellente, approche moderne
 - **Pour qui :** Débutants à intermédiaires
 
@@ -857,8 +856,8 @@ Tous les livres ci-dessus plus :
 **2. Codez les exemples**
 ```bash
 # Créez un dossier par livre
-mkdir -p ~/books/king-modern-c/chapter-3
-cd ~/books/king-modern-c/chapter-3
+mkdir -p ~/books/king-modern-c/chapter-3  
+cd ~/books/king-modern-c/chapter-3  
 ```
 
 **3. Annotez votre livre**
@@ -931,7 +930,6 @@ cd ~/books/king-modern-c/chapter-3
 
 **Internationales :**
 - **Amazon** : Large sélection, livraison rapide
-- **Book Depository** : Livraison gratuite mondiale
 - **AbeBooks** : Livres d'occasion
 
 **Francophones :**

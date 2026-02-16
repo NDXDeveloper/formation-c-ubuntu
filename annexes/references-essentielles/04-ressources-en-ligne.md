@@ -96,9 +96,9 @@ Recherche Google : "malloc cppreference"
 ### 1. **Codecademy**
 **URL :** [https://www.codecademy.com/learn/learn-c](https://www.codecademy.com/learn/learn-c)
 
-**Type :** Cours interactif guidé
-**Prix :** Freemium (version gratuite limitée)
-**Niveau :** Débutant
+**Type :** Cours interactif guidé  
+**Prix :** Freemium (version gratuite limitée)  
+**Niveau :** Débutant  
 
 **Points forts :**
 - ✅ Interface interactive dans le navigateur
@@ -116,12 +116,12 @@ Recherche Google : "malloc cppreference"
 ---
 
 ### 2. **Udemy**
-**URL :** [https://www.udemy.com/](https://www.udemy.com/)
-**Recherche :** "C Programming"
+**URL :** [https://www.udemy.com/](https://www.udemy.com/)  
+**Recherche :** "C Programming"  
 
-**Type :** Cours vidéo à la demande
-**Prix :** 10-200€ (souvent en promo à 10-15€)
-**Niveau :** Tous niveaux
+**Type :** Cours vidéo à la demande  
+**Prix :** 10-200€ (souvent en promo à 10-15€)  
+**Niveau :** Tous niveaux  
 
 **Cours recommandés :**
 - "C Programming For Beginners - Master the C Language"
@@ -143,12 +143,12 @@ Recherche Google : "malloc cppreference"
 ---
 
 ### 3. **Coursera**
-**URL :** [https://www.coursera.org/](https://www.coursera.org/)
-**Recherche :** "C Programming", "Systems Programming"
+**URL :** [https://www.coursera.org/](https://www.coursera.org/)  
+**Recherche :** "C Programming", "Systems Programming"  
 
-**Type :** Cours universitaires en ligne
-**Prix :** Gratuit pour auditer, 40-80€/mois pour certificat
-**Niveau :** Intermédiaire à Avancé
+**Type :** Cours universitaires en ligne  
+**Prix :** Gratuit pour auditer, 40-80€/mois pour certificat  
+**Niveau :** Intermédiaire à Avancé  
 
 **Cours recommandés :**
 - Duke University : "Introduction to Programming in C"
@@ -166,11 +166,11 @@ Recherche Google : "malloc cppreference"
 ---
 
 ### 4. **edX**
-**URL :** [https://www.edx.org/](https://www.edx.org/)
-**Recherche :** "C Programming"
+**URL :** [https://www.edx.org/](https://www.edx.org/)  
+**Recherche :** "C Programming"  
 
-**Type :** Cours universitaires (MIT, Harvard, etc.)
-**Prix :** Gratuit pour auditer, certificat payant
+**Type :** Cours universitaires (MIT, Harvard, etc.)  
+**Prix :** Gratuit pour auditer, certificat payant  
 
 **Points forts :**
 - ✅ Institutions prestigieuses
@@ -182,9 +182,9 @@ Recherche Google : "malloc cppreference"
 ### 5. **LinkedIn Learning (anciennement Lynda)**
 **URL :** [https://www.linkedin.com/learning/](https://www.linkedin.com/learning/)
 
-**Type :** Bibliothèque de cours vidéo
-**Prix :** ~30€/mois, essai gratuit 1 mois
-**Niveau :** Tous niveaux
+**Type :** Bibliothèque de cours vidéo  
+**Prix :** ~30€/mois, essai gratuit 1 mois  
+**Niveau :** Tous niveaux  
 
 **Points forts :**
 - ✅ Intégration LinkedIn
@@ -199,8 +199,8 @@ Recherche Google : "malloc cppreference"
 ### 1. **Learn-C.org**
 **URL :** [https://www.learn-c.org/](https://www.learn-c.org/)
 
-**Type :** Tutoriel interactif gratuit
-**Niveau :** Débutant
+**Type :** Tutoriel interactif gratuit  
+**Niveau :** Débutant  
 
 **Points forts :**
 - ✅ Totalement gratuit
@@ -219,9 +219,9 @@ Recherche Google : "malloc cppreference"
 ### 2. **Beej's Guide to C Programming**
 **URL :** [https://beej.us/guide/bgc/](https://beej.us/guide/bgc/)
 
-**Type :** Guide complet gratuit
-**Format :** HTML, PDF
-**Niveau :** Débutant à Intermédiaire
+**Type :** Guide complet gratuit  
+**Format :** HTML, PDF  
+**Niveau :** Débutant à Intermédiaire  
 
 **Points forts :**
 - ✅ Entièrement gratuit
@@ -238,44 +238,44 @@ Recherche Google : "malloc cppreference"
 ---
 
 ### 3. **Modern C** par Jens Gustedt
-**URL :** [http://modernc.gforge.inria.fr/](http://modernc.gforge.inria.fr/)
+**URL :** [https://www.manning.com/books/modern-c](https://www.manning.com/books/modern-c)
 
-**Type :** Livre gratuit en ligne
-**Format :** PDF téléchargeable
+**Type :** Livre publié chez Manning (2019)
+**Format :** PDF disponible, version papier payante
 **Niveau :** Débutant à Avancé
 
 **Points forts :**
-- ✅ Approche moderne (C11/C17)
-- ✅ Gratuit et open source
+- ✅ Approche moderne (C17, mentionne C23)
 - ✅ Qualité professionnelle
-- ✅ Publié chez Manning (version papier payante)
+- ✅ Publié chez Manning
 
 **Idéal pour :** Ceux qui veulent un livre gratuit de qualité
 
 ---
 
-### 4. **C Programming Notes** - Steve Summit
-**URL :** [http://www.eskimo.com/~scs/cclass/cclass.html](http://www.eskimo.com/~scs/cclass/cclass.html)
+### 4. **C FAQ** - Steve Summit
+**URL :** [https://c-faq.com/](https://c-faq.com/)
 
-**Type :** Notes de cours
+**Type :** FAQ et notes de cours
 **Niveau :** Débutant à Intermédiaire
 
 **Points forts :**
+- ✅ FAQ C très complète (questions fréquentes)
 - ✅ Explications claires et concises
-- ✅ FAQ C très complète
 - ✅ Gratuit
 
 ---
 
-### 5. **GNU C Programming Tutorial**
-**URL :** [http://www.crasseux.com/books/ctut.pdf](http://www.crasseux.com/books/ctut.pdf)
+### 5. **GNU C Reference Manual**
+**URL :** [https://www.gnu.org/software/gnu-c-manual/](https://www.gnu.org/software/gnu-c-manual/)
 
-**Type :** PDF gratuit
-**Niveau :** Débutant
+**Type :** Documentation en ligne (HTML)
+**Niveau :** Débutant à Intermédiaire
 
 **Points forts :**
+- ✅ Référence officielle GNU
 - ✅ Focus sur GCC et GNU/Linux
-- ✅ Approche pratique
+- ✅ Gratuit et maintenu
 
 ---
 
@@ -321,8 +321,8 @@ Recherche Google : "malloc cppreference"
 ### 3. **The Cherno** (Game Development)
 **URL :** [https://www.youtube.com/c/TheChernoProject](https://www.youtube.com/c/TheChernoProject)
 
-**Spécialité :** C++ mais applicable au C
-**Focus :** Performance, bas niveau
+**Spécialité :** C++ mais applicable au C  
+**Focus :** Performance, bas niveau  
 
 **Séries recommandées :**
 - "How C++ Works"
@@ -384,8 +384,8 @@ Recherche Google : "malloc cppreference"
 ### 1. **Stack Overflow**
 **URL :** [https://stackoverflow.com/questions/tagged/c](https://stackoverflow.com/questions/tagged/c)
 
-**Type :** Q&A technique
-**Tag :** `[c]`
+**Type :** Q&A technique  
+**Tag :** `[c]`  
 
 **Pourquoi c'est essentiel :**
 - 🔍 Moteur de recherche exceptionnel
@@ -473,9 +473,9 @@ Recherche Google : "site:stackoverflow.com malloc return value C"
 
 ---
 
-### 4. **IRC - Freenode/Libera.chat**
-**Serveur :** irc.libera.chat
-**Channels :** #c, ##c, #linux, #gcc
+### 4. **IRC - Libera.chat**
+**Serveur :** irc.libera.chat  
+**Channels :** #c, ##c, #linux, #gcc  
 
 **Comment rejoindre :**
 ```bash
@@ -641,12 +641,12 @@ Compilateur C vers WebAssembly
 
 ## 📰 Blogs et newsletters
 
-### 1. **Fluent C** (Blog)
-**URL :** [https://blog.tabvn.com/](https://blog.tabvn.com/) (recherche "Fluent C")
+### 1. **Fluent C++** (Blog)
+**URL :** [https://www.fluentcpp.com/](https://www.fluentcpp.com/)
 
 **Contenu :**
-- Articles techniques sur C
-- Best practices
+- Articles techniques sur C++ (concepts applicables au C)
+- Best practices et expressivité du code
 - Patterns de design
 
 ---

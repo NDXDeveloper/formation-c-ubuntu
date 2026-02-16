@@ -112,10 +112,10 @@ Tous les termes relatifs à eBPF (extended Berkeley Packet Filter), la technolog
 
 **3. Apprentissage progressif**
 ```
-Semaine 1-2  → D.1 Terminologie C (bases)
-Semaine 3-4  → D.2 Terminologie Linux (système)
-Semaine 5-6  → D.3 Acronymes DevOps (outils)
-Semaine 7+   → D.4 Termes eBPF (avancé)
+Semaine 1-2  → D.1 Terminologie C (bases)  
+Semaine 3-4  → D.2 Terminologie Linux (système)  
+Semaine 5-6  → D.3 Acronymes DevOps (outils)  
+Semaine 7+   → D.4 Termes eBPF (avancé)  
 ```
 
 ### **En mode référence**
@@ -153,28 +153,28 @@ Semaine 7+   → D.4 Termes eBPF (avancé)
 ## 🎓 Parcours recommandés par profil
 
 ### **Débutant complet en C**
-**Priorité 1** → D.1 Terminologie C (complet)
-**Priorité 2** → D.2 Terminologie Linux (sections de base : processus, fichiers)
-**Priorité 3** → D.3 Acronymes DevOps (CI/CD, Git, GCC)
-**Optionnel** → D.4 Termes eBPF (après 3-6 mois d'expérience)
+**Priorité 1** → D.1 Terminologie C (complet)  
+**Priorité 2** → D.2 Terminologie Linux (sections de base : processus, fichiers)  
+**Priorité 3** → D.3 Acronymes DevOps (CI/CD, Git, GCC)  
+**Optionnel** → D.4 Termes eBPF (après 3-6 mois d'expérience)  
 
 ### **Développeur Backend → DevOps**
-**Priorité 1** → D.3 Acronymes DevOps (complet)
-**Priorité 2** → D.1 Terminologie C (focus : mémoire, pointeurs, compilation)
-**Priorité 3** → D.2 Terminologie Linux (focus : réseau, IPC, processus)
-**Recommandé** → D.4 Termes eBPF (observabilité moderne)
+**Priorité 1** → D.3 Acronymes DevOps (complet)  
+**Priorité 2** → D.1 Terminologie C (focus : mémoire, pointeurs, compilation)  
+**Priorité 3** → D.2 Terminologie Linux (focus : réseau, IPC, processus)  
+**Recommandé** → D.4 Termes eBPF (observabilité moderne)  
 
 ### **SysAdmin → Ingénieur Système**
-**Priorité 1** → D.2 Terminologie Linux (complet)
-**Priorité 2** → D.1 Terminologie C (focus : appels système, gestion mémoire)
-**Priorité 3** → D.4 Termes eBPF (monitoring et sécurité)
-**Complémentaire** → D.3 Acronymes DevOps (CI/CD, automatisation)
+**Priorité 1** → D.2 Terminologie Linux (complet)  
+**Priorité 2** → D.1 Terminologie C (focus : appels système, gestion mémoire)  
+**Priorité 3** → D.4 Termes eBPF (monitoring et sécurité)  
+**Complémentaire** → D.3 Acronymes DevOps (CI/CD, automatisation)  
 
 ### **Embedded → Linux Embarqué**
-**Priorité 1** → D.1 Terminologie C (complet, focus : optimisation)
-**Priorité 2** → D.2 Terminologie Linux (focus : noyau, drivers)
-**Priorité 3** → D.3 Acronymes DevOps (focus : cross-compilation, build systems)
-**Optionnel** → D.4 Termes eBPF (si Linux embarqué moderne)
+**Priorité 1** → D.1 Terminologie C (complet, focus : optimisation)  
+**Priorité 2** → D.2 Terminologie Linux (focus : noyau, drivers)  
+**Priorité 3** → D.3 Acronymes DevOps (focus : cross-compilation, build systems)  
+**Optionnel** → D.4 Termes eBPF (si Linux embarqué moderne)  
 
 ---
 

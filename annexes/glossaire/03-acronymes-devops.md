@@ -81,7 +81,7 @@ Opération atomique fondamentale pour la programmation concurrente lock-free. Pe
 
 ### **CFS**
 **Completely Fair Scheduler**
-Ordonnanceur de processus du noyau Linux visant à répartir équitablement le temps CPU entre les tâches.
+Ordonnanceur de processus historique du noyau Linux visant à répartir équitablement le temps CPU entre les tâches. Remplacé par **EEVDF** (Earliest Eligible Virtual Deadline First) depuis Linux 6.6.
 
 ### **CGI**
 **Common Gateway Interface**

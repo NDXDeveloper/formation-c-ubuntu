@@ -58,8 +58,8 @@ Un **DevContainer** est un conteneur Docker spécialement configuré pour le dé
 │  ┌───────────────▼───────────────────┐  │
 │  │       DevContainer (Docker)       │  │
 │  │  ┌─────────────────────────────┐  │  │
-│  │  │  Ubuntu 22.04               │  │  │
-│  │  │  + GCC 11                   │  │  │
+│  │  │  Ubuntu 24.04               │  │  │
+│  │  │  + GCC 13                   │  │  │
 │  │  │  + GDB                      │  │  │
 │  │  │  + CMake                    │  │  │
 │  │  │  + Valgrind                 │  │  │
@@ -108,8 +108,8 @@ Un **DevContainer** est un conteneur Docker spécialement configuré pour le dé
 👥 **Onboarding ultra-rapide**
 ```bash
 # Nouveau développeur :
-git clone https://github.com/projet.git
-code .
+git clone https://github.com/projet.git  
+code .  
 # VS Code propose d'ouvrir dans un DevContainer
 # Clic sur "Reopen in Container"
 # → Environnement complet prêt en 2 minutes !
@@ -164,8 +164,8 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o 
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Installation de Docker
-sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io
+sudo apt update  
+sudo apt install -y docker-ce docker-ce-cli containerd.io  
 
 # Vérification
 sudo docker --version
@@ -186,8 +186,8 @@ docker run hello-world
 
 **Résultat attendu :**
 ```
-Hello from Docker!
-This message shows that your installation appears to be working correctly.
+Hello from Docker!  
+This message shows that your installation appears to be working correctly.  
 ```
 
 ### **2. Installer VS Code**
@@ -215,8 +215,8 @@ code --install-extension ms-vscode-remote.remote-containers
 
 ```bash
 # Vérifier Docker
-docker --version
-docker ps
+docker --version  
+docker ps  
 
 # Vérifier VS Code
 code --version
@@ -291,7 +291,7 @@ Le fichier `.devcontainer/devcontainer.json` utilise le format JSON. Voici sa st
 ```json
 {
   "name": "Nom du conteneur",
-  "image": "ubuntu:22.04",
+  "image": "ubuntu:24.04",
   "customizations": {
     "vscode": {
       "extensions": ["ms-vscode.cpptools"]
@@ -305,7 +305,7 @@ Le fichier `.devcontainer/devcontainer.json` utilise le format JSON. Voici sa st
 | Option | Description | Exemple |
 |--------|-------------|---------|
 | `name` | Nom du DevContainer | `"C Development"` |
-| `image` | Image Docker de base | `"ubuntu:22.04"` |
+| `image` | Image Docker de base | `"ubuntu:24.04"` |
 | `build.dockerfile` | Chemin vers Dockerfile | `"Dockerfile"` |
 | `customizations.vscode.extensions` | Extensions VS Code | `["ms-vscode.cpptools"]` |
 | `customizations.vscode.settings` | Settings VS Code | `{"editor.tabSize": 4}` |
@@ -345,7 +345,7 @@ Voici une configuration `.devcontainer/devcontainer.json` complète et commenté
   // -------------------- INFORMATIONS DE BASE --------------------
 
   // Nom du DevContainer (affiché dans VS Code)
-  "name": "C Development Environment (Ubuntu 22.04)",
+  "name": "C Development Environment (Ubuntu 24.04)",
 
   // Utiliser un Dockerfile personnalisé
   "build": {
@@ -353,13 +353,13 @@ Voici une configuration `.devcontainer/devcontainer.json` complète et commenté
     "context": ".",
     // Arguments pour le Dockerfile
     "args": {
-      "VARIANT": "22.04",
-      "GCC_VERSION": "11"
+      "VARIANT": "24.04",
+      "GCC_VERSION": "13"
     }
   },
 
   // Alternative : utiliser une image prête à l'emploi
-  // "image": "mcr.microsoft.com/devcontainers/cpp:ubuntu-22.04",
+  // "image": "mcr.microsoft.com/devcontainers/cpp:ubuntu-24.04",
 
   // -------------------- FONCTIONNALITÉS DEVCONTAINER --------------------
 
@@ -455,7 +455,7 @@ Voici une configuration `.devcontainer/devcontainer.json` complète et commenté
         "files.autoSave": "afterDelay",
 
         // ===== C/C++ Extension =====
-        "C_Cpp.default.cStandard": "c11",
+        "C_Cpp.default.cStandard": "c17",
         "C_Cpp.default.compilerPath": "/usr/bin/gcc",
         "C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
         "C_Cpp.clang_format_style": "file",
@@ -545,7 +545,7 @@ Voici une configuration `.devcontainer/devcontainer.json` complète et commenté
   "remoteEnv": {
     "CC": "gcc",
     "CXX": "g++",
-    "CFLAGS": "-Wall -Wextra -std=c11",
+    "CFLAGS": "-Wall -Wextra -std=c17",
     "PATH": "${containerEnv:PATH}:/usr/local/bin"
   },
 
@@ -587,27 +587,27 @@ Le Dockerfile définit l'environnement système. Voici une configuration complè
 ```dockerfile
 # ============================================
 # Dockerfile pour environnement de développement C
-# Base : Ubuntu 22.04
+# Base : Ubuntu 24.04
 # ============================================
 
 # Image de base
-ARG VARIANT=22.04
-FROM ubuntu:${VARIANT}
+ARG VARIANT=24.04
+FROM ubuntu:${VARIANT}  
 
 # Éviter les prompts interactifs
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Arguments de build
-ARG GCC_VERSION=11
-ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+ARG GCC_VERSION=13
+ARG USERNAME=vscode  
+ARG USER_UID=1000  
+ARG USER_GID=$USER_UID  
 
 # -------------------- LABELS --------------------
 
-LABEL maintainer="votre-email@example.com"
-LABEL description="Environnement de développement C complet"
-LABEL version="1.0"
+LABEL maintainer="votre-email@example.com"  
+LABEL description="Environnement de développement C complet"  
+LABEL version="1.0"  
 
 # -------------------- INSTALLATION DES OUTILS DE BASE --------------------
 
@@ -702,8 +702,8 @@ RUN cd /tmp \
 # -------------------- CONFIGURATION SHELL --------------------
 
 # Configuration de bash pour l'utilisateur
-USER $USERNAME
-WORKDIR /home/$USERNAME
+USER $USERNAME  
+WORKDIR /home/$USERNAME  
 
 # Historique bash persistant
 RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
@@ -727,19 +727,19 @@ RUN git config --global init.defaultBranch main \
 
 # -------------------- VARIABLES D'ENVIRONNEMENT --------------------
 
-ENV CC=gcc
-ENV CXX=g++
-ENV CFLAGS="-Wall -Wextra -std=c11"
-ENV CXXFLAGS="-Wall -Wextra -std=c++17"
+ENV CC=gcc  
+ENV CXX=g++  
+ENV CFLAGS="-Wall -Wextra -std=c17"  
+ENV CXXFLAGS="-Wall -Wextra -std=c++17"  
 
 # -------------------- WORKSPACE --------------------
 
 # Créer le dossier workspace
-USER root
-RUN mkdir -p /workspace && chown -R $USERNAME:$USERNAME /workspace
+USER root  
+RUN mkdir -p /workspace && chown -R $USERNAME:$USERNAME /workspace  
 
-USER $USERNAME
-WORKDIR /workspace
+USER $USERNAME  
+WORKDIR /workspace  
 
 # -------------------- COMMANDE PAR DÉFAUT --------------------
 
@@ -751,7 +751,7 @@ CMD ["/bin/bash"]
 Si vous préférez commencer simple :
 
 ```dockerfile
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 RUN apt-get update && apt-get install -y \
     gcc \
@@ -842,8 +842,8 @@ echo "🚀 Exécution du script de post-création..."
 
 # -------------------- MISE À JOUR DU SYSTÈME --------------------
 
-echo "📦 Mise à jour des paquets système..."
-sudo apt-get update
+echo "📦 Mise à jour des paquets système..."  
+sudo apt-get update  
 
 # -------------------- INSTALLATION DE DÉPENDANCES PROJET --------------------
 
@@ -924,35 +924,35 @@ if ! grep -q "# Custom DevContainer aliases" ~/.bashrc; then
     cat >> ~/.bashrc << 'EOF'
 
 # Custom DevContainer aliases
-alias compile='gcc -Wall -Wextra -std=c11 -g'
-alias valgrind-check='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes'
-alias clean='rm -rf build *.o *.out a.out'
+alias compile='gcc -Wall -Wextra -std=c17 -g'  
+alias valgrind-check='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes'  
+alias clean='rm -rf build *.o *.out a.out'  
 
-EOF
-fi
+EOF  
+fi  
 
 # -------------------- MESSAGE DE BIENVENUE --------------------
 
-echo ""
-echo "╔═══════════════════════════════════════════════════════════╗"
-echo "║                                                           ║"
-echo "║   ✅  DevContainer configuré avec succès !                ║"
-echo "║                                                           ║"
-echo "║   Outils disponibles :                                    ║"
-echo "║   • GCC $(gcc --version | head -n1 | awk '{print $3}')                                            ║"
-echo "║   • GDB pour le débogage                                  ║"
-echo "║   • CMake pour le build                                   ║"
-echo "║   • Valgrind pour l'analyse mémoire                       ║"
-echo "║                                                           ║"
-echo "║   Commandes utiles :                                      ║"
-echo "║   • compile main.c    : Compiler avec les bons flags      ║"
-echo "║   • valgrind-check    : Vérifier les fuites mémoire       ║"
-echo "║   • clean             : Nettoyer les fichiers générés     ║"
-echo "║                                                           ║"
-echo "║   Bon développement ! 🚀                                  ║"
-echo "║                                                           ║"
-echo "╚═══════════════════════════════════════════════════════════╝"
-echo ""
+echo ""  
+echo "╔═══════════════════════════════════════════════════════════╗"  
+echo "║                                                           ║"  
+echo "║   ✅  DevContainer configuré avec succès !                ║"  
+echo "║                                                           ║"  
+echo "║   Outils disponibles :                                    ║"  
+echo "║   • GCC $(gcc --version | head -n1 | awk '{print $3}')                                            ║"  
+echo "║   • GDB pour le débogage                                  ║"  
+echo "║   • CMake pour le build                                   ║"  
+echo "║   • Valgrind pour l'analyse mémoire                       ║"  
+echo "║                                                           ║"  
+echo "║   Commandes utiles :                                      ║"  
+echo "║   • compile main.c    : Compiler avec les bons flags      ║"  
+echo "║   • valgrind-check    : Vérifier les fuites mémoire       ║"  
+echo "║   • clean             : Nettoyer les fichiers générés     ║"  
+echo "║                                                           ║"  
+echo "║   Bon développement ! 🚀                                  ║"  
+echo "║                                                           ║"  
+echo "╚═══════════════════════════════════════════════════════════╝"  
+echo ""  
 
 # -------------------- FIN --------------------
 
@@ -1013,7 +1013,7 @@ echo "✅ Configuration avancée terminée !"
 ```json
 {
   "name": "C Débutant",
-  "image": "ubuntu:22.04",
+  "image": "ubuntu:24.04",
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {}
   },
@@ -1025,7 +1025,7 @@ echo "✅ Configuration avancée terminée !"
       ],
       "settings": {
         "editor.formatOnSave": true,
-        "C_Cpp.default.cStandard": "c11"
+        "C_Cpp.default.cStandard": "c17"
       }
     }
   }
@@ -1065,7 +1065,7 @@ echo "✅ Configuration avancée terminée !"
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
-      "VARIANT": "22.04"
+      "VARIANT": "24.04"
     }
   },
   "runArgs": [
@@ -1429,7 +1429,7 @@ Ce projet utilise un DevContainer pour garantir un environnement de développeme
 5. Vous êtes prêt ! Le terminal est dans le conteneur avec tous les outils installés.
 
 ### Outils inclus
-- GCC 11
+- GCC 13
 - GDB
 - CMake
 - Valgrind
@@ -1454,11 +1454,11 @@ jobs:
 
     # Utiliser le même Dockerfile que le DevContainer
     container:
-      image: ubuntu:22.04
+      image: ubuntu:24.04
       options: --user root
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install tools (same as Dockerfile)
       run: |
@@ -1485,7 +1485,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Build DevContainer image
       run: docker build -t dev-env .devcontainer
@@ -1596,16 +1596,16 @@ warning: Error disabling address space randomization: Operation not permitted
 **b) Optimiser le Dockerfile (mettre les layers qui changent peu en premier) :**
 ```dockerfile
 # ✅ Bon ordre
-FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y gcc  # Change rarement
-COPY requirements.txt .                       # Change parfois
-RUN pip install -r requirements.txt
-COPY . .                                      # Change souvent
+FROM ubuntu:24.04  
+RUN apt-get update && apt-get install -y gcc  # Change rarement  
+COPY requirements.txt .                       # Change parfois  
+RUN pip install -r requirements.txt  
+COPY . .                                      # Change souvent  
 
 # ❌ Mauvais ordre
-FROM ubuntu:22.04
-COPY . .                                      # Change souvent → rebuild tout
-RUN apt-get update && apt-get install -y gcc
+FROM ubuntu:24.04  
+COPY . .                                      # Change souvent → rebuild tout  
+RUN apt-get update && apt-get install -y gcc  
 ```
 
 **c) Utiliser un workspace mount avec "cached" :**
@@ -1621,16 +1621,16 @@ RUN apt-get update && apt-get install -y gcc
 
 **a) Vérifier que le script est exécutable :**
 ```bash
-chmod +x .devcontainer/post-create.sh
-git add .devcontainer/post-create.sh
-git commit -m "Make post-create.sh executable"
+chmod +x .devcontainer/post-create.sh  
+git add .devcontainer/post-create.sh  
+git commit -m "Make post-create.sh executable"  
 ```
 
 **b) Ajouter des logs de débogage :**
 ```bash
 #!/bin/bash
-set -x  # Afficher chaque commande
-echo "Début du script post-create"
+set -x  # Afficher chaque commande  
+echo "Début du script post-create"  
 # ... reste du script
 ```
 
@@ -1651,7 +1651,7 @@ Ctrl+Shift+P → "Dev Containers: Show Container Log"
 
 2. **Utiliser des images de base officielles**
    ```json
-   "image": "ubuntu:22.04"  // ✅ Officiel
+   "image": "ubuntu:24.04"  // ✅ Officiel
    // Pas : "random-user/custom-ubuntu"  // ❌ Non vérifié
    ```
 
@@ -1661,7 +1661,7 @@ Ctrl+Shift+P → "Dev Containers: Show Container Log"
 
 4. **Versionner les outils**
    ```dockerfile
-   RUN apt-get install -y gcc-11  # ✅ Version spécifique
+   RUN apt-get install -y gcc-13  # ✅ Version spécifique
    # Pas : gcc                    # ❌ Version non contrôlée
    ```
 
@@ -1795,7 +1795,7 @@ Les DevContainers sont la solution moderne pour un développement C reproductibl
 ```json
 {
   "name": "C Dev",
-  "image": "ubuntu:22.04",
+  "image": "ubuntu:24.04",
   "postCreateCommand": "apt-get update && apt-get install -y gcc gdb make",
   "customizations": {
     "vscode": {

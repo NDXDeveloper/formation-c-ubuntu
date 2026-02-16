@@ -82,8 +82,8 @@ sudo apt update && sudo apt upgrade
 sudo apt install build-essential git cmake gdb valgrind
 
 # Vérifier que tout fonctionne
-gcc --version
-git --version
+gcc --version  
+git --version  
 ```
 
 **Choisir un éditeur :**
@@ -146,7 +146,7 @@ Vous devez comprendre le contexte avant de plonger dans le code.
 
 - 1.3 Normes du langage : ANSI C, C99, C11, C17, C23
   - Comprendre qu'il existe différentes versions
-  - On utilisera principalement C11 dans ce cours
+  - On utilisera principalement C17 dans ce cours
 
 **Concepts clés à retenir :**
 - Le C est un langage **compilé** (pas interprété comme Python)
@@ -189,10 +189,10 @@ Vous écrivez 5 lignes de code, mais que se passe-t-il réellement ? Ce chapitre
 En C, vous devez déclarer le **type** de chaque variable :
 
 ```c
-int age = 25;              // Entier (4 octets)
-float prix = 19.99;        // Nombre à virgule (4 octets)
-char lettre = 'A';         // Caractère (1 octet)
-double pi = 3.14159265;    // Double précision (8 octets)
+int age = 25;              // Entier (4 octets)  
+float prix = 19.99;        // Nombre à virgule (4 octets)  
+char lettre = 'A';         // Caractère (1 octet)  
+double pi = 3.14159265;    // Double précision (8 octets)  
 ```
 
 **Pourquoi c'est important ?**
@@ -203,8 +203,8 @@ double pi = 3.14159265;    // Double précision (8 octets)
 **4.2 Signed vs Unsigned**
 
 ```c
-int nombre = -10;           // Peut être négatif (signed)
-unsigned int compte = 10;   // Toujours positif (unsigned)
+int nombre = -10;           // Peut être négatif (signed)  
+unsigned int compte = 10;   // Toujours positif (unsigned)  
 ```
 
 **Impact concret :**
@@ -217,9 +217,9 @@ unsigned int compte = 10;   // Toujours positif (unsigned)
 const int MAX = 100;        // Constante (ne peut pas changer)
 #define PI 3.14159          // Macro du préprocesseur
 
-int x = 42;                 // 42 est un littéral entier
-float y = 3.14f;            // 3.14f est un littéral float
-char c = 'A';               // 'A' est un littéral caractère
+int x = 42;                 // 42 est un littéral entier  
+float y = 3.14f;            // 3.14f est un littéral float  
+char c = 'A';               // 'A' est un littéral caractère  
 ```
 
 **Passez du temps sur ce chapitre !** C'est la base de tout le reste.
@@ -231,12 +231,12 @@ char c = 'A';               // 'A' est un littéral caractère
 **5.1 Opérateurs arithmétiques**
 
 ```c
-int a = 10, b = 3;
-int somme = a + b;      // 13
-int diff = a - b;       // 7
-int prod = a * b;       // 30
-int div = a / b;        // 3 (division entière !)
-int reste = a % b;      // 1 (modulo)
+int a = 10, b = 3;  
+int somme = a + b;      // 13  
+int diff = a - b;       // 7  
+int prod = a * b;       // 30  
+int div = a / b;        // 3 (division entière !)  
+int reste = a % b;      // 1 (modulo)  
 ```
 
 **Piège pour débutant :** `10 / 3` donne `3` en C (pas `3.333...`) car ce sont des entiers !
@@ -267,15 +267,15 @@ for (int i = 0; i < 5; i++) {
 }
 
 // Boucle while
-int compteur = 0;
-while (compteur < 5) {
+int compteur = 0;  
+while (compteur < 5) {  
     printf("%d\n", compteur);
     compteur++;
 }
 
 // Boucle do-while (s'exécute au moins une fois)
-int n = 0;
-do {
+int n = 0;  
+do {  
     printf("%d\n", n);
     n++;
 } while (n < 5);
@@ -385,20 +385,20 @@ Cela signifie :
 **Un pointeur, c'est simplement le numéro de l'appartement !**
 
 ```c
-int age = 25;
-int *p = &age;  // p contient l'adresse (le numéro) de age
+int age = 25;  
+int *p = &age;  // p contient l'adresse (le numéro) de age  
 ```
 
 **7.2 Déclaration, déréférencement et adresse**
 
 ```c
-int age = 25;           // Variable normale
-int *p = &age;          // p = adresse de age (opérateur &)
-int valeur = *p;        // valeur = ce qui est à l'adresse p (opérateur *)
+int age = 25;           // Variable normale  
+int *p = &age;          // p = adresse de age (opérateur &)  
+int valeur = *p;        // valeur = ce qui est à l'adresse p (opérateur *)  
 
-printf("age = %d\n", age);          // Affiche 25
-printf("adresse de age = %p\n", p); // Affiche l'adresse (ex: 0x7fff5c3e8a4c)
-printf("valeur à l'adresse p = %d\n", *p);  // Affiche 25
+printf("age = %d\n", age);          // Affiche 25  
+printf("adresse de age = %p\n", p); // Affiche l'adresse (ex: 0x7fff5c3e8a4c)  
+printf("valeur à l'adresse p = %d\n", *p);  // Affiche 25  
 ```
 
 **Mnémonique pour débutants :**
@@ -428,12 +428,12 @@ int main(void) {
 **7.3 L'arithmétique des pointeurs**
 
 ```c
-int tableau[5] = {10, 20, 30, 40, 50};
-int *p = tableau;  // p pointe sur le premier élément
+int tableau[5] = {10, 20, 30, 40, 50};  
+int *p = tableau;  // p pointe sur le premier élément  
 
-printf("%d\n", *p);      // 10
-printf("%d\n", *(p+1));  // 20
-printf("%d\n", *(p+2));  // 30
+printf("%d\n", *p);      // 10  
+printf("%d\n", *(p+1));  // 20  
+printf("%d\n", *(p+2));  // 30  
 ```
 
 **Concept :** Quand vous faites `p+1`, vous ne ajoutez pas 1 à l'adresse, vous allez à **l'élément suivant**.
@@ -450,11 +450,11 @@ printf("%d\n", *(p+2));  // 30
 int nombres[5] = {1, 2, 3, 4, 5};
 
 // Ces deux écritures sont équivalentes :
-printf("%d\n", nombres[0]);   // 1
-printf("%d\n", *nombres);     // 1
+printf("%d\n", nombres[0]);   // 1  
+printf("%d\n", *nombres);     // 1  
 
-printf("%d\n", nombres[2]);   // 3
-printf("%d\n", *(nombres+2)); // 3
+printf("%d\n", nombres[2]);   // 3  
+printf("%d\n", *(nombres+2)); // 3  
 ```
 
 **Révélation importante :** En C, un tableau est juste un pointeur vers le premier élément !
@@ -483,15 +483,15 @@ char mot[] = "Hi";
 ```c
 #include <string.h>
 
-char source[] = "Bonjour";
-char dest[20];
+char source[] = "Bonjour";  
+char dest[20];  
 
-strcpy(dest, source);      // Copie
-strcat(dest, " tout le monde");  // Concaténation
-int longueur = strlen(dest);     // Longueur (sans \0)
+strcpy(dest, source);      // Copie  
+strcat(dest, " tout le monde");  // Concaténation  
+int longueur = strlen(dest);     // Longueur (sans \0)  
 
-printf("%s\n", dest);      // "Bonjour tout le monde"
-printf("Longueur : %d\n", longueur);
+printf("%s\n", dest);      // "Bonjour tout le monde"  
+printf("Longueur : %d\n", longueur);  
 ```
 
 **8.5 Dangers des chaînes : Buffer Overflows** ⭐⭐⭐
@@ -499,16 +499,16 @@ printf("Longueur : %d\n", longueur);
 **C'est LA vulnérabilité classique en C.**
 
 ```c
-char buffer[10];
-strcpy(buffer, "Ceci est une très longue chaîne");  // DANGER !
+char buffer[10];  
+strcpy(buffer, "Ceci est une très longue chaîne");  // DANGER !  
 ```
 
 Le problème ? "Ceci est une très longue chaîne" fait plus de 10 caractères. Le programme va écrire **au-delà du buffer**, ce qui peut crasher le programme ou créer des failles de sécurité.
 
 **Solution :** Utilisez les versions sécurisées :
 ```c
-strncpy(buffer, source, sizeof(buffer) - 1);
-buffer[sizeof(buffer) - 1] = '\0';  // S'assurer du '\0' final
+strncpy(buffer, source, sizeof(buffer) - 1);  
+buffer[sizeof(buffer) - 1] = '\0';  // S'assurer du '\0' final  
 ```
 
 ---
@@ -550,13 +550,13 @@ free(tableau);
 
 **malloc** : Alloue de la mémoire
 ```c
-int *nombres = malloc(5 * sizeof(int));  // 5 entiers
-if (nombres == NULL) {
+int *nombres = malloc(5 * sizeof(int));  // 5 entiers  
+if (nombres == NULL) {  
     // Erreur : pas assez de mémoire
 }
 // Utilisation
-nombres[0] = 10;
-nombres[1] = 20;
+nombres[0] = 10;  
+nombres[1] = 20;  
 // ...
 free(nombres);  // TOUJOURS libérer la mémoire !
 ```
@@ -611,10 +611,10 @@ struct Personne {
 };
 
 // Utiliser la structure
-struct Personne p1;
-strcpy(p1.nom, "Alice");
-p1.age = 25;
-p1.taille = 1.68;
+struct Personne p1;  
+strcpy(p1.nom, "Alice");  
+p1.age = 25;  
+p1.taille = 1.68;  
 
 printf("%s a %d ans et mesure %.2f m\n", p1.nom, p1.age, p1.taille);
 ```
@@ -674,19 +674,19 @@ typedef struct Noeud {
 } Noeud;
 
 // Créer des noeuds
-Noeud *premier = malloc(sizeof(Noeud));
-premier->valeur = 10;
-premier->suivant = NULL;
+Noeud *premier = malloc(sizeof(Noeud));  
+premier->valeur = 10;  
+premier->suivant = NULL;  
 
-Noeud *second = malloc(sizeof(Noeud));
-second->valeur = 20;
-second->suivant = NULL;
+Noeud *second = malloc(sizeof(Noeud));  
+second->valeur = 20;  
+second->suivant = NULL;  
 
 premier->suivant = second;  // Lier les noeuds
 ```
 
-**Avantage :** Taille dynamique, insertion/suppression facile au milieu
-**Inconvénient :** Accès séquentiel uniquement (pas d'accès direct à l'élément n)
+**Avantage :** Taille dynamique, insertion/suppression facile au milieu  
+**Inconvénient :** Accès séquentiel uniquement (pas d'accès direct à l'élément n)  
 
 **Ne vous découragez pas si c'est difficile au début.** Les structures de données avancées demandent de la pratique.
 
@@ -712,8 +712,8 @@ mon_projet/
 #ifndef UTILS_H
 #define UTILS_H
 
-int additionner(int a, int b);
-void afficher_message(void);
+int additionner(int a, int b);  
+void afficher_message(void);  
 
 #endif
 ```
@@ -769,8 +769,8 @@ gcc main.c utils.c -o programme
 
 **Makefile simple :**
 ```makefile
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c11
+CC = gcc  
+CFLAGS = -Wall -Wextra -std=c17
 
 programme: main.c utils.c
 	$(CC) $(CFLAGS) main.c utils.c -o programme
@@ -781,8 +781,8 @@ clean:
 
 **Utilisation :**
 ```bash
-make           # Compile
-make clean     # Nettoie
+make           # Compile  
+make clean     # Nettoie  
 ```
 
 **13.1 CMake : Le standard moderne** ⭐⭐
@@ -791,20 +791,20 @@ make clean     # Nettoie
 
 **CMakeLists.txt :**
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(MonProgramme)
+cmake_minimum_required(VERSION 3.10)  
+project(MonProgramme)  
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 17)
 
 add_executable(programme main.c utils.c)
 ```
 
 **Compilation :**
 ```bash
-mkdir build
-cd build
-cmake ..
-make
+mkdir build  
+cd build  
+cmake ..  
+make  
 ```
 
 **Pourquoi CMake ?**
@@ -898,14 +898,14 @@ Si vous avez un buffer overflow, un use-after-free, ou autre, le sanitizer vous 
 ```c
 #include <stdio.h>
 
-FILE *fichier = fopen("data.txt", "w");
-if (fichier == NULL) {
+FILE *fichier = fopen("data.txt", "w");  
+if (fichier == NULL) {  
     printf("Erreur d'ouverture\n");
     return 1;
 }
 
-fprintf(fichier, "Hello, File!\n");
-fclose(fichier);
+fprintf(fichier, "Hello, File!\n");  
+fclose(fichier);  
 ```
 
 **2. Avec les appels système (bas niveau) :**
@@ -913,13 +913,13 @@ fclose(fichier);
 #include <fcntl.h>
 #include <unistd.h>
 
-int fd = open("data.txt", O_WRONLY | O_CREAT, 0644);
-if (fd == -1) {
+int fd = open("data.txt", O_WRONLY | O_CREAT, 0644);  
+if (fd == -1) {  
     // Erreur
 }
 
-write(fd, "Hello, File!\n", 13);
-close(fd);
+write(fd, "Hello, File!\n", 13);  
+close(fd);  
 ```
 
 **Pour débuter, utilisez stdio (FILE*). Les appels système viendront plus tard.**
@@ -1008,13 +1008,13 @@ int main(void) {
 
 ```c
 // MAUVAIS
-int age;
-scanf("%d", &age);
+int age;  
+scanf("%d", &age);  
 // Que se passe-t-il si l'utilisateur tape "abc" ?
 
 // BON
-int age;
-if (scanf("%d", &age) != 1) {
+int age;  
+if (scanf("%d", &age) != 1) {  
     printf("Entrée invalide\n");
     return 1;
 }
@@ -1024,12 +1024,12 @@ if (scanf("%d", &age) != 1) {
 
 ```c
 // MAUVAIS
-char nom[10];
-gets(nom);  // Dangereux ! Jamais utiliser gets()
+char nom[10];  
+gets(nom);  // Dangereux ! Jamais utiliser gets()  
 
 // BON
-char nom[10];
-fgets(nom, sizeof(nom), stdin);
+char nom[10];  
+fgets(nom, sizeof(nom), stdin);  
 ```
 
 **Chapitre 27 : Optimisation et Performance** ⭐
@@ -1074,7 +1074,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: sudo apt-get install -y build-essential cmake

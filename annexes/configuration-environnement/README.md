@@ -147,7 +147,7 @@ La configuration de Visual Studio Code, l'éditeur moderne le plus populaire.
 **Ce que vous y trouverez :**
 - Fichier settings.json complet (70+ paramètres commentés)
 - Liste des extensions essentielles (C/C++, CMake, GitLens, etc.)
-- Configuration IntelliSense pour C11
+- Configuration IntelliSense pour C17
 - Intégration GDB, Valgrind, CMake
 - Tasks et launch configurations
 - Thèmes recommandés
@@ -196,7 +196,7 @@ La configuration d'un DevContainer, un environnement de développement dans Dock
 
 **Ce que vous y trouverez :**
 - Fichier devcontainer.json exhaustif (70+ options)
-- Dockerfile pour Ubuntu 22.04 + GCC + GDB + CMake
+- Dockerfile pour Ubuntu 24.04 + GCC + GDB + CMake
 - Script post-création automatisé
 - Extensions VS Code pré-installées
 - Configurations par cas d'usage (débutant, CMake, système)
@@ -376,14 +376,14 @@ Les configurations de cette annexe sont optimisées pour **Linux (Ubuntu/Debian)
 
 Les configurations sont testées avec :
 
-| Outil | Version minimale | Version recommandée |
-|-------|------------------|---------------------|
-| **GCC** | 9.x | 11.x ou 12.x |
-| **CMake** | 3.16 | 3.25+ |
+| Outil | Version minimale | Version recommandée (Ubuntu 24.04) |
+|-------|------------------|-------------------------------------|
+| **GCC** | 11.x | 13.x+ |
+| **CMake** | 3.22 | 3.28+ |
 | **Vim** | 8.0 | 9.0+ |
-| **VS Code** | 1.70 | Dernière stable |
-| **clang-format** | 10 | 14+ |
-| **Docker** | 20.10 | 24.0+ |
+| **VS Code** | 1.80 | Dernière stable |
+| **clang-format** | 14 | 18+ |
+| **Docker** | 24.0 | 27.0+ |
 
 **Conseil :** Utilisez toujours les versions récentes des outils pour bénéficier des dernières fonctionnalités et corrections de bugs.
 

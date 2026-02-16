@@ -64,15 +64,6 @@ Ces cheat sheets sont des **bases solides** que vous devriez adapter à votre co
 - **Versionnez vos modifications** : Maintenez vos cheat sheets dans Git avec votre équipe
 - **Automatisez** : Convertissez les commandes répétitives en Makefile targets ou scripts
 
-### 📚 Formats disponibles
-
-Pour faciliter l'accès, ces cheat sheets sont disponibles en plusieurs formats :
-
-- **Markdown** (version de référence) : Pour consultation en ligne et intégration documentation
-- **PDF imprimable** : Format A4/Letter optimisé pour impression recto-verso
-- **HTML interactif** : Avec recherche et copie rapide des commandes
-- **Carte de référence rapide** (A5 recto-verso) : Contient l'essentiel pour chaque catégorie
-
 ### ⚠️ Avertissements et limitations
 
 #### **Ces cheat sheets ne remplacent pas :**
@@ -105,7 +96,7 @@ Vous êtes maintenant prêt à explorer les antisèches détaillées. Chaque sec
 
 ---
 
-> 💡 **Astuce ** : Créez un alias shell pointant vers ces cheat sheets :
+> 💡 **Astuce** : Créez un alias shell pointant vers ces cheat sheets :
 > ```bash
 > alias cheat='vim ~/docs/c-formation-cheatsheets/'
 > alias cheat-gcc='bat ~/docs/c-formation-cheatsheets/gcc.md'

@@ -124,8 +124,8 @@ static uint8_t buffer[1024];
 Sous Linux, vous avez la mémoire virtuelle et l'allocation dynamique :
 ```c
 // Linux : allocation dynamique avec malloc
-uint8_t *buffer = malloc(1024);
-if (buffer == NULL) {
+uint8_t *buffer = malloc(1024);  
+if (buffer == NULL) {  
     // Gestion d'erreur
 }
 // ... utilisation ...
@@ -211,9 +211,9 @@ En Linux embarqué, le standard est :
 GPIOA->ODR |= (1 << 5);  // Set PA5
 
 // Linux : tout est fichier !
-int fd = open("/sys/class/gpio/gpio5/value", O_WRONLY);
-write(fd, "1", 1);
-close(fd);
+int fd = open("/sys/class/gpio/gpio5/value", O_WRONLY);  
+write(fd, "1", 1);  
+close(fd);  
 ```
 
 **Sections essentielles :**
@@ -262,15 +262,15 @@ Sous Linux, vous avez des processus séparés :
 En bare-metal avec ESP32 ou module WiFi :
 ```c
 // API propriétaire
-esp_wifi_connect();
-esp_http_client_perform();
+esp_wifi_connect();  
+esp_http_client_perform();  
 ```
 
 Sous Linux, vous utilisez les sockets POSIX standard :
 ```c
-int sock = socket(AF_INET, SOCK_STREAM, 0);
-connect(sock, ...);
-send(sock, data, len, 0);
+int sock = socket(AF_INET, SOCK_STREAM, 0);  
+connect(sock, ...);  
+send(sock, data, len, 0);  
 ```
 
 **Sections à maîtriser :**
@@ -296,8 +296,8 @@ xTaskCreate(task_function, "Task", 128, NULL, 1, &taskHandle);
 Sous Linux avec pthreads :
 ```c
 // POSIX threads
-pthread_t thread;
-pthread_create(&thread, NULL, thread_function, NULL);
+pthread_t thread;  
+pthread_create(&thread, NULL, thread_function, NULL);  
 ```
 
 **Sections essentielles :**
@@ -340,16 +340,16 @@ file app
 Créer un fichier toolchain CMake :
 ```cmake
 # arm-toolchain.cmake
-set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_PROCESSOR arm)
-set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
-set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)
+set(CMAKE_SYSTEM_NAME Linux)  
+set(CMAKE_SYSTEM_PROCESSOR arm)  
+set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)  
+set(CMAKE_CXX_COMPILER arm-linux-gnueabihf-g++)  
 ```
 
 Puis compiler :
 ```bash
-cmake -DCMAKE_TOOLCHAIN_FILE=arm-toolchain.cmake ..
-make
+cmake -DCMAKE_TOOLCHAIN_FILE=arm-toolchain.cmake ..  
+make  
 ```
 
 **31.4 QEMU pour tester les binaires** ⭐⭐⭐
@@ -376,16 +376,16 @@ qemu-system-arm -M versatilepb -kernel kernel.img -append "root=/dev/sda2"
 Créer des images Docker pour votre application embarquée :
 ```dockerfile
 # Stage 1 : Build
-FROM arm32v7/ubuntu:22.04 as builder
-RUN apt-get update && apt-get install -y build-essential cmake
-COPY . /app
-WORKDIR /app
-RUN cmake . && make
+FROM arm32v7/ubuntu:22.04 as builder  
+RUN apt-get update && apt-get install -y build-essential cmake  
+COPY . /app  
+WORKDIR /app  
+RUN cmake . && make  
 
 # Stage 2 : Runtime minimal
-FROM arm32v7/ubuntu:22.04
-COPY --from=builder /app/mon_app /usr/bin/
-CMD ["/usr/bin/mon_app"]
+FROM arm32v7/ubuntu:22.04  
+COPY --from=builder /app/mon_app /usr/bin/  
+CMD ["/usr/bin/mon_app"]  
 ```
 
 ---
@@ -416,7 +416,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install ARM toolchain
         run: sudo apt-get install -y gcc-arm-linux-gnueabihf
       - name: Build
@@ -432,6 +432,8 @@ jobs:
 
 ### Phase 5 : Drivers Linux et Noyau (4-6 semaines)
 
+> **Note :** Les drivers Linux, le Device Tree, et les modules kernel ne sont pas couverts dans les chapitres de la formation principale. Cette section fournit une introduction autonome à ces sujets essentiels pour le Linux embarqué. Pour approfondir, consultez les livres recommandés en fin de parcours (notamment "Linux Device Drivers" et "Mastering Embedded Linux Programming").
+
 #### 🔴 Drivers et Device Tree *(Priorité : CRITIQUE pour l'embarqué)* 🔥🔥🔥
 
 **C'est ici que ça devient passionnant pour un développeur embedded !**
@@ -443,8 +445,8 @@ jobs:
 En bare-metal, vous configurez les périphériques en C :
 ```c
 // Configuration UART en bare-metal
-UART1->BRR = 9600;
-UART1->CR1 |= USART_CR1_UE;
+UART1->BRR = 9600;  
+UART1->CR1 |= USART_CR1_UE;  
 ```
 
 Sous Linux, on utilise le Device Tree (.dts/.dtb) :
@@ -482,12 +484,12 @@ static void __exit mon_driver_exit(void)
     printk(KERN_INFO "Mon driver déchargé\n");
 }
 
-module_init(mon_driver_init);
-module_exit(mon_driver_exit);
+module_init(mon_driver_init);  
+module_exit(mon_driver_exit);  
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Votre Nom");
-MODULE_DESCRIPTION("Un driver exemple");
+MODULE_LICENSE("GPL");  
+MODULE_AUTHOR("Votre Nom");  
+MODULE_DESCRIPTION("Un driver exemple");  
 ```
 
 **Compilation du module :**
@@ -503,9 +505,9 @@ clean:
 
 **Chargement du module :**
 ```bash
-sudo insmod mon_driver.ko
-dmesg | tail  # Voir les messages du driver
-sudo rmmod mon_driver
+sudo insmod mon_driver.ko  
+dmesg | tail  # Voir les messages du driver  
+sudo rmmod mon_driver  
 ```
 
 **3. GPIO, I2C, SPI sous Linux** ⭐⭐⭐
@@ -529,14 +531,14 @@ sudo rmmod mon_driver
 #include <sys/ioctl.h>
 #include <fcntl.h>
 
-int file = open("/dev/i2c-1", O_RDWR);
-ioctl(file, I2C_SLAVE, 0x48);  // Adresse device
+int file = open("/dev/i2c-1", O_RDWR);  
+ioctl(file, I2C_SLAVE, 0x48);  // Adresse device  
 
-uint8_t reg = 0x00;
-write(file, &reg, 1);
+uint8_t reg = 0x00;  
+write(file, &reg, 1);  
 
-uint8_t data[2];
-read(file, data, 2);
+uint8_t data[2];  
+read(file, data, 2);  
 
 close(file);
 ```
@@ -550,6 +552,8 @@ close(file);
 
 ### Phase 6 : Construction de Distributions Embarquées (3-4 semaines)
 
+> **Note :** Yocto et Buildroot ne sont pas couverts dans les chapitres de la formation principale. Cette section fournit une introduction pratique à ces outils de build essentiels en Linux embarqué.
+
 #### 🔴 Yocto et Buildroot *(Priorité : HAUTE)* 🔥
 
 **Au-delà du développement d'applications, vous devez créer le système complet.**
@@ -561,8 +565,8 @@ Buildroot génère une distribution Linux embarquée complète.
 **Workflow typique :**
 ```bash
 # Télécharger Buildroot
-git clone https://git.buildroot.net/buildroot
-cd buildroot
+git clone https://git.buildroot.net/buildroot  
+cd buildroot  
 
 # Configurer pour Raspberry Pi 3
 make raspberrypi3_64_defconfig
@@ -595,9 +599,9 @@ Yocto est plus complexe mais beaucoup plus flexible.
 **Exemple simple :**
 ```bash
 # Cloner Poky (référence Yocto)
-git clone git://git.yoctoproject.org/poky
-cd poky
-source oe-init-build-env
+git clone git://git.yoctoproject.org/poky  
+cd poky  
+source oe-init-build-env  
 
 # Éditer conf/local.conf
 echo 'MACHINE = "raspberrypi3-64"' >> conf/local.conf
@@ -616,8 +620,8 @@ meta-custom/recipes-app/mon-app/mon-app_1.0.bb
 - **Buildroot** : Simple, rapide, config monolithique
 - **Yocto** : Complexe, modulaire, industriel, maintenable à long terme
 
-**Pour débuter :** Commencez par Buildroot
-**Pour la production :** Passez à Yocto
+**Pour débuter :** Commencez par Buildroot  
+**Pour la production :** Passez à Yocto  
 
 ---
 
@@ -643,9 +647,9 @@ ls -lh app
 
 **Options CMake :**
 ```cmake
-set(CMAKE_BUILD_TYPE MinSizeRel)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Os -ffunction-sections -fdata-sections")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections")
+set(CMAKE_BUILD_TYPE MinSizeRel)  
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Os -ffunction-sections -fdata-sections")  
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections")  
 ```
 
 **2. Boot time** ⭐⭐⭐
@@ -670,15 +674,15 @@ make menuconfig
 **Profiling mémoire :**
 ```bash
 # Voir l'utilisation mémoire
-free -h
-cat /proc/meminfo
+free -h  
+cat /proc/meminfo  
 
 # Par processus
 ps aux --sort=-rss | head
 
 # Avec Valgrind (sur PC ou QEMU)
-valgrind --tool=massif ./app
-ms_print massif.out.12345
+valgrind --tool=massif ./app  
+ms_print massif.out.12345  
 ```
 
 **4. Consommation électrique** ⭐
@@ -819,12 +823,12 @@ bpftrace -e 'tracepoint:syscalls:sys_enter_open { printf("%s %s\n", comm, str(ar
 
 Pour ceux qui peuvent y consacrer 20h+/semaine :
 
-**Semaines 1-2 :** Fondations et environnement
-**Semaines 3-5 :** Programmation système
-**Semaines 6-8 :** Cross-compilation et CI/CD
-**Semaines 9-12 :** Drivers et kernel (focus intense)
-**Semaines 13-14 :** Buildroot ou Yocto
-**Semaines 15-16 :** Projet final
+**Semaines 1-2 :** Fondations et environnement  
+**Semaines 3-5 :** Programmation système  
+**Semaines 6-8 :** Cross-compilation et CI/CD  
+**Semaines 9-12 :** Drivers et kernel (focus intense)  
+**Semaines 13-14 :** Buildroot ou Yocto  
+**Semaines 15-16 :** Projet final  
 
 ---
 
@@ -966,7 +970,7 @@ Cette formation vous ouvre les portes vers :
 
 **2. Application de collecte de données**
 - Lecture de capteurs via I2C/SPI
-- Driver kernel custom pour un périphéque
+- Driver kernel custom pour un périphérique
 - Stockage dans SQLite
 - Envoi via MQTT vers broker
 

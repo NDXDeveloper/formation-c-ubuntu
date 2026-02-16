@@ -59,8 +59,8 @@ gcc -c fichier.c
 **Exemple complet :**
 ```bash
 # Étape 1 : Compiler séparément
-gcc -c main.c       # → main.o
-gcc -c utils.c      # → utils.o
+gcc -c main.c       # → main.o  
+gcc -c utils.c      # → utils.o  
 
 # Étape 2 : Lier (linker)
 gcc main.o utils.o -o programme
@@ -197,8 +197,8 @@ gcc -Wall -Wextra -pedantic fichier.c -o programme
 
 **Exemple :**
 ```c
-// Extension GNU : typeof
-typeof(int) x = 5;  // Warning avec -pedantic
+// Extension GNU : expression entre accolades (statement expression)
+int x = ({ int y = 5; y + 1; });  // Warning avec -pedantic
 ```
 
 ---
@@ -211,8 +211,8 @@ gcc -Wall -Wshadow fichier.c
 ```
 
 ```c
-int x = 10;
-void func() {
+int x = 10;  
+void func() {  
     int x = 20;  // Warning : masque la variable globale x
 }
 ```
@@ -253,7 +253,7 @@ Détecte les casts qui peuvent causer des problèmes d'alignement mémoire.
 ### 🎯 Combinaison recommandée pour la production
 
 ```bash
-gcc -std=c11 -Wall -Wextra -Werror -pedantic -O2 fichier.c -o programme
+gcc -std=c17 -Wall -Wextra -Werror -pedantic -O2 fichier.c -o programme
 ```
 
 ---
@@ -273,8 +273,8 @@ gcc -g fichier.c -o programme
 
 **Utilisation avec GDB :**
 ```bash
-gcc -g programme.c -o programme
-gdb ./programme
+gcc -g programme.c -o programme  
+gdb ./programme  
 ```
 
 **Taille du binaire :** Augmente significativement.
@@ -437,28 +437,28 @@ gcc -O2 -ffast-math fichier.c
 
 ### `-std=` : Spécifier le standard C
 ```bash
-gcc -std=c89 fichier.c    # C89/C90 (ANSI C)
-gcc -std=c99 fichier.c    # C99
-gcc -std=c11 fichier.c    # C11 (recommandé)
-gcc -std=c17 fichier.c    # C17
-gcc -std=c2x fichier.c    # C23 (expérimental)
+gcc -std=c89 fichier.c    # C89/C90 (ANSI C)  
+gcc -std=c99 fichier.c    # C99  
+gcc -std=c11 fichier.c    # C11
+gcc -std=c17 fichier.c    # C17 (recommandé)
+gcc -std=c2x fichier.c    # C23 (expérimental)  
 ```
 
-**Recommandation 2025 :** `-std=c11` ou `-std=c17`
+**Recommandation 2025 :** `-std=c17` (ou `-std=c17` minimum)
 
 ---
 
-### `-std=gnu11` : C11 + extensions GNU
+### `-std=gnu17` : C17 + extensions GNU
 ```bash
-gcc -std=gnu11 fichier.c
+gcc -std=gnu17 fichier.c
 ```
 
-**Différence avec `-std=c11` :**
+**Différence avec `-std=c17` :**
 - Autorise les extensions GNU (typeof, __attribute__, etc.)
 - Moins portable
 - Plus de fonctionnalités
 
-**Par défaut :** GCC utilise `gnu11` (ou variante GNU)
+**Par défaut :** GCC utilise `gnu17` (ou variante GNU) depuis GCC 8+
 
 ---
 
@@ -580,8 +580,8 @@ gcc -Wall -Wformat -Wformat-security fichier.c
 
 **Détecte :**
 ```c
-char *user_input = get_input();
-printf(user_input);  // DANGER ! Format string vulnerability
+char *user_input = get_input();  
+printf(user_input);  // DANGER ! Format string vulnerability  
 // Correct :
 printf("%s", user_input);
 ```
@@ -591,7 +591,7 @@ printf("%s", user_input);
 ### Combinaison hardening complète
 
 ```bash
-gcc -std=c11 -Wall -Wextra -Werror \
+gcc -std=c17 -Wall -Wextra -Werror \
     -O2 -D_FORTIFY_SOURCE=2 \
     -fstack-protector-strong \
     -fPIE -pie \
@@ -701,8 +701,8 @@ gcc -mtune=native fichier.c -o programme
 
 ### `-m32` / `-m64` : Architecture 32/64 bits
 ```bash
-gcc -m32 fichier.c -o programme32
-gcc -m64 fichier.c -o programme64
+gcc -m32 fichier.c -o programme32  
+gcc -m64 fichier.c -o programme64  
 ```
 
 ---
@@ -774,9 +774,9 @@ gcc -MM fichier.c
 
 ```bash
 # Étape 1 : Compiler chaque .c en .o
-gcc -c -Wall -Wextra -std=c11 main.c -o main.o
-gcc -c -Wall -Wextra -std=c11 utils.c -o utils.o
-gcc -c -Wall -Wextra -std=c11 data.c -o data.o
+gcc -c -Wall -Wextra -std=c17 main.c -o main.o  
+gcc -c -Wall -Wextra -std=c17 utils.c -o utils.o  
+gcc -c -Wall -Wextra -std=c17 data.c -o data.o  
 
 # Étape 2 : Linker tous les .o
 gcc main.o utils.o data.o -o programme
@@ -791,13 +791,13 @@ gcc main.o utils.o data.o -o programme
 
 ```bash
 # Créer la bibliothèque statique
-gcc -c utils.c -o utils.o
-gcc -c data.c -o data.o
-ar rcs libmylib.a utils.o data.o
+gcc -c utils.c -o utils.o  
+gcc -c data.c -o data.o  
+ar rcs libmylib.a utils.o data.o  
 
 # Compiler le programme principal
-gcc -c main.c -o main.o
-gcc main.o -L. -lmylib -o programme
+gcc -c main.c -o main.o  
+gcc main.o -L. -lmylib -o programme  
 ```
 
 ---
@@ -806,9 +806,9 @@ gcc main.o -L. -lmylib -o programme
 
 ```bash
 # Créer la bibliothèque partagée
-gcc -c -fPIC utils.c -o utils.o
-gcc -c -fPIC data.c -o data.o
-gcc -shared utils.o data.o -o libmylib.so
+gcc -c -fPIC utils.c -o utils.o  
+gcc -c -fPIC data.c -o data.o  
+gcc -shared utils.o data.o -o libmylib.so  
 
 # Compiler le programme principal
 gcc main.c -L. -lmylib -o programme
@@ -823,11 +823,11 @@ LD_LIBRARY_PATH=. ./programme
 
 ### Pour débuter (apprentissage)
 ```bash
-gcc -std=c11 -Wall -Wextra -g fichier.c -o programme
+gcc -std=c17 -Wall -Wextra -g fichier.c -o programme
 ```
 
 **Explications :**
-- `-std=c11` : Standard C11
+- `-std=c17` : Standard C17
 - `-Wall -Wextra` : Tous les warnings
 - `-g` : Infos de debug pour GDB
 
@@ -835,7 +835,7 @@ gcc -std=c11 -Wall -Wextra -g fichier.c -o programme
 
 ### Pour le développement quotidien
 ```bash
-gcc -std=c11 -Wall -Wextra -Werror -g -O0 fichier.c -o programme
+gcc -std=c17 -Wall -Wextra -Werror -g -O0 fichier.c -o programme
 ```
 
 **Ajouts :**
@@ -846,7 +846,7 @@ gcc -std=c11 -Wall -Wextra -Werror -g -O0 fichier.c -o programme
 
 ### Pour les tests (avec sanitizers)
 ```bash
-gcc -std=c11 -Wall -Wextra -Werror \
+gcc -std=c17 -Wall -Wextra -Werror \
     -g -O1 \
     -fsanitize=address,undefined \
     fichier.c -o programme
@@ -860,7 +860,7 @@ gcc -std=c11 -Wall -Wextra -Werror \
 
 ### Pour la production (release)
 ```bash
-gcc -std=c11 -Wall -Wextra -Werror \
+gcc -std=c17 -Wall -Wextra -Werror \
     -O2 -DNDEBUG \
     -D_FORTIFY_SOURCE=2 \
     -fstack-protector-strong \
@@ -877,7 +877,7 @@ gcc -std=c11 -Wall -Wextra -Werror \
 
 ### Pour la performance maximale
 ```bash
-gcc -std=c11 -Wall -Wextra \
+gcc -std=c17 -Wall -Wextra \
     -O3 -march=native -flto \
     fichier.c -o programme
 ```
@@ -891,7 +891,7 @@ gcc -std=c11 -Wall -Wextra \
 
 ### Pour le code portable
 ```bash
-gcc -std=c11 -Wall -Wextra -pedantic -Werror \
+gcc -std=c17 -Wall -Wextra -pedantic -Werror \
     -O2 \
     fichier.c -o programme
 ```
@@ -915,7 +915,7 @@ gcc -std=c11 -Wall -Wextra -pedantic -Werror \
 | **-O2** | Optim | Optimisations recommandées | **Production** |
 | **-O3** | Optim | Optimisations agressives | Performance |
 | **-Os** | Optim | Optimiser taille | Embarqué |
-| **-std=c11** | Standard | Standard C11 | **Production** |
+| **-std=c17** | Standard | Standard C17 | **Production** |
 | **-fsanitize=address** | Sanitizer | Détection mémoire | Tests |
 | **-fsanitize=undefined** | Sanitizer | Comportement indéfini | Tests |
 | **-fstack-protector-strong** | Sécurité | Protection stack | Production |
@@ -934,7 +934,7 @@ gcc -std=c11 -Wall -Wextra -pedantic -Werror \
 ### Exemple 1 : Programme simple avec mathématiques
 ```bash
 # hello_math.c utilise sqrt() de <math.h>
-gcc -std=c11 -Wall -Wextra -O2 hello_math.c -o hello_math -lm
+gcc -std=c17 -Wall -Wextra -O2 hello_math.c -o hello_math -lm
 
 # Explications :
 # -lm : lier avec libm (bibliothèque mathématique)
@@ -945,7 +945,7 @@ gcc -std=c11 -Wall -Wextra -O2 hello_math.c -o hello_math -lm
 ### Exemple 2 : Programme multi-threadé
 ```bash
 # threaded.c utilise pthread
-gcc -std=c11 -Wall -Wextra -g \
+gcc -std=c17 -Wall -Wextra -g \
     -fsanitize=thread \
     threaded.c -o threaded -lpthread
 
@@ -971,13 +971,13 @@ projet/
 
 ```bash
 # Compiler chaque fichier source
-gcc -c -std=c11 -Wall -Wextra -Iinclude \
+gcc -c -std=c17 -Wall -Wextra -Iinclude \
     src/main.c -o build/main.o
 
-gcc -c -std=c11 -Wall -Wextra -Iinclude \
+gcc -c -std=c17 -Wall -Wextra -Iinclude \
     src/utils.c -o build/utils.o
 
-gcc -c -std=c11 -Wall -Wextra -Iinclude \
+gcc -c -std=c17 -Wall -Wextra -Iinclude \
     src/data.c -o build/data.o
 
 # Linker
@@ -993,14 +993,14 @@ gcc build/main.o build/utils.o build/data.o \
 ### Exemple 4 : Debug avec Valgrind et ASan
 ```bash
 # Version ASan (rapide, infos détaillées)
-gcc -std=c11 -Wall -Wextra -g \
+gcc -std=c17 -Wall -Wextra -g \
     -fsanitize=address \
     program.c -o program_asan
 
 ./program_asan
 
 # Version Valgrind (plus lent, plus complet)
-gcc -std=c11 -Wall -Wextra -g \
+gcc -std=c17 -Wall -Wextra -g \
     program.c -o program_valgrind
 
 valgrind --leak-check=full ./program_valgrind
@@ -1014,7 +1014,7 @@ valgrind --leak-check=full ./program_valgrind
 sudo apt install gcc-arm-linux-gnueabihf
 
 # Compiler pour ARM
-arm-linux-gnueabihf-gcc -std=c11 -Wall -O2 \
+arm-linux-gnueabihf-gcc -std=c17 -Wall -O2 \
     program.c -o program_arm
 
 # Vérifier l'architecture
@@ -1028,9 +1028,9 @@ file program_arm
 
 ### Voir les options par défaut de GCC
 ```bash
-gcc -Q --help=target
-gcc -Q --help=optimizers
-gcc -Q --help=warnings
+gcc -Q --help=target  
+gcc -Q --help=optimizers  
+gcc -Q --help=warnings  
 ```
 
 ---
@@ -1045,14 +1045,14 @@ gcc --help=warning | grep Wshadow
 ### Vérifier les symboles dans un binaire
 ```bash
 # Avec informations de debug
-gcc -g program.c -o program
-file program
+gcc -g program.c -o program  
+file program  
 # Output : ..., with debug_info, not stripped
 
 # Sans informations de debug
-gcc program.c -o program
-strip program
-file program
+gcc program.c -o program  
+strip program  
+file program  
 # Output : ..., stripped
 ```
 
@@ -1061,16 +1061,16 @@ file program
 ### Comparer la taille des binaires
 ```bash
 # Sans optimisation
-gcc program.c -o program_o0
-ls -lh program_o0
+gcc program.c -o program_o0  
+ls -lh program_o0  
 
 # Avec -O2
-gcc -O2 program.c -o program_o2
-ls -lh program_o2
+gcc -O2 program.c -o program_o2  
+ls -lh program_o2  
 
 # Avec -Os (taille)
-gcc -Os program.c -o program_os
-ls -lh program_os
+gcc -Os program.c -o program_os  
+ls -lh program_os  
 ```
 
 ---
@@ -1082,7 +1082,7 @@ Définir `CFLAGS` pour ne pas répéter :
 
 ```bash
 # Dans ~/.bashrc ou script
-export CFLAGS="-std=c11 -Wall -Wextra -Werror -g"
+export CFLAGS="-std=c17 -Wall -Wextra -Werror -g"
 
 # Utilisation
 gcc $CFLAGS program.c -o program
@@ -1092,9 +1092,9 @@ gcc $CFLAGS program.c -o program
 
 ### 2. Makefile avec options
 ```makefile
-CC = gcc
-CFLAGS = -std=c11 -Wall -Wextra -Werror -O2
-LDFLAGS = -lm -lpthread
+CC = gcc  
+CFLAGS = -std=c17 -Wall -Wextra -Werror -O2  
+LDFLAGS = -lm -lpthread  
 
 program: main.o utils.o
 	$(CC) $(CFLAGS) main.o utils.o -o program $(LDFLAGS)
@@ -1120,9 +1120,9 @@ clean:
 MODE=${1:-debug}
 
 if [ "$MODE" = "debug" ]; then
-    FLAGS="-std=c11 -Wall -Wextra -g -O0 -fsanitize=address"
+    FLAGS="-std=c17 -Wall -Wextra -g -O0 -fsanitize=address"
 elif [ "$MODE" = "release" ]; then
-    FLAGS="-std=c11 -Wall -Wextra -Werror -O2 -DNDEBUG -D_FORTIFY_SOURCE=2"
+    FLAGS="-std=c17 -Wall -Wextra -Werror -O2 -DNDEBUG -D_FORTIFY_SOURCE=2"
 else
     echo "Usage: $0 [debug|release]"
     exit 1
@@ -1138,13 +1138,13 @@ echo "Compiled in $MODE mode"
 ### 4. Options par type de fichier
 ```bash
 # Headers
-gcc -std=c11 -Wall -Wextra -Iinclude -c src/file.c
+gcc -std=c17 -Wall -Wextra -Iinclude -c src/file.c
 
 # Bibliothèque partagée
-gcc -std=c11 -Wall -fPIC -shared lib.c -o libmylib.so
+gcc -std=c17 -Wall -fPIC -shared lib.c -o libmylib.so
 
 # Exécutable
-gcc -std=c11 -Wall -Wextra main.c -L. -lmylib -o program
+gcc -std=c17 -Wall -Wextra main.c -L. -lmylib -o program
 ```
 
 ---
@@ -1224,7 +1224,7 @@ gcc -Wall -Wextra -Werror program.c -o program
 - [ ] `-Wall` : Activer les warnings
 - [ ] `-Wextra` : Warnings supplémentaires
 - [ ] `-g` : Informations de debug
-- [ ] `-std=c11` : Standard C11
+- [ ] `-std=c17` : Standard C17
 - [ ] `-lm` : Lier avec libmath
 
 ### ✅ Niveau Intermédiaire
@@ -1249,28 +1249,28 @@ gcc -Wall -Wextra -Werror program.c -o program
 
 ```bash
 # Développement
-gcc -std=c11 -Wall -Wextra -g program.c -o program
+gcc -std=c17 -Wall -Wextra -g program.c -o program
 
 # Tests avec sanitizers
-gcc -std=c11 -Wall -Wextra -g -fsanitize=address,undefined program.c -o program
+gcc -std=c17 -Wall -Wextra -g -fsanitize=address,undefined program.c -o program
 
 # Production
-gcc -std=c11 -Wall -Wextra -O2 -D_FORTIFY_SOURCE=2 -fstack-protector-strong program.c -o program
+gcc -std=c17 -Wall -Wextra -O2 -D_FORTIFY_SOURCE=2 -fstack-protector-strong program.c -o program
 
 # Performance maximale
-gcc -std=c11 -Wall -O3 -march=native -flto program.c -o program
+gcc -std=c17 -Wall -O3 -march=native -flto program.c -o program
 
 # Avec bibliothèque math
-gcc -std=c11 -Wall -O2 program.c -o program -lm
+gcc -std=c17 -Wall -O2 program.c -o program -lm
 
 # Avec threads
-gcc -std=c11 -Wall -O2 program.c -o program -lpthread
+gcc -std=c17 -Wall -O2 program.c -o program -lpthread
 
 # Créer bibliothèque partagée
-gcc -fPIC -shared -std=c11 -Wall lib.c -o libmylib.so
+gcc -fPIC -shared -std=c17 -Wall lib.c -o libmylib.so
 
 # Compiler avec bibliothèque perso
-gcc -std=c11 -Wall program.c -L. -lmylib -o program
+gcc -std=c17 -Wall program.c -L. -lmylib -o program
 ```
 
 ---
@@ -1279,9 +1279,9 @@ gcc -std=c11 -Wall program.c -L. -lmylib -o program
 
 ### Documentation officielle
 ```bash
-man gcc
-info gcc
-gcc --help
+man gcc  
+info gcc  
+gcc --help  
 ```
 
 ### En ligne
@@ -1298,7 +1298,7 @@ Les options GCC sont **nombreuses** mais vous n'avez pas besoin de toutes les co
 1. `-Wall -Wextra` : Détecter les bugs
 2. `-g` : Permettre le debugging
 3. `-O2` : Optimiser pour la production
-4. `-std=c11` : Utiliser un standard moderne
+4. `-std=c17` : Utiliser un standard moderne
 5. `-o` : Nommer votre programme
 
 **Tout le reste est du bonus** que vous apprendrez au fur et à mesure de vos besoins.

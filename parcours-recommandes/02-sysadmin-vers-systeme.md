@@ -493,11 +493,11 @@ En tant que SysAdmin, vous êtes responsable de la sécurité. Savoir comment le
 
 Pour ceux qui peuvent y consacrer plus de temps (20h+/semaine) :
 
-**Semaines 1-3 :** Fondations (Modules 1 et 2)
-**Semaines 4-6 :** Mémoire (Module 3)
-**Semaines 7-11 :** Programmation Système (Module 6 - chapitres 16, 17, 20, 21)
-**Semaines 12-14 :** Débogage (Module 5 - chapitre 15)
-**Semaines 15-16 :** Projet final et consolidation
+**Semaines 1-3 :** Fondations (Modules 1 et 2)  
+**Semaines 4-6 :** Mémoire (Module 3)  
+**Semaines 7-11 :** Programmation Système (Module 6 - chapitres 16, 17, 20, 21)  
+**Semaines 12-14 :** Débogage (Module 5 - chapitre 15)  
+**Semaines 15-16 :** Projet final et consolidation  
 
 ---
 

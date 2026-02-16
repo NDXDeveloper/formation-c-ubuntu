@@ -62,14 +62,14 @@ Apprendre le C peut sembler intimidant au début, mais avec les **bonnes méthod
 ✅ **Variantes à tester** :
 ```c
 // Exemple : Après avoir appris les pointeurs
-int x = 42;
-int *p = &x;
+int x = 42;  
+int *p = &x;  
 
 // Testez :
 printf("%d\n", *p);      // Que se passe-t-il ?
 *p = 100;                // Et maintenant ?
-printf("%d\n", x);       // Pourquoi x a changé ?
-p = NULL;                // Que se passe-t-il si je déréférence ?
+printf("%d\n", x);       // Pourquoi x a changé ?  
+p = NULL;                // Que se passe-t-il si je déréférence ?  
 // printf("%d\n", *p);   // Segfault ! Pourquoi ?
 ```
 
@@ -98,8 +98,8 @@ int *p = NULL;
 
 2. **Buffer Overflow**
 ```c
-char buffer[10];
-strcpy(buffer, "Cette chaîne est bien trop longue");  // Danger !
+char buffer[10];  
+strcpy(buffer, "Cette chaîne est bien trop longue");  // Danger !  
 ```
 
 3. **Memory Leak**
@@ -112,15 +112,15 @@ void fonction() {
 
 4. **Double Free**
 ```c
-int *p = malloc(sizeof(int));
-free(p);
-free(p);  // Crash ! Libération deux fois
+int *p = malloc(sizeof(int));  
+free(p);  
+free(p);  // Crash ! Libération deux fois  
 ```
 
 5. **Use After Free**
 ```c
-int *p = malloc(sizeof(int));
-free(p);
+int *p = malloc(sizeof(int));  
+free(p);  
 *p = 42;  // Danger ! Utilisation après libération
 ```
 
@@ -144,10 +144,10 @@ free(p);
 
 ✅ **Commandes essentielles** :
 ```bash
-man 3 printf    # Documentation de la fonction printf
-man 3 malloc    # Documentation de malloc/free
-man 2 open      # Documentation de l'appel système open
-man 7 signal    # Guide complet sur les signaux
+man 3 printf    # Documentation de la fonction printf  
+man 3 malloc    # Documentation de malloc/free  
+man 2 open      # Documentation de l'appel système open  
+man 7 signal    # Guide complet sur les signaux  
 ```
 
 **Structure d'une man page** :
@@ -182,8 +182,8 @@ man 7 signal    # Guide complet sur les signaux
 
 📚 **"Modern C"** (Jens Gustedt)
 - **Niveau** : Débutant à Avancé
-- **Pourquoi ?** : Couvre C11 et les pratiques modernes
-- **Disponible gratuitement** : [https://modernc.gforge.inria.fr/](https://modernc.gforge.inria.fr/)
+- **Pourquoi ?** : Couvre C17/C23 et les pratiques modernes (3e édition, 2024)
+- **Disponible gratuitement** : [https://gustedt.gitlabpages.inria.fr/modern-c/](https://gustedt.gitlabpages.inria.fr/modern-c/)
 
 **Pour la programmation système** :
 
@@ -297,7 +297,7 @@ man 7 signal    # Guide complet sur les signaux
 ✅ **Routine de débogage systématique** :
 ```bash
 # 1. Compilation avec symboles de debug
-gcc -g -Wall -Werror programme.c -o programme
+gcc -g -Wall -Wextra -Werror -pedantic -std=c17 programme.c -o programme
 
 # 2. Exécution avec GDB en cas de bug
 gdb ./programme
@@ -327,24 +327,24 @@ gcc -fsanitize=address,undefined programme.c -o programme
 
 ✅ **Compilez toujours avec `-Wall -Werror`** :
 ```bash
-gcc -Wall -Werror -Wextra -std=c11 programme.c -o programme
+gcc -Wall -Wextra -Werror -pedantic -std=c17 programme.c -o programme
 ```
 
 **Exemples de warnings critiques** :
 
 ```c
 // Warning : variable non initialisée
-int x;
-printf("%d\n", x);  // Comportement indéfini !
+int x;  
+printf("%d\n", x);  // Comportement indéfini !  
 
 // Warning : comparaison signed/unsigned
-int i = -1;
-unsigned int u = 10;
-if (i < u) { /* ... */ }  // i sera converti en unsigned !
+int i = -1;  
+unsigned int u = 10;  
+if (i < u) { /* ... */ }  // i sera converti en unsigned !  
 
 // Warning : format string mismatch
-int x = 42;
-printf("%s\n", x);  // %s attend un char*, pas un int !
+int x = 42;  
+printf("%s\n", x);  // %s attend un char*, pas un int !  
 ```
 
 **Conseil** : Traitez chaque warning comme un bug potentiel et corrigez-le immédiatement.
@@ -469,9 +469,9 @@ Mauvaise question :
 
 Bonne question :
 "J'essaie d'allouer un tableau dynamique avec malloc,
-mais j'obtiens un segfault à la ligne 42. Voici mon code : [...]
-J'ai vérifié que malloc retourne bien non-NULL.
-Que puis-je vérifier d'autre ?"
+mais j'obtiens un segfault à la ligne 42. Voici mon code : [...]  
+J'ai vérifié que malloc retourne bien non-NULL.  
+Que puis-je vérifier d'autre ?"  
 ```
 
 2. **Fournissez un exemple minimal**

@@ -193,8 +193,8 @@ Logiciel de bas niveau contrôlant le matériel (BIOS, UEFI, firmware de périph
 ### **Fork**
 Appel système créant un nouveau processus (processus fils) qui est une copie du processus appelant (processus parent).
 ```c
-pid_t pid = fork();
-if (pid == 0) {
+pid_t pid = fork();  
+if (pid == 0) {  
     // Code du processus fils
 } else {
     // Code du processus parent
@@ -318,9 +318,9 @@ Cœur du système d'exploitation Linux. Gère les ressources matérielles, la m�
 ### **Kernel module**
 Code chargeable/déchargeable dynamiquement dans le noyau (drivers, fonctionnalités). Extension du noyau sans recompilation.
 ```bash
-lsmod           # Lister les modules chargés
-insmod module.ko  # Charger un module
-rmmod module    # Décharger un module
+lsmod           # Lister les modules chargés  
+insmod module.ko  # Charger un module  
+rmmod module    # Décharger un module  
 ```
 
 ### **Kernel panic**
@@ -332,8 +332,8 @@ Espace d'adressage privilégié où s'exécute le noyau. Accès complet au maté
 ### **Kill**
 Commande/appel système envoyant un signal à un processus. Pas nécessairement pour tuer (SIGKILL), peut être utilisé pour d'autres signaux.
 ```bash
-kill -9 1234      # SIGKILL (force la terminaison)
-kill -TERM 1234   # SIGTERM (demande propre)
+kill -9 1234      # SIGKILL (force la terminaison)  
+kill -TERM 1234   # SIGTERM (demande propre)  
 ```
 
 ---
@@ -387,9 +387,9 @@ Version d'une distribution (ou logiciel) maintenue sur une longue durée (5-10 a
 ### **Man page (Page de manuel)**
 Documentation système accessible via la commande `man`.
 ```bash
-man 2 open   # Section 2 : appels système
-man 3 printf # Section 3 : fonctions bibliothèque
-man 7 signal # Section 7 : conventions et divers
+man 2 open   # Section 2 : appels système  
+man 3 printf # Section 3 : fonctions bibliothèque  
+man 7 signal # Section 7 : conventions et divers  
 ```
 
 ### **Memory-mapped file (Fichier mappé en mémoire)**
@@ -550,9 +550,9 @@ Redémarrage du système.
 ### **Redirection**
 Changement de la source ou destination des flux standard (stdin, stdout, stderr).
 ```bash
-programme > sortie.txt      # Redirige stdout vers fichier
-programme 2> erreurs.txt    # Redirige stderr vers fichier
-programme < entree.txt      # Redirige stdin depuis fichier
+programme > sortie.txt      # Redirige stdout vers fichier  
+programme 2> erreurs.txt    # Redirige stderr vers fichier  
+programme < entree.txt      # Redirige stdin depuis fichier  
 ```
 
 ### **Relative path (Chemin relatif)**
@@ -579,7 +579,7 @@ Niveau d'exécution définissant les services actifs (concept SysVinit, remplac�
 ## S
 
 ### **Scheduler (Ordonnanceur)**
-Composant du noyau décidant quel processus/thread s'exécute sur quel CPU et quand. Implémente des algorithmes de scheduling (CFS sur Linux).
+Composant du noyau décidant quel processus/thread s'exécute sur quel CPU et quand. Implémente des algorithmes de scheduling (EEVDF depuis Linux 6.6, CFS avant).
 
 ### **Section critique**
 Voir glossaire C. Portion de code accédant à des ressources partagées.
@@ -646,8 +646,8 @@ Bit de permission sur un répertoire : seul le propriétaire d'un fichier peut l
 ### **strace**
 Outil traçant les appels système effectués par un processus. Indispensable pour le débogage système.
 ```bash
-strace ./mon_programme
-strace -p 1234  # Attacher à un processus existant
+strace ./mon_programme  
+strace -p 1234  # Attacher à un processus existant  
 ```
 
 ### **sudo (Superuser Do)**
@@ -680,9 +680,9 @@ Système d'initialisation et gestionnaire de services moderne, remplaçant SysVi
 ### **systemctl**
 Commande contrôlant systemd et les services.
 ```bash
-systemctl start nginx
-systemctl enable nginx
-systemctl status nginx
+systemctl start nginx  
+systemctl enable nginx  
+systemctl status nginx  
 ```
 
 ---
@@ -692,8 +692,8 @@ systemctl status nginx
 ### **tar (Tape Archive)**
 Outil d'archivage regroupant plusieurs fichiers. Souvent combiné avec gzip/bzip2 pour la compression.
 ```bash
-tar -czf archive.tar.gz dossier/
-tar -xzf archive.tar.gz
+tar -czf archive.tar.gz dossier/  
+tar -xzf archive.tar.gz  
 ```
 
 ### **TCP (Transmission Control Protocol)**
@@ -788,8 +788,8 @@ Réseau privé sécurisé sur un réseau public (Internet).
 ### **Wait / waitpid**
 Appels système permettant à un processus parent d'attendre la terminaison d'un fils et de récupérer son code de sortie.
 ```c
-pid_t pid = fork();
-if (pid == 0) {
+pid_t pid = fork();  
+if (pid == 0) {  
     exit(42);
 } else {
     int status;
@@ -844,8 +844,8 @@ Les pages de manuel sont organisées en sections :
 | **8** | Commandes d'administration système (mount, iptables) |
 
 ```bash
-man 2 open    # Appel système open()
-man 3 printf  # Fonction bibliothèque printf()
+man 2 open    # Appel système open()  
+man 3 printf  # Fonction bibliothèque printf()  
 ```
 
 ---
@@ -854,49 +854,49 @@ man 3 printf  # Fonction bibliothèque printf()
 
 ### Informations système
 ```bash
-uname -a        # Version du noyau et architecture
-lscpu           # Informations CPU
-free -h         # Utilisation mémoire
-df -h           # Espace disque
-lsblk           # Liste des périphériques bloc
-dmesg           # Messages du noyau
+uname -a        # Version du noyau et architecture  
+lscpu           # Informations CPU  
+free -h         # Utilisation mémoire  
+df -h           # Espace disque  
+lsblk           # Liste des périphériques bloc  
+dmesg           # Messages du noyau  
 ```
 
 ### Gestion des processus
 ```bash
-ps aux          # Liste tous les processus
-ps -ef          # Format alternatif
-top / htop      # Monitoring en temps réel
-pgrep nom       # Trouver PID par nom
-kill -SIGNAL PID
-killall nom     # Tuer par nom
+ps aux          # Liste tous les processus  
+ps -ef          # Format alternatif  
+top / htop      # Monitoring en temps réel  
+pgrep nom       # Trouver PID par nom  
+kill -SIGNAL PID  
+killall nom     # Tuer par nom  
 ```
 
 ### Gestion des fichiers
 ```bash
-ls -la          # Liste détaillée avec fichiers cachés
-stat fichier    # Métadonnées détaillées
-file fichier    # Type de fichier
-lsof            # Fichiers ouverts
-du -sh dossier  # Taille d'un dossier
+ls -la          # Liste détaillée avec fichiers cachés  
+stat fichier    # Métadonnées détaillées  
+file fichier    # Type de fichier  
+lsof            # Fichiers ouverts  
+du -sh dossier  # Taille d'un dossier  
 ```
 
 ### Réseau
 ```bash
-ip addr         # Adresses IP
-ip route        # Table de routage
-ss -tulpn       # Sockets en écoute
-netstat -tulpn  # Alternatif à ss (ancien)
-ping host       # Test de connectivité
-traceroute host # Traçage de route
+ip addr         # Adresses IP  
+ip route        # Table de routage  
+ss -tulpn       # Sockets en écoute  
+netstat -tulpn  # Alternatif à ss (ancien)  
+ping host       # Test de connectivité  
+traceroute host # Traçage de route  
 ```
 
 ### Système
 ```bash
-systemctl status service  # État d'un service
-journalctl -u service     # Logs d'un service
-lsmod                     # Modules noyau chargés
-strace commande           # Tracer appels système
+systemctl status service  # État d'un service  
+journalctl -u service     # Logs d'un service  
+lsmod                     # Modules noyau chargés  
+strace commande           # Tracer appels système  
 ```
 
 ---

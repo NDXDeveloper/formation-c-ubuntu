@@ -30,20 +30,20 @@ Les **appels système** (syscalls) sont l'interface entre votre programme et le 
 #include <fcntl.h>
 #include <unistd.h>
 
-int fd = open("file.txt", O_RDONLY);
-char buffer[100];
-read(fd, buffer, 100);
-close(fd);
+int fd = open("file.txt", O_RDONLY);  
+char buffer[100];  
+read(fd, buffer, 100);  
+close(fd);  
 ```
 
 **Avec bibliothèque standard (haut niveau) :**
 ```c
 #include <stdio.h>
 
-FILE *fp = fopen("file.txt", "r");
-char buffer[100];
-fread(buffer, 1, 100, fp);
-fclose(fp);
+FILE *fp = fopen("file.txt", "r");  
+char buffer[100];  
+fread(buffer, 1, 100, fp);  
+fclose(fp);  
 ```
 
 ### Quand utiliser quoi ?
@@ -73,8 +73,8 @@ Tous les appels système retournent **-1** en cas d'erreur et positionnent la va
 #include <string.h>
 #include <stdio.h>
 
-int fd = open("nonexistent.txt", O_RDONLY);
-if (fd == -1) {
+int fd = open("nonexistent.txt", O_RDONLY);  
+if (fd == -1) {  
     printf("Erreur: %s\n", strerror(errno));
     // Ou :
     perror("open");
@@ -107,8 +107,8 @@ if (fd == -1) {
 ```c
 #include <fcntl.h>
 
-int open(const char *pathname, int flags);
-int open(const char *pathname, int flags, mode_t mode);
+int open(const char *pathname, int flags);  
+int open(const char *pathname, int flags, mode_t mode);  
 ```
 
 **Flags courants :**
@@ -195,8 +195,8 @@ ssize_t read(int fd, void *buf, size_t count);
 
 **Exemple :**
 ```c
-char buffer[1024];
-ssize_t bytes_read = read(fd, buffer, sizeof(buffer) - 1);
+char buffer[1024];  
+ssize_t bytes_read = read(fd, buffer, sizeof(buffer) - 1);  
 
 if (bytes_read == -1) {
     perror("read");
@@ -227,8 +227,8 @@ ssize_t write(int fd, const void *buf, size_t count);
 
 **Exemple :**
 ```c
-const char *message = "Hello, World!\n";
-ssize_t bytes_written = write(fd, message, strlen(message));
+const char *message = "Hello, World!\n";  
+ssize_t bytes_written = write(fd, message, strlen(message));  
 
 if (bytes_written == -1) {
     perror("write");
@@ -285,8 +285,8 @@ off_t size = lseek(fd, 0, SEEK_END);
 ```c
 #include <unistd.h>
 
-int dup(int oldfd);
-int dup2(int oldfd, int newfd);
+int dup(int oldfd);  
+int dup2(int oldfd, int newfd);  
 ```
 
 **Exemple : Redirection de sortie**
@@ -329,6 +329,7 @@ int pipe(int pipefd[2]);
 **Exemple : Communication parent-enfant**
 ```c
 #include <unistd.h>
+#include <sys/wait.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -371,9 +372,9 @@ int main() {
 ```c
 #include <sys/stat.h>
 
-int stat(const char *pathname, struct stat *statbuf);
-int fstat(int fd, struct stat *statbuf);
-int lstat(const char *pathname, struct stat *statbuf);
+int stat(const char *pathname, struct stat *statbuf);  
+int fstat(int fd, struct stat *statbuf);  
+int lstat(const char *pathname, struct stat *statbuf);  
 ```
 
 **Structure `stat` :**
@@ -495,12 +496,12 @@ int main() {
 ```c
 #include <unistd.h>
 
-int execl(const char *path, const char *arg, ...);
-int execlp(const char *file, const char *arg, ...);
-int execle(const char *path, const char *arg, ..., char *const envp[]);
-int execv(const char *path, char *const argv[]);
-int execvp(const char *file, char *const argv[]);
-int execve(const char *path, char *const argv[], char *const envp[]);
+int execl(const char *path, const char *arg, ...);  
+int execlp(const char *file, const char *arg, ...);  
+int execle(const char *path, const char *arg, ..., char *const envp[]);  
+int execv(const char *path, char *const argv[]);  
+int execvp(const char *file, char *const argv[]);  
+int execve(const char *path, char *const argv[], char *const envp[]);  
 ```
 
 **Différences :**
@@ -556,8 +557,8 @@ int main() {
 ```c
 #include <sys/wait.h>
 
-pid_t wait(int *status);
-pid_t waitpid(pid_t pid, int *status, int options);
+pid_t wait(int *status);  
+pid_t waitpid(pid_t pid, int *status, int options);  
 ```
 
 **Options `waitpid` :**
@@ -604,14 +605,14 @@ int main() {
 ```c
 #include <unistd.h>
 
-pid_t getpid(void);   // PID du processus actuel
-pid_t getppid(void);  // PID du processus parent
+pid_t getpid(void);   // PID du processus actuel  
+pid_t getppid(void);  // PID du processus parent  
 ```
 
 **Exemple :**
 ```c
-printf("Mon PID: %d\n", getpid());
-printf("PID de mon parent: %d\n", getppid());
+printf("Mon PID: %d\n", getpid());  
+printf("PID de mon parent: %d\n", getppid());  
 ```
 
 ---
@@ -622,8 +623,8 @@ printf("PID de mon parent: %d\n", getppid());
 #include <stdlib.h>
 #include <unistd.h>
 
-void exit(int status);
-void _exit(int status);
+void exit(int status);  
+void _exit(int status);  
 ```
 
 **Différence :**
@@ -645,10 +646,10 @@ exit(0);  // Terminaison normale
 ```c
 #include <unistd.h>
 
-uid_t getuid(void);   // UID réel
-uid_t geteuid(void);  // UID effectif
-gid_t getgid(void);   // GID réel
-gid_t getegid(void);  // GID effectif
+uid_t getuid(void);   // UID réel  
+uid_t geteuid(void);  // UID effectif  
+gid_t getgid(void);   // GID réel  
+gid_t getegid(void);  // GID effectif  
 ```
 
 **Exemple :**
@@ -692,8 +693,8 @@ kill(0, SIGUSR1);
 ```c
 #include <signal.h>
 
-typedef void (*sighandler_t)(int);
-sighandler_t signal(int signum, sighandler_t handler);
+typedef void (*sighandler_t)(int);  
+sighandler_t signal(int signum, sighandler_t handler);  
 ```
 
 **Handlers spéciaux :**
@@ -787,9 +788,9 @@ int pause(void);
 
 **Exemple :**
 ```c
-printf("En attente d'un signal...\n");
-pause();  // Bloque jusqu'à réception d'un signal
-printf("Signal reçu !\n");
+printf("En attente d'un signal...\n");  
+pause();  // Bloque jusqu'à réception d'un signal  
+printf("Signal reçu !\n");  
 ```
 
 ---
@@ -830,16 +831,16 @@ int main() {
 ```c
 #include <unistd.h>
 
-int brk(void *addr);
-void *sbrk(intptr_t increment);
+int brk(void *addr);  
+void *sbrk(intptr_t increment);  
 ```
 
 **Note :** Rarement utilisés directement. `malloc()` les utilise en interne.
 
 **Exemple :**
 ```c
-void *old_brk = sbrk(0);  // Position actuelle
-void *new_brk = sbrk(4096);  // Allouer 4096 octets
+void *old_brk = sbrk(0);  // Position actuelle  
+void *new_brk = sbrk(4096);  // Allouer 4096 octets  
 
 if (new_brk == (void *)-1) {
     perror("sbrk");
@@ -963,8 +964,8 @@ time_t time(time_t *tloc);
 
 **Exemple :**
 ```c
-time_t now = time(NULL);
-printf("Timestamp: %ld\n", now);
+time_t now = time(NULL);  
+printf("Timestamp: %ld\n", now);  
 ```
 
 ---
@@ -979,9 +980,9 @@ int gettimeofday(struct timeval *tv, struct timezone *tz);
 
 **Exemple :**
 ```c
-struct timeval tv;
-gettimeofday(&tv, NULL);
-printf("Secondes: %ld, Microsecondes: %ld\n", tv.tv_sec, tv.tv_usec);
+struct timeval tv;  
+gettimeofday(&tv, NULL);  
+printf("Secondes: %ld, Microsecondes: %ld\n", tv.tv_sec, tv.tv_usec);  
 ```
 
 ---
@@ -1080,9 +1081,9 @@ int rmdir(const char *pathname);
 ```c
 #include <dirent.h>
 
-DIR *opendir(const char *name);
-struct dirent *readdir(DIR *dirp);
-int closedir(DIR *dirp);
+DIR *opendir(const char *name);  
+struct dirent *readdir(DIR *dirp);  
+int closedir(DIR *dirp);  
 ```
 
 **Structure `dirent` :**
@@ -1132,19 +1133,19 @@ int main() {
 ```c
 #include <unistd.h>
 
-int chdir(const char *path);
-char *getcwd(char *buf, size_t size);
+int chdir(const char *path);  
+char *getcwd(char *buf, size_t size);  
 ```
 
 **Exemple :**
 ```c
-char cwd[PATH_MAX];
-getcwd(cwd, sizeof(cwd));
-printf("Répertoire actuel: %s\n", cwd);
+char cwd[PATH_MAX];  
+getcwd(cwd, sizeof(cwd));  
+printf("Répertoire actuel: %s\n", cwd);  
 
-chdir("/tmp");
-getcwd(cwd, sizeof(cwd));
-printf("Nouveau répertoire: %s\n", cwd);
+chdir("/tmp");  
+getcwd(cwd, sizeof(cwd));  
+printf("Nouveau répertoire: %s\n", cwd);  
 ```
 
 ---
@@ -1171,8 +1172,8 @@ int socket(int domain, int type, int protocol);
 
 **Exemple :**
 ```c
-int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-if (sockfd == -1) {
+int sockfd = socket(AF_INET, SOCK_STREAM, 0);  
+if (sockfd == -1) {  
     perror("socket");
     return 1;
 }
@@ -1192,10 +1193,10 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 ```c
 #include <arpa/inet.h>
 
-struct sockaddr_in addr;
-addr.sin_family = AF_INET;
-addr.sin_port = htons(8080);
-addr.sin_addr.s_addr = INADDR_ANY;
+struct sockaddr_in addr;  
+addr.sin_family = AF_INET;  
+addr.sin_port = htons(8080);  
+addr.sin_addr.s_addr = INADDR_ANY;  
 
 if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
     perror("bind");
@@ -1230,11 +1231,11 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 
 **Exemple :**
 ```c
-struct sockaddr_in client_addr;
-socklen_t client_len = sizeof(client_addr);
+struct sockaddr_in client_addr;  
+socklen_t client_len = sizeof(client_addr);  
 
-int client_fd = accept(sockfd, (struct sockaddr *)&client_addr, &client_len);
-if (client_fd == -1) {
+int client_fd = accept(sockfd, (struct sockaddr *)&client_addr, &client_len);  
+if (client_fd == -1) {  
     perror("accept");
     return 1;
 }
@@ -1256,10 +1257,10 @@ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
 **Exemple :**
 ```c
-struct sockaddr_in server_addr;
-server_addr.sin_family = AF_INET;
-server_addr.sin_port = htons(8080);
-inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr);
+struct sockaddr_in server_addr;  
+server_addr.sin_family = AF_INET;  
+server_addr.sin_port = htons(8080);  
+inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr);  
 
 if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
     perror("connect");
@@ -1274,18 +1275,18 @@ if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1)
 ```c
 #include <sys/socket.h>
 
-ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+ssize_t send(int sockfd, const void *buf, size_t len, int flags);  
+ssize_t recv(int sockfd, void *buf, size_t len, int flags);  
 ```
 
 **Exemple :**
 ```c
-const char *msg = "Hello, server!";
-send(sockfd, msg, strlen(msg), 0);
+const char *msg = "Hello, server!";  
+send(sockfd, msg, strlen(msg), 0);  
 
-char buffer[1024];
-ssize_t bytes = recv(sockfd, buffer, sizeof(buffer) - 1, 0);
-if (bytes > 0) {
+char buffer[1024];  
+ssize_t bytes = recv(sockfd, buffer, sizeof(buffer) - 1, 0);  
+if (bytes > 0) {  
     buffer[bytes] = '\0';
     printf("Reçu: %s\n", buffer);
 }
@@ -1600,18 +1601,18 @@ int main() {
 
 ```c
 // ❌ Mauvais
-int fd = open("file.txt", O_RDONLY);
-read(fd, buffer, 100);
+int fd = open("file.txt", O_RDONLY);  
+read(fd, buffer, 100);  
 
 // ✅ Bon
-int fd = open("file.txt", O_RDONLY);
-if (fd == -1) {
+int fd = open("file.txt", O_RDONLY);  
+if (fd == -1) {  
     perror("open");
     return 1;
 }
 
-ssize_t bytes = read(fd, buffer, 100);
-if (bytes == -1) {
+ssize_t bytes = read(fd, buffer, 100);  
+if (bytes == -1) {  
     perror("read");
     close(fd);
     return 1;
@@ -1629,11 +1630,11 @@ int fd = open("file.txt", O_RDONLY);
 return 0;  // fd pas fermé = fuite de ressource
 
 // ✅ Bon
-int fd = open("file.txt", O_RDONLY);
-if (fd == -1) return 1;
+int fd = open("file.txt", O_RDONLY);  
+if (fd == -1) return 1;  
 // ... travail ...
-close(fd);
-return 0;
+close(fd);  
+return 0;  
 ```
 
 ---
@@ -1645,8 +1646,8 @@ return 0;
 ssize_t bytes = read(fd, buffer, size);
 
 // ✅ Réessayer si interrompu
-ssize_t bytes;
-do {
+ssize_t bytes;  
+do {  
     bytes = read(fd, buffer, size);
 } while (bytes == -1 && errno == EINTR);
 ```
@@ -1660,8 +1661,8 @@ do {
 write(fd, buffer, size);
 
 // ✅ Vérifier que tout est écrit
-ssize_t total = 0;
-while (total < size) {
+ssize_t total = 0;  
+while (total < size) {  
     ssize_t written = write(fd, buffer + total, size - total);
     if (written == -1) {
         if (errno == EINTR) continue;
@@ -1703,15 +1704,15 @@ while (total < size) {
 
 ```c
 // Fichiers
-int fd = open("file.txt", O_RDONLY);
-read(fd, buffer, size);
-write(fd, buffer, size);
-lseek(fd, 0, SEEK_SET);
-close(fd);
+int fd = open("file.txt", O_RDONLY);  
+read(fd, buffer, size);  
+write(fd, buffer, size);  
+lseek(fd, 0, SEEK_SET);  
+close(fd);  
 
 // Processus
-pid_t pid = fork();
-if (pid == 0) {
+pid_t pid = fork();  
+if (pid == 0) {  
     // Enfant
     execl("/bin/ls", "ls", "-l", NULL);
 } else {
@@ -1720,16 +1721,16 @@ if (pid == 0) {
 }
 
 // Signaux
-signal(SIGINT, handler);
-kill(pid, SIGTERM);
+signal(SIGINT, handler);  
+kill(pid, SIGTERM);  
 
 // Sockets
-int sock = socket(AF_INET, SOCK_STREAM, 0);
-bind(sock, (struct sockaddr *)&addr, sizeof(addr));
-listen(sock, 5);
-int client = accept(sock, NULL, NULL);
-send(client, buffer, size, 0);
-recv(client, buffer, size, 0);
+int sock = socket(AF_INET, SOCK_STREAM, 0);  
+bind(sock, (struct sockaddr *)&addr, sizeof(addr));  
+listen(sock, 5);  
+int client = accept(sock, NULL, NULL);  
+send(client, buffer, size, 0);  
+recv(client, buffer, size, 0);  
 ```
 
 ---
@@ -1740,9 +1741,9 @@ recv(client, buffer, size, 0);
 
 ```bash
 # Man pages section 2 (appels système)
-man 2 open
-man 2 fork
-man 2 signal
+man 2 open  
+man 2 fork  
+man 2 signal  
 
 # Lister tous les appels système
 man syscalls

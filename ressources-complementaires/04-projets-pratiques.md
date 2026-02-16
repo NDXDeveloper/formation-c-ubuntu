@@ -43,7 +43,7 @@ La meilleure façon d'apprendre le C est de **coder des projets concrets**. Cett
 - Documentation (README.md)
 - Commentaires dans le code
 - Gestion des erreurs
-- Validation avec `-Wall -Werror`
+- Validation avec `-Wall -Wextra -Werror -pedantic -std=c17`
 
 ---
 
@@ -66,10 +66,10 @@ Créez une calculatrice qui demande deux nombres et une opération (+, -, *, /) 
 **Exemple d'utilisation** :
 ```
 $ ./calculatrice
-Entrez le premier nombre : 42
-Entrez l'opérateur (+, -, *, /) : *
-Entrez le second nombre : 3
-Résultat : 42 * 3 = 126
+Entrez le premier nombre : 42  
+Entrez l'opérateur (+, -, *, /) : *  
+Entrez le second nombre : 3  
+Résultat : 42 * 3 = 126  
 ```
 
 **Concepts mis en œuvre** :
@@ -108,8 +108,8 @@ $ ./temp_converter
 2. Fahrenheit → Celsius
 3. Celsius → Kelvin
 4. Kelvin → Celsius
-Votre choix : 1
-Température en Celsius : 25
+Votre choix : 1  
+Température en Celsius : 25  
 25.0°C = 77.0°F
 ```
 
@@ -148,13 +148,13 @@ Le programme tire un nombre aléatoire entre 1 et 100. L'utilisateur doit le dev
 **Exemple d'utilisation** :
 ```
 $ ./devine_nombre
-J'ai choisi un nombre entre 1 et 100.
-Tentative 1 : 50
-Trop grand !
-Tentative 2 : 25
-Trop petit !
-Tentative 3 : 37
-Bravo ! Vous avez trouvé en 3 tentatives.
+J'ai choisi un nombre entre 1 et 100.  
+Tentative 1 : 50  
+Trop grand !  
+Tentative 2 : 25  
+Trop petit !  
+Tentative 3 : 37  
+Bravo ! Vous avez trouvé en 3 tentatives.  
 ```
 
 **Concepts mis en œuvre** :
@@ -192,10 +192,10 @@ $ ./passmanager
 2. Rechercher un mot de passe
 3. Lister tous les comptes
 4. Quitter
-Votre choix : 1
-Nom du site : GitHub
-Mot de passe : ************
-Enregistré !
+Votre choix : 1  
+Nom du site : GitHub  
+Mot de passe : ************  
+Enregistré !  
 ```
 
 **Concepts mis en œuvre** :
@@ -239,12 +239,12 @@ Implémentez plusieurs algorithmes de tri (bubble sort, selection sort, insertio
 **Exemple d'utilisation** :
 ```
 $ ./tri
-Tableau initial : 64 34 25 12 22 11 90
-Tri à bulles : 11 12 22 25 34 64 90
-Temps : 0.000123 secondes
+Tableau initial : 64 34 25 12 22 11 90  
+Tri à bulles : 11 12 22 25 34 64 90  
+Temps : 0.000123 secondes  
 
-Tri par sélection : 11 12 22 25 34 64 90
-Temps : 0.000098 secondes
+Tri par sélection : 11 12 22 25 34 64 90  
+Temps : 0.000098 secondes  
 ```
 
 **Concepts mis en œuvre** :
@@ -490,8 +490,8 @@ Serveur en écoute sur le port 8080...
 
 # Terminal 2 : connecter un client
 $ telnet localhost 8080
-Hello!
-Hello!
+Hello!  
+Hello!  
 ```
 
 **Extensions possibles** :
@@ -620,15 +620,15 @@ Serveur web minimaliste qui sert des fichiers statiques (HTML, CSS, images) via 
 
 **Exemple de requête** :
 ```
-GET /index.html HTTP/1.1
-Host: localhost:8080
+GET /index.html HTTP/1.1  
+Host: localhost:8080  
 ```
 
 **Exemple de réponse** :
 ```
-HTTP/1.1 200 OK
-Content-Type: text/html
-Content-Length: 1234
+HTTP/1.1 200 OK  
+Content-Type: text/html  
+Content-Length: 1234  
 
 <html>...</html>
 ```
@@ -774,8 +774,8 @@ User Space
 **Test** :
 ```bash
 $ sudo ./trace_open
-Tracing open() calls... Hit Ctrl-C to end.
-PID    COMM             COUNT
+Tracing open() calls... Hit Ctrl-C to end.  
+PID    COMM             COUNT  
 1234   firefox          42
 5678   code             18
 ...
@@ -910,7 +910,7 @@ $ fusermount -u mountpoint/
 
 **À la fin** :
 - ✅ README.md complet (description, compilation, utilisation)
-- ✅ Compilation sans warnings (`-Wall -Werror`)
+- ✅ Compilation sans warnings (`-Wall -Wextra -Werror -pedantic -std=c17`)
 - ✅ Valgrind clean (0 leaks)
 - ✅ Tests de base effectués
 
@@ -944,8 +944,8 @@ $ fusermount -u mountpoint/
 
 ## 🌟 Motivation
 
-> "Le seul moyen d'apprendre le C est de coder en C."
-> — Dennis Ritchie (créateur du langage C)
+> "The only way to learn a new programming language is by writing programs in it."
+> — Brian Kernighan & Dennis Ritchie, *The C Programming Language* (1978)
 
 Chaque projet terminé est une **victoire**. Chaque bug résolu vous rend **meilleur**. Chaque ligne de code est un **pas vers la maîtrise**.
 

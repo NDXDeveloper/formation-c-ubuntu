@@ -19,8 +19,8 @@ Numéro unique identifiant un emplacement précis dans la mémoire de l'ordinate
 ### **Affectation (Assignment)**
 Action d'attribuer une valeur à une variable. En C, l'opérateur d'affectation est `=`.
 ```c
-int x = 42;  // Affectation lors de la déclaration
-x = 100;     // Nouvelle affectation
+int x = 42;  // Affectation lors de la déclaration  
+x = 100;     // Nouvelle affectation  
 ```
 
 ### **Alignement mémoire (Memory Alignment)**
@@ -47,9 +47,9 @@ Valeur concrète passée à une fonction lors de son appel. À distinguer du **p
 ### **Arithmétique de pointeurs**
 Opérations mathématiques effectuées sur des pointeurs (addition, soustraction). Permet de parcourir des tableaux ou des zones mémoires.
 ```c
-int tab[5] = {1, 2, 3, 4, 5};
-int *ptr = tab;
-ptr++;  // Pointe maintenant sur tab[1]
+int tab[5] = {1, 2, 3, 4, 5};  
+int *ptr = tab;  
+ptr++;  // Pointe maintenant sur tab[1]  
 ```
 
 ### **Assertion**
@@ -117,8 +117,8 @@ Fonction passée en argument à une autre fonction, qui sera appelée ultérieur
 ### **Cast (Transtypage)**
 Conversion explicite d'une valeur d'un type vers un autre type.
 ```c
-float x = 3.14;
-int y = (int)x;  // Cast explicite : y vaut 3
+float x = 3.14;  
+int y = (int)x;  // Cast explicite : y vaut 3  
 ```
 
 ### **Chaîne de caractères (String)**
@@ -180,8 +180,8 @@ Pointeur qui référence une zone mémoire qui a été libérée ou qui n'est pl
 ### **Déclaration (Declaration)**
 Annonce l'existence d'une variable, fonction, ou type sans nécessairement définir son contenu/implémentation.
 ```c
-int fonction(int x);  // Déclaration (prototype)
-extern int variable;  // Déclaration d'une variable externe
+int fonction(int x);  // Déclaration (prototype)  
+extern int variable;  // Déclaration d'une variable externe  
 ```
 
 ### **Définition (Definition)**
@@ -199,9 +199,9 @@ Outil permettant d'exécuter un programme pas à pas, d'inspecter les variables,
 ### **Déréférencement (Dereferencing)**
 Action d'accéder à la valeur pointée par un pointeur, via l'opérateur `*`.
 ```c
-int x = 42;
-int *ptr = &x;
-int valeur = *ptr;  // Déréférencement : valeur vaut 42
+int x = 42;  
+int *ptr = &x;  
+int valeur = *ptr;  // Déréférencement : valeur vaut 42  
 ```
 
 ### **Descripteur de fichier (File Descriptor)**
@@ -232,8 +232,8 @@ Fichier `.h` contenant des déclarations (fonctions, types, macros) destinées �
 ### **Énumération (enum)**
 Type de données définissant un ensemble de constantes nommées avec des valeurs entières.
 ```c
-enum Couleur { ROUGE, VERT, BLEU };
-enum Couleur ma_couleur = ROUGE;
+enum Couleur { ROUGE, VERT, BLEU };  
+enum Couleur ma_couleur = ROUGE;  
 ```
 
 ### **errno**
@@ -339,8 +339,8 @@ Action d'insérer le contenu d'un fichier dans un autre via `#include`.
 ### **Initialisation**
 Affectation d'une valeur initiale à une variable lors de sa déclaration.
 ```c
-int x = 10;  // Initialisée
-int y;       // Non initialisée (valeur indéterminée)
+int x = 10;  // Initialisée  
+int y;       // Non initialisée (valeur indéterminée)  
 ```
 
 ### **Inline assembly**
@@ -418,8 +418,8 @@ Structure de contrôle répétant un bloc de code : `while`, `for`, `do-while`.
 ### **Lvalue**
 Expression qui peut apparaître à gauche d'une affectation (désigne un emplacement mémoire modifiable).
 ```c
-int x = 10;
-x = 20;     // 'x' est une lvalue
+int x = 10;  
+x = 20;     // 'x' est une lvalue  
 ```
 
 ---
@@ -532,15 +532,15 @@ Mécanisme IPC permettant la communication unidirectionnelle entre processus via
 ### **Pointeur (Pointer)**
 Variable contenant l'adresse mémoire d'une autre variable. Type déclaré avec `*`.
 ```c
-int x = 42;
-int *ptr = &x;  // ptr pointe vers x
+int x = 42;  
+int *ptr = &x;  // ptr pointe vers x  
 ```
 
 ### **Pointeur de fonction**
 Pointeur vers l'adresse d'une fonction. Permet les callbacks et les tables de dispatch.
 ```c
-int (*fptr)(int, int) = &ma_fonction;
-int resultat = fptr(10, 20);
+int (*fptr)(int, int) = &ma_fonction;  
+int resultat = fptr(10, 20);  
 ```
 
 ### **Pointeur opaque (Opaque pointer)**
@@ -621,8 +621,8 @@ Période pendant laquelle le programme s'exécute, par opposition au temps de co
 ### **Rvalue**
 Expression ne pouvant pas apparaître à gauche d'une affectation (valeur temporaire, littéral).
 ```c
-int x = 42;  // 42 est une rvalue
-x = 10 + 5;  // 10 + 5 est une rvalue
+int x = 42;  // 42 est une rvalue  
+x = 10 + 5;  // 10 + 5 est une rvalue  
 ```
 
 ---
@@ -749,8 +749,8 @@ Type construit à partir de types de base : tableaux, pointeurs, structures, uni
 ### **typedef**
 Mot-clé créant un alias pour un type existant, améliorant la lisibilité.
 ```c
-typedef unsigned long ulong;
-typedef struct Point Point_t;
+typedef unsigned long ulong;  
+typedef struct Point Point_t;  
 ```
 
 ### **Type opaque**

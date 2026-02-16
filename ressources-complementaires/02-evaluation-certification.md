@@ -65,14 +65,15 @@ La formation est structurée en **trois niveaux progressifs**, chacun correspond
 **Critère** : Votre code doit compiler **sans aucun warning** avec les options strictes :
 
 ```bash
-gcc -Wall -Werror -Wextra -std=c11 main.c -o gestionnaire
+gcc -Wall -Wextra -Werror -pedantic -std=c17 main.c -o gestionnaire
 ```
 
 **Explication des options** :
 - `-Wall` : Active tous les warnings courants
-- `-Werror` : Transforme les warnings en erreurs (la compilation échoue)
 - `-Wextra` : Active des warnings supplémentaires
-- `-std=c11` : Utilise la norme C11
+- `-Werror` : Transforme les warnings en erreurs (la compilation échoue)
+- `-pedantic` : Vérifie la conformité stricte au standard
+- `-std=c17` : Utilise la norme C17
 
 **Pourquoi c'est important ?** Les warnings indiquent souvent des bugs potentiels. Un code professionnel ne doit jamais ignorer les warnings du compilateur.
 
@@ -199,11 +200,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install dependencies
         run: sudo apt-get install -y gcc make
       - name: Compile
-        run: gcc -Wall -Werror src/*.c -o app
+        run: gcc -Wall -Wextra -Werror -pedantic -std=c17 src/*.c -o app
       - name: Run tests
         run: ./run_tests.sh
 ```
@@ -445,9 +446,9 @@ Bien que cette formation ne délivre pas de certification officielle, vous pouve
 
 Si vous souhaitez une certification reconnue, considérez :
 
-- **LPI (Linux Professional Institute)** : Certifications Linux (incluent du C)
-- **Red Hat Certified Specialist** : Pour les compétences système
-- **Contributions reconnues** : Devenir contributeur régulier sur des projets majeurs (Git, Linux kernel, etc.)
+- **CLA / CLP (C Institute)** : Certifications dédiées au langage C (C Programming Language Certified Associate / Professional)
+- **LPI (Linux Professional Institute)** : Certifications Linux qui valident les compétences système acquises pendant la formation
+- **Contributions reconnues** : Devenir contributeur régulier sur des projets majeurs en C (Git, Linux kernel, curl, etc.)
 
 ---
 

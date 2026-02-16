@@ -32,8 +32,8 @@ Un **standard** est une spécification officielle qui définit ce qui fait parti
 **Exemple K&R C :**
 ```c
 /* Déclaration K&R - syntaxe ancienne */
-int add(a, b)
-int a, b;
+int add(a, b)  
+int a, b;  
 {
     return a + b;
 }
@@ -226,10 +226,9 @@ _Alignas(16) int aligned_array[4];
 - `gets()` officiellement retirée (dangereuse)
 
 **Statut :**
-- **C11 est le standard de production recommandé en 2025**
 - Excellent support dans GCC, Clang
 - Support moderne de la concurrence
-- Balance entre modernité et portabilité
+- Supplanté par C17 (bug fix release de C11)
 
 ---
 
@@ -246,7 +245,8 @@ _Alignas(16) int aligned_array[4];
 **Pourquoi important ?**
 - Corrige des ambiguïtés dans C11
 - C'est techniquement la version "stable" de C11
-- Compilateurs récents ciblent C17 par défaut
+- **C17 est le standard de production recommandé en 2025**
+- Compilateurs récents ciblent C17 par défaut (GCC 13+ sur Ubuntu 24.04)
 
 **Utilisation :**
 ```bash
@@ -264,8 +264,8 @@ gcc -std=c17 program.c -o program
 
 #### 1. Mot-clé `typeof` et `typeof_unqual`
 ```c
-int x = 5;
-typeof(x) y = 10;  // y est de type int
+int x = 5;  
+typeof(x) y = 10;  // y est de type int  
 ```
 
 #### 2. Amélioration des attributs
@@ -322,11 +322,11 @@ int* ptr = nullptr;  // Meilleur que NULL
 
 **Vérifier le support :**
 ```bash
-# GCC
+# GCC 14+ supporte -std=c23, GCC 13 utilise -std=c2x
 gcc --version
-gcc -std=c23 -E -dM - < /dev/null | grep __STDC_VERSION__
+gcc -std=c2x -E -dM - < /dev/null | grep __STDC_VERSION__
 
-# Clang
+# Clang 16+
 clang --version
 clang -std=c23 -E -dM - < /dev/null | grep __STDC_VERSION__
 ```
@@ -338,24 +338,24 @@ clang -std=c23 -E -dM - < /dev/null | grep __STDC_VERSION__
 ### Recommandations par cas d'usage
 
 #### Pour la production et les projets professionnels
-**→ C11 ou C17**
+**→ C17 (recommandé) ou C11**
 
 **Raisons :**
+- C17 corrige les ambiguïtés de C11 sans casser la compatibilité
 - Support universel dans tous les compilateurs modernes
 - Fonctionnalités modernes (threads, atomics)
-- Stabilité éprouvée
-- Portabilité maximale
+- Stabilité éprouvée et portabilité maximale
 
 ```bash
 # Compilation recommandée
-gcc -std=c11 -Wall -Wextra -O2 program.c -o program
+gcc -std=c17 -Wall -Wextra -O2 program.c -o program
 ```
 
 #### Pour l'apprentissage
-**→ C11 ou C17**
+**→ C17**
 
 **Raisons :**
-- Toute la documentation utilise C11 comme base
+- Version stable et corrigée de C11
 - Vous pourrez lire et comprendre 99% du code moderne
 - Pas de piège avec des fonctionnalités non supportées
 
@@ -415,11 +415,12 @@ int main(void) {
 
 ```bash
 # GCC : Spécifier le standard
-gcc -std=c89 program.c    # Force C89
-gcc -std=c99 program.c    # Force C99
-gcc -std=c11 program.c    # Force C11 (recommandé)
+gcc -std=c89 program.c    # Force C89  
+gcc -std=c99 program.c    # Force C99  
+gcc -std=c11 program.c    # Force C11
 gcc -std=c17 program.c    # Force C17 (recommandé)
-gcc -std=c23 program.c    # Force C23 (expérimental)
+gcc -std=c2x program.c    # Force C23 (GCC 13, expérimental)
+gcc -std=c23 program.c    # Force C23 (GCC 14+, expérimental)
 
 # Extensions GNU (non portable)
 gcc -std=gnu11 program.c  # C11 + extensions GNU
@@ -457,9 +458,9 @@ Dans votre `CMakeLists.txt` ou `Makefile` :
 
 ```cmake
 # CMake
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_EXTENSIONS OFF)  # Désactive les extensions GNU
+set(CMAKE_C_STANDARD 11)  
+set(CMAKE_C_STANDARD_REQUIRED ON)  
+set(CMAKE_C_EXTENSIONS OFF)  # Désactive les extensions GNU  
 ```
 
 ```makefile
@@ -471,16 +472,16 @@ CFLAGS = -std=c11 -Wall -Wextra -pedantic
 
 ❌ **Mauvais :**
 ```bash
-gcc -std=c99 file1.c -c
-gcc -std=c11 file2.c -c
-gcc file1.o file2.o -o program  # Mélange de standards !
+gcc -std=c99 file1.c -c  
+gcc -std=c11 file2.c -c  
+gcc file1.o file2.o -o program  # Mélange de standards !  
 ```
 
 ✅ **Bon :**
 ```bash
-gcc -std=c11 file1.c -c
-gcc -std=c11 file2.c -c
-gcc file1.o file2.o -o program
+gcc -std=c11 file1.c -c  
+gcc -std=c11 file2.c -c  
+gcc file1.o file2.o -o program  
 ```
 
 ### 3. Activez les avertissements stricts
@@ -584,9 +585,9 @@ Les standards ISO sont vendus, mais voici les références officielles :
 
 En 2025, voici ce qu'il faut retenir :
 
-✅ **Pour 99% des projets : Utilisez C11 ou C17**
-- Support universel
-- Fonctionnalités modernes et stabilité
+✅ **Pour 99% des projets : Utilisez C17**
+- Version stable de C11, avec corrections
+- Fonctionnalités modernes et support universel
 - Documentation abondante
 
 ✅ **Connaître C89/C99 pour lire du code ancien**
@@ -601,7 +602,7 @@ En 2025, voici ce qu'il faut retenir :
 - Obsolètes et limitants
 - Sauf contraintes matérielles extrêmes
 
-**Le standard C évolue lentement, mais sûrement. Cette stabilité est une force : votre code C11 d'aujourd'hui fonctionnera encore dans 20 ans.**
+**Le standard C évolue lentement, mais sûrement. Cette stabilité est une force : votre code C17 d'aujourd'hui fonctionnera encore dans 20 ans.**
 
 ---
 

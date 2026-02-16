@@ -340,7 +340,7 @@ Voici une configuration `settings.json` complète, commentée et optimisée pour
   },
 
   // Configuration C/C++ Extension
-  "C_Cpp.default.cStandard": "c11",
+  "C_Cpp.default.cStandard": "c17",
   "C_Cpp.default.cppStandard": "c++17",
   "C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
   "C_Cpp.default.compilerPath": "/usr/bin/gcc",
@@ -376,19 +376,16 @@ Voici une configuration `settings.json` complète, commentée et optimisée pour
   "code-runner.saveFileBeforeRun": true,
   "code-runner.clearPreviousOutput": true,
   "code-runner.executorMap": {
-    "c": "cd $dir && gcc -Wall -Wextra -std=c11 -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
+    "c": "cd $dir && gcc -Wall -Wextra -std=c17 -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
   },
 
   // Error Lens (affiche les erreurs inline)
   "errorLens.enabled": true,
   "errorLens.enabledDiagnosticLevels": ["error", "warning"],
 
-  // Bracket Pair Colorizer 2 (couleurs pour les accolades)
-  "bracket-pair-colorizer-2.colors": [
-    "Gold",
-    "Orchid",
-    "LightSkyBlue"
-  ],
+  // Coloration native des paires d'accolades (VS Code 1.67+)
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
 
   // GitLens (Git avancé)
   "gitlens.currentLine.enabled": true,
@@ -541,9 +538,9 @@ sudo apt install fonts-firacode
 **C/C++ Extension - Paramètres critiques :**
 
 ```json
-"C_Cpp.default.cStandard": "c11"
+"C_Cpp.default.cStandard": "c17"
 ```
-→ Utilise la norme C11 (recommandé en 2025)
+→ Utilise la norme C17 (recommandé en 2025)
 
 ```json
 "C_Cpp.default.compilerPath": "/usr/bin/gcc"
@@ -600,7 +597,7 @@ sudo apt install fonts-firacode
 | **GitLens** | GitKraken | Git avancé | ⭐⭐⭐ Essentiel |
 | **Error Lens** | Alexander | Erreurs inline | ⭐⭐⭐ Essentiel |
 | **Better Comments** | Aaron Bond | Commentaires colorés | ⭐⭐ Recommandé |
-| **Bracket Pair Colorizer 2** | CoenraadS | Coloration des accolades | ⭐⭐ Recommandé |
+| ~~Bracket Pair Colorizer 2~~ | CoenraadS | Coloration des accolades | ❌ Déprécié (natif depuis VS Code 1.67) |
 | **Todo Tree** | Gruntfuggly | Gestion des TODOs | ⭐⭐ Recommandé |
 | **vscode-icons** | VSCode Icons Team | Icônes de fichiers | ⭐ Optionnel |
 | **Path Intellisense** | Christian Kohler | Autocomplétion de chemins | ⭐⭐ Recommandé |
@@ -643,9 +640,6 @@ code --install-extension formulahendry.code-runner
 # Better Comments
 code --install-extension aaron-bond.better-comments
 
-# Bracket Pair Colorizer 2
-code --install-extension coenraads.bracket-pair-colorizer-2
-
 # Todo Tree
 code --install-extension gruntfuggly.todo-tree
 
@@ -673,7 +667,6 @@ extensions=(
   "usernamehw.errorlens"
   "formulahendry.code-runner"
   "aaron-bond.better-comments"
-  "coenraads.bracket-pair-colorizer-2"
   "gruntfuggly.todo-tree"
   "vscode-icons-team.vscode-icons"
   "christian-kohler.path-intellisense"
@@ -709,7 +702,6 @@ Créez un fichier `.vscode/extensions.json` dans votre projet :
     "usernamehw.errorlens",
     "formulahendry.code-runner",
     "aaron-bond.better-comments",
-    "coenraads.bracket-pair-colorizer-2",
     "gruntfuggly.todo-tree",
     "vscode-icons-team.vscode-icons"
   ]
@@ -747,7 +739,7 @@ VS Code peut le générer automatiquement :
       ],
       "defines": [],
       "compilerPath": "/usr/bin/gcc",
-      "cStandard": "c11",
+      "cStandard": "c17",
       "cppStandard": "c++17",
       "intelliSenseMode": "linux-gcc-x64",
       "compileCommands": "${workspaceFolder}/build/compile_commands.json"
@@ -796,7 +788,7 @@ VS Code peut le générer automatiquement :
 
 ```json
 "code-runner.executorMap": {
-  "c": "cd $dir && gcc -Wall -Wextra -std=c11 -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
+  "c": "cd $dir && gcc -Wall -Wextra -std=c17 -g $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
 }
 ```
 
@@ -863,23 +855,30 @@ int main() {
 // ! ATTENTION : Code critique             → Rouge vif
 ```
 
-### **7. Bracket Pair Colorizer 2**
+### **7. Coloration des accolades (natif)**
 
 **Effet :** Colore les accolades/parenthèses de couleurs différentes selon le niveau d'imbrication.
+
+**Configuration (native depuis VS Code 1.67) :**
+
+```json
+"editor.bracketPairColorization.enabled": true,
+"editor.guides.bracketPairs": "active"
+```
 
 **Exemple :**
 
 ```c
-int main() {           // → Accolade or
-    if (x > 0) {       // → Accolade orchidée
-        for (;;) {     // → Accolade bleu ciel
+int main() {           // → Accolade couleur 1
+    if (x > 0) {       // → Accolade couleur 2
+        for (;;) {     // → Accolade couleur 3
             // ...
         }
     }
 }
 ```
 
-**Note :** VS Code 1.67+ inclut cette fonctionnalité nativement, mais l'extension offre plus d'options.
+⚠️ **Note :** L'extension Bracket Pair Colorizer 2 est **dépréciée**. Utilisez la fonctionnalité native de VS Code.
 
 ---
 
@@ -961,7 +960,7 @@ Créez `.vscode/tasks.json` :
       "args": [
         "-Wall",
         "-Wextra",
-        "-std=c11",
+        "-std=c17",
         "-g",
         "${file}",
         "-o",
@@ -1080,7 +1079,7 @@ Ajoutez une tâche dans `tasks.json` :
   "args": [
     "--enable=all",
     "--inconclusive",
-    "--std=c11",
+    "--std=c17",
     "${file}"
   ],
   "problemMatcher": {
@@ -1286,12 +1285,12 @@ sudo apt install clang-format
 
 **b) Créer un fichier `.clang-format` à la racine du projet :**
 ```yaml
-BasedOnStyle: LLVM
-IndentWidth: 4
-UseTab: Never
-BreakBeforeBraces: Linux
-AllowShortIfStatementsOnASingleLine: false
-ColumnLimit: 80
+BasedOnStyle: LLVM  
+IndentWidth: 4  
+UseTab: Never  
+BreakBeforeBraces: Linux  
+AllowShortIfStatementsOnASingleLine: false  
+ColumnLimit: 80  
 ```
 
 **c) Configurer VS Code pour l'utiliser :**
@@ -1310,9 +1309,9 @@ ColumnLimit: 80
 
 **Exemple :**
 ```c
-int a = 0;
-int b = 0;
-int c = 0;
+int a = 0;  
+int b = 0;  
+int c = 0;  
 // Sélectionnez "int" et appuyez sur Ctrl+Shift+L
 // Vous pouvez maintenant modifier les 3 lignes en même temps
 ```

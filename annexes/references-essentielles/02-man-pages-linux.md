@@ -40,9 +40,9 @@ man <nom_de_la_commande_ou_fonction>
 
 **Exemples :**
 ```bash
-man printf     # Documentation de printf
-man malloc     # Documentation de malloc
-man ls         # Documentation de la commande ls
+man printf     # Documentation de printf  
+man malloc     # Documentation de malloc  
+man ls         # Documentation de la commande ls  
 ```
 
 ### Navigation dans une man page
@@ -97,8 +97,8 @@ Certains noms existent dans plusieurs sections !
 **Exemple : `printf` existe en section 1 et 3**
 
 ```bash
-man 1 printf    # Commande shell printf
-man 3 printf    # Fonction C printf
+man 1 printf    # Commande shell printf  
+man 3 printf    # Fonction C printf  
 ```
 
 Sans préciser la section, `man` affiche la première trouvée (généralement section 1).
@@ -113,15 +113,15 @@ whatis printf
 
 **Sortie :**
 ```
-printf (1)    - format and print data
-printf (3)    - formatted output conversion
+printf (1)    - format and print data  
+printf (3)    - formatted output conversion  
 ```
 
 ### Rechercher dans toutes les sections
 
 ```bash
-man -a printf    # Affiche toutes les pages une par une
-man -k printf    # Recherche "printf" dans toutes les descriptions
+man -a printf    # Affiche toutes les pages une par une  
+man -k printf    # Recherche "printf" dans toutes les descriptions  
 ```
 
 ---
@@ -193,11 +193,11 @@ man 3 printf
 **Ce que vous apprendrez :**
 ```c
 // Exemples tirés de la man page
-printf("%d", 42);           // Entier
-printf("%#x", 255);         // Hexadécimal avec préfixe 0x
-printf("%10s", "hello");    // Chaîne alignée à droite sur 10 caractères
-printf("%-10s", "hello");   // Chaîne alignée à gauche
-printf("%.2f", 3.14159);    // Float avec 2 décimales
+printf("%d", 42);           // Entier  
+printf("%#x", 255);         // Hexadécimal avec préfixe 0x  
+printf("%10s", "hello");    // Chaîne alignée à droite sur 10 caractères  
+printf("%-10s", "hello");   // Chaîne alignée à gauche  
+printf("%.2f", 3.14159);    // Float avec 2 décimales  
 ```
 
 ### `scanf(3)` - Lecture formatée
@@ -219,8 +219,8 @@ man 3 scanf
 ### `fopen(3)`, `fclose(3)` - Gestion de fichiers
 
 ```bash
-man 3 fopen
-man 3 fclose
+man 3 fopen  
+man 3 fclose  
 ```
 
 **Pourquoi c'est essentiel :**
@@ -241,8 +241,8 @@ man 3 fclose
 ### `fread(3)`, `fwrite(3)` - I/O binaires
 
 ```bash
-man 3 fread
-man 3 fwrite
+man 3 fread  
+man 3 fwrite  
 ```
 
 **Pourquoi c'est essentiel :**
@@ -280,8 +280,8 @@ man 3 malloc
 **Points clés de la man page :**
 ```c
 // malloc retourne NULL en cas d'échec
-void *ptr = malloc(100);
-if (ptr == NULL) {
+void *ptr = malloc(100);  
+if (ptr == NULL) {  
     perror("malloc");
     exit(EXIT_FAILURE);
 }
@@ -293,8 +293,8 @@ int *array = calloc(10, sizeof(int));
 ptr = realloc(ptr, 200);
 
 // free libère la mémoire
-free(ptr);
-ptr = NULL;  // Bonne pratique
+free(ptr);  
+ptr = NULL;  // Bonne pratique  
 ```
 
 ### `exit(3)`, `atexit(3)` - Terminaison de programme
@@ -373,9 +373,9 @@ man 3 strtok
 ### `memcpy(3)`, `memmove(3)`, `memset(3)`
 
 ```bash
-man 3 memcpy
-man 3 memmove
-man 3 memset
+man 3 memcpy  
+man 3 memmove  
+man 3 memset  
 ```
 
 **Différence cruciale :**
@@ -403,8 +403,8 @@ man 2 open
 #include <fcntl.h>
 #include <unistd.h>
 
-int fd = open("/tmp/file.txt", O_RDONLY);
-if (fd == -1) {
+int fd = open("/tmp/file.txt", O_RDONLY);  
+if (fd == -1) {  
     perror("open");
     return 1;
 }
@@ -415,8 +415,8 @@ close(fd);
 ### `read(2)`, `write(2)` - I/O bas niveau
 
 ```bash
-man 2 read
-man 2 write
+man 2 read  
+man 2 write  
 ```
 
 **Ce que vous apprendrez :**
@@ -459,8 +459,8 @@ man 2 pipe
 ### `signal(2)`, `sigaction(2)` - Gestion des signaux
 
 ```bash
-man 2 signal
-man 2 sigaction
+man 2 signal  
+man 2 sigaction  
 ```
 
 **⚠️ La man page recommande :**
@@ -534,8 +534,8 @@ man 3 errno
 #include <errno.h>
 #include <string.h>
 
-int fd = open("file.txt", O_RDONLY);
-if (fd == -1) {
+int fd = open("file.txt", O_RDONLY);  
+if (fd == -1) {  
     printf("Erreur: %s\n", strerror(errno));
 }
 ```
@@ -715,12 +715,12 @@ LANG=fr_FR.UTF-8 man printf
 
 ```bash
 # Dans votre .bashrc ou .zshrc
-alias man3='man 3'
-alias man2='man 2'
+alias man3='man 3'  
+alias man2='man 2'  
 
 # Utilisation
-man3 printf
-man2 open
+man3 printf  
+man2 open  
 ```
 
 ### 7. Lister toutes les man pages d'une section
@@ -749,21 +749,21 @@ Le fichier `/etc/man_db.conf` (ou `/etc/manpath.config`) contrôle :
 Par défaut, `man` utilise `less`. Vous pouvez le changer :
 
 ```bash
-export MANPAGER="most"      # Pager coloré
-export MANPAGER="vim -M -"  # Utiliser vim comme pager
+export MANPAGER="most"      # Pager coloré  
+export MANPAGER="vim -M -"  # Utiliser vim comme pager  
 ```
 
 ### Activer les couleurs
 
 ```bash
 # Ajouter dans votre .bashrc ou .zshrc
-export LESS_TERMCAP_mb=$'\e[1;32m'     # Begin bold
-export LESS_TERMCAP_md=$'\e[1;34m'     # Begin blink
-export LESS_TERMCAP_me=$'\e[0m'        # End mode
-export LESS_TERMCAP_se=$'\e[0m'        # End standout
-export LESS_TERMCAP_so=$'\e[01;44;33m' # Begin standout
-export LESS_TERMCAP_ue=$'\e[0m'        # End underline
-export LESS_TERMCAP_us=$'\e[1;4;31m'   # Begin underline
+export LESS_TERMCAP_mb=$'\e[1;32m'     # Begin bold  
+export LESS_TERMCAP_md=$'\e[1;34m'     # Begin blink  
+export LESS_TERMCAP_me=$'\e[0m'        # End mode  
+export LESS_TERMCAP_se=$'\e[0m'        # End standout  
+export LESS_TERMCAP_so=$'\e[01;44;33m' # Begin standout  
+export LESS_TERMCAP_ue=$'\e[0m'        # End underline  
+export LESS_TERMCAP_us=$'\e[1;4;31m'   # Begin underline  
 ```
 
 ---
@@ -774,12 +774,12 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'   # Begin underline
 
 ```bash
 # Installation
-sudo apt install tldr
-tldr --update
+sudo apt install tldr  
+tldr --update  
 
 # Utilisation
-tldr tar
-tldr rsync
+tldr tar  
+tldr rsync  
 ```
 
 **Avantage :** Exemples concrets immédiatement exploitables.
@@ -791,8 +791,8 @@ tldr rsync
 pip install cheat
 
 # Utilisation
-cheat tar
-cheat ssh
+cheat tar  
+cheat ssh  
 ```
 
 ### 3. info - Système GNU Info
@@ -842,14 +842,14 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 **7. Vérifiez un exemple**
 ```c
 // Exemple typique dans la man page
-FILE *fp = fopen("output.dat", "wb");
-if (fp == NULL) {
+FILE *fp = fopen("output.dat", "wb");  
+if (fp == NULL) {  
     perror("fopen");
     return 1;
 }
 
-size_t written = fwrite(data, sizeof(data[0]), n, fp);
-if (written != n) {
+size_t written = fwrite(data, sizeof(data[0]), n, fp);  
+if (written != n) {  
     if (ferror(fp))
         fprintf(stderr, "Write error\n");
 }
@@ -911,10 +911,10 @@ fclose(fp);
 
 ```bash
 # Les 5 commandes man les plus utiles
-man <fonction>           # Lire une man page
-man -k <mot_clé>         # Rechercher dans les descriptions
-man <section> <nom>      # Spécifier la section
-man -f <nom>             # Lister toutes les sections
+man <fonction>           # Lire une man page  
+man -k <mot_clé>         # Rechercher dans les descriptions  
+man <section> <nom>      # Spécifier la section  
+man -f <nom>             # Lister toutes les sections  
 /<terme>                 # Rechercher dans la page (une fois ouverte)
 ```
 

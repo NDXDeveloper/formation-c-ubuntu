@@ -253,7 +253,7 @@ Détecte les race conditions et autres bugs de concurrence.
 - ✅ Data races (accès concurrent non synchronisé)
 - ✅ Deadlocks
 - ✅ Utilisation incorrecte des mutex
-- ✅ Utilisation de variables non initialisées partagées
+- ✅ Signaux envoyés à des threads non synchronisés
 
 ### Compilation
 
@@ -359,8 +359,8 @@ export LSAN_OPTIONS=verbosity=1
 
 ```
 # Ignorer les leaks dans certaines fonctions
-leak:fonction_externe_connue
-leak:libtierce.so
+leak:fonction_externe_connue  
+leak:libtierce.so  
 ```
 
 ---
@@ -579,8 +579,8 @@ int main() {
 ```
 
 ```bash
-gcc -g -pthread race.c -o race
-valgrind --tool=helgrind ./race
+gcc -g -pthread race.c -o race  
+valgrind --tool=helgrind ./race  
 
 # Sortie :
 # ==12345== Possible data race during write of size 4 at 0x...
@@ -607,9 +607,9 @@ cg_annotate cachegrind.out.12345 programme.c
 ```
 
 ### Informations collectées
-- Cache L1 instruction/données
-- Cache L2 unifié
-- Ratios de miss
+- Cache L1 : instructions (I1) et données (D1)
+- Cache LL (Last-Level, typiquement L2 ou L3)
+- Ratios de miss par niveau
 
 ---
 
@@ -632,9 +632,12 @@ kcachegrind callgrind.out.12345
 ```bash
 # Ne pas lancer la collection au démarrage
 valgrind --tool=callgrind --instr-atstart=no ./programme
+```
 
-# Contrôle programmatique avec callgrind.h
+**Contrôle programmatique** (dans le code C) :
+```c
 #include <valgrind/callgrind.h>
+
 CALLGRIND_START_INSTRUMENTATION;
 // Code à profiler
 CALLGRIND_STOP_INSTRUMENTATION;
@@ -721,12 +724,12 @@ valgrind --tool=helgrind ./programme
 ### Optimisation de performance
 ```bash
 # Profiling
-valgrind --tool=callgrind ./programme
-kcachegrind callgrind.out.xxxxx
+valgrind --tool=callgrind ./programme  
+kcachegrind callgrind.out.xxxxx  
 
 # Analyse cache
-valgrind --tool=cachegrind ./programme
-cg_annotate cachegrind.out.xxxxx
+valgrind --tool=cachegrind ./programme  
+cg_annotate cachegrind.out.xxxxx  
 ```
 
 ---
@@ -735,8 +738,8 @@ cg_annotate cachegrind.out.xxxxx
 
 ### ASan : Heap buffer overflow
 ```
-ERROR: AddressSanitizer: heap-buffer-overflow
-WRITE of size 4 at 0x602000000034 thread T0
+ERROR: AddressSanitizer: heap-buffer-overflow  
+WRITE of size 4 at 0x602000000034 thread T0  
     #0 0x... in main test.c:10
 ```
 ➡️ **Solution :** Vérifier les indices de tableaux, taille des allocations.
@@ -745,8 +748,8 @@ WRITE of size 4 at 0x602000000034 thread T0
 
 ### ASan : Use after free
 ```
-ERROR: AddressSanitizer: heap-use-after-free
-READ of size 4 at 0x602000000010 thread T0
+ERROR: AddressSanitizer: heap-use-after-free  
+READ of size 4 at 0x602000000010 thread T0  
     #0 0x... in main test.c:15
 freed by thread T0 here:
     #0 0x... in free
@@ -812,12 +815,12 @@ endif()
 ### 3. Ne pas mélanger sanitizers et Valgrind
 ```bash
 # ❌ MAUVAIS
-gcc -fsanitize=address programme.c -o programme
-valgrind ./programme  # Conflit !
+gcc -fsanitize=address programme.c -o programme  
+valgrind ./programme  # Conflit !  
 
 # ✅ BON : Build séparé
-gcc -g programme.c -o programme_valgrind
-valgrind ./programme_valgrind
+gcc -g programme.c -o programme_valgrind  
+valgrind ./programme_valgrind  
 ```
 
 ### 4. Utiliser CI/CD pour automatiser
@@ -843,11 +846,13 @@ Créez `asan.supp`, `lsan.supp`, `valgrind.supp` pour ignorer les faux positifs 
 
 ### Commandes utiles
 ```bash
-# Lister tous les sanitizers disponibles
-gcc --help=sanitize
+# Voir les options -fsanitize disponibles
+man gcc | grep -A 2 fsanitize
 
-# Options d'un sanitizer
+# Options d'un sanitizer (affiche toutes les options reconnues)
 ASAN_OPTIONS=help=1 ./programme
+TSAN_OPTIONS=help=1 ./programme
+UBSAN_OPTIONS=help=1 ./programme
 
 # Version de Valgrind
 valgrind --version

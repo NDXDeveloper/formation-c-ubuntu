@@ -31,7 +31,7 @@ Vous êtes soit en reconversion professionnelle, soit en formation initiale inte
 
 ✅ **Expertise Système Linux**
 - Architecture Linux et kernel
-- Programmation bas niveau (appels système, drivers)
+- Programmation bas niveau (appels système, I/O avancé)
 - eBPF pour observabilité et tracing
 - Performance et optimisation
 
@@ -105,7 +105,7 @@ Vous êtes soit en reconversion professionnelle, soit en formation initiale inte
 **Lecture et compréhension (8h) :**
 - 1.1 Pourquoi le C en 2025 ?
 - 1.2 Relation C et UNIX/Linux
-- 1.3 Normes du langage (focus C11)
+- 1.3 Normes du langage (focus C17)
 - 1.4 C vs C++ vs Rust
 
 **Configuration environnement (8h) :**
@@ -117,14 +117,14 @@ Vous êtes soit en reconversion professionnelle, soit en formation initiale inte
 **Actions concrètes :**
 ```bash
 # Installation complète
-sudo apt update && sudo apt upgrade
-sudo apt install build-essential git cmake gdb valgrind \
+sudo apt update && sudo apt upgrade  
+sudo apt install build-essential git cmake gdb valgrind \  
                  clang-format clang-tidy cppcheck lcov
 
 # Vérification
-gcc --version
-git --version
-cmake --version
+gcc --version  
+git --version  
+cmake --version  
 ```
 
 ---
@@ -141,13 +141,13 @@ cmake --version
 **Pratique :**
 ```bash
 # Voir toutes les étapes
-gcc -E hello.c -o hello.i          # Préprocesseur
-gcc -S hello.i -o hello.s          # Compilation
-gcc -c hello.s -o hello.o          # Assemblage
-gcc hello.o -o hello               # Linking
+gcc -E hello.c -o hello.i          # Préprocesseur  
+gcc -S hello.i -o hello.s          # Compilation  
+gcc -c hello.s -o hello.o          # Assemblage  
+gcc hello.o -o hello               # Linking  
 
 # Compilation avec options
-gcc -Wall -Wextra -Werror -std=c11 -O2 -g hello.c -o hello
+gcc -Wall -Wextra -Werror -std=c17 -O2 -g hello.c -o hello
 ```
 
 ---
@@ -292,7 +292,7 @@ gcc -Wall -Wextra -Werror -std=c11 -O2 -g hello.c -o hello
 
 ---
 
-#### Module 14 : Les Bibliothèques *(Semaine 7)*
+#### Module 5 - Chapitre 14 : Les Bibliothèques *(Semaine 7)*
 
 **Chapitre 14 complet (5 jours) :**
 - 14.1 Bibliothèques statiques (.a)
@@ -306,12 +306,12 @@ gcc -Wall -Wextra -Werror -std=c11 -O2 -g hello.c -o hello
 **Pratique :**
 ```bash
 # Créer bibliothèque statique
-gcc -c utils.c -o utils.o
-ar rcs libutils.a utils.o
+gcc -c utils.c -o utils.o  
+ar rcs libutils.a utils.o  
 
 # Créer bibliothèque dynamique
-gcc -fPIC -c utils.c -o utils.o
-gcc -shared utils.o -o libutils.so
+gcc -fPIC -c utils.c -o utils.o  
+gcc -shared utils.o -o libutils.so  
 
 # Utiliser
 gcc main.c -L. -lutils -o programme
@@ -326,7 +326,7 @@ gcc main.c -L. -lutils -o programme
 
 ---
 
-#### Module 22 : Pointeurs Avancés *(Semaine 8)*
+#### Module 7 - Chapitre 22 : Pointeurs Avancés *(Semaine 8)*
 
 **Chapitre 22 complet (3 jours) :**
 - 22.1 Pointeurs de fonctions (callbacks)
@@ -367,15 +367,15 @@ gcc main.c -L. -lutils -o programme
 
 **Exemple CMakeLists.txt complet :**
 ```cmake
-cmake_minimum_required(VERSION 3.15)
-project(MonProjet VERSION 1.0.0 LANGUAGES C)
+cmake_minimum_required(VERSION 3.15)  
+project(MonProjet VERSION 1.0.0 LANGUAGES C)  
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED ON)  
 
 # Options
-option(BUILD_TESTS "Build tests" ON)
-option(ENABLE_ASAN "Enable AddressSanitizer" OFF)
+option(BUILD_TESTS "Build tests" ON)  
+option(ENABLE_ASAN "Enable AddressSanitizer" OFF)  
 
 # Flags de compilation
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror")
@@ -385,12 +385,12 @@ if(ENABLE_ASAN)
 endif()
 
 # Bibliothèque
-add_library(mylib SHARED src/mylib.c)
-target_include_directories(mylib PUBLIC include)
+add_library(mylib SHARED src/mylib.c)  
+target_include_directories(mylib PUBLIC include)  
 
 # Exécutable
-add_executable(app src/main.c)
-target_link_libraries(app mylib)
+add_executable(app src/main.c)  
+target_link_libraries(app mylib)  
 
 # Tests
 if(BUILD_TESTS)
@@ -407,7 +407,7 @@ endif()
 
 ---
 
-#### Module 5 - Chapitre 15 : Débogage et Qualité *(Semaine 10)** 🔥🔥🔥
+#### Module 5 - Chapitre 15 : Débogage et Qualité *(Semaine 10)* 🔥🔥🔥
 
 **15.1 Sanitizers (1 jour) :**
 - AddressSanitizer (ASan)
@@ -517,12 +517,12 @@ jobs:
   build-and-test:
     strategy:
       matrix:
-        os: [ubuntu-20.04, ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
         compiler: [gcc, clang]
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -555,8 +555,8 @@ jobs:
       run: cppcheck --enable=all --error-exitcode=1 src/
 ```
 
-**30.2 GitLab CI (1 jour)**
-**30.3 Jenkins (introduction)**
+**30.2 GitLab CI (1 jour)**  
+**30.3 Jenkins (introduction)**  
 
 ---
 
@@ -738,15 +738,15 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
 **Pratique intensive :**
 ```bash
 # Profiling avec perf
-perf record -g ./programme
-perf report
+perf record -g ./programme  
+perf report  
 
 # Analyse de cache
 perf stat -e cache-misses,cache-references ./programme
 
 # Flamegraphs
-perf record -F 99 -a -g -- ./programme
-perf script | stackcollapse-perf.pl | flamegraph.pl > flame.svg
+perf record -F 99 -a -g -- ./programme  
+perf script | stackcollapse-perf.pl | flamegraph.pl > flame.svg  
 ```
 
 **Projet : Optimisation d'Algorithme**
@@ -772,15 +772,15 @@ perf script | stackcollapse-perf.pl | flamegraph.pl > flame.svg
 **Pratique :**
 ```cmake
 # Toolchain file pour ARM
-set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_PROCESSOR arm)
+set(CMAKE_SYSTEM_NAME Linux)  
+set(CMAKE_SYSTEM_PROCESSOR arm)  
 
-set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)
-set(CMAKE_FIND_ROOT_PATH /usr/arm-linux-gnueabihf)
+set(CMAKE_C_COMPILER arm-linux-gnueabihf-gcc)  
+set(CMAKE_FIND_ROOT_PATH /usr/arm-linux-gnueabihf)  
 
-set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)  
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)  
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)  
 ```
 
 **Projet : Application Multi-Architecture (1 jour)**
@@ -791,7 +791,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
 ---
 
-#### Module 24-25 : Gestion Mémoire et Erreurs Avancées *(Semaine 18, jour 5)*
+#### Module 7 - Chapitres 24-25 : Gestion Mémoire et Erreurs Avancées *(Semaine 18, jour 5)*
 
 **Survol rapide :**
 - 24.1 RAII-like avec __attribute__((cleanup))
@@ -917,9 +917,9 @@ Serveur HTTP/1.1 complet avec reverse proxy et load balancing.
 git clone ...
 
 # Build
-mkdir build && cd build
-cmake ..
-make
+mkdir build && cd build  
+cmake ..  
+make  
 
 # Run tests
 ctest
@@ -1163,9 +1163,9 @@ Quand vous êtes bloqué :
 
 **man pages Linux** ⭐⭐⭐
 ```bash
-man 2 open    # Appel système
-man 3 printf  # Fonction bibliothèque
-man 7 signal  # Concepts
+man 2 open    # Appel système  
+man 3 printf  # Fonction bibliothèque  
+man 7 signal  # Concepts  
 ```
 
 **GNU C Library Manual**

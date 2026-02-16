@@ -68,7 +68,7 @@ Vous pouvez :
 - Programmation système pour comprendre l'infrastructure
 
 **Modules prioritaires :**
-- Module 5 : Outillage DevOps (CMake, Sanitizers, CI/CD)
+- Module 5 : Outillage DevOps (CMake, Sanitizers, Valgrind)
 - Module 6 - Chapitre 21 : eBPF ⭐
 - Module 8 : C dans un Pipeline CI/CD
 
@@ -117,17 +117,17 @@ Vous pouvez :
 - ✅ Vous visez l'IoT, l'industrie 4.0, l'automotive
 
 **Points forts du parcours :**
-- Transition du bare-metal vers Linux expliquée en détail
-- Device Tree et drivers Linux
-- Cross-compilation pour ARM/ARM64
-- Yocto et Buildroot pour distributions personnalisées
-- Optimisations embarquées (taille, boot time, consommation)
+- Maîtrise des fondamentaux C critiques en embarqué (mémoire, structures, bit-fields)
+- Cross-compilation pour ARM/ARM64 et test avec QEMU
+- Optimisations de performance (cache, SIMD, profiling)
+- Programmation système Linux (I/O, processus, signaux, threads)
+- Packaging et déploiement (Docker, .deb, .rpm)
 
 **Modules prioritaires :**
-- Module 6 : Programmation Système (tout, avec focus hardware)
-- Module 8 - Chapitre 31 : Cross-compilation et déploiement
-- Drivers Linux et Device Tree (documentation kernel)
-- QEMU pour émulation
+- Module 2-3 : Fondamentaux et gestion mémoire (critiques en embarqué)
+- Module 4 : Structures de données (packed, bit-fields, unions)
+- Module 7 - Chapitre 27 : Optimisation et performance
+- Module 8 - Chapitre 31 : Cross-compilation, QEMU et déploiement
 
 **Durée :** 20-24 semaines à raison de 10-15h/semaine
 
@@ -339,7 +339,7 @@ Voici les compétences acquises par chaque parcours :
 | **Networking** | ⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
 | **Threads** | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
 | **Cross-compilation** | ⭐ | ⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐⭐ |
-| **Drivers Linux** | ⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐ |
+| **Interopérabilité** | ⭐ | ⭐ | ⭐⭐ | ⭐ | ⭐⭐ |
 | **Optimisation** | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐⭐ |
 | **Sécurité** | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
 

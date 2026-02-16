@@ -146,8 +146,8 @@ steps:
 Un **runner** est une machine virtuelle qui exécute les jobs.
 
 **Runners disponibles :**
-- `ubuntu-latest` (Ubuntu 22.04)
-- `ubuntu-20.04`
+- `ubuntu-latest` (Ubuntu 24.04)
+- `ubuntu-22.04`
 - `windows-latest`
 - `macos-latest`
 
@@ -176,8 +176,8 @@ Les workflows utilisent le format **YAML** (Yet Another Markup Language).
 **Syntaxe de base :**
 ```yaml
 # Commentaire
-cle: valeur
-liste:
+cle: valeur  
+liste:  
   - element1
   - element2
 objet:
@@ -253,8 +253,8 @@ jobs:
 
 ```bash
 # Dans votre projet
-mkdir -p .github/workflows
-touch .github/workflows/ci.yml
+mkdir -p .github/workflows  
+touch .github/workflows/ci.yml  
 ```
 
 ### **Étape 2 : Écrire le workflow minimal**
@@ -287,9 +287,9 @@ jobs:
 ### **Étape 3 : Commiter et pousser**
 
 ```bash
-git add .github/workflows/ci.yml
-git commit -m "Add CI workflow"
-git push
+git add .github/workflows/ci.yml  
+git commit -m "Add CI workflow"  
+git push  
 ```
 
 ### **Étape 4 : Voir le résultat**
@@ -350,7 +350,7 @@ env:
   # Compilateur par défaut
   CC: gcc
   # Flags de compilation
-  CFLAGS: -Wall -Wextra -Werror -std=c11
+  CFLAGS: -Wall -Wextra -Werror -std=c17
   # Type de build
   BUILD_TYPE: Debug
 
@@ -362,7 +362,7 @@ jobs:
     # Nom affiché dans l'interface
     name: Build and Test
 
-    # Runner Ubuntu 22.04
+    # Runner Ubuntu 24.04
     runs-on: ubuntu-latest
 
     # Étapes du job
@@ -591,7 +591,7 @@ jobs:
           cppcheck \
             --enable=all \
             --inconclusive \
-            --std=c11 \
+            --std=c17 \
             --error-exitcode=1 \
             --suppress=missingIncludeSystem \
             src/
@@ -754,7 +754,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, ubuntu-22.04, ubuntu-20.04]
+        os: [ubuntu-latest, ubuntu-24.04, ubuntu-22.04]
 
     runs-on: ${{ matrix.os }}
 
@@ -985,7 +985,7 @@ jobs:
           path: build/main
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: build/main
@@ -1065,7 +1065,7 @@ jobs:
 
       # Optionnel : Publier sur GitHub Pages
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -1193,8 +1193,8 @@ Les **badges** affichent le statut de vos workflows dans votre README.
    ```yaml
    name: CI - Build and Test
    jobs:
-     build-gcc-11:
-       name: Build with GCC 11
+     build-gcc-13:
+       name: Build with GCC 13
    ```
 
 2. **Utiliser des actions officielles**
@@ -1230,7 +1230,7 @@ Les **badges** affichent le statut de vos workflows dans votre README.
    ```yaml
    strategy:
      matrix:
-       gcc: [9, 10, 11, 12]
+       gcc: [11, 12, 13, 14]
    ```
 
 7. **Définir des timeouts**
@@ -1402,7 +1402,7 @@ Permission denied: ./main
    jobs:
      build:
        container:
-         image: gcc:11  # Image Docker avec GCC déjà installé
+         image: gcc:13  # Image Docker avec GCC déjà installé
    ```
 
 ### **Problème 6 : Artefacts non uploadés**
@@ -1601,14 +1601,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, ubuntu-20.04]
+        os: [ubuntu-24.04, ubuntu-22.04]
         compiler: [gcc, clang]
-        version: [9, 10, 11, 12]
+        version: [11, 12, 13, 14]
         build-type: [Debug, Release]
         exclude:
           # Exclure combinaisons non supportées
-          - os: ubuntu-20.04
-            version: 12
+          - os: ubuntu-22.04
+            version: 14
 
     steps:
       - uses: actions/checkout@v4

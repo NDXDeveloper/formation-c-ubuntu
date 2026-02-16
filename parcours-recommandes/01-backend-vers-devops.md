@@ -42,7 +42,7 @@ Vous êtes développeur backend avec une expérience en langages de haut niveau 
 - 1.2 La relation symbiotique entre C et UNIX/Linux
 - 1.4 C vs C++ vs Rust : Quand choisir C ?
 
-**Focus DevOps :** Vous découvrirez que la plupart des outils que vous utilisez quotidiennement (Docker, Kubernetes, systemd, nginx) sont écrits en C. Cette connaissance vous aidera à mieux comprendre leur comportement et leurs limitations.
+**Focus DevOps :** Vous découvrirez que de nombreux outils critiques de l'infrastructure Linux (systemd, nginx, Git, Redis, curl, OpenSSL) sont écrits en C, et que même les runtimes de conteneurs (runc, containerd) s'appuient sur du C. Cette connaissance vous aidera à mieux comprendre leur comportement et leurs limitations.
 
 ---
 
@@ -221,8 +221,8 @@ eBPF révolutionne l'observabilité, la sécurité et le networking sous Linux. 
 - 30.1.8 Static analysis (cppcheck, clang-tidy)
 - 30.1.9 Publication d'artifacts
 
-**30.2 GitLab CI pour projets C** (si votre entreprise utilise GitLab)
-**30.3 Jenkins : pipelines déclaratifs** (pour les environnements legacy)
+**30.2 GitLab CI pour projets C** (si votre entreprise utilise GitLab)  
+**30.3 Jenkins : pipelines déclaratifs** (pour les environnements legacy)  
 
 **Focus DevOps :** Vous apprendrez à configurer des pipelines CI/CD complets pour des projets C, avec toutes les vérifications de qualité automatisées. C'est exactement ce qu'on attend d'un DevOps moderne.
 

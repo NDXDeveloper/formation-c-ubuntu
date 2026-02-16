@@ -112,29 +112,29 @@ Voici une configuration `.vimrc` complète et commentée, optimisée pour la pro
 set nocompatible
 
 " Active la détection automatique du type de fichier
-filetype on
-filetype plugin on
-filetype indent on
+filetype on  
+filetype plugin on  
+filetype indent on  
 
 " Active la coloration syntaxique
-syntax enable
-syntax on
+syntax enable  
+syntax on  
 
 " Encodage UTF-8 par défaut
-set encoding=utf-8
-set fileencoding=utf-8
+set encoding=utf-8  
+set fileencoding=utf-8  
 
 " Historique des commandes (nombre de commandes mémorisées)
 set history=1000
 
 " Sauvegarde automatique avant certaines actions
-set autowrite
-set autoread
+set autowrite  
+set autoread  
 
 " Désactive les fichiers de sauvegarde (.swp, ~)
-set nobackup
-set noswapfile
-set nowritebackup
+set nobackup  
+set noswapfile  
+set nowritebackup  
 
 " -------------------- SECTION 2 : INTERFACE UTILISATEUR --------------------
 
@@ -163,8 +163,8 @@ set cursorline
 set mouse=a
 
 " Améliore l'affichage du menu d'autocomplétion
-set wildmenu
-set wildmode=longest:full,full
+set wildmenu  
+set wildmode=longest:full,full  
 
 " Ignore certains fichiers dans l'autocomplétion
 set wildignore=*.o,*.obj,*.exe,*.dll,*.so,*.a
@@ -176,9 +176,9 @@ set laststatus=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
 
 " Active le repliage de code (folding)
-set foldenable
-set foldmethod=syntax
-set foldlevelstart=10
+set foldenable  
+set foldmethod=syntax  
+set foldlevelstart=10  
 
 " Longueur maximale d'affichage pour les lignes longues
 set textwidth=80
@@ -189,9 +189,9 @@ set colorcolumn=80
 " -------------------- SECTION 3 : INDENTATION ET FORMATAGE --------------------
 
 " Active l'indentation automatique
-set autoindent
-set smartindent
-set cindent
+set autoindent  
+set smartindent  
+set cindent  
 
 " Utilise des espaces au lieu des tabulations
 set expandtab
@@ -212,8 +212,8 @@ set shiftround
 set cinoptions=:0,l1,g0,t0,(0,W4
 
 " Permet le retour à la ligne visuel pour les longues lignes
-set wrap
-set linebreak
+set wrap  
+set linebreak  
 
 " -------------------- SECTION 4 : RECHERCHE ET NAVIGATION --------------------
 
@@ -233,8 +233,8 @@ set smartcase
 set whichwrap+=<,>,h,l,[,]
 
 " Saute à la parenthèse/accolade correspondante lors de la frappe
-set showmatch
-set matchtime=2
+set showmatch  
+set matchtime=2  
 
 " Active le backspace amélioré
 set backspace=indent,eol,start
@@ -242,8 +242,8 @@ set backspace=indent,eol,start
 " -------------------- SECTION 5 : SPÉCIFICITÉS POUR LE C --------------------
 
 " Configuration spécifique aux fichiers C
-autocmd FileType c,cpp setlocal commentstring=//\ %s
-autocmd FileType c,cpp setlocal tabstop=4 shiftwidth=4 expandtab
+autocmd FileType c,cpp setlocal commentstring=//\ %s  
+autocmd FileType c,cpp setlocal tabstop=4 shiftwidth=4 expandtab  
 
 " Active l'autocomplétion pour C
 set omnifunc=syntaxcomplete#Complete
@@ -255,10 +255,10 @@ augroup project
 augroup END
 
 " Compilation rapide avec F5 (compile avec gcc)
-autocmd FileType c map <F5> :w<CR>:!gcc -Wall -Wextra -std=c11 % -o %< && ./%<<CR>
+autocmd FileType c map <F5> :w<CR>:!gcc -Wall -Wextra -std=c17 % -o %< && ./%<<CR>
 
 " Compilation avec debug (-g) avec F6
-autocmd FileType c map <F6> :w<CR>:!gcc -Wall -Wextra -g -std=c11 % -o %< && gdb ./%<<CR>
+autocmd FileType c map <F6> :w<CR>:!gcc -Wall -Wextra -g -std=c17 % -o %< && gdb ./%<<CR>
 
 " Formatage automatique du code C avec F8 (nécessite clang-format)
 autocmd FileType c map <F8> :!clang-format -i %<CR><CR>
@@ -284,22 +284,22 @@ nnoremap <leader>x :wq<CR>
 nnoremap <leader>h :nohlsearch<CR>
 
 " Navigation entre les buffers
-nnoremap <C-n> :bnext<CR>
-nnoremap <C-p> :bprev<CR>
+nnoremap <C-n> :bnext<CR>  
+nnoremap <C-p> :bprev<CR>  
 
 " Redimensionnement des fenêtres
-nnoremap <C-Up> :resize +2<CR>
-nnoremap <C-Down> :resize -2<CR>
-nnoremap <C-Left> :vertical resize -2<CR>
-nnoremap <C-Right> :vertical resize +2<CR>
+nnoremap <C-Up> :resize +2<CR>  
+nnoremap <C-Down> :resize -2<CR>  
+nnoremap <C-Left> :vertical resize -2<CR>  
+nnoremap <C-Right> :vertical resize +2<CR>  
 
 " Déplacement de lignes en mode visual
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
+vnoremap J :m '>+1<CR>gv=gv  
+vnoremap K :m '<-2<CR>gv=gv  
 
 " Indentation en mode visual (garde la sélection)
-vnoremap < <gv
-vnoremap > >gv
+vnoremap < <gv  
+vnoremap > >gv  
 
 " -------------------- SECTION 7 : COLORATION (OPTIONNEL) --------------------
 
@@ -325,16 +325,16 @@ set background=dark
 " autocmd FileType c,cpp setlocal spell spelllang=en_us
 
 " Complétion automatique des parenthèses/accolades
-inoremap ( ()<Left>
-inoremap [ []<Left>
-inoremap { {}<Left>
-inoremap ' ''<Left>
-inoremap " ""<Left>
+inoremap ( ()<Left>  
+inoremap [ []<Left>  
+inoremap { {}<Left>  
+inoremap ' ''<Left>  
+inoremap " ""<Left>  
 
 " Mais uniquement si pas déjà fermé
-inoremap <expr> ) getline('.')[col('.')-1] == ')' ? "\<Right>" : ')'
-inoremap <expr> ] getline('.')[col('.')-1] == ']' ? "\<Right>" : ']'
-inoremap <expr> } getline('.')[col('.')-1] == '}' ? "\<Right>" : '}'
+inoremap <expr> ) getline('.')[col('.')-1] == ')' ? "\<Right>" : ')'  
+inoremap <expr> ] getline('.')[col('.')-1] == ']' ? "\<Right>" : ']'  
+inoremap <expr> } getline('.')[col('.')-1] == '}' ? "\<Right>" : '}'  
 
 " -------------------- FIN DE LA CONFIGURATION --------------------
 ```
@@ -396,7 +396,7 @@ inoremap <expr> } getline('.')[col('.')-1] == '}' ? "\<Right>" : '}'
 
 | Touche | Action | Détails |
 |--------|--------|---------|
-| `F5` | Compiler et exécuter | `gcc -Wall -Wextra -std=c11 fichier.c` |
+| `F5` | Compiler et exécuter | `gcc -Wall -Wextra -std=c17 fichier.c` |
 | `F6` | Compiler avec debug | Lance GDB après compilation |
 | `F8` | Formater le code | Utilise `clang-format` |
 | `F9` | Lancer Make | Exécute le Makefile |
@@ -445,15 +445,15 @@ Plug 'ycm-core/YouCompleteMe'
 Plug 'preservim/nerdtree'
 
 " Barre de statut améliorée
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'  
+Plug 'vim-airline/vim-airline-themes'  
 
 " Intégration Git
 Plug 'tpope/vim-fugitive'
 
 " Recherche de fichiers rapide
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }  
+Plug 'junegunn/fzf.vim'  
 
 " Commentaires automatiques
 Plug 'tpope/vim-commentary'
@@ -492,8 +492,8 @@ nnoremap <F2> :NERDTreeToggle<CR>
 **ALE** : Analyse statique en temps réel
 ```vim
 " Configuration ALE pour C
-let g:ale_linters = {'c': ['gcc', 'cppcheck']}
-let g:ale_fixers = {'c': ['clang-format']}
+let g:ale_linters = {'c': ['gcc', 'cppcheck']}  
+let g:ale_fixers = {'c': ['clang-format']}  
 ```
 
 ---
@@ -593,8 +593,8 @@ sudo apt update && sudo apt install vim
 **Solution :**
 ```vim
 " Forcez les couleurs 256
-set t_Co=256
-set termguicolors
+set t_Co=256  
+set termguicolors  
 ```
 
 #### **Les raccourcis F5/F6 ne fonctionnent pas**
@@ -604,7 +604,7 @@ set termguicolors
 **Solution :** Utilisez des raccourcis alternatifs :
 ```vim
 " Compilation avec ,c
-nnoremap <leader>c :w<CR>:!gcc -Wall -Wextra -std=c11 % -o %<<CR>
+nnoremap <leader>c :w<CR>:!gcc -Wall -Wextra -std=c17 % -o %<<CR>
 
 " Exécution avec ,e
 nnoremap <leader>e :!./%<<CR>

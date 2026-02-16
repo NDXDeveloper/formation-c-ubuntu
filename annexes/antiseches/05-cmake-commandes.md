@@ -108,8 +108,8 @@ add_executable(mon_programme
 )
 
 # Avec variable
-set(SOURCES main.c utils.c math_ops.c)
-add_executable(mon_programme ${SOURCES})
+set(SOURCES main.c utils.c math_ops.c)  
+add_executable(mon_programme ${SOURCES})  
 ```
 
 ---
@@ -204,8 +204,8 @@ Collecte tous les fichiers sources d'un répertoire.
 
 ```cmake
 # Ajoute tous les .c du répertoire src/
-aux_source_directory(src/ SOURCES)
-add_executable(mon_programme ${SOURCES})
+aux_source_directory(src/ SOURCES)  
+add_executable(mon_programme ${SOURCES})  
 ```
 
 ⚠️ **Note :** Moins flexible que `file(GLOB)`, usage limité.
@@ -282,14 +282,14 @@ set(SOURCES main.c utils.c)
 list(APPEND SOURCES helper.c)
 
 # Standard C
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 ```
 
 **Variables importantes :**
 ```cmake
 # Standard C (11, 17, 23)
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 17)
 
 # Standard C++ (11, 14, 17, 20, 23)
 set(CMAKE_CXX_STANDARD 17)
@@ -316,16 +316,16 @@ target_link_libraries(mon_programme Threads::Threads)
 **Exemples courants :**
 ```cmake
 # OpenSSL
-find_package(OpenSSL REQUIRED)
-target_link_libraries(mon_programme OpenSSL::SSL OpenSSL::Crypto)
+find_package(OpenSSL REQUIRED)  
+target_link_libraries(mon_programme OpenSSL::SSL OpenSSL::Crypto)  
 
 # CURL
-find_package(CURL REQUIRED)
-target_link_libraries(mon_programme CURL::libcurl)
+find_package(CURL REQUIRED)  
+target_link_libraries(mon_programme CURL::libcurl)  
 
 # Optionnel (ne provoque pas d'erreur si absent)
-find_package(MyOptionalLib)
-if(MyOptionalLib_FOUND)
+find_package(MyOptionalLib)  
+if(MyOptionalLib_FOUND)  
     target_link_libraries(mon_programme MyOptionalLib::MyOptionalLib)
 endif()
 ```
@@ -358,8 +358,8 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK REQUIRED gtk+-3.0)
 
 # Utilisation
-target_include_directories(mon_programme PRIVATE ${GTK_INCLUDE_DIRS})
-target_link_libraries(mon_programme ${GTK_LIBRARIES})
+target_include_directories(mon_programme PRIVATE ${GTK_INCLUDE_DIRS})  
+target_link_libraries(mon_programme ${GTK_LIBRARIES})  
 ```
 
 ---
@@ -379,19 +379,19 @@ Inclut un sous-répertoire contenant un autre CMakeLists.txt.
 #     └── CMakeLists.txt
 
 # Dans projet/CMakeLists.txt
-add_subdirectory(src)
-add_subdirectory(lib)
+add_subdirectory(src)  
+add_subdirectory(lib)  
 ```
 
 **Exemple complet :**
 
 `projet/CMakeLists.txt` :
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(MonProjet)
+cmake_minimum_required(VERSION 3.10)  
+project(MonProjet)  
 
-add_subdirectory(lib)
-add_subdirectory(src)
+add_subdirectory(lib)  
+add_subdirectory(src)  
 ```
 
 `projet/lib/CMakeLists.txt` :
@@ -405,8 +405,8 @@ target_include_directories(ma_lib PUBLIC .)
 
 `projet/src/CMakeLists.txt` :
 ```cmake
-add_executable(mon_programme main.c)
-target_link_libraries(mon_programme ma_lib)
+add_executable(mon_programme main.c)  
+target_link_libraries(mon_programme ma_lib)  
 ```
 
 ---
@@ -443,8 +443,8 @@ Ajoute un test.
 add_test(NAME mon_test COMMAND mon_programme --test)
 
 # Test avec exécutable dédié
-add_executable(test_unitaire test.c)
-add_test(NAME test_unitaire COMMAND test_unitaire)
+add_executable(test_unitaire test.c)  
+add_test(NAME test_unitaire COMMAND test_unitaire)  
 ```
 
 **Exécution des tests :**
@@ -582,8 +582,8 @@ foreach(fichier main.c utils.c helper.c)
 endforeach()
 
 # Avec variable
-set(SOURCES main.c utils.c helper.c)
-foreach(src ${SOURCES})
+set(SOURCES main.c utils.c helper.c)  
+foreach(src ${SOURCES})  
     message("Source : ${src}")
 endforeach()
 
@@ -599,8 +599,8 @@ endforeach()
 Boucle conditionnelle.
 
 ```cmake
-set(COUNT 0)
-while(COUNT LESS 5)
+set(COUNT 0)  
+while(COUNT LESS 5)  
     message("Count = ${COUNT}")
     math(EXPR COUNT "${COUNT} + 1")
 endwhile()
@@ -709,19 +709,19 @@ mon_projet/
 
 **`CMakeLists.txt` (racine) :**
 ```cmake
-cmake_minimum_required(VERSION 3.10)
-project(MonProjet VERSION 1.0.0 LANGUAGES C)
+cmake_minimum_required(VERSION 3.10)  
+project(MonProjet VERSION 1.0.0 LANGUAGES C)  
 
-# Standard C11
-set(CMAKE_C_STANDARD 11)
+# Standard C17
+set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Option pour les tests
 option(BUILD_TESTS "Compiler les tests" ON)
 
 # Sous-répertoires
-add_subdirectory(lib)
-add_subdirectory(src)
+add_subdirectory(lib)  
+add_subdirectory(src)  
 
 if(BUILD_TESTS)
     enable_testing()
@@ -775,8 +775,8 @@ install(TARGETS mon_programme
 
 **`tests/CMakeLists.txt` :**
 ```cmake
-add_executable(test_main test_main.c)
-target_link_libraries(test_main PRIVATE ma_lib)
+add_executable(test_main test_main.c)  
+target_link_libraries(test_main PRIVATE ma_lib)  
 
 add_test(NAME test_main COMMAND test_main)
 ```
@@ -893,12 +893,12 @@ cmake -DCMAKE_BUILD_TYPE=Debug ..
 ### 1. Toujours utiliser out-of-source builds
 ```bash
 # ❌ MAUVAIS
-cd mon_projet
-cmake .
+cd mon_projet  
+cmake .  
 
 # ✅ BON
-mkdir build && cd build
-cmake ..
+mkdir build && cd build  
+cmake ..  
 ```
 
 ---
@@ -906,14 +906,14 @@ cmake ..
 ### 2. Utiliser des cibles modernes (target_*)
 ```cmake
 # ❌ MAUVAIS (ancien style)
-include_directories(include/)
-link_libraries(ma_lib)
-add_definitions(-DDEBUG)
+include_directories(include/)  
+link_libraries(ma_lib)  
+add_definitions(-DDEBUG)  
 
 # ✅ BON (moderne)
-target_include_directories(mon_programme PRIVATE include/)
-target_link_libraries(mon_programme PRIVATE ma_lib)
-target_compile_definitions(mon_programme PRIVATE DEBUG)
+target_include_directories(mon_programme PRIVATE include/)  
+target_link_libraries(mon_programme PRIVATE ma_lib)  
+target_compile_definitions(mon_programme PRIVATE DEBUG)  
 ```
 
 ---
@@ -942,9 +942,13 @@ target_compile_options(mon_programme PRIVATE -Wall)
 
 ### 5. Vérifier les dépendances
 ```cmake
+# Avec REQUIRED : CMake s'arrête automatiquement si non trouvé
 find_package(Threads REQUIRED)
-if(NOT Threads_FOUND)
-    message(FATAL_ERROR "Pthread non trouvé !")
+
+# Sans REQUIRED : vérifier manuellement
+find_package(MyOptionalLib)
+if(NOT MyOptionalLib_FOUND)
+    message(WARNING "MyOptionalLib non trouvé, fonctionnalité désactivée")
 endif()
 ```
 
